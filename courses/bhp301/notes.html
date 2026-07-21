@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16x16.png">
+<link rel="icon" href="../../assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../../site.webmanifest">
+<meta name="theme-color" content="#0e2a3d">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture Notes — BHP301</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#132a3a;
+  --navy:#0e2a3d;
+  --navy-deep:#081a26;
+  --paper:#f4f1e9;
+  --paper2:#ffffff;
+  --gold:#c9a227;
+  --teal:#1f3a93;
+  --rust:#a8452f;
+  --line:#d8d2c2;
+  --heading:#081a26;
+  --muted:#5a6570;
+  --tint:#faf8f1;
+}
+[data-theme="dark"]{
+  --ink:#dde6ec; --paper:#0b1f2e; --paper2:#132a3c; --line:#2a4a63;
+  --heading:#f2d9a6; --muted:#a9b7c0; --tint:#16324a;
+}
+[data-theme="dark"] body{background:var(--paper);}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'Source Sans 3','Segoe UI',Arial,sans-serif;
+  line-height:1.55;
+}
+h1,h2,h3,h4{
+  font-family:'Fraunces','Georgia',serif; color:var(--heading); font-weight:600;
+  letter-spacing:-0.01em;
+}
+a{color:var(--teal);}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+.topbar{
+  background:var(--navy-deep); color:#efe7d2; padding:14px 0; border-bottom:4px solid var(--gold);
+}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-size:1.15rem;color:#fbead0;text-decoration:none;}
+.brand .mark{
+  width:34px;height:34px;border-radius:50%;background:var(--gold);color:var(--navy-deep);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;font-family:'Fraunces',serif;
+}
+.crumbs{font-size:.85rem;color:#c9c2a8;}
+.crumbs a{color:#f2d9a6;text-decoration:none;}
+.hero{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);
+  color:#f6ecd9; padding:42px 0 34px;
+}
+.hero .tag{
+  display:inline-block;background:rgba(200,147,42,.18);color:#f2d9a6;border:1px solid rgba(200,147,42,.5);
+  padding:3px 12px;border-radius:20px;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;
+}
+.hero h1{color:#fdf6e7;font-size:2.1rem;margin:0 0 6px;}
+.hero p.sub{color:#cfd8dc;max-width:640px;margin:0;font-size:1.02rem;}
+.code-badge{
+  font-family:'JetBrains Mono',monospace;background:var(--gold);color:var(--navy-deep);
+  padding:2px 10px;border-radius:4px;font-weight:700;font-size:.85rem;margin-right:8px;
+}
+.section{padding:34px 0;}
+.section.alt{background:var(--paper2);}
+.card{
+  background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:22px 24px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04);
+}
+.grid{display:grid;gap:18px;}
+.grid.cols-3{grid-template-columns:repeat(3,1fr);}
+.grid.cols-2{grid-template-columns:repeat(2,1fr);}
+@media (max-width:800px){.grid.cols-3,.grid.cols-2{grid-template-columns:1fr;}}
+.resource-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px;}
+@media (max-width:900px){.resource-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:560px){.resource-grid{grid-template-columns:1fr;}}
+.res-card{
+  display:flex;flex-direction:column;gap:8px;background:var(--paper2);border:1px solid var(--line);
+  border-radius:10px;padding:16px;text-decoration:none;color:var(--ink);transition:transform .15s, box-shadow .15s;
+  border-top:4px solid var(--teal);
+}
+.res-card:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(14,42,61,.12);}
+.res-card .icon{font-size:1.6rem;}
+.res-card .label{font-family:'Fraunces',serif;font-size:1.02rem;color:var(--heading);}
+.res-card .desc{font-size:.85rem;color:var(--muted);}
+.res-card .dl{margin-top:auto;font-size:.8rem;font-weight:700;color:var(--rust);letter-spacing:.03em;}
+.pill{
+  display:inline-block;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;
+  background:var(--navy);color:#f6ecd9;padding:2px 9px;border-radius:12px;margin-right:6px;
+}
+table{width:100%;border-collapse:collapse;margin:14px 0;}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;font-size:.92rem;}
+th{background:var(--navy);color:#f6ecd9;font-family:'Fraunces',serif;font-weight:600;}
+tr:nth-child(even) td{background:var(--tint);}
+.unit{
+  border-left:4px solid var(--gold); padding:10px 18px; margin:16px 0; background:var(--tint);
+  border-radius:0 8px 8px 0;
+}
+.unit h3{margin:0 0 6px;font-size:1.08rem;}
+.unit .hrs{color:var(--rust);font-size:.82rem;font-weight:700;}
+footer{background:var(--navy-deep);color:#c9c2a8;padding:26px 0;font-size:.85rem;margin-top:40px;}
+footer a{color:#f2d9a6;}
+.btn{
+  display:inline-block;background:var(--rust);color:#fff;padding:10px 20px;border-radius:6px;
+  text-decoration:none;font-weight:600;font-size:.92rem;border:none;cursor:pointer;
+}
+.btn.secondary{background:var(--teal);}
+.btn.gold{background:var(--gold);color:var(--navy-deep);}
+.download-bar{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0;}
+.book-list{list-style:none;padding:0;margin:0;}
+.book-list li{
+  padding:12px 0;border-bottom:1px dashed var(--line);
+}
+.book-list b{color:var(--heading);}
+.book-list .pub{color:var(--rust);font-size:.85rem;}
+.toc{
+  display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;
+}
+.toc a{
+  background:var(--paper2);border:1px solid var(--line);padding:5px 12px;border-radius:16px;
+  font-size:.82rem;text-decoration:none;color:var(--navy);
+}
+.toc a:hover{background:var(--navy);color:#f6ecd9;}
+.note-block{margin:20px 0;}
+.note-block h3{border-bottom:2px solid var(--gold);padding-bottom:4px;}
+.qbox{
+  background:var(--paper2);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin:10px 0;
+}
+.qbox .qn{font-weight:700;color:var(--heading);}
+.qbox label{display:block;padding:5px 0;cursor:pointer;font-size:.94rem;}
+.qbox label:hover{color:var(--teal);}
+.controls{position:sticky;bottom:0;background:var(--paper);padding:14px 0;border-top:2px solid var(--line);}
+.score-box{
+  font-family:'Fraunces',serif;font-size:1.3rem;background:var(--navy-deep);color:#fdf6e7;
+  padding:14px 20px;border-radius:8px;display:inline-block;margin:10px 0;
+}
+.exam-header{border:2px solid var(--navy);padding:16px 20px;border-radius:8px;margin-bottom:20px;background:var(--tint);}
+.exam-header table{border:none;}
+.exam-header td,.exam-header th{border:none;padding:2px 6px;font-size:.9rem;}
+.qno{font-weight:700;color:var(--rust);}
+.game-frame{border:2px solid var(--line);border-radius:10px;overflow:hidden;background:#0b1e2c;}
+</style>
+</head>
+<body>
+<button id="themeToggleBtn" aria-label="Toggle dark/light theme" title="Toggle dark/light theme"
+  style="position:fixed;top:14px;right:16px;z-index:999;width:40px;height:40px;border-radius:50%;
+  border:2px solid var(--gold);background:var(--navy-deep);color:var(--gold);font-size:1.1rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3);">🌙</button>
+<script>
+(function(){
+  var KEY='drskjain-theme';
+  var btn=document.getElementById('themeToggleBtn');
+  function apply(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+    if(btn) btn.textContent = theme==='dark' ? '☀' : '🌙';
+  }
+  var saved = localStorage.getItem(KEY);
+  if(!saved){ saved = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+  apply(saved);
+  if(btn){
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+      localStorage.setItem(KEY, cur);
+      apply(cur);
+    });
+  }
+})();
+</script>
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="brand" href="../../index.html"><img src="../../assets/invertis-logo.png" alt="Invertis University logo" style="height:28px;width:auto;"> Faculty Course Portal &middot; 2026&ndash;27</a>
+    <div class="crumbs"><a href="../../index.html">Home</a> › <a href="../../courses/bhp301/index.html">BHP301</a> › Lecture Notes</div>
+  </div>
+</div>
+
+<div class="hero"><div class="wrap">
+  <span class="tag">Lecture Notes</span>
+  <h1><span class="code-badge">BHP301</span>Unit-wise Lecture Notes</h1>
+  <p class="sub">Detailed, exam-oriented notes covering every syllabus unit.</p>
+</div></div>
+<div class="section"><div class="wrap">
+  <div class="toc"><a href="#u0">Unit 1 — Electrostatics</a><a href="#u1">Unit 2 — Dielectrics</a><a href="#u2">Unit 3 — Magnetostatics</a><a href="#u3">Unit 4 — Electromagnetic Induction & AC Circuits</a><a href="#u4">Unit 5 — Network Theorems & Maxwell's Equations</a></div>
+  <div class="card"><div class="note-block" id="u0"><h3>Unit 1 — Electrostatics</h3>
+<p><b>Gauss's law:</b> ∮E·dA = Q<sub>enc</sub>/ε₀. Applied to spherically, cylindrically and planar symmetric
+charge distributions, it gives E without integrating Coulomb's law directly — e.g. for a uniformly charged
+sphere of radius R, E = Q/(4πε₀r²) outside and E = Qr/(4πε₀R³) inside.</p>
+<p><b>Conservative nature of E:</b> ∮E·dl = 0 around any closed loop in electrostatics, which lets us define a
+scalar potential V such that E = −∇V.</p>
+<p><b>Laplace's equation</b> ∇²V = 0 (charge-free region) and <b>Poisson's equation</b> ∇²V = −ρ/ε₀ (in the
+presence of charge density ρ) are the governing PDEs for electrostatic potential; the <b>Uniqueness theorem</b>
+guarantees that a solution satisfying the correct boundary conditions is the only solution.</p>
+<p><b>Electric dipole:</b> potential V = p·r̂/(4πε₀r²) at large distances; a dipole in a uniform external field
+experiences zero net force but a torque τ = p × E, tending to align it with the field.</p>
+<p><b>Capacitance:</b> C = Q/V for an isolated conductor/system; energy stored U = ½CV² = Q²/2C = ½QV.</p>
+</div><div class="note-block" id="u1"><h3>Unit 2 — Dielectrics</h3>
+<p><b>Polarization P</b> is the dipole moment per unit volume induced in a dielectric by an external field.
+<b>Electric displacement</b> D = ε₀E + P, chosen so that ∮D·dA = Q<sub>free,enc</sub> — Gauss's law in terms of
+D depends only on free charge, not bound (polarization) charge.</p>
+<p><b>Linear dielectrics:</b> P = ε₀χ<sub>e</sub>E, so D = ε₀(1+χ<sub>e</sub>)E = εE, where ε = ε₀ε<sub>r</sub>
+is the permittivity and ε<sub>r</sub> the relative permittivity (dielectric constant).</p>
+<p><b>Boundary conditions:</b> the component of D perpendicular to an interface is continuous if there is no
+free surface charge; the component of E parallel to the interface is always continuous.</p>
+<p><b>Capacitor with dielectric:</b> inserting a dielectric of constant ε<sub>r</sub> increases capacitance by
+the factor ε<sub>r</sub> (fully filled) — enabling higher charge storage at the same voltage, central to
+practical capacitor design.</p>
+</div><div class="note-block" id="u2"><h3>Unit 3 — Magnetostatics</h3>
+<p><b>Lorentz force:</b> F = q(E + v×B) — the magnetic part acts only on moving charges and does no work
+(always perpendicular to velocity).</p>
+<p><b>Biot–Savart law:</b> dB = (μ₀/4π) I dl×r̂/r² gives the magnetic field due to a current element; integrated
+over standard geometries it yields, e.g., B = μ₀I/2πr for an infinite straight wire and B = μ₀NI/2R at the
+centre of a circular coil.</p>
+<p><b>Ampere's circuital law:</b> ∮B·dl = μ₀I<sub>enc</sub> — the magnetostatic analogue of Gauss's law,
+efficient for high-symmetry current distributions (solenoid, toroid, infinite wire).</p>
+<p><b>Magnetic dipole:</b> a current loop of magnetic moment m = IA experiences torque τ = m × B in an external
+field, analogous to the electric dipole case.</p>
+<p><b>Magnetic materials:</b> diamagnetic materials (χ<sub>m</sub> small and negative) are weakly repelled by a
+field; paramagnetic materials (χ<sub>m</sub> small and positive) are weakly attracted; ferromagnetic materials
+(χ<sub>m</sub> large and positive, history-dependent) show spontaneous magnetization and hysteresis.</p>
+</div><div class="note-block" id="u3"><h3>Unit 4 — Electromagnetic Induction & AC Circuits</h3>
+<p><b>Faraday's law:</b> EMF = −dΦ<sub>B</sub>/dt — a changing magnetic flux through a circuit induces an EMF;
+<b>Lenz's law</b> fixes the sign, stating the induced current opposes the change that produced it (energy
+conservation).</p>
+<p><b>Self-inductance</b> L relates flux linkage to current in the same circuit (Φ = LI); <b>mutual
+inductance</b> M relates flux linkage in one circuit to current in a neighbouring circuit. Energy stored in an
+inductor: U = ½LI².</p>
+<p><b>AC fundamentals:</b> a sinusoidal source v(t) = V₀ sin(ωt) has RMS value V₀/√2; phasor representation
+converts differential equations for R, L, C elements into simple algebraic ones using complex impedance
+Z<sub>R</sub>=R, Z<sub>L</sub>=jωL, Z<sub>C</sub>=1/jωC.</p>
+<p><b>Series RLC resonance</b> occurs when ωL = 1/ωC, i.e. ω₀=1/√(LC), where impedance is purely resistive and
+current is maximum (series) or minimum (parallel/anti-resonance).</p>
+<p><b>Power in AC circuits:</b> real power P = VI cosφ (does actual work); reactive power Q = VI sinφ
+(oscillates between source and reactive elements); apparent power S = VI; power factor cosφ = P/S indicates
+how effectively power is being used.</p>
+</div><div class="note-block" id="u4"><h3>Unit 5 — Network Theorems & Maxwell's Equations</h3>
+<p><b>Kirchhoff's laws:</b> KCL (sum of currents at a node = 0) and KVL (sum of voltage drops around a loop =
+0) are the basic tools for circuit analysis, derived from charge conservation and the conservative nature of
+the electrostatic field respectively (extended to quasi-static AC circuits).</p>
+<p><b>Thevenin's theorem:</b> any linear two-terminal network can be replaced by a single voltage source
+V<sub>Th</sub> in series with a resistance R<sub>Th</sub>. <b>Norton's theorem</b> is the dual: a current
+source I<sub>N</sub> in parallel with R<sub>N</sub> (R<sub>N</sub>=R<sub>Th</sub>).</p>
+<p><b>Superposition theorem:</b> in a linear circuit with multiple independent sources, the response (voltage
+or current) in any branch equals the sum of the responses caused by each source acting alone (other sources
+turned off — voltage sources shorted, current sources opened).</p>
+<p><b>Maximum Power Transfer theorem:</b> maximum power is delivered to a load when the load resistance equals
+the Thevenin resistance of the source network (R<sub>L</sub>=R<sub>Th</sub>).</p>
+<p><b>Displacement current</b> (Maxwell's correction to Ampere's law): J<sub>d</sub> = ε₀∂E/∂t, needed to keep
+the continuity equation and Ampere's law consistent when charge accumulates on a capacitor plate.</p>
+<p><b>Maxwell's equations</b> (integral form): Gauss's law for E, Gauss's law for B (∮B·dA=0, no monopoles),
+Faraday's law, and the Ampere–Maxwell law. Together, in vacuum, they predict self-sustaining electromagnetic
+waves travelling at c = 1/√(μ₀ε₀), with energy flux given by the <b>Poynting vector</b> S = E×H.</p>
+</div></div>
+</div></div>
+<footer>
+  <div class="wrap">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <img src="../../assets/invertis-logo.png" alt="Invertis University logo" style="height:26px;width:auto;">
+      <strong style="color:#f2d9a6;">Invertis University, Bareilly</strong>
+    </div>
+    Prepared for the 2026&ndash;27 academic session &middot; Syllabus reproduced from
+    <a href="https://www.invertisuniversity.ac.in" target="_blank" rel="noopener">invertisuniversity.ac.in</a>
+    &middot; All notes, quizzes and sample papers are original instructional material prepared for these courses.
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.12);margin:14px 0;">
+    Prepared &amp; maintained by <strong style="color:#f2d9a6;">Dr. S. K. Jain</strong>, Associate Professor in Physics, Department of Applied Sciences and Humanities, Invertis University, Bareilly, India &middot; <a href="mailto:sanjeev.j@invertis.org">sanjeev.j@invertis.org</a> &middot; &copy; 2026 Author.
+    <div style="margin-top:10px;text-align:center;">
+      <img src="https://visitor-badge.laobi.icu/badge?page_id=drskjain-bhp301-notes" alt="Visitor count for this page" style="height:20px;vertical-align:middle;border-radius:4px;opacity:.9;">
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16x16.png">
+<link rel="icon" href="../../assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../../site.webmanifest">
+<meta name="theme-color" content="#0e2a3d">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample Exam Paper II — MPY301</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#132a3a;
+  --navy:#0e2a3d;
+  --navy-deep:#081a26;
+  --paper:#f4f1e9;
+  --paper2:#ffffff;
+  --gold:#c9a227;
+  --teal:#1f3a93;
+  --rust:#a8452f;
+  --line:#d8d2c2;
+  --heading:#081a26;
+  --muted:#5a6570;
+  --tint:#faf8f1;
+}
+[data-theme="dark"]{
+  --ink:#dde6ec; --paper:#0b1f2e; --paper2:#132a3c; --line:#2a4a63;
+  --heading:#f2d9a6; --muted:#a9b7c0; --tint:#16324a;
+}
+[data-theme="dark"] body{background:var(--paper);}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'Source Sans 3','Segoe UI',Arial,sans-serif;
+  line-height:1.55;
+}
+h1,h2,h3,h4{
+  font-family:'Fraunces','Georgia',serif; color:var(--heading); font-weight:600;
+  letter-spacing:-0.01em;
+}
+a{color:var(--teal);}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+.topbar{
+  background:var(--navy-deep); color:#efe7d2; padding:14px 0; border-bottom:4px solid var(--gold);
+}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-size:1.15rem;color:#fbead0;text-decoration:none;}
+.brand .mark{
+  width:34px;height:34px;border-radius:50%;background:var(--gold);color:var(--navy-deep);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;font-family:'Fraunces',serif;
+}
+.crumbs{font-size:.85rem;color:#c9c2a8;}
+.crumbs a{color:#f2d9a6;text-decoration:none;}
+.hero{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);
+  color:#f6ecd9; padding:42px 0 34px;
+}
+.hero .tag{
+  display:inline-block;background:rgba(200,147,42,.18);color:#f2d9a6;border:1px solid rgba(200,147,42,.5);
+  padding:3px 12px;border-radius:20px;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;
+}
+.hero h1{color:#fdf6e7;font-size:2.1rem;margin:0 0 6px;}
+.hero p.sub{color:#cfd8dc;max-width:640px;margin:0;font-size:1.02rem;}
+.code-badge{
+  font-family:'JetBrains Mono',monospace;background:var(--gold);color:var(--navy-deep);
+  padding:2px 10px;border-radius:4px;font-weight:700;font-size:.85rem;margin-right:8px;
+}
+.section{padding:34px 0;}
+.section.alt{background:var(--paper2);}
+.card{
+  background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:22px 24px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04);
+}
+.grid{display:grid;gap:18px;}
+.grid.cols-3{grid-template-columns:repeat(3,1fr);}
+.grid.cols-2{grid-template-columns:repeat(2,1fr);}
+@media (max-width:800px){.grid.cols-3,.grid.cols-2{grid-template-columns:1fr;}}
+.resource-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px;}
+@media (max-width:900px){.resource-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:560px){.resource-grid{grid-template-columns:1fr;}}
+.res-card{
+  display:flex;flex-direction:column;gap:8px;background:var(--paper2);border:1px solid var(--line);
+  border-radius:10px;padding:16px;text-decoration:none;color:var(--ink);transition:transform .15s, box-shadow .15s;
+  border-top:4px solid var(--teal);
+}
+.res-card:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(14,42,61,.12);}
+.res-card .icon{font-size:1.6rem;}
+.res-card .label{font-family:'Fraunces',serif;font-size:1.02rem;color:var(--heading);}
+.res-card .desc{font-size:.85rem;color:var(--muted);}
+.res-card .dl{margin-top:auto;font-size:.8rem;font-weight:700;color:var(--rust);letter-spacing:.03em;}
+.pill{
+  display:inline-block;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;
+  background:var(--navy);color:#f6ecd9;padding:2px 9px;border-radius:12px;margin-right:6px;
+}
+table{width:100%;border-collapse:collapse;margin:14px 0;}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;font-size:.92rem;}
+th{background:var(--navy);color:#f6ecd9;font-family:'Fraunces',serif;font-weight:600;}
+tr:nth-child(even) td{background:var(--tint);}
+.unit{
+  border-left:4px solid var(--gold); padding:10px 18px; margin:16px 0; background:var(--tint);
+  border-radius:0 8px 8px 0;
+}
+.unit h3{margin:0 0 6px;font-size:1.08rem;}
+.unit .hrs{color:var(--rust);font-size:.82rem;font-weight:700;}
+footer{background:var(--navy-deep);color:#c9c2a8;padding:26px 0;font-size:.85rem;margin-top:40px;}
+footer a{color:#f2d9a6;}
+.btn{
+  display:inline-block;background:var(--rust);color:#fff;padding:10px 20px;border-radius:6px;
+  text-decoration:none;font-weight:600;font-size:.92rem;border:none;cursor:pointer;
+}
+.btn.secondary{background:var(--teal);}
+.btn.gold{background:var(--gold);color:var(--navy-deep);}
+.download-bar{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0;}
+.book-list{list-style:none;padding:0;margin:0;}
+.book-list li{
+  padding:12px 0;border-bottom:1px dashed var(--line);
+}
+.book-list b{color:var(--heading);}
+.book-list .pub{color:var(--rust);font-size:.85rem;}
+.toc{
+  display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;
+}
+.toc a{
+  background:var(--paper2);border:1px solid var(--line);padding:5px 12px;border-radius:16px;
+  font-size:.82rem;text-decoration:none;color:var(--navy);
+}
+.toc a:hover{background:var(--navy);color:#f6ecd9;}
+.note-block{margin:20px 0;}
+.note-block h3{border-bottom:2px solid var(--gold);padding-bottom:4px;}
+.qbox{
+  background:var(--paper2);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin:10px 0;
+}
+.qbox .qn{font-weight:700;color:var(--heading);}
+.qbox label{display:block;padding:5px 0;cursor:pointer;font-size:.94rem;}
+.qbox label:hover{color:var(--teal);}
+.controls{position:sticky;bottom:0;background:var(--paper);padding:14px 0;border-top:2px solid var(--line);}
+.score-box{
+  font-family:'Fraunces',serif;font-size:1.3rem;background:var(--navy-deep);color:#fdf6e7;
+  padding:14px 20px;border-radius:8px;display:inline-block;margin:10px 0;
+}
+.exam-header{border:2px solid var(--navy);padding:16px 20px;border-radius:8px;margin-bottom:20px;background:var(--tint);}
+.exam-header table{border:none;}
+.exam-header td,.exam-header th{border:none;padding:2px 6px;font-size:.9rem;}
+.qno{font-weight:700;color:var(--rust);}
+.game-frame{border:2px solid var(--line);border-radius:10px;overflow:hidden;background:#0b1e2c;}
+</style>
+</head>
+<body>
+<button id="themeToggleBtn" aria-label="Toggle dark/light theme" title="Toggle dark/light theme"
+  style="position:fixed;top:14px;right:16px;z-index:999;width:40px;height:40px;border-radius:50%;
+  border:2px solid var(--gold);background:var(--navy-deep);color:var(--gold);font-size:1.1rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3);">🌙</button>
+<script>
+(function(){
+  var KEY='drskjain-theme';
+  var btn=document.getElementById('themeToggleBtn');
+  function apply(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+    if(btn) btn.textContent = theme==='dark' ? '☀' : '🌙';
+  }
+  var saved = localStorage.getItem(KEY);
+  if(!saved){ saved = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+  apply(saved);
+  if(btn){
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+      localStorage.setItem(KEY, cur);
+      apply(cur);
+    });
+  }
+})();
+</script>
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="brand" href="../../index.html"><img src="../../assets/invertis-logo.png" alt="Invertis University logo" style="height:28px;width:auto;"> Faculty Course Portal &middot; 2026&ndash;27</a>
+    <div class="crumbs"><a href="../../index.html">Home</a> › <a href="../../courses/mpy301/index.html">MPY301</a> › Sample Exam Paper II</div>
+  </div>
+</div>
+
+<div class="hero"><div class="wrap">
+  <span class="tag">Sample Exam Paper</span>
+  <h1><span class="code-badge">MPY301</span>Sample Examination Paper — II</h1>
+</div></div>
+<div class="section"><div class="wrap">
+  <div class="exam-header">
+    <table>
+      <tr><td><b>Course:</b> Laser Physics (MPY301)</td><td><b>Programme:</b> M.Sc. Physics (Electronics Specialization) — Semester III</td></tr>
+      <tr><td><b>Time:</b> 3 Hours</td><td><b>Maximum Marks:</b> 70</td></tr>
+    </table>
+    <p><b>General Instructions:</b></p>
+    <ol><li>All questions in Section A are compulsory.</li><li>Attempt any two parts from each question in Section B.</li><li>Attempt any two questions in full from Section C.</li><li>Support your answers with neat diagrams where necessary.</li></ol>
+  </div>
+  <div class="card">
+    <h3>Section A — Short Answer (Compulsory)</h3><ol><li>What is meant by temporal and spatial coherence of a laser beam? <i>(2 marks)</i></li><li>List any three types of gas lasers. <i>(2 marks)</i></li><li>What is an excimer molecule? Give one application of excimer lasers. <i>(2 marks)</i></li><li>Define attenuation and dispersion in the context of optical fibre communication. <i>(2 marks)</i></li><li>What is stimulated Raman emission? <i>(2 marks)</i></li><li>State two medical applications of lasers. <i>(2 marks)</i></li><li>What is laser annealing used for in semiconductor processing? <i>(2 marks)</i></li></ol>
+    <h3>Section B — Attempt any two parts of each</h3><ol><li>Explain the role of the optical cavity/resonator in a laser and how it determines the output beam's coherence properties. <i>(5 marks)</i></li><li>Describe the construction and working principle of a semiconductor (diode) laser. <i>(5 marks)</i></li><li>Explain the working of the Ruby laser with an energy level diagram, and state why it is a pulsed laser. <i>(5 marks)</i></li><li>Discuss the different types of optical fibres (step-index, graded-index, single-mode, multimode) and their relative merits. <i>(5 marks)</i></li><li>Explain the principle of laser fusion (inertial confinement fusion). <i>(5 marks)</i></li></ol>
+    <h3>Section C — Attempt any two questions in full</h3><ol><li>Explain in detail the fundamentals of laser action, covering spontaneous emission, stimulated emission, Einstein's coefficients and the requirement of population inversion, with reference to a specific laser system of your choice. <i>(10 marks)</i></li><li>Compare and contrast atomic, molecular, excimer, liquid, solid-state, semiconductor and fibre lasers in terms of gain medium, pumping mechanism, typical wavelength and principal applications. <i>(10 marks)</i></li><li>Discuss the use of lasers in scientific spectroscopy, covering saturation spectroscopy, non-linear spectroscopy and time-domain spectroscopy, explaining the advantage each offers over conventional spectroscopic methods. <i>(10 marks)</i></li><li>Explain the physical basis of holography in detail, including the mathematical description of interference between object and reference beams, and discuss at least two modern applications. <i>(10 marks)</i></li><li>Describe LIDAR technology and laser-based industrial processing (drilling, cutting, welding, hardening), explaining the underlying physics that makes lasers uniquely suited to each application. <i>(10 marks)</i></li></ol>
+  </div>
+</div></div>
+<footer>
+  <div class="wrap">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <img src="../../assets/invertis-logo.png" alt="Invertis University logo" style="height:26px;width:auto;">
+      <strong style="color:#f2d9a6;">Invertis University, Bareilly</strong>
+    </div>
+    Prepared for the 2026&ndash;27 academic session &middot; Syllabus reproduced from
+    <a href="https://www.invertisuniversity.ac.in" target="_blank" rel="noopener">invertisuniversity.ac.in</a>
+    &middot; All notes, quizzes and sample papers are original instructional material prepared for these courses.
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.12);margin:14px 0;">
+    Prepared &amp; maintained by <strong style="color:#f2d9a6;">Dr. S. K. Jain</strong>, Associate Professor in Physics, Department of Applied Sciences and Humanities, Invertis University, Bareilly, India &middot; <a href="mailto:sanjeev.j@invertis.org">sanjeev.j@invertis.org</a> &middot; &copy; 2026 Author.
+    <div style="margin-top:10px;text-align:center;">
+      <img src="https://visitor-badge.laobi.icu/badge?page_id=drskjain-mpy301-exam2" alt="Visitor count for this page" style="height:20px;vertical-align:middle;border-radius:4px;opacity:.9;">
+    </div>
+  </div>
+</footer>
+</body>
+</html>

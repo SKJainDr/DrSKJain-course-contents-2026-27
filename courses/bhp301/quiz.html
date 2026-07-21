@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16x16.png">
+<link rel="icon" href="../../assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../../site.webmanifest">
+<meta name="theme-color" content="#0e2a3d">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz — BHP301</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#132a3a;
+  --navy:#0e2a3d;
+  --navy-deep:#081a26;
+  --paper:#f4f1e9;
+  --paper2:#ffffff;
+  --gold:#c9a227;
+  --teal:#1f3a93;
+  --rust:#a8452f;
+  --line:#d8d2c2;
+  --heading:#081a26;
+  --muted:#5a6570;
+  --tint:#faf8f1;
+}
+[data-theme="dark"]{
+  --ink:#dde6ec; --paper:#0b1f2e; --paper2:#132a3c; --line:#2a4a63;
+  --heading:#f2d9a6; --muted:#a9b7c0; --tint:#16324a;
+}
+[data-theme="dark"] body{background:var(--paper);}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'Source Sans 3','Segoe UI',Arial,sans-serif;
+  line-height:1.55;
+}
+h1,h2,h3,h4{
+  font-family:'Fraunces','Georgia',serif; color:var(--heading); font-weight:600;
+  letter-spacing:-0.01em;
+}
+a{color:var(--teal);}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+.topbar{
+  background:var(--navy-deep); color:#efe7d2; padding:14px 0; border-bottom:4px solid var(--gold);
+}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-size:1.15rem;color:#fbead0;text-decoration:none;}
+.brand .mark{
+  width:34px;height:34px;border-radius:50%;background:var(--gold);color:var(--navy-deep);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;font-family:'Fraunces',serif;
+}
+.crumbs{font-size:.85rem;color:#c9c2a8;}
+.crumbs a{color:#f2d9a6;text-decoration:none;}
+.hero{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);
+  color:#f6ecd9; padding:42px 0 34px;
+}
+.hero .tag{
+  display:inline-block;background:rgba(200,147,42,.18);color:#f2d9a6;border:1px solid rgba(200,147,42,.5);
+  padding:3px 12px;border-radius:20px;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;
+}
+.hero h1{color:#fdf6e7;font-size:2.1rem;margin:0 0 6px;}
+.hero p.sub{color:#cfd8dc;max-width:640px;margin:0;font-size:1.02rem;}
+.code-badge{
+  font-family:'JetBrains Mono',monospace;background:var(--gold);color:var(--navy-deep);
+  padding:2px 10px;border-radius:4px;font-weight:700;font-size:.85rem;margin-right:8px;
+}
+.section{padding:34px 0;}
+.section.alt{background:var(--paper2);}
+.card{
+  background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:22px 24px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04);
+}
+.grid{display:grid;gap:18px;}
+.grid.cols-3{grid-template-columns:repeat(3,1fr);}
+.grid.cols-2{grid-template-columns:repeat(2,1fr);}
+@media (max-width:800px){.grid.cols-3,.grid.cols-2{grid-template-columns:1fr;}}
+.resource-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px;}
+@media (max-width:900px){.resource-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:560px){.resource-grid{grid-template-columns:1fr;}}
+.res-card{
+  display:flex;flex-direction:column;gap:8px;background:var(--paper2);border:1px solid var(--line);
+  border-radius:10px;padding:16px;text-decoration:none;color:var(--ink);transition:transform .15s, box-shadow .15s;
+  border-top:4px solid var(--teal);
+}
+.res-card:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(14,42,61,.12);}
+.res-card .icon{font-size:1.6rem;}
+.res-card .label{font-family:'Fraunces',serif;font-size:1.02rem;color:var(--heading);}
+.res-card .desc{font-size:.85rem;color:var(--muted);}
+.res-card .dl{margin-top:auto;font-size:.8rem;font-weight:700;color:var(--rust);letter-spacing:.03em;}
+.pill{
+  display:inline-block;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;
+  background:var(--navy);color:#f6ecd9;padding:2px 9px;border-radius:12px;margin-right:6px;
+}
+table{width:100%;border-collapse:collapse;margin:14px 0;}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;font-size:.92rem;}
+th{background:var(--navy);color:#f6ecd9;font-family:'Fraunces',serif;font-weight:600;}
+tr:nth-child(even) td{background:var(--tint);}
+.unit{
+  border-left:4px solid var(--gold); padding:10px 18px; margin:16px 0; background:var(--tint);
+  border-radius:0 8px 8px 0;
+}
+.unit h3{margin:0 0 6px;font-size:1.08rem;}
+.unit .hrs{color:var(--rust);font-size:.82rem;font-weight:700;}
+footer{background:var(--navy-deep);color:#c9c2a8;padding:26px 0;font-size:.85rem;margin-top:40px;}
+footer a{color:#f2d9a6;}
+.btn{
+  display:inline-block;background:var(--rust);color:#fff;padding:10px 20px;border-radius:6px;
+  text-decoration:none;font-weight:600;font-size:.92rem;border:none;cursor:pointer;
+}
+.btn.secondary{background:var(--teal);}
+.btn.gold{background:var(--gold);color:var(--navy-deep);}
+.download-bar{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0;}
+.book-list{list-style:none;padding:0;margin:0;}
+.book-list li{
+  padding:12px 0;border-bottom:1px dashed var(--line);
+}
+.book-list b{color:var(--heading);}
+.book-list .pub{color:var(--rust);font-size:.85rem;}
+.toc{
+  display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;
+}
+.toc a{
+  background:var(--paper2);border:1px solid var(--line);padding:5px 12px;border-radius:16px;
+  font-size:.82rem;text-decoration:none;color:var(--navy);
+}
+.toc a:hover{background:var(--navy);color:#f6ecd9;}
+.note-block{margin:20px 0;}
+.note-block h3{border-bottom:2px solid var(--gold);padding-bottom:4px;}
+.qbox{
+  background:var(--paper2);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin:10px 0;
+}
+.qbox .qn{font-weight:700;color:var(--heading);}
+.qbox label{display:block;padding:5px 0;cursor:pointer;font-size:.94rem;}
+.qbox label:hover{color:var(--teal);}
+.controls{position:sticky;bottom:0;background:var(--paper);padding:14px 0;border-top:2px solid var(--line);}
+.score-box{
+  font-family:'Fraunces',serif;font-size:1.3rem;background:var(--navy-deep);color:#fdf6e7;
+  padding:14px 20px;border-radius:8px;display:inline-block;margin:10px 0;
+}
+.exam-header{border:2px solid var(--navy);padding:16px 20px;border-radius:8px;margin-bottom:20px;background:var(--tint);}
+.exam-header table{border:none;}
+.exam-header td,.exam-header th{border:none;padding:2px 6px;font-size:.9rem;}
+.qno{font-weight:700;color:var(--rust);}
+.game-frame{border:2px solid var(--line);border-radius:10px;overflow:hidden;background:#0b1e2c;}
+</style>
+</head>
+<body>
+<button id="themeToggleBtn" aria-label="Toggle dark/light theme" title="Toggle dark/light theme"
+  style="position:fixed;top:14px;right:16px;z-index:999;width:40px;height:40px;border-radius:50%;
+  border:2px solid var(--gold);background:var(--navy-deep);color:var(--gold);font-size:1.1rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3);">🌙</button>
+<script>
+(function(){
+  var KEY='drskjain-theme';
+  var btn=document.getElementById('themeToggleBtn');
+  function apply(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+    if(btn) btn.textContent = theme==='dark' ? '☀' : '🌙';
+  }
+  var saved = localStorage.getItem(KEY);
+  if(!saved){ saved = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+  apply(saved);
+  if(btn){
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+      localStorage.setItem(KEY, cur);
+      apply(cur);
+    });
+  }
+})();
+</script>
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="brand" href="../../index.html"><img src="../../assets/invertis-logo.png" alt="Invertis University logo" style="height:28px;width:auto;"> Faculty Course Portal &middot; 2026&ndash;27</a>
+    <div class="crumbs"><a href="../../index.html">Home</a> › <a href="../../courses/bhp301/index.html">BHP301</a> › Quiz</div>
+  </div>
+</div>
+
+<div class="hero"><div class="wrap">
+  <span class="tag">Self-Assessment</span>
+  <h1><span class="code-badge">BHP301</span>50-Question MCQ Quiz</h1>
+  <p class="sub">Answer all questions, then click "Show my score". Correct options are highlighted after grading.</p>
+</div></div>
+<div class="section"><div class="wrap">
+  <div class="qbox"><div class="qn">Q1. Gauss's law states that the total electric flux through a closed surface equals:</div><label><input type="radio" name="q0" value="0"> A. Zero always</label><label><input type="radio" name="q0" value="1"> B. Q_enclosed / ε0</label><label><input type="radio" name="q0" value="0"> C. Q_enclosed × ε0</label><label><input type="radio" name="q0" value="0"> D. The surface area times the field</label></div><div class="qbox"><div class="qn">Q2. The electric field outside a uniformly charged sphere behaves as if:</div><label><input type="radio" name="q1" value="0"> A. All the charge is spread uniformly on the surface only</label><label><input type="radio" name="q1" value="1"> B. All the charge were concentrated at its centre</label><label><input type="radio" name="q1" value="0"> C. There is no field at all</label><label><input type="radio" name="q1" value="0"> D. The field is independent of distance</label></div><div class="qbox"><div class="qn">Q3. The electrostatic field is conservative, meaning:</div><label><input type="radio" name="q2" value="0"> A. ∮E·dl ≠ 0 in general</label><label><input type="radio" name="q2" value="1"> B. ∮E·dl = 0 around any closed loop</label><label><input type="radio" name="q2" value="0"> C. E always points radially outward</label><label><input type="radio" name="q2" value="0"> D. E does maximum work around any loop</label></div><div class="qbox"><div class="qn">Q4. Poisson's equation in electrostatics is:</div><label><input type="radio" name="q3" value="0"> A. ∇²V = 0</label><label><input type="radio" name="q3" value="1"> B. ∇²V = -ρ/ε0</label><label><input type="radio" name="q3" value="0"> C. ∇·E = 0 everywhere</label><label><input type="radio" name="q3" value="0"> D. ∇×E = -ρ/ε0</label></div><div class="qbox"><div class="qn">Q5. Laplace's equation applies specifically to regions:</div><label><input type="radio" name="q4" value="0"> A. Containing free charge</label><label><input type="radio" name="q4" value="1"> B. With no charge (ρ = 0)</label><label><input type="radio" name="q4" value="0"> C. With only magnetic fields</label><label><input type="radio" name="q4" value="0"> D. Where E is zero</label></div><div class="qbox"><div class="qn">Q6. The Uniqueness theorem in electrostatics guarantees that:</div><label><input type="radio" name="q5" value="0"> A. Multiple different potentials can satisfy the same boundary conditions</label><label><input type="radio" name="q5" value="1"> B. A solution satisfying Laplace/Poisson equation and the correct boundary conditions is the only solution</label><label><input type="radio" name="q5" value="0"> C. No solution ever exists</label><label><input type="radio" name="q5" value="0"> D. Boundary conditions are irrelevant</label></div><div class="qbox"><div class="qn">Q7. The potential due to an electric dipole falls off with distance as:</div><label><input type="radio" name="q6" value="0"> A. 1/r</label><label><input type="radio" name="q6" value="1"> B. 1/r²</label><label><input type="radio" name="q6" value="0"> C. 1/r³</label><label><input type="radio" name="q6" value="0"> D. Independent of r</label></div><div class="qbox"><div class="qn">Q8. The torque on a dipole in a uniform external field is given by:</div><label><input type="radio" name="q7" value="0"> A. τ = p·E</label><label><input type="radio" name="q7" value="1"> B. τ = p × E</label><label><input type="radio" name="q7" value="0"> C. τ = p/E</label><label><input type="radio" name="q7" value="0"> D. τ = p + E</label></div><div class="qbox"><div class="qn">Q9. Energy stored in a capacitor of capacitance C charged to voltage V is:</div><label><input type="radio" name="q8" value="0"> A. CV</label><label><input type="radio" name="q8" value="1"> B. ½CV²</label><label><input type="radio" name="q8" value="0"> C. C/V</label><label><input type="radio" name="q8" value="0"> D. 2CV²</label></div><div class="qbox"><div class="qn">Q10. The net force on an electric dipole in a UNIFORM external field is:</div><label><input type="radio" name="q9" value="0"> A. Maximum</label><label><input type="radio" name="q9" value="1"> B. Zero</label><label><input type="radio" name="q9" value="0"> C. Proportional to field squared</label><label><input type="radio" name="q9" value="0"> D. Always attractive</label></div><div class="qbox"><div class="qn">Q11. Electric displacement D is related to E and polarization P by:</div><label><input type="radio" name="q10" value="0"> A. D = ε0E - P</label><label><input type="radio" name="q10" value="1"> B. D = ε0E + P</label><label><input type="radio" name="q10" value="0"> C. D = P/ε0 - E</label><label><input type="radio" name="q10" value="0"> D. D = E - P/ε0</label></div><div class="qbox"><div class="qn">Q12. Gauss's law in terms of D depends only on:</div><label><input type="radio" name="q11" value="0"> A. Bound (polarization) charge</label><label><input type="radio" name="q11" value="1"> B. Free charge enclosed</label><label><input type="radio" name="q11" value="0"> C. Total charge including image charges</label><label><input type="radio" name="q11" value="0"> D. Nothing; it is always zero</label></div><div class="qbox"><div class="qn">Q13. For a linear dielectric, P is related to E by:</div><label><input type="radio" name="q12" value="1"> A. P = ε0χe E</label><label><input type="radio" name="q12" value="0"> B. P = χe / E</label><label><input type="radio" name="q12" value="0"> C. P = E / χe</label><label><input type="radio" name="q12" value="0"> D. P = ε0 / (χe E)</label></div><div class="qbox"><div class="qn">Q14. At a dielectric-dielectric interface with no free charge, the boundary condition states:</div><label><input type="radio" name="q13" value="0"> A. Both D and E are always fully continuous</label><label><input type="radio" name="q13" value="1"> B. The normal component of D is continuous, tangential E is continuous</label><label><input type="radio" name="q13" value="0"> C. Neither D nor E is continuous</label><label><input type="radio" name="q13" value="0"> D. D jumps discontinuously always</label></div><div class="qbox"><div class="qn">Q15. Filling a parallel plate capacitor completely with a dielectric of constant εr increases capacitance by a factor of:</div><label><input type="radio" name="q14" value="0"> A. 1/εr</label><label><input type="radio" name="q14" value="1"> B. εr</label><label><input type="radio" name="q14" value="0"> C. εr²</label><label><input type="radio" name="q14" value="0"> D. No change occurs</label></div><div class="qbox"><div class="qn">Q16. The Lorentz force law is given by:</div><label><input type="radio" name="q15" value="0"> A. F = qE only</label><label><input type="radio" name="q15" value="1"> B. F = q(E + v × B)</label><label><input type="radio" name="q15" value="0"> C. F = qv only</label><label><input type="radio" name="q15" value="0"> D. F = qB only</label></div><div class="qbox"><div class="qn">Q17. The magnetic component of the Lorentz force on a moving charge:</div><label><input type="radio" name="q16" value="0"> A. Does work on the charge</label><label><input type="radio" name="q16" value="1"> B. Never does work on the charge (always ⟂ to velocity)</label><label><input type="radio" name="q16" value="0"> C. Always accelerates the charge along its motion</label><label><input type="radio" name="q16" value="0"> D. Reverses the charge's sign</label></div><div class="qbox"><div class="qn">Q18. The Biot–Savart law gives the magnetic field due to:</div><label><input type="radio" name="q17" value="0"> A. A static point charge</label><label><input type="radio" name="q17" value="1"> B. A current element</label><label><input type="radio" name="q17" value="0"> C. A dielectric slab</label><label><input type="radio" name="q17" value="0"> D. A magnetic monopole</label></div><div class="qbox"><div class="qn">Q19. The magnetic field at the centre of a circular current loop of radius R carrying current I is:</div><label><input type="radio" name="q18" value="1"> A. μ0I/2R</label><label><input type="radio" name="q18" value="0"> B. μ0I/(2πR)</label><label><input type="radio" name="q18" value="0"> C. μ0NI/(4R)</label><label><input type="radio" name="q18" value="0"> D. μ0I R/2</label></div><div class="qbox"><div class="qn">Q20. Ampere's circuital law states:</div><label><input type="radio" name="q19" value="1"> A. ∮B·dl = μ0 I_enclosed</label><label><input type="radio" name="q19" value="0"> B. ∮B·dA = μ0 I_enclosed</label><label><input type="radio" name="q19" value="0"> C. ∮E·dl = μ0 I_enclosed</label><label><input type="radio" name="q19" value="0"> D. ∮B·dl = 0 always</label></div><div class="qbox"><div class="qn">Q21. The magnetic field inside a long solenoid (using Ampere's law) is:</div><label><input type="radio" name="q20" value="0"> A. Zero</label><label><input type="radio" name="q20" value="1"> B. B = μ0 n I, where n is turns per unit length</label><label><input type="radio" name="q20" value="0"> C. B = μ0 I / (2πr)</label><label><input type="radio" name="q20" value="0"> D. Dependent only on the solenoid's diameter</label></div><div class="qbox"><div class="qn">Q22. The torque on a magnetic dipole of moment m in an external field B is:</div><label><input type="radio" name="q21" value="0"> A. τ = m·B</label><label><input type="radio" name="q21" value="1"> B. τ = m × B</label><label><input type="radio" name="q21" value="0"> C. τ = m / B</label><label><input type="radio" name="q21" value="0"> D. τ = m + B</label></div><div class="qbox"><div class="qn">Q23. Diamagnetic materials have magnetic susceptibility that is:</div><label><input type="radio" name="q22" value="0"> A. Large and positive</label><label><input type="radio" name="q22" value="1"> B. Small and negative</label><label><input type="radio" name="q22" value="0"> C. Exactly zero</label><label><input type="radio" name="q22" value="0"> D. Large and negative</label></div><div class="qbox"><div class="qn">Q24. Ferromagnetic materials are characterized by:</div><label><input type="radio" name="q23" value="0"> A. Very weak, temperature-independent magnetization</label><label><input type="radio" name="q23" value="1"> B. Spontaneous magnetization and hysteresis</label><label><input type="radio" name="q23" value="0"> C. Zero magnetic susceptibility</label><label><input type="radio" name="q23" value="0"> D. Repulsion from all magnetic fields</label></div><div class="qbox"><div class="qn">Q25. Paramagnetic susceptibility is generally:</div><label><input type="radio" name="q24" value="0"> A. Large and negative</label><label><input type="radio" name="q24" value="1"> B. Small and positive</label><label><input type="radio" name="q24" value="0"> C. Exactly zero always</label><label><input type="radio" name="q24" value="0"> D. Independent of temperature in all cases</label></div><div class="qbox"><div class="qn">Q26. Faraday's law of electromagnetic induction states that the induced EMF equals:</div><label><input type="radio" name="q25" value="0"> A. The magnetic flux itself</label><label><input type="radio" name="q25" value="1"> B. The negative rate of change of magnetic flux, -dΦ/dt</label><label><input type="radio" name="q25" value="0"> C. The square of the magnetic flux</label><label><input type="radio" name="q25" value="0"> D. Zero if flux changes</label></div><div class="qbox"><div class="qn">Q27. Lenz's law is fundamentally a statement of:</div><label><input type="radio" name="q26" value="0"> A. Charge conservation</label><label><input type="radio" name="q26" value="1"> B. Energy conservation (induced effects oppose the change producing them)</label><label><input type="radio" name="q26" value="0"> C. Angular momentum conservation only</label><label><input type="radio" name="q26" value="0"> D. Mass conservation</label></div><div class="qbox"><div class="qn">Q28. Self-inductance L relates current in a circuit to:</div><label><input type="radio" name="q27" value="0"> A. The flux linkage in a neighbouring circuit</label><label><input type="radio" name="q27" value="1"> B. The flux linkage produced in the same circuit</label><label><input type="radio" name="q27" value="0"> C. The circuit's resistance only</label><label><input type="radio" name="q27" value="0"> D. The circuit's capacitance only</label></div><div class="qbox"><div class="qn">Q29. Mutual inductance M describes:</div><label><input type="radio" name="q28" value="1"> A. Flux linkage in one circuit due to current in another circuit</label><label><input type="radio" name="q28" value="0"> B. Only the self-flux of a single coil</label><label><input type="radio" name="q28" value="0"> C. The resistance between two coils</label><label><input type="radio" name="q28" value="0"> D. Capacitive coupling only</label></div><div class="qbox"><div class="qn">Q30. Energy stored in an inductor carrying current I is:</div><label><input type="radio" name="q29" value="0"> A. LI</label><label><input type="radio" name="q29" value="1"> B. ½LI²</label><label><input type="radio" name="q29" value="0"> C. L/I</label><label><input type="radio" name="q29" value="0"> D. 2LI²</label></div><div class="qbox"><div class="qn">Q31. The RMS value of a sinusoidal voltage with peak V0 is:</div><label><input type="radio" name="q30" value="0"> A. V0</label><label><input type="radio" name="q30" value="0"> B. V0/2</label><label><input type="radio" name="q30" value="1"> C. V0/√2</label><label><input type="radio" name="q30" value="0"> D. 2V0</label></div><div class="qbox"><div class="qn">Q32. The impedance of a pure inductor in an AC circuit is:</div><label><input type="radio" name="q31" value="0"> A. R</label><label><input type="radio" name="q31" value="1"> B. jωL</label><label><input type="radio" name="q31" value="0"> C. 1/(jωC)</label><label><input type="radio" name="q31" value="0"> D. Zero always</label></div><div class="qbox"><div class="qn">Q33. The impedance of a pure capacitor in an AC circuit is:</div><label><input type="radio" name="q32" value="0"> A. jωL</label><label><input type="radio" name="q32" value="0"> B. R</label><label><input type="radio" name="q32" value="1"> C. 1/(jωC)</label><label><input type="radio" name="q32" value="0"> D. ωC</label></div><div class="qbox"><div class="qn">Q34. Series RLC resonance occurs when:</div><label><input type="radio" name="q33" value="0"> A. ωL = R</label><label><input type="radio" name="q33" value="1"> B. ωL = 1/(ωC)</label><label><input type="radio" name="q33" value="0"> C. ωC = R</label><label><input type="radio" name="q33" value="0"> D. R = 1/(ωL)+ωC</label></div><div class="qbox"><div class="qn">Q35. At series resonance, the circuit's impedance is:</div><label><input type="radio" name="q34" value="0"> A. Purely reactive and maximum</label><label><input type="radio" name="q34" value="1"> B. Purely resistive and minimum (equal to R)</label><label><input type="radio" name="q34" value="0"> C. Infinite</label><label><input type="radio" name="q34" value="0"> D. Zero</label></div><div class="qbox"><div class="qn">Q36. Real power in an AC circuit is given by:</div><label><input type="radio" name="q35" value="0"> A. P = VI</label><label><input type="radio" name="q35" value="1"> B. P = VI cosφ</label><label><input type="radio" name="q35" value="0"> C. P = VI sinφ</label><label><input type="radio" name="q35" value="0"> D. P = V/I</label></div><div class="qbox"><div class="qn">Q37. Power factor cosφ indicates:</div><label><input type="radio" name="q36" value="0"> A. The circuit's resistance value only</label><label><input type="radio" name="q36" value="1"> B. How effectively electrical power is being converted to useful work</label><label><input type="radio" name="q36" value="0"> C. The circuit's capacitance only</label><label><input type="radio" name="q36" value="0"> D. The frequency of the AC supply</label></div><div class="qbox"><div class="qn">Q38. Reactive power in an AC circuit is expressed as:</div><label><input type="radio" name="q37" value="0"> A. Q = VI cosφ</label><label><input type="radio" name="q37" value="1"> B. Q = VI sinφ</label><label><input type="radio" name="q37" value="0"> C. Q = VI</label><label><input type="radio" name="q37" value="0"> D. Q = V/I</label></div><div class="qbox"><div class="qn">Q39. Kirchhoff's Current Law (KCL) is based on:</div><label><input type="radio" name="q38" value="0"> A. Conservation of energy</label><label><input type="radio" name="q38" value="1"> B. Conservation of charge at a node</label><label><input type="radio" name="q38" value="0"> C. Conservation of magnetic flux</label><label><input type="radio" name="q38" value="0"> D. Ohm's law only</label></div><div class="qbox"><div class="qn">Q40. Kirchhoff's Voltage Law (KVL) is based on:</div><label><input type="radio" name="q39" value="0"> A. Conservation of charge</label><label><input type="radio" name="q39" value="1"> B. The conservative nature of the electrostatic field (sum of voltage drops around a loop = 0)</label><label><input type="radio" name="q39" value="0"> C. Ampere's law</label><label><input type="radio" name="q39" value="0"> D. Faraday's law strictly</label></div><div class="qbox"><div class="qn">Q41. Thevenin's theorem replaces a linear two-terminal network with:</div><label><input type="radio" name="q40" value="0"> A. A current source in parallel with a resistance</label><label><input type="radio" name="q40" value="1"> B. A voltage source in series with a resistance</label><label><input type="radio" name="q40" value="0"> C. Two independent voltage sources</label><label><input type="radio" name="q40" value="0"> D. An inductor only</label></div><div class="qbox"><div class="qn">Q42. Norton's theorem is the dual of Thevenin's theorem, replacing the network with:</div><label><input type="radio" name="q41" value="0"> A. A voltage source in series with resistance</label><label><input type="radio" name="q41" value="1"> B. A current source in parallel with a resistance</label><label><input type="radio" name="q41" value="0"> C. A capacitor only</label><label><input type="radio" name="q41" value="0"> D. A pure inductor</label></div><div class="qbox"><div class="qn">Q43. The superposition theorem applies only to circuits that are:</div><label><input type="radio" name="q42" value="0"> A. Non-linear</label><label><input type="radio" name="q42" value="1"> B. Linear, with multiple independent sources</label><label><input type="radio" name="q42" value="0"> C. Purely resistive with one source only</label><label><input type="radio" name="q42" value="0"> D. Made only of capacitors</label></div><div class="qbox"><div class="qn">Q44. When applying superposition, an unused ideal voltage source is replaced by:</div><label><input type="radio" name="q43" value="0"> A. An open circuit</label><label><input type="radio" name="q43" value="1"> B. A short circuit</label><label><input type="radio" name="q43" value="0"> C. A large resistor</label><label><input type="radio" name="q43" value="0"> D. Another voltage source</label></div><div class="qbox"><div class="qn">Q45. The Maximum Power Transfer theorem states maximum power is delivered to the load when:</div><label><input type="radio" name="q44" value="0"> A. Load resistance is zero</label><label><input type="radio" name="q44" value="1"> B. Load resistance equals the Thevenin resistance of the source network</label><label><input type="radio" name="q44" value="0"> C. Load resistance is infinite</label><label><input type="radio" name="q44" value="0"> D. Load resistance is twice the source resistance</label></div><div class="qbox"><div class="qn">Q46. Maxwell introduced the concept of displacement current to:</div><label><input type="radio" name="q45" value="0"> A. Replace Faraday's law entirely</label><label><input type="radio" name="q45" value="1"> B. Make Ampere's law consistent with the continuity equation when charge accumulates (e.g. capacitor charging)</label><label><input type="radio" name="q45" value="0"> C. Eliminate the need for Gauss's law</label><label><input type="radio" name="q45" value="0"> D. Increase magnetic field strength artificially</label></div><div class="qbox"><div class="qn">Q47. Displacement current density is given by:</div><label><input type="radio" name="q46" value="1"> A. Jd = ε0 ∂E/∂t</label><label><input type="radio" name="q46" value="0"> B. Jd = σE</label><label><input type="radio" name="q46" value="0"> C. Jd = μ0 H</label><label><input type="radio" name="q46" value="0"> D. Jd = ∇×B</label></div><div class="qbox"><div class="qn">Q48. Maxwell's equations predict that electromagnetic waves in vacuum travel at speed:</div><label><input type="radio" name="q47" value="0"> A. c = μ0ε0</label><label><input type="radio" name="q47" value="1"> B. c = 1/√(μ0ε0)</label><label><input type="radio" name="q47" value="0"> C. c = √(μ0/ε0)</label><label><input type="radio" name="q47" value="0"> D. c = μ0/ε0</label></div><div class="qbox"><div class="qn">Q49. The Poynting vector S represents:</div><label><input type="radio" name="q48" value="0"> A. Electric charge density</label><label><input type="radio" name="q48" value="1"> B. The direction and rate of energy flow in an electromagnetic field</label><label><input type="radio" name="q48" value="0"> C. Magnetic flux only</label><label><input type="radio" name="q48" value="0"> D. Electric potential</label></div><div class="qbox"><div class="qn">Q50. Gauss's law for magnetism (∮B·dA = 0) implies that:</div><label><input type="radio" name="q49" value="0"> A. Magnetic monopoles exist abundantly</label><label><input type="radio" name="q49" value="1"> B. Magnetic field lines have no beginning or end (no magnetic monopoles)</label><label><input type="radio" name="q49" value="0"> C. Magnetic fields cannot exist in vacuum</label><label><input type="radio" name="q49" value="0"> D. B is always zero</label></div>
+  <div class="controls">
+    <button class="btn" onclick="gradeQuiz(50)">Show my score</button>
+    <button class="btn secondary" onclick="resetQuiz()">Reset quiz</button>
+    <div id="resultBox" class="score-box" style="display:inline-block;margin-left:14px;"></div>
+  </div>
+</div></div>
+
+<script>
+function gradeQuiz(total){
+  let score=0, unanswered=0;
+  for(let i=0;i<total;i++){
+    const sel = document.querySelector('input[name="q'+i+'"]:checked');
+    if(!sel){unanswered++; continue;}
+    if(sel.value === "1") score++;
+  }
+  const box = document.getElementById('resultBox');
+  box.innerHTML = 'Score: '+score+' / '+total+(unanswered? '  ('+unanswered+' unanswered)':'')+
+    '<br><span style="font-size:.9rem;font-family:\'Source Sans 3\',sans-serif;">'+
+    (score>=0.8*total? 'Excellent! Strong command of this unit.': score>=0.5*total? 'Good — revisit the flagged topics.':'Revisit the lecture notes before attempting again.')+'</span>';
+  box.scrollIntoView({behavior:'smooth'});
+  document.querySelectorAll('.qbox').forEach((qb,i)=>{
+    const correctInput = qb.querySelector('input[value="1"]');
+    if(correctInput){ correctInput.parentElement.style.color = '#2e7d6b'; correctInput.parentElement.style.fontWeight='700'; }
+  });
+}
+function resetQuiz(){ location.reload(); }
+</script>
+
+<footer>
+  <div class="wrap">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <img src="../../assets/invertis-logo.png" alt="Invertis University logo" style="height:26px;width:auto;">
+      <strong style="color:#f2d9a6;">Invertis University, Bareilly</strong>
+    </div>
+    Prepared for the 2026&ndash;27 academic session &middot; Syllabus reproduced from
+    <a href="https://www.invertisuniversity.ac.in" target="_blank" rel="noopener">invertisuniversity.ac.in</a>
+    &middot; All notes, quizzes and sample papers are original instructional material prepared for these courses.
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.12);margin:14px 0;">
+    Prepared &amp; maintained by <strong style="color:#f2d9a6;">Dr. S. K. Jain</strong>, Associate Professor in Physics, Department of Applied Sciences and Humanities, Invertis University, Bareilly, India &middot; <a href="mailto:sanjeev.j@invertis.org">sanjeev.j@invertis.org</a> &middot; &copy; 2026 Author.
+    <div style="margin-top:10px;text-align:center;">
+      <img src="https://visitor-badge.laobi.icu/badge?page_id=drskjain-bhp301-quiz" alt="Visitor count for this page" style="height:20px;vertical-align:middle;border-radius:4px;opacity:.9;">
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,47 @@
+# ============================================================================
+#  TEACHER'S NOTES & SUGGESTED LINKS  --  mpy301 (Laser Physics (MPY301))
+# ============================================================================
+#  This file is read live by the mpy301 course page. Edit it whenever you like
+#  and the page will show your changes the next time it is opened - no
+#  other file needs to be touched, and nothing needs to be rebuilt.
+#
+#  This is one of TWO ways to share things with your students from this
+#  folder (/teacher-notes/mpy301/):
+#    1. LINKS - add a line to this file (links.txt) for anything that
+#       lives on the web: a GitHub Pages site, a YouTube video, a Google
+#       Doc/Drive link, a form, another course's page, etc.
+#    2. FILES - put an actual file (PDF, DOCX, PPTX, image, etc.) straight
+#       into the /teacher-notes/mpy301/files/ folder. It will automatically
+#       appear on the course page as a downloadable resource - you do not
+#       need to list it here or edit anything else.
+#
+#  HOW TO EDIT THIS FILE:
+#    1. Open /teacher-notes/mpy301/links.txt on GitHub and click the pencil
+#       (edit) icon.
+#    2. Add, change or delete lines as shown below, then commit.
+#    3. Reload the course page - your changes are live immediately.
+#    (Editing on a phone/tablet works too, directly on github.com.)
+#
+#  HOW TO SHARE A FILE (PDF, DOCX, image, etc.) INSTEAD:
+#    1. Go to /teacher-notes/mpy301/files/ on GitHub.
+#    2. Use "Add file > Upload files" and drop in your file(s).
+#    3. Commit. The file appears on the course page automatically, with
+#       an icon and a working download link - nothing else to do.
+#    To remove a shared file later, delete it from that same folder.
+#
+#  FORMAT FOR LINKS - one resource per line:
+#      Title of the resource | https://full-web-address-here
+#
+#  - Lines that start with "#" (like this one) are comments and are
+#    ignored - use them for your own reminders.
+#  - Blank lines are ignored.
+#  - A line with just a title and no "| link" is shown as a plain note
+#    (e.g. for "Bring your lab manual next class" type reminders).
+#  - Delete a line to remove that link from the page; add a new line to
+#    add a new one. Order here is the order shown on the page.
+#  - GitHub Pages links work exactly like any other link - just paste the
+#    full https:// address of the page.
+# ============================================================================
+
+# Add your links below this line, one per line, e.g.:
+# Unit 3 revision slides (GitHub Pages) | https://yourusername.github.io/your-repo/unit3.html

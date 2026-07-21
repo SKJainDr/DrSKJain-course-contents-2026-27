@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16x16.png">
+<link rel="icon" href="../../assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../../site.webmanifest">
+<meta name="theme-color" content="#0e2a3d">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Office Skills Sprint — VOI001</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0e2a3d;--navy-deep:#081a26;--gold:#c9a227;--teal:#1f3a93;--rust:#a8452f;--paper:#f4f1e9; --paper2:#ffffff; --ink:#132a3a; --heading:#081a26; --muted:#5a6570; --tint:#faf8f1; }
+[data-theme="dark"]{ --paper:#0b1f2e; --paper2:#132a3c; --ink:#dde6ec; --line:#2a4a63; --heading:#f2d9a6; --muted:#a9b7c0; --tint:#16324a; }
+[data-theme="dark"] body{background:var(--paper);}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);font-family:'Source Sans 3',sans-serif;color:var(--ink);}
+h1{font-family:'Fraunces',serif;color:var(--heading);}
+.topbar{background:var(--navy-deep);color:#efe7d2;padding:12px 0;border-bottom:4px solid var(--gold);}
+.topbar .wrap{max-width:1000px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
+.topbar a{color:#f2d9a6;text-decoration:none;}
+.wrap{max-width:900px;margin:0 auto;padding:20px;}
+.game-card{background:var(--paper2);border:1px solid #d8d2c2;border-radius:12px;padding:24px;}
+.hud{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
+.hud .box{background:var(--navy);color:#f6ecd9;padding:8px 16px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-weight:700;}
+.hud .box.time{background:var(--rust);}
+.prompt{font-family:'Fraunces',serif;font-size:1.3rem;color:var(--navy-deep);text-align:center;margin:20px 0;min-height:70px;}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media (max-width:560px){.options{grid-template-columns:1fr;}}
+.opt{background:#fbf9f2;border:2px solid #d8d2c2;border-radius:10px;padding:16px;text-align:center;font-weight:600;cursor:pointer;transition:.15s;}
+.opt:hover{border-color:var(--teal);transform:translateY(-2px);}
+.opt.correct{background:#2e7d6b;color:#fff;border-color:#2e7d6b;}
+.opt.wrong{background:var(--rust);color:#fff;border-color:var(--rust);}
+.start-screen, .end-screen{text-align:center;padding:20px;}
+.btn{background:var(--rust);color:#fff;border:none;padding:12px 26px;border-radius:8px;cursor:pointer;font-weight:700;font-size:1rem;margin-top:16px;}
+
+.pagefoot-credit{background:var(--navy-deep);color:#c9c2a8;padding:18px 0;margin-top:24px;font-size:.8rem;line-height:1.6;}
+.pagefoot-credit .wrap{max-width:1000px;margin:0 auto;padding:0 20px;}
+.pagefoot-credit a{color:#f2d9a6;}
+</style>
+</head>
+<body>
+<button id="themeToggleBtn" aria-label="Toggle dark/light theme" title="Toggle dark/light theme"
+  style="position:fixed;top:14px;right:16px;z-index:999;width:40px;height:40px;border-radius:50%;
+  border:2px solid var(--gold);background:var(--navy-deep);color:var(--gold);font-size:1.1rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3);">🌙</button>
+<script>
+(function(){
+  var KEY='drskjain-theme';
+  var btn=document.getElementById('themeToggleBtn');
+  function apply(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+    if(btn) btn.textContent = theme==='dark' ? '☀' : '🌙';
+  }
+  var saved = localStorage.getItem(KEY);
+  if(!saved){ saved = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+  apply(saved);
+  if(btn){
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+      localStorage.setItem(KEY, cur);
+      apply(cur);
+    });
+  }
+})();
+</script>
+
+<div class="topbar"><div class="wrap"><a href="index.html">&larr; Back to VOI001</a><span>Introduction of MS Office — Interactive Game</span></div></div>
+<div class="wrap">
+<h1>🎮 Office Skills Sprint</h1>
+<div class="game-card">
+  <div id="startScreen" class="start-screen">
+    <p>60 seconds. Match each Office feature, function or shortcut to what it actually does. Wrong answers cost
+    no time, but speed and accuracy both raise your score!</p>
+    <button class="btn" onclick="startGame()">Start Sprint</button>
+  </div>
+  <div id="gameScreen" style="display:none;">
+    <div class="hud">
+      <div class="box">Score: <span id="score">0</span></div>
+      <div class="box time">Time: <span id="time">60</span>s</div>
+    </div>
+    <div class="prompt" id="prompt"></div>
+    <div class="options" id="options"></div>
+  </div>
+  <div id="endScreen" class="end-screen" style="display:none;">
+    <h2>Time's up!</h2>
+    <p>Your final score: <span id="finalScore" style="font-family:'JetBrains Mono',monospace;font-size:1.4rem;color:var(--rust);"></span></p>
+    <button class="btn" onclick="startGame()">Play again</button>
+  </div>
+</div>
+</div>
+<script>
+const items = [
+ ["Ctrl + S", "Save the current document"],
+ ["Ctrl + Z", "Undo the last action"],
+ ["Ctrl + P", "Print the current document"],
+ ["SUM()", "Add up a range of numbers"],
+ ["AVERAGE()", "Compute the mean of a range"],
+ ["IF()", "Return one value if true, another if false"],
+ ["VLOOKUP()", "Look up a value in a table"],
+ ["Mail Merge", "Create personalized letters from a data source"],
+ ["Track Changes", "Record edits with author attribution"],
+ ["Slide Master", "Control consistent design across all slides"],
+ ["Transition", "Effect between two slides"],
+ ["Animation", "Effect applied to an object within one slide"],
+ ["$A$1", "An absolute cell reference"],
+ ["A1", "A relative cell reference"],
+ ["Conditional Formatting", "Highlight cells automatically based on a rule"],
+ ["Backstage View", "Where you open, save and print a file"],
+ ["Ribbon", "Tabbed toolbar holding grouped commands"],
+ ["CC (email)", "Send a visible copy to other recipients"],
+ ["BCC (email)", "Send a hidden copy to a recipient"],
+ ["MS Access Table", "Stores structured data in rows and columns"],
+ ["MS Access Query", "Asks a specific question of stored data"],
+ ["MS Access Form", "A user-friendly data-entry interface"],
+ ["HTTPS", "An encrypted, secure website connection"],
+ ["Presenter View", "Shows the speaker notes while audience sees only the slide"],
+];
+
+let score=0, timeLeft=60, timer=null, current=null, usedIdx=new Set();
+
+function startGame(){
+  score=0; timeLeft=60; usedIdx=new Set();
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('endScreen').style.display='none';
+  document.getElementById('gameScreen').style.display='block';
+  document.getElementById('score').textContent=score;
+  document.getElementById('time').textContent=timeLeft;
+  nextQuestion();
+  clearInterval(timer);
+  timer=setInterval(()=>{
+    timeLeft--;
+    document.getElementById('time').textContent=timeLeft;
+    if(timeLeft<=0){ endGame(); }
+  },1000);
+}
+
+function nextQuestion(){
+  if(usedIdx.size>=items.length) usedIdx=new Set();
+  let idx;
+  do{ idx=Math.floor(Math.random()*items.length); }while(usedIdx.has(idx));
+  usedIdx.add(idx);
+  current = items[idx];
+  document.getElementById('prompt').textContent = current[0];
+  // build 4 options: correct + 3 random wrong
+  let opts = [current[1]];
+  while(opts.length<4){
+    const r = items[Math.floor(Math.random()*items.length)][1];
+    if(!opts.includes(r)) opts.push(r);
+  }
+  opts.sort(()=>Math.random()-0.5);
+  const optDiv = document.getElementById('options');
+  optDiv.innerHTML='';
+  opts.forEach(o=>{
+    const d = document.createElement('div');
+    d.className='opt';
+    d.textContent=o;
+    d.onclick=()=>selectOption(d,o);
+    optDiv.appendChild(d);
+  });
+}
+
+function selectOption(el,val){
+  if(val===current[1]){
+    el.classList.add('correct');
+    score+=10;
+  } else {
+    el.classList.add('wrong');
+  }
+  document.getElementById('score').textContent=score;
+  setTimeout(nextQuestion, 450);
+}
+
+function endGame(){
+  clearInterval(timer);
+  document.getElementById('gameScreen').style.display='none';
+  document.getElementById('endScreen').style.display='block';
+  document.getElementById('finalScore').textContent=score+" points";
+}
+</script>
+<footer class="pagefoot-credit">
+  <div class="wrap">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+      <img src="../../assets/invertis-logo.png" alt="Invertis University logo" style="height:22px;width:auto;">
+      <strong style="color:#f2d9a6;">Invertis University, Bareilly</strong>
+    </div>
+    Prepared &amp; maintained by <strong style="color:#f2d9a6;">Dr. S. K. Jain</strong>, Associate Professor in Physics, Department of Applied Sciences and Humanities, Invertis University, Bareilly, India &middot; <a href="mailto:sanjeev.j@invertis.org">sanjeev.j@invertis.org</a> &middot; &copy; 2026 Author.
+    <div style="margin-top:10px;text-align:center;">
+      <img src="https://visitor-badge.laobi.icu/badge?page_id=drskjain-voi001-game" alt="Visitor count for this page" style="height:20px;vertical-align:middle;border-radius:4px;opacity:.9;">
+    </div>
+  </div>
+</footer>
+</body>
+</html>

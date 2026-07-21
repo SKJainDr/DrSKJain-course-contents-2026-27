@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+<link rel="icon" href="assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0e2a3d">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faculty Course Portal 2026&ndash;27 &mdash; Invertis University</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700;900&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#132a3a; --navy:#0e2a3d; --navy-deep:#081a26; --paper:#f4f1e9; --paper2:#ffffff;
+  --gold:#c9a227; --teal:#1f3a93; --rust:#a8452f; --line:#d8d2c2; --royal-blue:#1f3a93;
+  --heading:#081a26; --muted:#4d5760; --tint:#faf8f1;
+}
+[data-theme="dark"]{
+  --ink:#dde6ec; --paper:#0b1f2e; --paper2:#132a3c; --line:#2a4a63;
+  --heading:#f2d9a6; --muted:#a9b7c0; --tint:#16324a;
+}
+[data-theme="dark"] body{background:var(--paper);}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Source Sans 3',sans-serif;line-height:1.55;}
+h1,h2,h3{font-family:'Fraunces',serif;color:var(--heading);}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px;}
+.topbar{background:var(--navy-deep);color:#efe7d2;padding:14px 0;border-bottom:4px solid var(--gold);}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-size:1.1rem;color:#fbead0;}
+.brand .mark{width:34px;height:34px;border-radius:50%;background:var(--gold);color:var(--navy-deep);display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Fraunces',serif;}
+.hero{
+  background:radial-gradient(circle at 15% 20%, rgba(200,147,42,.18), transparent 45%),
+             linear-gradient(150deg, var(--navy) 0%, var(--navy-deep) 70%);
+  color:#f6ecd9;padding:70px 0 60px;position:relative;overflow:hidden;
+}
+.hero .eyebrow{
+  display:inline-block;background:rgba(200,147,42,.18);color:#f2d9a6;border:1px solid rgba(200,147,42,.5);
+  padding:4px 14px;border-radius:20px;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:18px;
+}
+.hero h1{
+  font-size:3rem;color:#fdf6e7;margin:0 0 18px;max-width:780px;line-height:1.08;font-weight:700;
+}
+.hero h1 em{font-style:italic;color:var(--gold);}
+.hero p.sub{max-width:620px;color:#cfd8dc;font-size:1.12rem;margin:0 0 8px;}
+.hero .meta{color:#9fb0b8;font-size:.95rem;margin-top:14px;}
+.hero .meta a{color:#f2d9a6;}
+.ledger{
+  position:absolute;right:-40px;top:30px;width:340px;opacity:.5;pointer-events:none;
+  font-family:'JetBrains Mono',monospace;color:#3f5a6c;font-size:.72rem;line-height:1.9;
+  transform:rotate(3deg);
+}
+.section{padding:54px 0;}
+.section-head{max-width:640px;margin-bottom:30px;}
+.section-head .kicker{color:var(--rust);text-transform:uppercase;letter-spacing:.08em;font-size:.8rem;font-weight:700;}
+.section-head h2{font-size:1.9rem;margin:6px 0 8px;}
+.section-head p{color:var(--muted);}
+.course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+@media (max-width:900px){.course-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:620px){.course-grid{grid-template-columns:1fr;}}
+.course-card{
+  background:var(--paper2);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink);
+  display:flex;flex-direction:column;transition:transform .18s, box-shadow .18s;position:relative;
+}
+.course-card:hover{transform:translateY(-5px);box-shadow:0 14px 30px rgba(14,42,61,.14);}
+.course-card .stripe{height:8px;}
+.course-card .body{padding:20px 22px 22px;flex:1;display:flex;flex-direction:column;}
+.course-card .tagrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.course-card .code{
+  font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.82rem;color:#fff;padding:3px 10px;border-radius:5px;
+}
+.course-card .icon{font-size:1.6rem;}
+.course-card h3{font-size:1.2rem;margin:0 0 6px;line-height:1.25;}
+.course-card .prog{font-size:.82rem;color:var(--rust);font-weight:700;margin-bottom:10px;}
+.course-card .blurb{font-size:.9rem;color:var(--muted);flex:1;}
+.course-card .go{margin-top:14px;font-size:.85rem;font-weight:700;color:var(--teal);}
+.bands{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+.band{font-size:.7rem;background:var(--paper);border:1px solid var(--line);padding:3px 9px;border-radius:12px;color:var(--muted);}
+.about{background:var(--paper2);}
+.about-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+@media (max-width:900px){.about-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:560px){.about-grid{grid-template-columns:1fr;}}
+.about-card{border:1px solid var(--line);border-radius:10px;padding:18px;text-align:center;}
+.about-card .num{font-family:'Fraunces',serif;font-size:1.8rem;color:var(--gold);}
+.about-card .lab{font-size:.85rem;color:var(--muted);margin-top:4px;}
+footer{background:var(--navy-deep);color:#c9c2a8;padding:30px 0;font-size:.88rem;margin-top:20px;}
+footer a{color:#f2d9a6;}
+</style>
+</head>
+<body>
+<button id="themeToggleBtn" aria-label="Toggle dark/light theme" title="Toggle dark/light theme"
+  style="position:fixed;top:14px;right:16px;z-index:999;width:40px;height:40px;border-radius:50%;
+  border:2px solid var(--gold);background:var(--navy-deep);color:var(--gold);font-size:1.1rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3);">🌙</button>
+<script>
+(function(){
+  var KEY='drskjain-theme';
+  var btn=document.getElementById('themeToggleBtn');
+  function apply(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+    if(btn) btn.textContent = theme==='dark' ? '☀' : '🌙';
+  }
+  var saved = localStorage.getItem(KEY);
+  if(!saved){ saved = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+  apply(saved);
+  if(btn){
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+      localStorage.setItem(KEY, cur);
+      apply(cur);
+    });
+  }
+})();
+</script>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand"><img src="assets/invertis-logo.png" alt="Invertis University logo" style="height:32px;width:auto;"> Faculty Course Portal</div>
+    <div style="font-size:.85rem;color:#c9c2a8;">Academic Session 2026&ndash;27 &middot; <a href="labs/advanced-laser-optics-lab.html" style="color:#f2d9a6;">Advanced Laser &amp; Optics Lab</a> &middot; <a href="labs/advanced-mechanics-matter-lab.html" style="color:#b7e0a0;">Advanced Mechanics &amp; Properties of Matter Lab</a> &middot; <a href="labs/advanced-electricity-magnetism-lab.html" style="color:#f2d9a6;">Advanced Electricity &amp; Magnetism Lab</a></div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Six courses &middot; One portal &middot; Everything downloadable</span>
+    <h1>Course Study Material and <em>Learning Lab</em><br>by Dr. S. K. Jain for session 2026&ndash;27</h1>
+    <p class="sub">Syllabus, reading lists, lecture notes, a 50-question quiz, two sample exam papers, curated
+    learning resources, and two interactive games &mdash; for every course taught this session.</p>
+    <p class="meta">Official syllabi reproduced from <a href="https://www.invertisuniversity.ac.in" target="_blank" rel="noopener">invertisuniversity.ac.in</a>. All other material — notes, quizzes, sample papers, games — prepared for the 2026&ndash;27 session.</p>
+  </div>
+  <div class="ledger">
+    BAS101 · MPY301 · BHP301<br>VOI001 · BAS151 · MPY351<br>—<br>Sem I · Sem III · Sem I<br>Sem I · Sem I · Sem III
+  </div>
+</div>
+
+<div class="section" style="padding-top:0;">
+  <div class="wrap">
+    <a href="labs/advanced-laser-optics-lab.html" style="text-decoration:none;">
+    <div style="background:linear-gradient(120deg,#0e2a3d,#081a26);border:1px solid #c8932a;border-radius:14px;
+      padding:26px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+      <div>
+        <div style="color:#f2d9a6;text-transform:uppercase;font-size:.78rem;letter-spacing:.07em;font-weight:700;">New &middot; Companion Resource</div>
+        <h3 style="color:#fdf6e7;margin:6px 0 6px;font-size:1.4rem;">🔬 Advanced Laser &amp; Optics Learning Lab</h3>
+        <p style="color:#cfd8dc;margin:0;max-width:640px;">18 interactive simulations — interference, diffraction, polarization,
+        dispersion, Michelson interferometry, focusing, compound-lens imaging, 3 particle-nature-of-light experiments, laser coherence/directionality/purity,
+        holography, a red&rarr;UV wavelength &amp; photon-energy explorer, and 3 practical-application experiments (laser Doppler
+        vibrometry, optical fiber NA &amp; attenuation, laser speckle metrology) — plus full laser safety &amp; precautions and <b>7 hands-on
+        industrial workshops</b> (drilling, cutting, welding, alloying, LCVD, hardening, LIDAR) with a printable
+        completion certificate for scores above 90%.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;align-items:stretch;">
+        <div style="background:#c9a227;color:#081a26;padding:12px 22px;border-radius:8px;font-weight:700;white-space:nowrap;text-align:center;">Open the Lab &rarr;</div>
+      </div>
+    </div>
+    </a>
+    <div style="text-align:right;margin-top:10px;">
+      <a href="docs/index.html" style="display:inline-block;background:transparent;color:#1f3a93;border:2px solid #1f3a93;
+        padding:9px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;">📖 Read the Full User Guide &amp; Lab Manual &rarr;</a>
+    </div>
+
+    <a href="labs/advanced-mechanics-matter-lab.html" style="text-decoration:none;display:block;margin-top:22px;">
+    <div style="background:linear-gradient(120deg,#122a1c,#0c1e14);border:1px solid #b5772a;border-radius:14px;
+      padding:26px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+      <div>
+        <div style="color:#f0d3ae;text-transform:uppercase;font-size:.78rem;letter-spacing:.07em;font-weight:700;">New &middot; Companion Resource</div>
+        <h3 style="color:#eef7f0;margin:6px 0 6px;font-size:1.4rem;">⚙️ Advanced Mechanics &amp; Properties of Matter Lab</h3>
+        <p style="color:#d7ecdc;margin:0;max-width:640px;">18 interactive simulations spanning rotational dynamics (bifilar suspension,
+        torsional pendulum, flywheel, compound pendulum), elasticity of solids (cantilever &amp; uniform bending, Searle's apparatus,
+        static torsion), fluid properties (Poiseuille's &amp; Stokes' viscosity, capillary rise), PG-level oscillations &amp;
+        acoustics (coupled pendulums, damped &amp; forced oscillations, an ultrasonic interferometer), and 3 practical-application
+        experiments (ballistic pendulum, rolling race on an incline, gyroscopic precession) &mdash; plus full mechanical
+        lab safety, and <b>6 hands-on industrial workshops</b> (vibration isolation, ultrasonic NDT, structural load testing,
+        rotor balancing, viscometer calibration, shock-absorber design) with live pass/fail certification.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;align-items:stretch;">
+        <div style="background:#c97a27;color:#0c1e14;padding:12px 22px;border-radius:8px;font-weight:700;white-space:nowrap;text-align:center;">Open the Lab &rarr;</div>
+      </div>
+    </div>
+    </a>
+    <div style="text-align:right;margin-top:10px;">
+      <a href="docs-mechanics/index.html" style="display:inline-block;background:transparent;color:#1f6e43;border:2px solid #1f6e43;
+        padding:9px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;">📖 Read the Full User Guide &amp; Lab Manual &rarr;</a>
+    </div>
+
+    <a href="labs/advanced-electricity-magnetism-lab.html" style="text-decoration:none;display:block;margin-top:22px;">
+    <div style="background:linear-gradient(120deg,#0e2a3d,#081a26);border:1px solid #c8932a;border-radius:14px;
+      padding:26px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+      <div>
+        <div style="color:#f2d9a6;text-transform:uppercase;font-size:.78rem;letter-spacing:.07em;font-weight:700;">New &middot; Companion Resource</div>
+        <h3 style="color:#fdf6e7;margin:6px 0 6px;font-size:1.4rem;">🧲 Advanced Electricity &amp; Magnetism Learning Lab</h3>
+        <p style="color:#cfd8dc;margin:0;max-width:640px;">18 interactive simulations — Coulomb's law, electric dipoles, Gauss's law,
+        capacitors &amp; dielectrics, Van de Graaff generator, Biot&ndash;Savart law, Helmholtz coils, Ampere's law (solenoid &amp; toroid),
+        force between conductors, Faraday's law, motional EMF, RC/RL transients, LCR resonance, Maxwell's equations &amp; plane waves,
+        skin depth, Brewster's angle, dielectric polarization and magnetic hysteresis — plus <b>7 hands-on
+        industrial workshops</b> (EMI/EMC testing, transformer design, antenna patterns, eddy-current NDT, magnetic shielding,
+        HV breakdown testing, RF impedance matching) with a printable completion certificate for scores above 90%.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;align-items:stretch;">
+        <div style="background:#c9a227;color:#081a26;padding:12px 22px;border-radius:8px;font-weight:700;white-space:nowrap;text-align:center;">Open the Lab &rarr;</div>
+      </div>
+    </div>
+    </a>
+    <div style="text-align:right;margin-top:10px;">
+      <a href="docs-em/index.html" style="display:inline-block;background:transparent;color:#1f3a93;border:2px solid #1f3a93;
+        padding:9px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;">📖 Read the Full User Guide &amp; Lab Manual &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Choose a course</div>
+      <h2>Six subjects, six complete kits</h2>
+      <p>Click any card to open its resource hub — every item below opens or downloads directly from there.</p>
+    </div>
+    <div class="course-grid">
+
+      <a class="course-card" href="courses/bas101/index.html">
+        <div class="stripe" style="background:#2e7d6b;"></div>
+        <div class="body">
+          <div class="tagrow"><span class="icon">⚛</span><span class="code" style="background:#2e7d6b;">BAS101</span></div>
+          <h3>Physics</h3>
+          <div class="prog">B.Tech. &middot; Semester I</div>
+          <div class="blurb">Relativity, interference, diffraction, polarization, lasers, holography and fibre optics.</div>
+          <div class="bands"><span class="band">Syllabus</span><span class="band">50-MCQ Quiz</span><span class="band">Game</span></div>
+          <div class="go">Open course hub &rarr;</div>
+        </div>
+      </a>
+
+      <a class="course-card" href="courses/bas151/index.html">
+        <div class="stripe" style="background:#a8452f;"></div>
+        <div class="body">
+          <div class="tagrow"><span class="icon">🔬</span><span class="code" style="background:#a8452f;">BAS151</span></div>
+          <h3>Physics Lab</h3>
+          <div class="prog">B.Tech. &middot; Semester I</div>
+          <div class="blurb">Optics, magnetism and solid-state experiments — Newton's rings, Hall effect, hysteresis and more.</div>
+          <div class="bands"><span class="band">Virtual labs</span><span class="band">Lab manual</span><span class="band">Game</span></div>
+          <div class="go">Open course hub &rarr;</div>
+        </div>
+      </a>
+
+      <a class="course-card" href="courses/mpy301/index.html">
+        <div class="stripe" style="background:#c8932a;"></div>
+        <div class="body">
+          <div class="tagrow"><span class="icon" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="11.5" width="10" height="3" rx="1" fill="#5a6570"/><rect x="10" y="10" width="7" height="6" rx="1.4" fill="#c8932a"/><path d="M17 10.2 L25 7 V19 L17 15.8 Z" fill="#e0472f"/><line x1="19" y1="6" x2="21" y2="2.5" stroke="#e0472f" stroke-width="1.6" stroke-linecap="round"/><line x1="21.5" y1="13" x2="25.5" y2="13" stroke="#e0472f" stroke-width="1.6" stroke-linecap="round"/><line x1="19" y1="20" x2="21" y2="23.5" stroke="#e0472f" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="code" style="background:#c8932a;">MPY301</span></div>
+          <h3>Laser Physics</h3>
+          <div class="prog">M.Sc. Physics &middot; Semester III</div>
+          <div class="blurb">Laser fundamentals, laser types, holography, fibre optics, spectroscopy and industrial lasers.</div>
+          <div class="bands"><span class="band">Syllabus</span><span class="band">50-MCQ Quiz</span><span class="band">Game</span></div>
+          <div class="go">Open course hub &rarr;</div>
+        </div>
+      </a>
+
+      <a class="course-card" href="courses/bhp301/index.html">
+        <div class="stripe" style="background:#a8452f;"></div>
+        <div class="body">
+          <div class="tagrow"><span class="icon">🧲</span><span class="code" style="background:#a8452f;">BHP301</span></div>
+          <h3>Electricity &amp; Magnetism</h3>
+          <div class="prog">B.Sc. (Hons.) Physics/Chemistry/Mathematics &middot; Semester III</div>
+          <div class="blurb">Electrostatics, Dielectrics, Magnetostatics, E.M. Induction, AC circuits and Maxwell's equations.</div>
+          <div class="bands"><span class="band">Syllabus</span><span class="band">50-MCQ Quiz</span><span class="band">Game</span></div>
+          <div class="go">Open course hub &rarr;</div>
+        </div>
+      </a>
+
+      <a class="course-card" href="courses/voi001/index.html">
+        <div class="stripe" style="background:#2e7d6b;"></div>
+        <div class="body">
+          <div class="tagrow"><span class="icon">🖥</span><span class="code" style="background:#2e7d6b;">VOI001</span></div>
+          <h3>Introduction of MS Office</h3>
+          <div class="prog">B.Sc. ZBC &middot; Semester I</div>
+          <div class="blurb">Word, Excel, PowerPoint, email and internet basics, and an introduction to MS Access.</div>
+          <div class="bands"><span class="band">Practice tools</span><span class="band">50-MCQ Quiz</span><span class="band">Game</span></div>
+          <div class="go">Open course hub &rarr;</div>
+        </div>
+      </a>
+
+      <a class="course-card" href="courses/mpy351/index.html">
+        <div class="stripe" style="background:#8a5fd6;"></div>
+        <div class="body">
+          <div class="tagrow"><span class="icon" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="14" height="14" rx="1.5" fill="#8a5fd6"/><circle cx="9.5" cy="9.5" r="1.1" fill="#c9a227"/><g stroke="#c9a227" stroke-width="1.3"><line x1="9" y1="1.5" x2="9" y2="6"/><line x1="13" y1="1.5" x2="13" y2="6"/><line x1="17" y1="1.5" x2="17" y2="6"/><line x1="9" y1="20" x2="9" y2="24.5"/><line x1="13" y1="20" x2="13" y2="24.5"/><line x1="17" y1="20" x2="17" y2="24.5"/><line x1="1.5" y1="9" x2="6" y2="9"/><line x1="1.5" y1="13" x2="6" y2="13"/><line x1="1.5" y1="17" x2="6" y2="17"/><line x1="20" y1="9" x2="24.5" y2="9"/><line x1="20" y1="13" x2="24.5" y2="13"/><line x1="20" y1="17" x2="24.5" y2="17"/></g></svg></span><span class="code" style="background:#8a5fd6;">MPY351</span></div>
+          <h3>Electronics Lab</h3>
+          <div class="prog">M.Sc. Physics &middot; Semester III</div>
+          <div class="blurb">Diode, BJT, FET/MOSFET characteristics, oscillators, clippers/clampers and 555 timer circuits.</div>
+          <div class="bands"><span class="band">Virtual labs</span><span class="band">Lab manual</span><span class="band">Game</span></div>
+          <div class="go">Open course hub &rarr;</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<div class="section about">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">What's inside every course</div>
+      <h2>The same eight-part kit, every time</h2>
+      <p>So students always know exactly where to look, whichever course they're studying.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-card"><div class="num">📜</div><div class="lab">Official syllabus</div></div>
+      <div class="about-card"><div class="num">📚</div><div class="lab">Recommended &amp; reference books</div></div>
+      <div class="about-card"><div class="num">🧭</div><div class="lab">Course content overview</div></div>
+      <div class="about-card"><div class="num">📝</div><div class="lab">Unit-wise lecture notes</div></div>
+      <div class="about-card"><div class="num">❓</div><div class="lab">50-question self-graded quiz</div></div>
+      <div class="about-card"><div class="num">🧾</div><div class="lab">Two sample exam papers</div></div>
+      <div class="about-card"><div class="num">🔗</div><div class="lab">Curated external resources</div></div>
+      <div class="about-card"><div class="num">🎮</div><div class="lab">Two interactive learning games</div></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+      <img src="assets/invertis-logo.png" alt="Invertis University logo" style="height:28px;width:auto;">
+      <strong style="color:#f2d9a6;">Invertis University, Bareilly</strong>
+    </div>
+    Faculty Course Portal &middot; Academic Session 2026&ndash;27 &middot; Syllabus content reproduced from
+    <a href="https://www.invertisuniversity.ac.in" target="_blank" rel="noopener">invertisuniversity.ac.in</a>
+    &middot; All notes, quizzes, sample papers and games are original instructional material prepared for these courses.
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.12);margin:14px 0;">
+    Prepared &amp; maintained by <strong style="color:#f2d9a6;">Dr. S. K. Jain</strong>, Associate Professor in Physics, Department of Applied Sciences and Humanities, Invertis University, Bareilly, India &middot;
+    <a href="mailto:sanjeev.j@invertis.org">sanjeev.j@invertis.org</a> &middot; &copy; 2026 Author.
+    <div style="margin-top:12px;text-align:center;">
+      <img src="https://visitor-badge.laobi.icu/badge?page_id=drskjain-main" alt="Visitor count for this page" style="height:20px;vertical-align:middle;border-radius:4px;opacity:.9;">
+    </div>
+  </div>
+</footer>
+</body>
+</html>

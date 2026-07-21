@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16x16.png">
+<link rel="icon" href="../../assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../../site.webmanifest">
+<meta name="theme-color" content="#0e2a3d">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Population Inversion Simulator — MPY301</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0e2a3d;--navy-deep:#081a26;--gold:#c9a227;--teal:#1f3a93;--rust:#a8452f;--paper:#f4f1e9; --paper2:#ffffff; --ink:#132a3a; --heading:#081a26; --muted:#5a6570; --tint:#faf8f1; }
+[data-theme="dark"]{ --paper:#0b1f2e; --paper2:#132a3c; --ink:#dde6ec; --line:#2a4a63; --heading:#f2d9a6; --muted:#a9b7c0; --tint:#16324a; }
+[data-theme="dark"] body{background:var(--paper);}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);font-family:'Source Sans 3',sans-serif;color:var(--ink);}
+h1{font-family:'Fraunces',serif;color:var(--heading);}
+.topbar{background:var(--navy-deep);color:#efe7d2;padding:12px 0;border-bottom:4px solid var(--gold);}
+.topbar .wrap{max-width:1000px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
+.topbar a{color:#f2d9a6;text-decoration:none;}
+.wrap{max-width:1000px;margin:0 auto;padding:20px;}
+.game-card{background:var(--paper2);border:1px solid #d8d2c2;border-radius:12px;padding:22px;}
+.stage{background:#050d14;border-radius:10px;padding:10px;}
+canvas{display:block;width:100%;height:380px;border-radius:6px;}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;}
+@media (max-width:600px){.controls{grid-template-columns:1fr;}}
+.control{background:#fbf9f2;border:1px solid #d8d2c2;border-radius:8px;padding:12px 16px;}
+label{display:block;font-weight:600;margin-bottom:6px;}
+.readout{font-family:'JetBrains Mono',monospace;color:var(--rust);font-weight:700;}
+input[type=range]{width:100%;}
+.stat{display:flex;gap:20px;margin-top:14px;flex-wrap:wrap;}
+.stat div{background:var(--navy);color:#f6ecd9;border-radius:8px;padding:10px 16px;font-family:'JetBrains Mono',monospace;}
+select{padding:8px;border-radius:6px;border:1px solid #d8d2c2;}
+.msg{margin-top:14px;font-weight:700;min-height:24px;}
+
+.pagefoot-credit{background:var(--navy-deep);color:#c9c2a8;padding:18px 0;margin-top:24px;font-size:.8rem;line-height:1.6;}
+.pagefoot-credit .wrap{max-width:1000px;margin:0 auto;padding:0 20px;}
+.pagefoot-credit a{color:#f2d9a6;}
+</style>
+</head>
+<body>
+<button id="themeToggleBtn" aria-label="Toggle dark/light theme" title="Toggle dark/light theme"
+  style="position:fixed;top:14px;right:16px;z-index:999;width:40px;height:40px;border-radius:50%;
+  border:2px solid var(--gold);background:var(--navy-deep);color:var(--gold);font-size:1.1rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3);">🌙</button>
+<script>
+(function(){
+  var KEY='drskjain-theme';
+  var btn=document.getElementById('themeToggleBtn');
+  function apply(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+    if(btn) btn.textContent = theme==='dark' ? '☀' : '🌙';
+  }
+  var saved = localStorage.getItem(KEY);
+  if(!saved){ saved = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+  apply(saved);
+  if(btn){
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+      localStorage.setItem(KEY, cur);
+      apply(cur);
+    });
+  }
+})();
+</script>
+
+<div class="topbar"><div class="wrap"><a href="index.html">&larr; Back to MPY301</a><span>Laser Physics — Interactive Game</span></div></div>
+<div class="wrap">
+<h1>🎮 Population Inversion Simulator</h1>
+<p>Choose a <b>pumping scheme</b> (2-level, 3-level, or 4-level) and increase the pump rate. Watch the level
+populations evolve — only the 3-level and 4-level schemes can reach population inversion (N₂ &gt; N₁),
+the condition needed for laser gain. This is a simplified rate-equation model of the physics in Unit&nbsp;1.</p>
+<div class="game-card">
+  <div class="stage"><canvas id="c" width="900" height="380"></canvas></div>
+  <div class="controls">
+    <div class="control">
+      <label>Laser scheme:</label>
+      <select id="scheme">
+        <option value="2">Two-level system (cannot invert)</option>
+        <option value="3" selected>Three-level (e.g. Ruby)</option>
+        <option value="4">Four-level (e.g. Nd:YAG, He-Ne)</option>
+      </select>
+    </div>
+    <div class="control">
+      <label>Pump rate R: <span class="readout" id="pumpVal"></span></label>
+      <input type="range" id="pump" min="0" max="100" value="20" step="1">
+    </div>
+  </div>
+  <div class="stat">
+    <div id="statN2">N₂ (upper): 0%</div>
+    <div id="statN1">N₁ (lower): 0%</div>
+    <div id="statInv">Inversion: NO</div>
+  </div>
+  <div class="msg" id="msg"></div>
+</div>
+</div>
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const schemeSel = document.getElementById('scheme');
+const pumpSlider = document.getElementById('pump');
+
+let N = [1,0,0,0]; // populations of ground, level1(lower laser), level2(upper laser), level3(pump band) as fractions
+
+function step(){
+  const scheme = schemeSel.value;
+  const R = parseFloat(pumpSlider.value)/100; // pump rate 0..1
+  const decayFast = 0.9; // fast non-radiative decay
+  const decaySlow = 0.02; // spontaneous emission upper->lower (slow, gives inversion time)
+  const decayLowerToGround = 0.5;
+
+  if(scheme==="2"){
+    // ground(0) <-> upper(2) two level. In a true 2-level system, the same
+    // radiation field that pumps atoms up (rate R*N0) also stimulates them
+    // back down at the SAME rate (R*N2) - stimulated absorption and
+    // stimulated emission have equal coefficients (Einstein A/B relations
+    // between two levels only). This is exactly why a two-level system can
+    // never reach inversion: N2 saturates at 50% (N0=N2), never beyond it.
+    const flow = R*N[0] - R*N[2] - decaySlow*10*N[2];
+    N[0] -= flow*0.05; N[2] += flow*0.05;
+  } else if(scheme==="3"){
+    // ground(0) -> pumpband(3) -[fast]-> upper(2) -[slow]-> ground(0)
+    const up = R*N[0];
+    N[0] -= up*0.05; N[3] += up*0.05;
+    const relax = decayFast*N[3];
+    N[3] -= relax*0.3; N[2] += relax*0.3;
+    const emit = decaySlow*N[2];
+    N[2] -= emit*0.3; N[0] += emit*0.3;
+  } else {
+    // 4-level: ground(0) -> pumpband(3) -[fast]-> upper(2) -[lasing]-> lower(1) -[fast]-> ground(0)
+    const up = R*N[0];
+    N[0] -= up*0.05; N[3] += up*0.05;
+    const relax = decayFast*N[3];
+    N[3] -= relax*0.3; N[2] += relax*0.3;
+    const emit = decaySlow*8*N[2];
+    N[2] -= emit*0.3; N[1] += emit*0.3;
+    const drain = decayLowerToGround*N[1];
+    N[1] -= drain*0.3; N[0] += drain*0.3;
+  }
+  // normalize/clamp
+  N = N.map(x=>Math.max(0,x));
+  const sum = N.reduce((a,b)=>a+b,0);
+  N = N.map(x=>x/sum);
+}
+
+function draw(){
+  const w=canvas.width, h=canvas.height;
+  ctx.fillStyle="#050d14"; ctx.fillRect(0,0,w,h);
+  const scheme = schemeSel.value;
+  const levels = scheme==="2" ? [{label:"Ground (N0)", idx:0, y:300},{label:"Upper (N2)", idx:2, y:80}]
+              : scheme==="3" ? [{label:"Ground (N0)", idx:0, y:320},{label:"Upper / lasing (N2)", idx:2, y:180},{label:"Pump band (N3)", idx:3, y:60}]
+              : [{label:"Ground (N0)", idx:0, y:330},{label:"Lower laser (N1)", idx:1, y:230},{label:"Upper laser (N2)", idx:2, y:120},{label:"Pump band (N3)", idx:3, y:40}];
+
+  levels.forEach(lv=>{
+    ctx.strokeStyle="#c8932a"; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(120,lv.y); ctx.lineTo(650,lv.y); ctx.stroke();
+    ctx.fillStyle="#f6ecd9"; ctx.font="14px 'Source Sans 3'";
+    ctx.fillText(lv.label, 130, lv.y-8);
+    const pop = N[lv.idx];
+    const dots = Math.round(pop*40);
+    for(let i=0;i<dots;i++){
+      const x = 700 + (i%10)*18;
+      const yoff = Math.floor(i/10)*14;
+      ctx.fillStyle="#2e7d6b";
+      ctx.beginPath(); ctx.arc(x, lv.y - 6 - yoff, 5, 0, 2*Math.PI); ctx.fill();
+    }
+  });
+
+  const upperIdx = scheme==="4" ? 2 : 2;
+  const lowerIdx = scheme==="4" ? 1 : 0;
+  const inv = N[upperIdx] > N[lowerIdx] && scheme!=="2";
+  document.getElementById('statN2').textContent = "N (upper laser level): " + (N[upperIdx]*100).toFixed(1) + "%";
+  document.getElementById('statN1').textContent = "N (lower/ground level): " + (N[lowerIdx]*100).toFixed(1) + "%";
+  const invEl = document.getElementById('statInv');
+  invEl.textContent = "Inversion: " + (inv ? "YES — lasing possible!" : "NO");
+  invEl.style.background = inv ? "#2e7d6b" : "#a8452f";
+
+  const msg = document.getElementById('msg');
+  if(scheme==="2"){
+    msg.textContent = "Notice: however hard you pump, a two-level system saturates at N0 = N2 — true inversion never occurs.";
+    msg.style.color = "#a8452f";
+  } else if(inv){
+    msg.textContent = "Population inversion achieved — stimulated emission would now dominate over absorption in this medium.";
+    msg.style.color = "#2e7d6b";
+  } else {
+    msg.textContent = "Increase the pump rate to try to reach population inversion.";
+    msg.style.color = "#c8932a";
+  }
+}
+
+function loop(){ step(); draw(); requestAnimationFrame(loop); }
+schemeSel.addEventListener('change', ()=>{ N=[1,0,0,0]; });
+pumpSlider.addEventListener('input', ()=>{ document.getElementById('pumpVal').textContent = pumpSlider.value; });
+document.getElementById('pumpVal').textContent = pumpSlider.value;
+loop();
+</script>
+<footer class="pagefoot-credit">
+  <div class="wrap">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+      <img src="../../assets/invertis-logo.png" alt="Invertis University logo" style="height:22px;width:auto;">
+      <strong style="color:#f2d9a6;">Invertis University, Bareilly</strong>
+    </div>
+    Prepared &amp; maintained by <strong style="color:#f2d9a6;">Dr. S. K. Jain</strong>, Associate Professor in Physics, Department of Applied Sciences and Humanities, Invertis University, Bareilly, India &middot; <a href="mailto:sanjeev.j@invertis.org">sanjeev.j@invertis.org</a> &middot; &copy; 2026 Author.
+    <div style="margin-top:10px;text-align:center;">
+      <img src="https://visitor-badge.laobi.icu/badge?page_id=drskjain-mpy301-game" alt="Visitor count for this page" style="height:20px;vertical-align:middle;border-radius:4px;opacity:.9;">
+    </div>
+  </div>
+</footer>
+</body>
+</html>

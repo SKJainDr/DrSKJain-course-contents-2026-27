@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16x16.png">
+<link rel="icon" href="../../assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../../site.webmanifest">
+<meta name="theme-color" content="#0e2a3d">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polarimeter Sugar Lab — BAS151</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0e2a3d;--navy-deep:#081a26;--gold:#c9a227;--teal:#1f3a93;--rust:#a8452f;--paper:#f4f1e9; --paper2:#ffffff; --ink:#132a3a; --heading:#081a26; --muted:#5a6570; --tint:#faf8f1; }
+[data-theme="dark"]{ --paper:#0b1f2e; --paper2:#132a3c; --ink:#dde6ec; --line:#2a4a63; --heading:#f2d9a6; --muted:#a9b7c0; --tint:#16324a; }
+[data-theme="dark"] body{background:var(--paper);}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);font-family:'Source Sans 3',sans-serif;color:var(--ink);}
+h1{font-family:'Fraunces',serif;color:var(--heading);}
+.topbar{background:var(--navy-deep);color:#efe7d2;padding:12px 0;border-bottom:4px solid var(--gold);}
+.topbar .wrap{max-width:1000px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
+.topbar a{color:#f2d9a6;text-decoration:none;}
+.wrap{max-width:1000px;margin:0 auto;padding:20px;}
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media (max-width:760px){.panels{grid-template-columns:1fr;}}
+.panel{background:#fff;border:1px solid #d8d2c2;border-radius:12px;padding:16px;text-align:center;}
+.panel h3{margin-top:0;font-family:'Fraunces',serif;color:var(--heading);}
+canvas{background:#050d14;border-radius:8px;}
+.control{margin-top:14px;text-align:left;}
+label{display:block;font-weight:600;margin-bottom:4px;}
+.readout{font-family:'JetBrains Mono',monospace;color:var(--rust);font-weight:700;}
+input[type=range]{width:100%;}
+.btn{background:var(--rust);color:#fff;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:700;margin-top:12px;}
+#feedback{margin-top:14px;font-weight:700;min-height:50px;}
+.score-box{font-family:'Fraunces',serif;font-size:1.2rem;background:var(--navy-deep);color:#fdf6e7;padding:10px 16px;border-radius:8px;display:inline-block;}
+
+.pagefoot-credit{background:var(--navy-deep);color:#c9c2a8;padding:18px 0;margin-top:24px;font-size:.8rem;line-height:1.6;}
+.pagefoot-credit .wrap{max-width:1000px;margin:0 auto;padding:0 20px;}
+.pagefoot-credit a{color:#f2d9a6;}
+</style>
+</head>
+<body>
+<button id="themeToggleBtn" aria-label="Toggle dark/light theme" title="Toggle dark/light theme"
+  style="position:fixed;top:14px;right:16px;z-index:999;width:40px;height:40px;border-radius:50%;
+  border:2px solid var(--gold);background:var(--navy-deep);color:var(--gold);font-size:1.1rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3);">🌙</button>
+<script>
+(function(){
+  var KEY='drskjain-theme';
+  var btn=document.getElementById('themeToggleBtn');
+  function apply(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+    if(btn) btn.textContent = theme==='dark' ? '☀' : '🌙';
+  }
+  var saved = localStorage.getItem(KEY);
+  if(!saved){ saved = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+  apply(saved);
+  if(btn){
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+      localStorage.setItem(KEY, cur);
+      apply(cur);
+    });
+  }
+})();
+</script>
+
+<div class="topbar"><div class="wrap"><a href="index.html">&larr; Back to BAS151</a><span>Physics Lab — Interactive Game</span></div></div>
+<div class="wrap">
+<h1>🎮 Polarimeter Sugar Lab</h1>
+<p>A <b>mystery sugar solution</b> of unknown concentration C has been placed in the polarimeter tube. Adjust your
+trial solution's concentration (and tube length) until the analyzer needle for your solution lines up with the
+mystery solution's rotation, then submit your estimate of C. This mirrors the real experiment, where you determine
+an unknown concentration from the observed angle of optical rotation.</p>
+<div class="panels">
+  <div class="panel">
+    <h3>Your Trial Solution</h3>
+    <canvas id="c1" width="300" height="300"></canvas>
+    <div class="control">
+      <label>Tube length l: <span class="readout" id="lVal"></span> dm</label>
+      <input type="range" id="l" min="1" max="4" value="2" step="0.5">
+    </div>
+    <div class="control">
+      <label>Concentration C: <span class="readout" id="Cval"></span> g/mL</label>
+      <input type="range" id="C" min="0.01" max="0.30" value="0.10" step="0.005">
+    </div>
+    <p style="font-size:.85rem;color:#5a6570;">Your rotation: <span class="readout" id="thetaOut"></span>&deg;</p>
+    <button class="btn" onclick="checkMatch()">Submit my estimate</button>
+    <div id="feedback"></div>
+  </div>
+  <div class="panel">
+    <h3>Mystery Solution</h3>
+    <canvas id="c2" width="300" height="300"></canvas>
+    <p style="font-size:.85rem;color:#5a6570;">Sucrose solution, sodium light, tube length fixed at 2.0 dm.<br>
+    Specific rotation of sucrose: [&alpha;]<sub>D</sub> = 66.5&deg; per dm per (g/mL).</p>
+  </div>
+</div>
+</div>
+<script src="../../assets/task-settings.js"></script>
+<script>
+const SPECIFIC_ROTATION = 66.5; // deg per dm per (g/mL), sucrose
+
+function rotation(l_dm, C_gml){ return SPECIFIC_ROTATION * l_dm * C_gml; }
+
+function drawNeedle(canvas, angleDeg){
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0,0,w,h);
+  const cx=w/2, cy=h/2, r=120;
+  // dial
+  ctx.strokeStyle = '#e8452f'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(cx,cy,r,0,2*Math.PI); ctx.stroke();
+  ctx.fillStyle = '#efe7d2'; ctx.font='12px sans-serif'; ctx.textAlign='center';
+  for(let a=-90;a<=90;a+=30){
+    const rad = a*Math.PI/180;
+    const x1 = cx+ (r-8)*Math.sin(rad), y1 = cy-(r-8)*Math.cos(rad);
+    const x2 = cx+ r*Math.sin(rad), y2 = cy-r*Math.cos(rad);
+    ctx.strokeStyle='#c9a227'; ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+    ctx.fillText(a+'\u00b0', cx+(r+16)*Math.sin(rad), cy-(r+16)*Math.cos(rad)+4);
+  }
+  // needle (clamped to dial range for display)
+  const clamped = Math.max(-90, Math.min(90, angleDeg));
+  const rad = clamped*Math.PI/180;
+  ctx.strokeStyle = '#ffd76b'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+(r-20)*Math.sin(rad), cy-(r-20)*Math.cos(rad)); ctx.stroke();
+  ctx.fillStyle='#ffd76b'; ctx.beginPath(); ctx.arc(cx,cy,5,0,2*Math.PI); ctx.fill();
+  ctx.fillStyle='#efe7d2'; ctx.font='bold 14px sans-serif';
+  ctx.fillText(angleDeg.toFixed(1)+'\u00b0', cx, cy+40);
+}
+
+const lSlider = document.getElementById('l');
+const CSlider = document.getElementById('C');
+const c1 = document.getElementById('c1');
+const c2 = document.getElementById('c2');
+
+// Teacher-editable target - see /task-settings/bas151-game2.json
+const TASK = loadTaskSettings('../../task-settings/bas151-game2.json');
+const mysteryL = typeof TASK.mysteryL === 'number' ? TASK.mysteryL : 2.0;
+const mysteryC = typeof TASK.mysteryC === 'number' ? TASK.mysteryC : 0.14; // hidden concentration
+
+function update(){
+  const l = parseFloat(lSlider.value);
+  const C = parseFloat(CSlider.value);
+  document.getElementById('lVal').textContent = l.toFixed(1);
+  document.getElementById('Cval').textContent = C.toFixed(3);
+  const theta = rotation(l, C);
+  document.getElementById('thetaOut').textContent = theta.toFixed(1);
+  drawNeedle(c1, theta);
+}
+lSlider.addEventListener('input', update);
+CSlider.addEventListener('input', update);
+update();
+drawNeedle(c2, rotation(mysteryL, mysteryC));
+
+function checkMatch(){
+  const l = parseFloat(lSlider.value);
+  const C = parseFloat(CSlider.value);
+  const myTheta = rotation(l, C);
+  const mysteryTheta = rotation(mysteryL, mysteryC);
+  const err = Math.abs(myTheta-mysteryTheta);
+  const fb = document.getElementById('feedback');
+  if(err < 1.0){
+    fb.innerHTML = '<div class="score-box">Excellent match! The mystery solution\'s concentration was C &asymp; '+mysteryC.toFixed(3)+' g/mL (l = '+mysteryL.toFixed(1)+' dm).</div>';
+  } else if(err < 4){
+    fb.innerHTML = '<span style="color:#c8932a;">Close — fine-tune your concentration a little more.</span>';
+  } else if(myTheta < mysteryTheta){
+    fb.innerHTML = '<span style="color:#a8452f;">Your rotation is smaller than the mystery solution\'s — try a higher concentration (or longer tube).</span>';
+  } else {
+    fb.innerHTML = '<span style="color:#a8452f;">Your rotation is larger than the mystery solution\'s — try a lower concentration (or shorter tube).</span>';
+  }
+}
+</script>
+<footer class="pagefoot-credit">
+  <div class="wrap">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+      <img src="../../assets/invertis-logo.png" alt="Invertis University logo" style="height:22px;width:auto;">
+      <strong style="color:#f2d9a6;">Invertis University, Bareilly</strong>
+    </div>
+    Prepared &amp; maintained by <strong style="color:#f2d9a6;">Dr. S. K. Jain</strong>, Associate Professor in Physics, Department of Applied Sciences and Humanities, Invertis University, Bareilly, India &middot; <a href="mailto:sanjeev.j@invertis.org">sanjeev.j@invertis.org</a> &middot; &copy; 2026 Author.
+    <div style="margin-top:10px;text-align:center;">
+      <img src="https://visitor-badge.laobi.icu/badge?page_id=drskjain-bas151-game2" alt="Visitor count for this page" style="height:20px;vertical-align:middle;border-radius:4px;opacity:.9;">
+    </div>
+  </div>
+</footer>
+</body>
+</html>

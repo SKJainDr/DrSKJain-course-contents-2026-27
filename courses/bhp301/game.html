@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16x16.png">
+<link rel="icon" href="../../assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../../site.webmanifest">
+<meta name="theme-color" content="#0e2a3d">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gauss's Law Explorer — BHP301</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0e2a3d;--navy-deep:#081a26;--gold:#c9a227;--teal:#1f3a93;--rust:#a8452f;--paper:#f4f1e9; --paper2:#ffffff; --ink:#132a3a; --heading:#081a26; --muted:#5a6570; --tint:#faf8f1; }
+[data-theme="dark"]{ --paper:#0b1f2e; --paper2:#132a3c; --ink:#dde6ec; --line:#2a4a63; --heading:#f2d9a6; --muted:#a9b7c0; --tint:#16324a; }
+[data-theme="dark"] body{background:var(--paper);}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);font-family:'Source Sans 3',sans-serif;color:var(--ink);}
+h1{font-family:'Fraunces',serif;color:var(--heading);}
+.topbar{background:var(--navy-deep);color:#efe7d2;padding:12px 0;border-bottom:4px solid var(--gold);}
+.topbar .wrap{max-width:1000px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
+.topbar a{color:#f2d9a6;text-decoration:none;}
+.wrap{max-width:1000px;margin:0 auto;padding:20px;}
+.game-card{background:var(--paper2);border:1px solid #d8d2c2;border-radius:12px;padding:22px;}
+.stage{background:#eef3f2;border:2px dashed #9db8ae;border-radius:10px;position:relative;height:420px;overflow:hidden;cursor:crosshair;}
+.charge{
+  position:absolute;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-weight:700;color:#fff;font-family:'JetBrains Mono',monospace;cursor:grab;user-select:none;box-shadow:0 2px 6px rgba(0,0,0,.3);
+}
+.pos{background:var(--rust);}
+.neg{background:var(--navy);}
+.gauss-surface{
+  position:absolute;border:3px solid var(--gold);border-radius:50%;background:rgba(200,147,42,.08);pointer-events:none;
+}
+.toolbar{display:flex;gap:10px;margin:14px 0;flex-wrap:wrap;align-items:center;}
+.btn{background:var(--rust);color:#fff;border:none;padding:9px 16px;border-radius:6px;cursor:pointer;font-weight:700;}
+.btn.secondary{background:var(--teal);}
+.readout{font-family:'JetBrains Mono',monospace;background:var(--navy);color:#f6ecd9;padding:10px 16px;border-radius:8px;display:inline-block;margin-top:10px;}
+.q-row{margin-top:16px;background:var(--navy-deep);color:#f6ecd9;border-radius:8px;padding:14px 18px;}
+input[type=number]{padding:6px 10px;border-radius:6px;border:none;width:100px;}
+#feedback{margin-top:10px;font-weight:700;min-height:24px;}
+
+.pagefoot-credit{background:var(--navy-deep);color:#c9c2a8;padding:18px 0;margin-top:24px;font-size:.8rem;line-height:1.6;}
+.pagefoot-credit .wrap{max-width:1000px;margin:0 auto;padding:0 20px;}
+.pagefoot-credit a{color:#f2d9a6;}
+</style>
+</head>
+<body>
+<button id="themeToggleBtn" aria-label="Toggle dark/light theme" title="Toggle dark/light theme"
+  style="position:fixed;top:14px;right:16px;z-index:999;width:40px;height:40px;border-radius:50%;
+  border:2px solid var(--gold);background:var(--navy-deep);color:var(--gold);font-size:1.1rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3);">🌙</button>
+<script>
+(function(){
+  var KEY='drskjain-theme';
+  var btn=document.getElementById('themeToggleBtn');
+  function apply(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+    if(btn) btn.textContent = theme==='dark' ? '☀' : '🌙';
+  }
+  var saved = localStorage.getItem(KEY);
+  if(!saved){ saved = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+  apply(saved);
+  if(btn){
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+      localStorage.setItem(KEY, cur);
+      apply(cur);
+    });
+  }
+})();
+</script>
+
+<div class="topbar"><div class="wrap"><a href="index.html">&larr; Back to BHP301</a><span>Electricity &amp; Magnetism — Interactive Game</span></div></div>
+<div class="wrap">
+<h1>🎮 Gauss's Law Explorer</h1>
+<p>Drag point charges in and out of the gold Gaussian sphere. Only the <b>enclosed</b> charge determines the
+net flux ∮E·dA = Q<sub>enc</sub>/ε₀ — charges outside contribute zero net flux, however close they are to the
+surface. Predict the flux, then reveal the answer.</p>
+<div class="game-card">
+  <div class="toolbar">
+    <button class="btn" onclick="addCharge(1)">+ Add +q charge</button>
+    <button class="btn secondary" onclick="addCharge(-1)">+ Add −q charge</button>
+    <button class="btn" style="background:#5a6570" onclick="reset()">Reset</button>
+  </div>
+  <div class="stage" id="stage">
+    <div class="gauss-surface" id="gauss"></div>
+  </div>
+  <div class="readout" id="readout">Enclosed charge: 0q &nbsp;|&nbsp; Net flux Φ: 0</div>
+  <div class="q-row">
+    <b>Predict:</b> what is the net flux through the Gaussian surface right now (in units of q/ε₀)?
+    <input type="number" id="guess" step="0.1">
+    <button class="btn" onclick="checkFlux()">Check</button>
+    <div id="feedback"></div>
+  </div>
+</div>
+</div>
+<script>
+const stage = document.getElementById('stage');
+const gauss = document.getElementById('gauss');
+let charges = [];
+let idCounter = 0;
+
+function layoutGauss(){
+  const size = 220;
+  gauss.style.width = size+"px";
+  gauss.style.height = size+"px";
+  gauss.style.left = (stage.clientWidth/2 - size/2) + "px";
+  gauss.style.top = (stage.clientHeight/2 - size/2) + "px";
+}
+layoutGauss();
+window.addEventListener('resize', layoutGauss);
+
+function addCharge(sign){
+  const el = document.createElement('div');
+  const id = idCounter++;
+  el.className = 'charge ' + (sign>0?'pos':'neg');
+  el.textContent = sign>0 ? '+q' : '−q';
+  el.style.left = (30+Math.random()*(stage.clientWidth-350)) + "px";
+  el.style.top = (30+Math.random()*(stage.clientHeight-60)) + "px";
+  el.dataset.sign = sign;
+  el.dataset.id = id;
+  makeDraggable(el);
+  stage.appendChild(el);
+  charges.push({id, el, sign});
+  updateReadout();
+}
+
+function makeDraggable(el){
+  let offX, offY, dragging=false;
+  el.addEventListener('mousedown', e=>{
+    dragging = true;
+    const r = el.getBoundingClientRect();
+    offX = e.clientX - r.left; offY = e.clientY - r.top;
+    el.style.zIndex = 10;
+  });
+  window.addEventListener('mousemove', e=>{
+    if(!dragging) return;
+    const sr = stage.getBoundingClientRect();
+    let x = e.clientX - sr.left - offX;
+    let y = e.clientY - sr.top - offY;
+    x = Math.max(0, Math.min(stage.clientWidth-34, x));
+    y = Math.max(0, Math.min(stage.clientHeight-34, y));
+    el.style.left = x+"px"; el.style.top = y+"px";
+    updateReadout();
+  });
+  window.addEventListener('mouseup', ()=>{ dragging=false; });
+  // touch support
+  el.addEventListener('touchstart', e=>{
+    dragging=true;
+    const t = e.touches[0]; const r = el.getBoundingClientRect();
+    offX = t.clientX - r.left; offY = t.clientY - r.top;
+  }, {passive:true});
+  window.addEventListener('touchmove', e=>{
+    if(!dragging) return;
+    const t = e.touches[0]; const sr = stage.getBoundingClientRect();
+    let x = t.clientX - sr.left - offX; let y = t.clientY - sr.top - offY;
+    x = Math.max(0, Math.min(stage.clientWidth-34, x));
+    y = Math.max(0, Math.min(stage.clientHeight-34, y));
+    el.style.left = x+"px"; el.style.top = y+"px";
+    updateReadout();
+  }, {passive:true});
+  window.addEventListener('touchend', ()=>{ dragging=false; });
+}
+
+function isEnclosed(el){
+  const gr = gauss.getBoundingClientRect();
+  const cr = el.getBoundingClientRect();
+  const gcx = gr.left+gr.width/2, gcy = gr.top+gr.height/2;
+  const ccx = cr.left+cr.width/2, ccy = cr.top+cr.height/2;
+  const dist = Math.hypot(ccx-gcx, ccy-gcy);
+  return dist < gr.width/2 - 8;
+}
+
+let currentEnclosed = 0;
+function updateReadout(){
+  let enc = 0;
+  charges.forEach(c=>{ if(isEnclosed(c.el)) enc += c.sign; });
+  currentEnclosed = enc;
+  document.getElementById('readout').textContent =
+    "Enclosed charge: " + (enc>0? "+":"") + enc + "q  |  Net flux Φ = " + (enc>0? "+":"") + enc + " q/ε₀";
+}
+
+function reset(){
+  charges.forEach(c=>c.el.remove());
+  charges = [];
+  updateReadout();
+  document.getElementById('feedback').textContent = "";
+}
+
+function checkFlux(){
+  const val = parseFloat(document.getElementById('guess').value);
+  const fb = document.getElementById('feedback');
+  if(isNaN(val)){ fb.textContent="Enter a number first."; fb.style.color="#a8452f"; return; }
+  if(Math.abs(val-currentEnclosed) < 0.05){
+    fb.textContent = "Correct! Only the enclosed charge (" + currentEnclosed + "q) determines the flux — charges outside contribute zero net flux.";
+    fb.style.color = "#2e7d6b";
+  } else {
+    fb.textContent = "Not quite — recheck which charges are actually inside the gold sphere; charge outside contributes nothing to net flux.";
+    fb.style.color = "#a8452f";
+  }
+}
+
+// seed with two charges
+addCharge(1); addCharge(-1);
+</script>
+<footer class="pagefoot-credit">
+  <div class="wrap">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+      <img src="../../assets/invertis-logo.png" alt="Invertis University logo" style="height:22px;width:auto;">
+      <strong style="color:#f2d9a6;">Invertis University, Bareilly</strong>
+    </div>
+    Prepared &amp; maintained by <strong style="color:#f2d9a6;">Dr. S. K. Jain</strong>, Associate Professor in Physics, Department of Applied Sciences and Humanities, Invertis University, Bareilly, India &middot; <a href="mailto:sanjeev.j@invertis.org">sanjeev.j@invertis.org</a> &middot; &copy; 2026 Author.
+    <div style="margin-top:10px;text-align:center;">
+      <img src="https://visitor-badge.laobi.icu/badge?page_id=drskjain-bhp301-game" alt="Visitor count for this page" style="height:20px;vertical-align:middle;border-radius:4px;opacity:.9;">
+    </div>
+  </div>
+</footer>
+</body>
+</html>

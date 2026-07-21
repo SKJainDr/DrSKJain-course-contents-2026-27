@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16x16.png">
+<link rel="icon" href="../../assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../../site.webmanifest">
+<meta name="theme-color" content="#0e2a3d">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oscillator Design Challenge — MPY351</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0e2a3d;--navy-deep:#081a26;--gold:#c9a227;--teal:#1f3a93;--rust:#a8452f;--paper:#f4f1e9;--danger:#b3261e; --paper2:#ffffff; --ink:#132a3a; --heading:#081a26; --muted:#5a6570; --tint:#faf8f1; }
+[data-theme="dark"]{ --paper:#0b1f2e; --paper2:#132a3c; --ink:#dde6ec; --line:#2a4a63; --heading:#f2d9a6; --muted:#a9b7c0; --tint:#16324a; }
+[data-theme="dark"] body{background:var(--paper);}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);font-family:'Source Sans 3',sans-serif;color:var(--ink);}
+h1{font-family:'Fraunces',serif;color:var(--heading);}
+.topbar{background:var(--navy-deep);color:#efe7d2;padding:12px 0;border-bottom:4px solid var(--gold);}
+.topbar .wrap{max-width:1000px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
+.topbar a{color:#f2d9a6;text-decoration:none;}
+.wrap{max-width:1000px;margin:0 auto;padding:20px;}
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media (max-width:760px){.panels{grid-template-columns:1fr;}}
+.panel{background:#fff;border:1px solid #d8d2c2;border-radius:12px;padding:16px;}
+.panel h3{margin-top:0;font-family:'Fraunces',serif;color:var(--navy-deep);text-align:center;}
+canvas{background:#050d14;border-radius:8px;display:block;margin:0 auto;}
+.control{margin-top:14px;text-align:left;}
+label{display:block;font-weight:600;margin-bottom:4px;}
+.readout{font-family:'JetBrains Mono',monospace;color:var(--rust);font-weight:700;}
+input[type=range]{width:100%;}
+.btn{background:var(--rust);color:#fff;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:700;margin-top:12px;}
+#feedback{margin-top:14px;font-weight:700;min-height:50px;}
+.score-box{font-family:'Fraunces',serif;font-size:1.1rem;background:var(--navy-deep);color:#fdf6e7;padding:10px 16px;border-radius:8px;display:inline-block;}
+.mystery-box{background:#fbf3dc;border:2px dashed var(--gold);border-radius:8px;padding:14px;text-align:center;font-size:1rem;}
+
+.pagefoot-credit{background:var(--navy-deep);color:#c9c2a8;padding:18px 0;margin-top:24px;font-size:.8rem;line-height:1.6;}
+.pagefoot-credit .wrap{max-width:1000px;margin:0 auto;padding:0 20px;}
+.pagefoot-credit a{color:#f2d9a6;}
+</style>
+</head>
+<body>
+<button id="themeToggleBtn" aria-label="Toggle dark/light theme" title="Toggle dark/light theme"
+  style="position:fixed;top:14px;right:16px;z-index:999;width:40px;height:40px;border-radius:50%;
+  border:2px solid var(--gold);background:var(--navy-deep);color:var(--gold);font-size:1.1rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3);">🌙</button>
+<script>
+(function(){
+  var KEY='drskjain-theme';
+  var btn=document.getElementById('themeToggleBtn');
+  function apply(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+    if(btn) btn.textContent = theme==='dark' ? '☀' : '🌙';
+  }
+  var saved = localStorage.getItem(KEY);
+  if(!saved){ saved = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+  apply(saved);
+  if(btn){
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+      localStorage.setItem(KEY, cur);
+      apply(cur);
+    });
+  }
+})();
+</script>
+
+<div class="topbar"><div class="wrap"><a href="index.html">&larr; Back to MPY351</a><span>Electronics Lab — Interactive Game</span></div></div>
+<div class="wrap">
+<h1>🎮 Oscillator Design Challenge</h1>
+<p>You're designing an LC tank circuit (as used in Colpitts / Hartley oscillators) to generate a
+<b>target frequency</b>. The resonant frequency is f = 1 / (2&pi;&radic;(LC)). Choose an inductor L and capacitor C
+combination that hits the target — in real design there are many valid (L, C) pairs for the same frequency, exactly
+like here.</p>
+<div class="panels">
+  <div class="panel">
+    <h3>Your LC Tank</h3>
+    <canvas id="c1" width="380" height="180"></canvas>
+    <div class="control">
+      <label>Inductance, L: <span class="readout" id="LVal"></span> mH</label>
+      <input type="range" id="L" min="1" max="10" value="2" step="0.05">
+    </div>
+    <div class="control">
+      <label>Capacitance, C: <span class="readout" id="Cval"></span> nF</label>
+      <input type="range" id="C" min="1" max="10" value="2" step="0.05">
+    </div>
+    <p>Your frequency: <span class="readout" id="fOut"></span> kHz</p>
+    <button class="btn" onclick="checkMatch()">Submit my design</button>
+    <div id="feedback"></div>
+  </div>
+  <div class="panel">
+    <h3>Design Target</h3>
+    <div class="mystery-box">
+      <p style="margin:0 0 8px 0;">The circuit must oscillate at:</p>
+      <div class="readout" id="targetF" style="font-size:1.4rem;"></div>
+    </div>
+    <p style="font-size:.85rem;color:#5a6570;margin-top:14px;">
+      f = 1 / (2&pi;&radic;(LC)). Larger L or C both lower the frequency; smaller L or C both raise it.<br>
+      Any (L, C) pair that reaches the target (within 3%) is accepted.
+    </p>
+  </div>
+</div>
+</div>
+<script src="../../assets/task-settings.js"></script>
+<script>
+// Teacher-editable target value - see /task-settings/mpy351-game2.json
+const TASK = loadTaskSettings('../../task-settings/mpy351-game2.json');
+function lcFreqHz(L_mH, C_nF){
+  const L_H = L_mH*1e-3, C_F = C_nF*1e-9;
+  return 1/(2*Math.PI*Math.sqrt(L_H*C_F));
+}
+
+function drawTank(canvas, L_mH, C_nF, f_kHz){
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0,0,w,h);
+  const cy = h/2;
+  // inductor coil (left)
+  ctx.strokeStyle = '#c9a227'; ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  const coilX0 = 60, coilX1 = 160, loops = 6;
+  ctx.moveTo(coilX0-20, cy);
+  ctx.lineTo(coilX0, cy);
+  for(let i=0;i<loops;i++){
+    const x = coilX0 + (i+0.5)*(coilX1-coilX0)/loops;
+    ctx.arc(x, cy, (coilX1-coilX0)/loops/2, Math.PI, 0, false);
+  }
+  ctx.lineTo(coilX1+20, cy);
+  ctx.stroke();
+  ctx.fillStyle='#efe7d2'; ctx.font='12px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('L = '+L_mH.toFixed(2)+' mH', (coilX0+coilX1)/2, cy-28);
+
+  // capacitor (right)
+  const capX = 260;
+  ctx.strokeStyle = '#e8452f'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(capX-8, cy-30); ctx.lineTo(capX-8, cy+30); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(capX+8, cy-30); ctx.lineTo(capX+8, cy+30); ctx.stroke();
+  ctx.strokeStyle = '#1f3a93'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(coilX1+20, cy); ctx.lineTo(capX-8, cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(capX+8, cy); ctx.lineTo(capX+60, cy); ctx.lineTo(capX+60, cy+50);
+  ctx.lineTo(coilX0-20, cy+50); ctx.lineTo(coilX0-20, cy); ctx.stroke();
+  ctx.fillStyle='#efe7d2';
+  ctx.fillText('C = '+C_nF.toFixed(2)+' nF', capX, cy-40);
+
+  ctx.fillStyle = '#ffd76b'; ctx.font='bold 14px sans-serif';
+  ctx.fillText('f = '+f_kHz.toFixed(2)+' kHz', w/2, h-16);
+}
+
+const LSlider = document.getElementById('L');
+const CSlider = document.getElementById('C');
+const c1 = document.getElementById('c1');
+const targetF_kHz = typeof TASK.targetF_kHz === 'number' ? TASK.targetF_kHz : 50; // hidden design target
+
+function update(){
+  const L = parseFloat(LSlider.value);
+  const C = parseFloat(CSlider.value);
+  document.getElementById('LVal').textContent = L.toFixed(2);
+  document.getElementById('Cval').textContent = C.toFixed(2);
+  const f_kHz = lcFreqHz(L, C)/1000;
+  document.getElementById('fOut').textContent = f_kHz.toFixed(2);
+  drawTank(c1, L, C, f_kHz);
+}
+LSlider.addEventListener('input', update);
+CSlider.addEventListener('input', update);
+update();
+document.getElementById('targetF').textContent = targetF_kHz.toFixed(1) + ' kHz';
+
+function checkMatch(){
+  const L = parseFloat(LSlider.value);
+  const C = parseFloat(CSlider.value);
+  const f_kHz = lcFreqHz(L, C)/1000;
+  const err = Math.abs(f_kHz-targetF_kHz)/targetF_kHz;
+  const fb = document.getElementById('feedback');
+  if(err < 0.03){
+    fb.innerHTML = '<div class="score-box">Excellent design! Your LC combination hits the target frequency within 3%.</div>';
+  } else if(err < 0.10){
+    fb.innerHTML = '<span style="color:#c8932a;">Close — fine-tune L or C a little more.</span>';
+  } else if(f_kHz > targetF_kHz){
+    fb.innerHTML = '<span style="color:#b3261e;">Your frequency is too high — increase L and/or C.</span>';
+  } else {
+    fb.innerHTML = '<span style="color:#b3261e;">Your frequency is too low — decrease L and/or C.</span>';
+  }
+}
+</script>
+<footer class="pagefoot-credit">
+  <div class="wrap">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+      <img src="../../assets/invertis-logo.png" alt="Invertis University logo" style="height:22px;width:auto;">
+      <strong style="color:#f2d9a6;">Invertis University, Bareilly</strong>
+    </div>
+    Prepared &amp; maintained by <strong style="color:#f2d9a6;">Dr. S. K. Jain</strong>, Associate Professor in Physics, Department of Applied Sciences and Humanities, Invertis University, Bareilly, India &middot; <a href="mailto:sanjeev.j@invertis.org">sanjeev.j@invertis.org</a> &middot; &copy; 2026 Author.
+    <div style="margin-top:10px;text-align:center;">
+      <img src="https://visitor-badge.laobi.icu/badge?page_id=drskjain-mpy351-game2" alt="Visitor count for this page" style="height:20px;vertical-align:middle;border-radius:4px;opacity:.9;">
+    </div>
+  </div>
+</footer>
+</body>
+</html>
