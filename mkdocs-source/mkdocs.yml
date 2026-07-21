@@ -1,0 +1,116 @@
+site_name: Advanced Laser & Optics Learning Lab — User Guide
+site_description: Theory, procedure, observation and result documentation for the Advanced Laser & Optics Learning Lab virtual simulator
+site_author: Dr. S. K. Jain
+# Required so mkdocs-material emits correct absolute paths on generated
+# pages that must work from any URL depth (currently just 404.html) -
+# without this, those paths default to the domain root instead of this
+# GitHub Pages *project* site's subpath, breaking the logo/CSS/JS/links
+# on the 404 page specifically.
+site_url: https://skjaindr.github.io/DrSKJain-course-contents-2026-27/docs/
+copyright: >
+  © 2026 Author. Prepared &amp; maintained by
+  <strong>Dr. S. K. Jain</strong>, Associate Professor in Physics, Department of Applied Sciences and Humanities, Invertis University, Bareilly, India —
+  <a href="mailto:sanjeev.j@invertis.org">sanjeev.j@invertis.org</a>
+site_dir: ../docs
+
+# The site links out to ../labs/advanced-laser-optics-lab.html (the interactive
+# simulator), which lives one level above docs_dir as a sibling folder in the
+# repo, not inside this MkDocs project. Those are correct, intentional links,
+# but MkDocs' own link-checker only knows about files under docs_dir, so it
+# would otherwise flag them as broken even in a successful build. This keeps
+# --strict useful for genuine internal errors while allowing that one known
+# category of external, out-of-tree links.
+validation:
+  links:
+    not_found: ignore
+theme:
+  name: material
+  custom_dir: overrides
+  logo: assets/icon.svg
+  favicon: assets/favicon.png
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark theme
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light theme
+  font:
+    text: Inter
+    code: Roboto Mono
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - toc.integrate
+    - content.code.copy
+    - search.highlight
+extra_css:
+  - stylesheets/extra.css
+hooks:
+  - hooks.py
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.arithmatex:
+      generic: true
+  - tables
+  - toc:
+      permalink: true
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+  - https://unpkg.com/three@0.128.0/build/three.min.js
+  - https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js
+  - javascripts/apparatus3d.js
+  - javascripts/errorcalc.js
+  - javascripts/graph-paste.js
+nav:
+  - Home: index.md
+  - Formula Reference: formula-reference.md
+  - Glossary: glossary.md
+  - Wave Optics:
+      - Young's Double-Slit Interference: experiments/youngs-double-slit.md
+      - Single-, Double- and N-Slit Diffraction: experiments/slit-diffraction.md
+      - Polarization & Malus's Law: experiments/polarization-malus.md
+      - Dispersion by a Prism: experiments/prism-dispersion.md
+      - Michelson Interferometer: experiments/michelson-interferometer.md
+  - Geometrical Optics:
+      - Focusing of Light by a Convex Lens: experiments/convex-lens-focusing.md
+      - Image Formation by a Compound Lens System: experiments/compound-lens-system.md
+  - Particle Nature of Light:
+      - The Photoelectric Effect: experiments/photoelectric-effect.md
+      - Compton Scattering: experiments/compton-scattering.md
+      - Single-Photon Double-Slit Build-up: experiments/single-photon-double-slit.md
+  - Laser Light Concepts:
+      - Coherence Length & Coherence Time: experiments/coherence.md
+      - Directionality & Beam Quality: experiments/directionality-beam-quality.md
+      - Monochromaticity & Spectral Purity: experiments/monochromaticity-purity.md
+      - Making a Hologram: experiments/holography.md
+  - Practical Applications:
+      - Laser Doppler Vibrometry: experiments/laser-doppler-vibrometry.md
+      - Optical Fiber NA & Attenuation: experiments/optical-fiber-na-attenuation.md
+      - Laser Speckle Metrology: experiments/laser-speckle-metrology.md
+  - Explore & Stay Safe:
+      - Red → UV Wavelength & Photon-Energy Explorer: experiments/wavelength-explorer.md
+      - Safety: safety.md
+  - Industrial Workshops:
+      - 'WS1: Laser Drilling': workshops/laser-drilling.md
+      - 'WS2: Laser Cutting': workshops/laser-cutting.md
+      - 'WS3: Laser Welding': workshops/laser-welding.md
+      - 'WS4: Laser Surface Alloying': workshops/laser-surface-alloying.md
+      - 'WS5: Laser Chemical Vapour Deposition (LCVD)': workshops/laser-cvd.md
+      - 'WS6: Laser Hardening & Annealing': workshops/laser-hardening-annealing.md
+      - 'WS7: LIDAR Ranging': workshops/lidar-ranging.md
