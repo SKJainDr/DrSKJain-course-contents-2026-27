@@ -1,0 +1,4 @@
+{
+  "_comment": "Oscillator Design Challenge (MPY351, game2.html). targetF_kHz = hidden target LC oscillator frequency in kHz that the student must reach by choosing L and C.",
+  "targetF_kHz": 50
+}

@@ -1,0 +1,6 @@
+{
+  "_comment": "Interference Explorer (BAS101, game.html). Student must match the fringe width beta = (lambda*D)/d for this fixed configuration. Units: wavelength_nm in nanometres, screen_distance_m in metres, slit_separation_um in micrometres.",
+  "wavelength_nm": 500,
+  "screen_distance_m": 1.0,
+  "slit_separation_um": 100
+}

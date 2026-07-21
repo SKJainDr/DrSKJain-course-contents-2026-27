@@ -1,0 +1,4 @@
+{
+  "_comment": "Relativity Speed Lab (BAS101, game2.html). mysteryV is the mystery spacecraft's hidden speed as a fraction of light speed (v/c), between 0 and 1.",
+  "mysteryV": 0.8
+}

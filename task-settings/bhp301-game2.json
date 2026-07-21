@@ -1,0 +1,5 @@
+{
+  "_comment": "Solenoid Field Challenge (BHP301, game2.html). mysteryN = hidden turn density in turns per metre, mysteryI = hidden current in amperes. The target B field shown to students is calculated from these.",
+  "mysteryN": 2400,
+  "mysteryI": 3.5
+}

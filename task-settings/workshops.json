@@ -1,0 +1,39 @@
+{
+  "_comment": "Target (optimal) values and allowed tolerance for every slider in each of the 7 industrial workshops in the Advanced Laser & Optics Learning Lab (labs/advanced-laser-optics-lab.html). A student's score on a slider is 100% at 'optimal' and falls to 0% once they are 'tolerance' away from it. Edit any number below and reload the lab page - no other file needs to change. wsLidar_trueDistance_m is the hidden true target distance (metres) for the LIDAR workshop; the true echo time shown to students is calculated from it.",
+
+  "wsDrilling": {
+    "energy":   { "optimal": 60,   "tolerance": 25 },
+    "duration": { "optimal": 15,   "tolerance": 10 },
+    "pulses":   { "optimal": 180,  "tolerance": 80 }
+  },
+  "wsCutting": {
+    "power": { "optimal": 2000, "tolerance": 700 },
+    "speed": { "optimal": 1500, "tolerance": 600 },
+    "gas":   { "optimal": 4,    "tolerance": 2   }
+  },
+  "wsWelding": {
+    "power": { "optimal": 1800, "tolerance": 600 },
+    "speed": { "optimal": 1000, "tolerance": 400 },
+    "focus": { "optimal": 0,    "tolerance": 1.5 }
+  },
+  "wsAlloying": {
+    "powerd": { "optimal": 5,  "tolerance": 2 },
+    "feed":   { "optimal": 8,  "tolerance": 4 },
+    "speed":  { "optimal": 10, "tolerance": 5 }
+  },
+  "wsLCVD": {
+    "power": { "optimal": 15, "tolerance": 6  },
+    "flow":  { "optimal": 20, "tolerance": 10 },
+    "speed": { "optimal": 2,  "tolerance": 1  }
+  },
+  "wsHardening": {
+    "power": { "optimal": 1900, "tolerance": 400 },
+    "speed": { "optimal": 30,   "tolerance": 6   },
+    "spot":  { "optimal": 5,    "tolerance": 1.5 }
+  },
+  "wsLidar": {
+    "trueDistance_m": 45,
+    "cursor":    { "tolerance": 35 },
+    "threshold": { "optimal": 50, "tolerance": 25 }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "_comment": "Polarimeter Sugar Lab (BAS151, game2.html). mysteryL = tube length in dm, mysteryC = hidden sugar concentration in g/mL.",
+  "mysteryL": 2.0,
+  "mysteryC": 0.14
+}

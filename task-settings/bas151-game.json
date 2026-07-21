@@ -1,0 +1,5 @@
+{
+  "_comment": "Newton's Rings Virtual Lab (BAS151, game.html). mysteryLam = hidden wavelength in nm, mysteryR = hidden lens radius of curvature in cm.",
+  "mysteryLam": 589,
+  "mysteryR": 220
+}

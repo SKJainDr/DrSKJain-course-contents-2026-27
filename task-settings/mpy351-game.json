@@ -1,0 +1,6 @@
+{
+  "_comment": "Curve Tracer Challenge (MPY351, game.html). The hidden target diode's parameters the student must reproduce: Vg = cut-in/threshold voltage in volts, I0 = reverse saturation current in amperes, eta = ideality factor.",
+  "targetVg": 0.60,
+  "targetI0": 1e-8,
+  "targetEta": 1.1
+}
