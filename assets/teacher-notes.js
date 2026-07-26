@@ -68,7 +68,7 @@
 
   function fileCardHtml(name, downloadUrl) {
     return (
-      '<a class="res-card" href="' + downloadUrl + '" target="_blank" rel="noopener">' +
+      '<a class="res-card" href="' + downloadUrl + '" download="' + escapeHtml(name) + '" target="_blank" rel="noopener">' +
       '<div class="icon">' + iconFor(name) + '</div><div class="label">' + escapeHtml(name) + "</div>" +
       '<div class="dl">Download &rarr;</div></a>'
     );

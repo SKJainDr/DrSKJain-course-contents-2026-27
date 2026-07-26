@@ -148,6 +148,23 @@ footer a{color:#f2d9a6;}
 .exam-header td,.exam-header th{border:none;padding:2px 6px;font-size:.9rem;}
 .qno{font-weight:700;color:var(--rust);}
 .game-frame{border:2px solid var(--line);border-radius:10px;overflow:hidden;background:#0b1e2c;}
+
+/* --- Phase 1: sitewide download/print support --- */
+.dl-bar{max-width:1080px;margin:14px auto 0;padding:0 24px;display:flex;gap:10px;flex-wrap:wrap;}
+.dl-bar button{
+  font:inherit;font-weight:700;font-size:.85rem;letter-spacing:.02em;cursor:pointer;
+  background:var(--navy,#0e2a3d);color:#fbead0;border:1px solid var(--gold,#c9a227);
+  border-radius:8px;padding:9px 16px;display:inline-flex;align-items:center;gap:8px;
+}
+.dl-bar button:hover{background:var(--gold,#c9a227);color:#0e2a3d;}
+@media print{
+  .topbar,.dl-bar,footer,#themeToggleBtn,.toc{display:none !important;}
+  body{background:#fff !important;}
+  .hero{background:#fff !important;color:#000 !important;}
+  .hero *{color:#000 !important;}
+  a{color:#000 !important;text-decoration:none !important;}
+  .card,.note-block{box-shadow:none !important;border:none !important;}
+}
 </style>
 </head>
 <body>
@@ -188,6 +205,8 @@ footer a{color:#f2d9a6;}
   <h1><span class="code-badge">MPY301</span>Laser Physics</h1>
   <p class="sub">M.Sc. Physics (Electronics Specialization) — Semester III &middot; L-3 T-1 P-0, Credits: 4</p>
 </div></div>
+
+<div class="dl-bar"><button onclick="dlPrintPage()">🖨️ Download / Print this page (PDF)</button></div>
 <div class="section"><div class="wrap">
   <div class="card">
     <p><i>Reproduced from the official Scheme of Instruction &amp; Syllabi published by
@@ -216,5 +235,9 @@ footer a{color:#f2d9a6;}
     </div>
   </div>
 </footer>
+
+<script>
+function dlPrintPage(){ window.print(); }
+</script>
 </body>
 </html>
