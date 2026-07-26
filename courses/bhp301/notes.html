@@ -165,7 +165,24 @@ footer a{color:#f2d9a6;}
   a{color:#000 !important;text-decoration:none !important;}
   .card,.note-block{box-shadow:none !important;border:none !important;}
 }
+
+/* --- Extended detailed notes (unit-wise merge) --- */
+.ext-note{margin:22px 0 6px;padding-top:14px;border-top:2px dashed var(--line);}
+.ext-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.ext-tag{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  background:var(--gold);color:#0e2a3d;padding:3px 9px;border-radius:20px;}
+.ext-note h4{margin:14px 0 6px;color:var(--heading);}
+.ext-note h5{margin:14px 0 4px;color:var(--rust);}
+.ext-note h6{margin:10px 0 4px;color:var(--muted);font-size:1rem;}
+.ext-note p{margin:8px 0;}
+.ext-note table.ext-table{border-collapse:collapse;margin:12px 0;width:100%;font-size:.92rem;}
+.ext-note table.ext-table td, .ext-note table.ext-table th{border:1px solid var(--line);padding:6px 10px;text-align:left;}
+.ext-note table.ext-table th{background:var(--tint);}
+.ext-note img{display:block;}
+.ext-note ul,.ext-note ol{margin:8px 0;padding-left:24px;}
 </style>
+<script>window.MathJax = {tex:{inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]}};</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
 </head>
 <body>
 <button id="themeToggleBtn" aria-label="Toggle dark/light theme" title="Toggle dark/light theme"
@@ -206,7 +223,7 @@ footer a{color:#f2d9a6;}
   <p class="sub">Detailed, exam-oriented notes covering every syllabus unit.</p>
 </div></div>
 
-<div class="dl-bar"><button onclick="dlPrintPage()">🖨️ Download / Print this page (PDF)</button></div>
+<div class="dl-bar"><button onclick="dlPrintPage()">🖨️ Download / Print this page (PDF)</button></div><div class="dl-bar"><a href="downloads/BHP301_Lecture_Notes.docx" download style="text-decoration:none;"><button>📘 Download full detailed notes (DOCX)</button></a></div>
 <div class="section"><div class="wrap">
   <div class="toc"><a href="#u0">Unit 1 — Electrostatics</a><a href="#u1">Unit 2 — Dielectrics</a><a href="#u2">Unit 3 — Magnetostatics</a><a href="#u3">Unit 4 — Electromagnetic Induction & AC Circuits</a><a href="#u4">Unit 5 — Network Theorems & Maxwell's Equations</a></div>
   <div class="card"><div class="note-block" id="u0"><h3>Unit 1 — Electrostatics</h3>
@@ -221,7 +238,133 @@ guarantees that a solution satisfying the correct boundary conditions is the onl
 <p><b>Electric dipole:</b> potential V = p·r̂/(4πε₀r²) at large distances; a dipole in a uniform external field
 experiences zero net force but a torque τ = p × E, tending to align it with the field.</p>
 <p><b>Capacitance:</b> C = Q/V for an isolated conductor/system; energy stored U = ½CV² = Q²/2C = ½QV.</p>
-</div><div class="note-block" id="u1"><h3>Unit 2 — Dielectrics</h3>
+<div class="ext-note"><div class="ext-head"><span class="ext-tag">Extended Notes</span><h4>Unit 1 — Electrostatics — Full Chapter</h4></div>
+<h4 id="coulombs-law-and-the-principle-of-superposition">1.0 Coulomb's Law and the Principle of Superposition</h4><p>All of electrostatics rests on Coulomb's law, established experimentally by Charles-Augustin de Coulomb in 1785 using a torsion balance. The law states that the force between two stationary point charges q1 and q2, separated by a distance r, acts along the line joining them, is repulsive for like charges and attractive for unlike charges, and has magnitude directly proportional to the product of the charges and inversely proportional to the square of the distance between them:</p><p><em>F = (1/4πε₀) · (q1 q2 / r²) r̂</em></p><p>Here r̂ is the unit vector directed from the source charge to the charge experiencing the force, and the constant of proportionality 1/4πε₀ ≈ 8.99×10⁹ N·m²/C² is written in this particular form (rationalised units) purely as a matter of convenience for later formulae such as Gauss's law.</p><p>When more than two charges are present, the principle of superposition — itself an experimental fact, not a logical necessity — asserts that the net force (or field) at any point due to a collection of charges is simply the vector sum of the forces (or fields) due to each charge acting alone, as if the other charges were not present:</p><p><em>F = Σi Fi , E = Σi Ei</em></p><p>Superposition is what allows the electric field of an arbitrary, even continuous, charge distribution to be built up by integration over infinitesimal charge elements dq, as is done repeatedly throughout this unit (e.g., the ring of charge in Section 1.2) and is what ultimately underlies the validity of Gauss's law for any charge distribution once it is established for a single point charge.</p>
+<h4 id="electric-field-and-field-lines">1.1 Electric Field and Field Lines</h4><p>The electric field at a point in space is defined as the electric force experienced per unit positive test charge placed at that point, in the limit that the test charge is vanishingly small so that it does not disturb the source charges:</p><p><em>E = lim(q₀→0) F / q₀</em></p><p>Here F is the force on the test charge q₀. The electric field is a vector quantity, with SI unit newton per coulomb (N/C), equivalent to volt per metre (V/m). For a point charge Q, Coulomb's law gives the field at a distance r as:</p><p><em>E = (1/4πε₀) · (Q/r²) r̂</em></p><p>where ε₀ = 8.854 × 10⁻¹² C²/N·m² is the permittivity of free space and r̂ is the unit vector directed from the source charge to the field point.</p><h5 id="properties-of-electric-field-lines">Properties of Electric Field Lines</h5><ul>
+<li><p>Field lines originate on positive charges and terminate on negative charges (or extend to infinity).</p></li>
+<li><p>The tangent to a field line at any point gives the direction of E at that point.</p></li>
+<li><p>The density of field lines (number per unit cross-sectional area) is proportional to the magnitude of E.</p></li>
+<li><p>Field lines never cross, since E has a unique direction at every point.</p></li>
+<li><p>Field lines are continuous curves that begin and end only on charges, never forming closed loops in electrostatics.</p></li>
+</ul><blockquote>
+<p><em>Note: The electric field is a genuine physical field that exists at every point in space, independent of whether a test charge is actually present there. This is the modern field viewpoint, as opposed to Coulomb's original 'action-at-a-distance' picture.</em></p>
+</blockquote><p><img loading="lazy" src="notes-media/image1.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig. 1.1 — Field lines diverge from a positive charge and converge into a negative charge.</em></p><h5 id="limitations-of-the-field-line-picture">Limitations of the Field-Line Picture</h5><ul>
+<li><p>Field lines are a visualisation aid, not physical entities — no actual 'threads' of field exist in space.</p></li>
+<li><p>Only a finite, representative number of lines can ever be drawn, so the true field strength (proportional to line density) can only be indicated approximately, not exactly, in any diagram.</p></li>
+<li><p>The concept becomes difficult to visualise for rapidly time-varying fields or for superpositions of many sources, where lines from different charges must be combined vectorially rather than simply overlaid.</p></li>
+</ul>
+<h4 id="electric-field-due-to-a-ring-of-charge">1.2 Electric Field due to a Ring of Charge</h4><p>Consider a thin ring of radius a carrying a uniformly distributed total charge Q. We seek the electric field at a point P on the axis of the ring, at a distance x from its centre.</p><p>Divide the ring into infinitesimal elements of charge dq = (Q/2πa) dl, where dl is an element of arc length. Each element produces a field of magnitude</p><p><em>dE = (1/4πε₀) · dq / (x² + a²)</em></p><p>directed along the line joining the element to P, making an angle θ with the axis, where cosθ = x/√(x²+a²). By symmetry, the components of dE perpendicular to the axis cancel in pairs for diametrically opposite elements, and only the axial components survive. The axial component is dE cosθ, so:</p><p><em>Ex = ∮ dE cosθ = (1/4πε₀) · x/(x²+a²)^(3/2) ∮ dq</em></p><p>Since ∮dq = Q, the resultant field on the axis is:</p><p><em>E(x) = (1/4πε₀) · Qx / (x² + a²)^(3/2)</em></p><p>directed along the axis, away from the ring if Q is positive.</p><p><img loading="lazy" src="notes-media/image2.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig. 1.2 — Geometry for the field of a uniformly charged ring on its axis.</em></p><h5 id="limiting-cases">Limiting Cases</h5><ul>
+<li><p>At the centre of the ring (x = 0): E = 0, as expected from symmetry.</p></li>
+<li><p>Far from the ring (x ≫ a): E ≈ (1/4πε₀)(Q/x²), so the ring behaves like a point charge Q at large distances.</p></li>
+<li><p>The field is maximum at x = a/√2, obtained by setting dE/dx = 0.</p></li>
+</ul>
+<h4 id="electric-flux">1.3 Electric Flux</h4><p>Electric flux ΦE through a surface is a measure of the number of field lines passing through that surface. For a small surface element of area dA with outward unit normal n̂, in a field E, the elemental flux is:</p><p><em>dΦE = E · dA = E · n̂ dA = E dA cosθ</em></p><p>where θ is the angle between E and the outward normal n̂. The total flux through a surface S is obtained by integrating:</p><p><em>ΦE = ∫∫S E · dA</em></p><p>For a closed surface, the outward normal is taken as positive, and the net flux is positive when more field lines leave the surface than enter it (net positive charge enclosed), and negative otherwise. The SI unit of electric flux is N·m²/C, or equivalently, V·m.</p>
+<h4 id="gausss-law">1.4 Gauss's Law</h4><p>Gauss's law relates the net electric flux through any closed surface (a Gaussian surface) to the total charge enclosed by that surface. It is one of Maxwell's four equations and follows directly from Coulomb's law together with the inverse-square nature of the field.</p><h5 id="statement">Statement</h5><p><em>ΦE = ∮S E · dA = Qenc / ε₀</em></p><p>The net outward electric flux through any closed surface equals the total charge enclosed divided by ε₀, regardless of the shape of the surface or the position of the charges within it.</p><h5 id="derivation-from-coulombs-law-point-charge">Derivation from Coulomb's Law (Point Charge)</h5><p>Consider a point charge Q at the centre of a sphere of radius r. The field on the surface has constant magnitude E = Q/4πε₀r² and is everywhere radial, hence parallel to dA. Thus:</p><p><em>ΦE = ∮ E dA = E ∮ dA = (Q/4πε₀r²)(4πr²) = Q/ε₀</em></p><p>This result is independent of r, showing that the flux depends only on the enclosed charge. Since field lines that leave a spherical Gaussian surface must also cross any other closed surface enclosing the same charge (as lines can only terminate on charges), the result ΦE = Q/ε₀ holds for a Gaussian surface of any shape. For several charges, superposition gives ΦE = ΣQenc/ε₀; for continuous charge distributions, Qenc = ∫ρ dV.</p><h5 id="limitations-of-gausss-law-as-a-calculational-tool">Limitations of Gauss's Law (as a Calculational Tool)</h5><ul>
+<li><p>Gauss's law is always true, but it is only useful for directly calculating E when the charge distribution has enough symmetry (spherical, cylindrical, or planar) to allow a Gaussian surface on which E is constant in magnitude and either parallel or perpendicular to dA at every point.</p></li>
+<li><p>For irregular or asymmetric charge distributions, Gauss's law remains valid but does not by itself yield E; one must instead resort to direct integration of Coulomb's law, numerical methods, or other techniques (e.g. the method of images for conductors).</p></li>
+<li><p>Gauss's law relates only to the enclosed charge; it says nothing about the contribution of charges outside the Gaussian surface to the field at individual points on that surface (even though the net flux from external charges is always zero).</p></li>
+</ul><h5 id="applications-of-gausss-law">Applications of Gauss's Law</h5><ul>
+<li><p>Rapid determination of E for highly symmetric charge distributions (spheres, cylinders, planes) without lengthy integration — illustrated in Section 1.6.</p></li>
+<li><p>Proving that the field inside a hollow conductor in electrostatic equilibrium, with no charge in the cavity, is zero — the basis of electrostatic shielding used in Faraday cages.</p></li>
+<li><p>Showing that excess charge on a conductor resides entirely on its outer surface.</p></li>
+<li><p>Deriving the boundary condition on E at a charged conductor's surface, E = σ/ε₀ (just outside), used extensively in the theory of capacitors.</p></li>
+</ul>
+<h4 id="gausss-law-in-differential-form">1.5 Gauss's Law in Differential Form</h4><p>The integral form can be converted to a differential (point) form using the divergence theorem (Gauss–Ostrogradsky theorem), which states that for any vector field E:</p><p><em>∮S E · dA = ∫∫∫V (∇ · E) dV</em></p><p>Writing the enclosed charge as Qenc = ∫V ρ dV in terms of the volume charge density ρ, Gauss's law becomes:</p><p><em>∫V (∇ · E) dV = (1/ε₀) ∫V ρ dV</em></p><p>Since this equality holds for every arbitrary volume V, the integrands themselves must be equal at every point:</p><p><em>∇ · E = ρ / ε₀</em></p><p>This is the differential form of Gauss's law, one of the four Maxwell's equations. It states that the divergence of the electric field at a point is a local measure of the charge density there — field lines diverge outward from positive charge and converge into negative charge.</p>
+<h4 id="applications-of-gausss-law-1">1.6 Applications of Gauss's Law</h4><p>Gauss's law is most powerful when the charge distribution possesses sufficient symmetry (spherical, cylindrical, or planar) so that a Gaussian surface can be chosen on which E is either constant in magnitude and parallel to dA, or perpendicular to dA (contributing zero flux). The six classical applications below illustrate this method.</p><p><img loading="lazy" src="notes-media/image3.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig. 1.3 — Gaussian surfaces chosen to match the symmetry of (a) a line charge, (b) a sheet of charge, and (c) a spherical shell.</em></p><h5 id="i-infinite-line-of-charge">(i) Infinite Line of Charge</h5><p>Let λ be the uniform linear charge density of an infinitely long straight line. By symmetry, E is radial (perpendicular to the line) and depends only on the perpendicular distance r from the line. Choose a coaxial cylindrical Gaussian surface of radius r and length L. The flux through the flat end caps is zero since E is parallel to them; only the curved surface contributes:</p><p><em>ΦE = E (2πrL) = Qenc/ε₀ = λL/ε₀</em></p><p><em>E = λ / (2πε₀ r)</em></p><p>The field falls off as 1/r, in contrast to the 1/r² fall-off of a point charge, reflecting the different (cylindrical) symmetry.</p><h5 id="ii-charged-cylindrical-conductor">(ii) Charged Cylindrical Conductor</h5><p>For a long solid conducting cylinder of radius R carrying charge per unit length λ, all the excess charge resides on the outer surface (since the field inside a conductor in electrostatic equilibrium is zero). Using a cylindrical Gaussian surface of radius r and length L:</p><ul>
+<li><p>Inside the conductor (r &lt; R): Eenc = 0, so E = 0.</p></li>
+<li><p>Outside the conductor (r &gt; R): the entire charge λL is enclosed, giving E(2πrL) = λL/ε₀, so E = λ/(2πε₀r), identical in form to the infinite line charge.</p></li>
+</ul><p>If instead the cylinder is a uniformly charged non-conducting solid cylinder with volume charge density ρ, then for r &lt; R the enclosed charge is Qenc = ρ(πr²L), giving E = ρr/(2ε₀), which increases linearly with r inside and matches the λ/(2πε₀r) form outside at r = R.</p><h5 id="iii-infinite-sheet-of-charge-and-two-parallel-charged-sheets">(iii) Infinite Sheet of Charge and Two Parallel Charged Sheets</h5><p>For an infinite plane sheet with uniform surface charge density σ, symmetry demands that E is perpendicular to the sheet and has the same magnitude at equal distances on either side. Choose a Gaussian 'pillbox' — a small cylinder straddling the sheet with each flat face of area A parallel to the sheet. Flux crosses only the two flat faces:</p><p><em>ΦE = EA + EA = 2EA = Qenc/ε₀ = σA/ε₀</em></p><p><em>E = σ / (2ε₀)</em></p><p>directed away from the sheet on both sides if σ is positive, and independent of the distance from the sheet.</p><p>For two infinite parallel sheets carrying equal and opposite surface charge densities +σ and −σ, separated by some distance, superposition of the two individual fields (each of magnitude σ/2ε₀) gives:</p><ul>
+<li><p>In the region between the sheets: the two fields add, giving E = σ/ε₀, directed from the positive sheet toward the negative sheet.</p></li>
+<li><p>In the regions outside the sheets: the two fields are equal and opposite, so E = 0.</p></li>
+</ul><blockquote>
+<p><em>Note: This configuration, with a uniform field confined between two oppositely charged plates and zero field outside, is the idealised model of a parallel-plate capacitor.</em></p>
+</blockquote><h5 id="iv-charged-spherical-shell">(iv) Charged Spherical Shell</h5><p>Consider a thin spherical shell of radius R carrying a total charge Q uniformly distributed over its surface. By spherical symmetry, E is radial and depends only on r, the distance from the centre. Choose a concentric spherical Gaussian surface of radius r.</p><ul>
+<li><p>Outside the shell (r &gt; R): Qenc = Q, so E(4πr²) = Q/ε₀, giving E = Q/(4πε₀r²) — identical to the field of a point charge Q located at the centre.</p></li>
+<li><p>Inside the shell (r &lt; R): Qenc = 0 (no charge is enclosed), so E = 0 everywhere inside.</p></li>
+</ul><p>This shows the important result, first proved by Newton for gravitation and equally valid for electrostatics, that a uniform spherical shell of charge exerts no field on any point inside it, and behaves like a point charge at its centre for points outside.</p><h5 id="v-charged-hollow-sphere">(v) Charged Hollow Sphere</h5><p>A hollow (spherical shell of finite thickness) sphere with inner radius R₁ and outer radius R₂, carrying a total charge Q uniformly distributed through the shell's volume (charge density ρ = Q / [(4/3)π(R₂³ − R₁³)]), gives three field regions by Gauss's law:</p><ul>
+<li><p>r &lt; R₁ (cavity region): Qenc = 0, so E = 0.</p></li>
+<li><p>R₁ &lt; r &lt; R₂ (within the material of the shell): Qenc = ρ·(4/3)π(r³ − R₁³), giving E = ρ(r³ − R₁³) / (3ε₀ r²).</p></li>
+<li><p>r &gt; R₂ (outside the shell): Qenc = Q, giving E = Q/(4πε₀r²), as for a point charge at the centre.</p></li>
+</ul><h5 id="vi-uniformly-charged-solid-sphere">(vi) Uniformly Charged Solid Sphere</h5><p>For a solid non-conducting sphere of radius R carrying total charge Q uniformly distributed through its volume (ρ = Q / [(4/3)πR³]), applying Gauss's law with a concentric spherical surface of radius r gives:</p><ul>
+<li><p>Outside the sphere (r ≥ R): Qenc = Q, so E = Q/(4πε₀r²), exactly as for a point charge.</p></li>
+<li><p>Inside the sphere (r ≤ R): only the charge within radius r contributes, Qenc = Q(r³/R³), giving E(4πr²) = Q r³ / (ε₀ R³), so E = Qr / (4πε₀R³).</p></li>
+</ul><p>Thus E grows linearly with r inside the sphere (E ∝ r), reaches its maximum value E = Q/(4πε₀R²) at the surface, and then falls off as 1/r² outside. This piecewise behaviour — linear growth inside, 1/r² decay outside, continuous at the boundary — is characteristic of any uniformly charged solid sphere and is frequently tested in examinations.</p><p><strong><u>Example: Field inside and outside a uniformly charged solid sphere</u></strong></p><p>A solid sphere of radius R = 10 cm carries a total charge Q = 2 μC uniformly distributed in its volume. Find E at r = 5 cm and at r = 20 cm.</p><p>At r = 5 cm (inside, r &lt; R): E = Qr/(4πε₀R³) = (9×10⁹ × 2×10⁻⁶ × 0.05)/(0.1)³ = 9×10⁵ N/C.</p><p>At r = 20 cm (outside, r &gt; R): E = Q/(4πε₀r²) = (9×10⁹ × 2×10⁻⁶)/(0.2)² = 4.5×10⁵ N/C.</p><p><img loading="lazy" src="notes-media/image4.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig. 1.4 — Field magnitude versus distance r for a uniformly charged solid sphere (left, E∝r inside) and a spherical shell (right, E=0 inside).</em></p>
+<h4 id="electrostatic-energy">1.7 Electrostatic Energy</h4><p>Electrostatic (potential) energy is the work required to assemble a system of charges, or equivalently, the energy stored in the electric field created by the charges. Two complementary viewpoints are used.</p><h5 id="energy-of-a-system-of-point-charges">Energy of a System of Point Charges</h5><p>The work done in assembling n point charges, bringing them one at a time from infinity, is:</p><p><em>W = (1/4πε₀) Σi&lt;j (qi qj / rij)</em></p><p>For two charges q1 and q2 separated by r, this reduces to W = q1q2/4πε₀r.</p><h5 id="energy-stored-in-the-field">Energy Stored in the Field</h5><p>Alternatively, the energy can be regarded as stored throughout space wherever an electric field exists, with an energy density (energy per unit volume):</p><p><em>u = (1/2) ε₀ E²</em></p><p>The total electrostatic energy of a configuration is then found by integrating this energy density over all space:</p><p><em>U = (ε₀/2) ∫ E² dV</em></p><p>This field-based expression is completely general and applies equally to continuous charge distributions; for a uniformly charged sphere, for instance, it correctly reproduces the self-energy U = 3Q²/(20πε₀R). The field viewpoint is conceptually important because it locates the energy in the field itself, rather than in the charges, a perspective consistent with the full theory of electromagnetism where energy can be radiated away from its source as light.</p><p><strong><u>Example: Field of an infinite line charge</u></strong></p><p>An infinite line carries a uniform linear charge density λ = 2 μC/m. Find the electric field at a perpendicular distance of 10 cm.</p><p>E = λ/(2πε0r) = (2×10⁻⁶)/(2π × 8.854×10⁻¹² × 0.1) = 3.6×10⁵ N/C, directed radially outward from the line.</p><p><strong><u>Example: Field due to an infinite charged sheet</u></strong></p><p>A large plane sheet carries a uniform surface charge density σ = 5 μC/m². Find E close to the sheet, and the potential difference between two points 2 cm apart on either side of it (ignore fringing).</p><p>E = σ/2ε0 = (5×10⁻⁶)/(2×8.854×10⁻¹²) = 2.82×10⁵ N/C on each side, directed away from the sheet.</p><p>Since E is uniform close to the sheet, ΔV = E×d = 2.82×10⁵ × 0.02 = 5.64×10³ V between the two points, with the positively charged side at higher potential.</p><p><strong><u>Example: Field inside and outside a charged spherical shell</u></strong></p><p>A thin spherical shell of radius 15 cm carries a total charge of 3 μC spread uniformly over its surface. Find E at r = 10 cm and at r = 30 cm.</p><p>At r = 10 cm (inside the shell, r &lt; R): Qenc = 0, so E = 0.</p><p>At r = 30 cm (outside the shell, r &gt; R): E = Q/4πε0r² = (9×10⁹ × 3×10⁻⁶)/(0.3)² = 3×10⁵ N/C, directed radially outward.</p>
+<h4 id="review-questions-unit-1">Review Questions — Unit 1</h4><h5 id="short-answer-questions">Short Answer Questions</h5><ul>
+<li><p>Define electric field and electric field lines. State any three properties of field lines.</p></li>
+<li><p>Distinguish clearly between electric field and electric force, giving their respective SI units.</p></li>
+<li><p>Define electric flux and write its SI unit. Is flux a scalar or a vector quantity?</p></li>
+<li><p>State Gauss's law in both integral and differential form, and explain the meaning of each symbol.</p></li>
+<li><p>Why is Gauss's law particularly useful for charge distributions with high symmetry?</p></li>
+<li><p>Explain why the electric field inside a uniformly charged spherical shell is zero.</p></li>
+<li><p>Derive the relation between the divergence theorem and the differential form of Gauss's law.</p></li>
+<li><p>Define electrostatic energy density and write its expression in terms of E.</p></li>
+</ul><h5 id="long-answer-derivation-questions">Long Answer / Derivation Questions</h5><ul>
+<li><p>Derive an expression for the electric field on the axis of a uniformly charged ring, and discuss its behaviour at the centre and at large distances.</p></li>
+<li><p>State and prove Gauss's law, starting from Coulomb's law for a point charge.</p></li>
+<li><p>Using Gauss's law, derive the electric field due to an infinite line of charge and an infinite plane sheet of charge.</p></li>
+<li><p>Derive an expression for the electric field, both inside and outside, of a uniformly charged solid non-conducting sphere. Sketch the variation of E with r.</p></li>
+<li><p>Obtain an expression for the field due to a uniformly charged hollow sphere in the three regions r&lt;R1, R1&lt;r&lt;R2, r&gt;R2.</p></li>
+<li><p>Derive the expression for electrostatic energy stored in a system of point charges and show its equivalence with the field energy density (1/2)ε0E².</p></li>
+</ul><h5 id="numerical-problems">Numerical Problems</h5><ul>
+<li><p>A ring of radius 8 cm carries a uniformly distributed charge of 4 μC. Find the electric field on the axis at a distance of 6 cm from the centre. [Ans: ≈ 4.3 × 10⁶ N/C]</p></li>
+<li><p>Find the electric field at a distance of 20 cm from an infinite line charge of linear density 5 μC/m. [Ans: ≈ 4.5 × 10⁵ N/C]</p></li>
+<li><p>Two infinite parallel sheets carry surface charge densities +6 μC/m² and −6 μC/m². Find the field between them and outside them. [Ans: 6.78×10⁵ N/C between; 0 outside]</p></li>
+<li><p>A solid sphere of radius 12 cm carries a total charge of 5 μC uniformly distributed through its volume. Find E at r = 6 cm and r = 24 cm.</p></li>
+<li><p>Calculate the electrostatic self-energy of a uniformly charged solid sphere of radius R and charge Q, using U = (ε0/2)∫E²dV over all space. [Ans: U = 3Q²/20πε0R]</p></li>
+</ul><h5 id="multiple-choice-questions">Multiple Choice Questions</h5><ul>
+<li><p>1. The SI unit of electric flux is: (a) N/C (b) N·m²/C (c) C/m² (d) V/m — Answer: (b)</p></li>
+<li><p>2. The electric field inside a uniformly charged solid sphere varies as: (a) 1/r² (b) 1/r (c) r (d) constant — Answer: (c)</p></li>
+<li><p>3. Gauss's law in differential form is written as: (a) ∇×E = ρ/ε0 (b) ∇·E = ρ/ε0 (c) ∇²E = ρ/ε0 (d) ∇·E = 0 — Answer: (b)</p></li>
+<li><p>4. The field due to an infinite charged sheet is independent of: (a) σ (b) ε0 (c) distance from the sheet (d) none of these — Answer: (c)</p></li>
+<li><p>5. Inside a uniformly charged spherical shell, the electric field is: (a) maximum (b) zero (c) equal to that at the surface (d) infinite — Answer: (b)</p></li>
+</ul>
+<h4 id="the-electric-dipole-supplementary-topic">1.8 The Electric Dipole (Supplementary Topic)</h4><p>An electric dipole consists of two equal and opposite charges +q and −q separated by a small distance d; its strength is characterised by the electric dipole moment p = qd, a vector directed from the negative to the positive charge. The dipole is a useful idealisation for neutral molecules with a separated centre of positive and negative charge (e.g., water).</p><p>The electric field on the axial line, at distance r from the centre of the dipole (r ≫ d), is obtained by superposing the fields of the two charges:</p><p><em>Eaxial = (1/4πε₀) · 2p / r³</em></p><p>while on the equatorial line (perpendicular bisector), the field is:</p><p><em>Eequatorial = − (1/4πε₀) · p / r³</em></p><p>directed opposite to p. In both cases the field falls off as 1/r³, faster than the 1/r² fall-off of a single point charge, because the fields of the two closely spaced opposite charges nearly cancel at large distances. When placed in an external uniform field E, a dipole experiences zero net force but a torque τ = p × E that tends to align p with E, and possesses potential energy U = −p·E, which is minimum (most stable) when p is parallel to E.</p>
+<h4 id="unit-1-summary">Unit 1 Summary</h4><table class="ext-table">
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 42%"/>
+<col style="width: 24%"/>
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Configuration</strong></td>
+<td><strong>Field Expression</strong></td>
+<td><strong>Region</strong></td>
+</tr>
+<tr class="even">
+<td>Point charge</td>
+<td>E = Q/4πε₀r²</td>
+<td>all r</td>
+</tr>
+<tr class="odd">
+<td>Infinite line charge</td>
+<td>E = λ/2πε₀r</td>
+<td>all r &gt; 0</td>
+</tr>
+<tr class="even">
+<td>Infinite charged sheet</td>
+<td>E = σ/2ε₀</td>
+<td>independent of distance</td>
+</tr>
+<tr class="odd">
+<td>Two parallel sheets (±σ)</td>
+<td>E = σ/ε₀ (between), 0 (outside)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Spherical shell</td>
+<td>0 (inside); Q/4πε₀r² (outside)</td>
+<td>r&lt;R ; r&gt;R</td>
+</tr>
+<tr class="odd">
+<td>Solid charged sphere</td>
+<td>Qr/4πε₀R³ (inside); Q/4πε₀r² (outside)</td>
+<td>r&lt;R ; r&gt;R</td>
+</tr>
+</tbody>
+</table><p><strong>UNIT 2</strong></p><p><strong>Electric Potential</strong></p>
+</div></div><div class="note-block" id="u1"><h3>Unit 2 — Dielectrics</h3>
 <p><b>Polarization P</b> is the dipole moment per unit volume induced in a dielectric by an external field.
 <b>Electric displacement</b> D = ε₀E + P, chosen so that ∮D·dA = Q<sub>free,enc</sub> — Gauss's law in terms of
 D depends only on free charge, not bound (polarization) charge.</p>
@@ -232,7 +375,96 @@ free surface charge; the component of E parallel to the interface is always cont
 <p><b>Capacitor with dielectric:</b> inserting a dielectric of constant ε<sub>r</sub> increases capacitance by
 the factor ε<sub>r</sub> (fully filled) — enabling higher charge storage at the same voltage, central to
 practical capacitor design.</p>
-</div><div class="note-block" id="u2"><h3>Unit 3 — Magnetostatics</h3>
+<div class="ext-note"><div class="ext-head"><span class="ext-tag">Extended Notes</span><h4>Unit 2 — Electric Potential & Energy (Full Chapter 2) — Full Chapter</h4></div>
+<h4 id="line-integral-of-the-electric-field">2.1 Line Integral of the Electric Field</h4><p>The line integral of the electric field between two points A and B along a path is defined as:</p><p><em>∫A→B E · dl</em></p><p>This quantity represents (the negative of) the work done per unit charge by the electric field in moving a test charge from A to B. Because E is a conservative field (see Section 2.3), this integral is path-independent — it depends only on the positions of A and B, not on the route taken between them.</p>
+<h4 id="electric-potential-difference-and-electric-potential">2.2 Electric Potential Difference and Electric Potential</h4><p>The electric potential difference between two points A and B is defined as the work done per unit positive charge by an external agent in moving the charge from A to B against the electric force, at constant (negligible) kinetic energy:</p><p><em>VB − VA = − ∫A→B E · dl</em></p><p>The absolute electric potential V at a point P is obtained by choosing a reference point (conventionally at infinity, where V is taken as zero for localised charge distributions) and defining:</p><p><em>V(P) = − ∫∞→P E · dl = ∫P→∞ E · dl</em></p><p>For a point charge Q, integrating E = Q/4πε₀r² radially from r to infinity gives the familiar result:</p><p><em>V(r) = Q / (4πε₀ r)</em></p><p>Electric potential is a scalar quantity with SI unit volt (V), where 1 V = 1 J/C. Because potential is a scalar, the net potential due to several charges is obtained by simple algebraic (not vector) superposition:</p><p><em>V = (1/4πε₀) Σi (qi / ri)</em></p>
+<h4 id="conservative-nature-of-the-electrostatic-field">2.3 Conservative Nature of the Electrostatic Field</h4><p>A vector field is said to be conservative if the line integral of the field between any two points is independent of the path taken, equivalently, if the line integral around any closed path is zero:</p><p><em>∮ E · dl = 0</em></p><p>For the electrostatic field of a point charge, this can be verified directly: since E is radial and depends only on r, the work done in moving along any path can be decomposed into radial and tangential segments; only the radial segments contribute, and their contributions depend solely on the initial and final radii, not on the specific path. By superposition, the same conclusion holds for any static charge distribution.</p><p>Applying Stokes' theorem, ∮E·dl = ∫∫(∇×E)·dA, and since this vanishes for every possible surface bounded by the closed loop, we obtain the differential statement of conservativeness:</p><p><em>∇ × E = 0</em></p><blockquote>
+<p><em>Note: The conservative nature of the electrostatic field is what permits the definition of a scalar potential V in the first place; any field with non-zero curl (such as the induced electric field during electromagnetic induction, Unit 5) cannot be derived from a single-valued scalar potential.</em></p>
+</blockquote><h5 id="limitations">Limitations</h5><ul>
+<li><p>The conservative property, and hence the very concept of a well-defined scalar potential, holds only for static (time-independent) charge distributions; once fields vary with time, ∇×E = −∂B/∂t (Unit 5) and E is no longer conservative in the same sense.</p></li>
+<li><p>Potential is defined only up to an arbitrary additive constant, fixed by the choice of reference point (usually infinity); differences in potential, not its absolute value, are what carry physical meaning.</p></li>
+</ul>
+<h4 id="relation-between-e-and-v">2.4 Relation between E and V</h4><p>Since ∇ × E = 0 for the electrostatic field, and the curl of the gradient of any scalar function is identically zero, E can always be expressed as the (negative) gradient of a scalar potential:</p><p><em>E = − ∇V</em></p><p>In Cartesian coordinates:</p><p><em>E = −(∂V/∂x) x̂ − (∂V/∂y) ŷ − (∂V/∂z) ẑ</em></p><p>This relation shows that the electric field points in the direction of the most rapid decrease of potential, and that its magnitude equals the maximum rate of change of V with distance. Equivalently, from the definition in Section 2.2:</p><p><em>dV = − E · dl</em></p><p>Surfaces on which V is constant are called equipotential surfaces; the electric field is everywhere perpendicular to equipotential surfaces, and no work is done in moving a charge along an equipotential surface.</p><p><img loading="lazy" src="notes-media/image5.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig. 2.1 — Radial field lines of a point charge are everywhere perpendicular to its spherical equipotential surfaces.</em></p><h5 id="applications-of-the-ev-relation">Applications of the E–V Relation</h5><ul>
+<li><p>Mapping the potential of a charge configuration (often easier, since V is a scalar) and then differentiating to obtain E, rather than summing vector fields directly — particularly useful for complex or asymmetric charge distributions.</p></li>
+<li><p>Locating equipotential surfaces experimentally (e.g. in a electrolytic tank or with a voltmeter) is often easier than measuring field direction directly, and E can then be inferred from the spacing of the surfaces.</p></li>
+<li><p>Design of electron optics and particle accelerators, where equipotential mapping determines particle trajectories.</p></li>
+</ul><p><strong><u>Example: Uniform field between parallel plates</u></strong></p><p>Two large parallel plates separated by distance d = 2 cm are maintained at a potential difference of 100 V. Find the electric field between them, assuming it is uniform.</p><p>Using E = −dV/dx with V changing uniformly, E = ΔV/d = 100/0.02 = 5000 V/m, directed from the high-potential plate to the low-potential plate.</p>
+<h4 id="electrostatic-potential-energy-of-a-system-of-charges">2.5 Electrostatic Potential Energy of a System of Charges</h4><p>The potential energy of a system of point charges equals the total work required to assemble the configuration by bringing the charges from infinite separation to their final positions. Building up the system charge by charge:</p><p><em>U = (1/4πε₀) Σi&lt;j (qi qj / rij) = (1/2) Σi qi Vi</em></p><p>where Vi is the potential at the location of charge qi due to all the other charges in the system (the factor 1/2 avoids double-counting each pair). For a continuous charge distribution with volume density ρ and potential V, this generalises to:</p><p><em>U = (1/2) ∫ ρ V dV</em></p><p>which, using Poisson's equation and integration by parts, can also be re-expressed as the field energy integral U = (ε₀/2)∫E² dV introduced in Unit 1.</p>
+<h4 id="potential-and-electric-field-of-a-charged-wire">2.6 Potential and Electric Field of a Charged Wire</h4><p><img loading="lazy" src="notes-media/image6.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig. 2.2 — Geometry used to find the potential of (a) a uniformly charged straight wire and (b) a uniformly charged disc, at an axial/perpendicular field point P.</em></p><p>Consider a straight thin rod of length 2L carrying uniform linear charge density λ, lying along the axis with its centre at the origin. We find the potential at a point P on the perpendicular bisector, at a distance r from the centre of the rod.</p><p>An element dx of the rod at distance x from the centre carries charge dq = λ dx, and lies at distance √(r²+x²) from P. Its contribution to the potential is:</p><p><em>dV = (1/4πε₀) · λ dx / √(r²+x²)</em></p><p>Integrating from x = −L to x = +L:</p><p><em>V = (λ/4πε₀) ∫₋L^L dx/√(r²+x²) = (λ/4πε₀) ln[ (L+√(L²+r²)) / (−L+√(L²+r²)) ]</em></p><p>which can also be written using the inverse hyperbolic sine as V = (λ/2πε₀) sinh⁻¹(L/r). Differentiating V with respect to r (with a sign change) gives the field component perpendicular to the wire; for an infinitely long wire (L → ∞), this reduces exactly to the familiar result E = λ/2πε₀r obtained by Gauss's law in Unit 1, providing a valuable cross-check between the two methods.</p>
+<h4 id="potential-and-electric-field-of-a-charged-disc">2.7 Potential and Electric Field of a Charged Disc</h4><p>Consider a thin disc of radius R carrying a uniform surface charge density σ. We find the potential and field at a point P on the axis of the disc, at a distance x from its centre.</p><p>Divide the disc into concentric rings of radius s and thickness ds, each carrying charge dq = σ(2πs ds). Every point of such a ring is at the same distance √(x²+s²) from P, so its contribution to the potential is:</p><p><em>dV = (1/4πε₀) · σ(2πs ds) / √(x²+s²)</em></p><p>Integrating over the whole disc, from s = 0 to s = R:</p><p><em>V(x) = (σ/2ε₀) [ √(x²+R²) − x ]</em></p><p>The axial field is obtained from E = −∂V/∂x:</p><p><em>E(x) = (σ/2ε₀) [ 1 − x/√(x²+R²) ]</em></p><h5 id="limiting-cases-1">Limiting Cases</h5><ul>
+<li><p>For R → ∞ (infinite sheet): E → σ/2ε₀, recovering the infinite-sheet result of Unit 1.</p></li>
+<li><p>For x ≫ R (far from a small disc): expanding the square root shows E → σR²/(4ε₀x²) = Q/(4πε₀x²), i.e. the disc behaves as a point charge Q = σπR² at large distances.</p></li>
+</ul><blockquote>
+<p><em>Note: The charged disc calculation elegantly bridges the point-charge and infinite-sheet limits studied earlier, and is a standard problem for practising superposition-by-integration techniques.</em></p>
+</blockquote><p><strong><u>Example: Potential due to two point charges</u></strong></p><p>Charges of +4 μC and −2 μC are placed 30 cm apart. Find the potential at the midpoint of the line joining them.</p><p>V = (1/4πε0)[q1/r1 + q2/r2] = 9×10⁹[(4×10⁻⁶)/0.15 + (−2×10⁻⁶)/0.15] = 9×10⁹ × (2×10⁻⁶/0.15) = 1.2×10⁵ V.</p><p><strong><u>Example: Potential energy of a three-charge system</u></strong></p><p>Three charges q1 = 1 μC, q2 = 2 μC, q3 = −1 μC are placed at the corners of an equilateral triangle of side 10 cm. Find the total electrostatic potential energy.</p><p>U = (1/4πε0)[q1q2/r12 + q2q3/r23 + q1q3/r13] = 9×10⁹ × (10⁻¹²)[ (1×2) + (2×(−1)) + (1×(−1)) ] / 0.1</p><p>= 9×10⁹ × 10⁻¹² × (2 − 2 − 1)/0.1 = 9×10⁹ × 10⁻¹² × (−10) = −0.09 J.</p>
+<h4 id="review-questions-unit-2">Review Questions — Unit 2</h4><h5 id="short-answer-questions-1">Short Answer Questions</h5><ul>
+<li><p>Define electric potential and electric potential difference. Give their SI units.</p></li>
+<li><p>What is meant by a conservative field? Show that the electrostatic field is conservative.</p></li>
+<li><p>Write the relation between E and V, and explain the physical meaning of the negative sign.</p></li>
+<li><p>What are equipotential surfaces? State two of their properties.</p></li>
+<li><p>Why is no work done in moving a charge along an equipotential surface?</p></li>
+<li><p>Define electrostatic potential energy of a system of two point charges.</p></li>
+</ul><h5 id="long-answer-derivation-questions-1">Long Answer / Derivation Questions</h5><ul>
+<li><p>Derive the expression for the electric potential due to a uniformly charged straight wire at a point on its perpendicular bisector, and deduce the field of an infinitely long wire.</p></li>
+<li><p>Derive the potential and electric field at a point on the axis of a uniformly charged circular disc. Discuss the limiting cases R→∞ and x≫R.</p></li>
+<li><p>Show that E = −∇V, starting from the definition of potential difference as a line integral of E.</p></li>
+<li><p>Derive the expression for the potential energy of a system of n point charges.</p></li>
+</ul><h5 id="numerical-problems-1">Numerical Problems</h5><ul>
+<li><p>A point charge of 5 μC is placed at the origin. Find the potential at a distance of 20 cm. [Ans: 2.25×10⁵ V]</p></li>
+<li><p>The potential at a point due to a point charge is 9×10⁴ V at a distance of 10 cm. Find the magnitude of the charge. [Ans: 1 μC]</p></li>
+<li><p>A charged disc of radius 5 cm has surface charge density 4 μC/m². Find the potential at a point 12 cm from the centre on the axis.</p></li>
+<li><p>Two points on the axis of a uniformly charged rod are at potentials 500 V and 300 V. If the field is uniform between them and they are 4 cm apart, find E.</p></li>
+</ul><h5 id="multiple-choice-questions-1">Multiple Choice Questions</h5><ul>
+<li><p>1. Electric potential is a: (a) vector (b) scalar (c) tensor (d) none of these — Answer: (b)</p></li>
+<li><p>2. The relation between E and V is: (a) E = ∇V (b) E = −∇V (c) V = ∇E (d) V = −∇E — Answer: (b)</p></li>
+<li><p>3. Work done in moving a charge on an equipotential surface is: (a) maximum (b) zero (c) negative (d) infinite — Answer: (b)</p></li>
+<li><p>4. For a conservative field, ∮E·dl equals: (a) Qenc/ε0 (b) zero (c) infinity (d) μ0Ienc — Answer: (b)</p></li>
+<li><p>5. The potential on the axis of a charged disc at very large x behaves like: (a) a line charge (b) a point charge (c) a sheet of charge (d) zero — Answer: (b)</p></li>
+</ul>
+<h4 id="equipotential-surfaces-supplementary-topic">2.8 Equipotential Surfaces (Supplementary Topic)</h4><p>An equipotential surface is a surface on which the electric potential V has the same value at every point. For a point charge, equipotential surfaces are concentric spheres centred on the charge; for an infinite charged sheet, they are planes parallel to the sheet; for an infinite line charge, they are coaxial cylinders.</p><h5 id="key-properties">Key Properties</h5><ul>
+<li><p>The electric field is always perpendicular to an equipotential surface at every point, since any component of E along the surface would drive charge to move and do work, contradicting V being constant there.</p></li>
+<li><p>No work is done in moving a charge along an equipotential surface, since W = q(VA − VB) = 0 when VA = VB.</p></li>
+<li><p>Equipotential surfaces can never intersect one another, since a point cannot simultaneously be at two different potentials.</p></li>
+<li><p>Equipotential surfaces are more closely spaced where the field is stronger, since |E| = −dV/dn (n being the direction normal to the surfaces), so a rapid change in V over a short distance implies closely packed surfaces.</p></li>
+</ul>
+<h4 id="potential-due-to-an-electric-dipole">2.9 Potential Due to an Electric Dipole</h4><p>For an electric dipole of moment p, the potential at a point P at distance r from the centre of the dipole, where the line OP makes angle θ with the dipole axis (r ≫ separation of charges), is obtained by superposing the potentials of the two charges and expanding to leading order in d/r:</p><p><em>V(r, θ) = (1/4πε₀) · (p cosθ) / r²</em></p><p>Notice that the dipole potential falls off as 1/r², one power of r faster than the point-charge potential (1/r), consistent with the field of a dipole falling off as 1/r³ (one power faster than the point-charge field 1/r²) as noted in Unit 1. Differentiating V with respect to r and θ (using E = −∇V in spherical coordinates) reproduces the axial and equatorial field expressions of Section 1.8 as special cases θ = 0 and θ = π/2 respectively.</p>
+<h4 id="unit-2-summary">Unit 2 Summary</h4><table class="ext-table">
+<colgroup>
+<col style="width: 40%"/>
+<col style="width: 60%"/>
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Quantity</strong></td>
+<td><strong>Defining Relation</strong></td>
+</tr>
+<tr class="even">
+<td>Potential difference</td>
+<td>VB − VA = −∫A→B E·dl</td>
+</tr>
+<tr class="odd">
+<td>Potential of a point charge</td>
+<td>V = Q/4πε₀r</td>
+</tr>
+<tr class="even">
+<td>Field from potential</td>
+<td>E = −∇V</td>
+</tr>
+<tr class="odd">
+<td>Conservative field condition</td>
+<td>∮E·dl = 0 ⇔ ∇×E = 0</td>
+</tr>
+<tr class="even">
+<td>Energy of point-charge system</td>
+<td>U = (1/2)Σ qiVi</td>
+</tr>
+<tr class="odd">
+<td>Potential on axis of charged disc</td>
+<td>V = (σ/2ε₀)[√(x²+R²) − x]</td>
+</tr>
+</tbody>
+</table><p><strong>UNIT 3</strong></p><p><strong>Magnetic Field</strong></p>
+</div></div><div class="note-block" id="u2"><h3>Unit 3 — Magnetostatics</h3>
 <p><b>Lorentz force:</b> F = q(E + v×B) — the magnetic part acts only on moving charges and does no work
 (always perpendicular to velocity).</p>
 <p><b>Biot–Savart law:</b> dB = (μ₀/4π) I dl×r̂/r² gives the magnetic field due to a current element; integrated
@@ -245,7 +477,95 @@ field, analogous to the electric dipole case.</p>
 <p><b>Magnetic materials:</b> diamagnetic materials (χ<sub>m</sub> small and negative) are weakly repelled by a
 field; paramagnetic materials (χ<sub>m</sub> small and positive) are weakly attracted; ferromagnetic materials
 (χ<sub>m</sub> large and positive, history-dependent) show spontaneous magnetization and hysteresis.</p>
-</div><div class="note-block" id="u3"><h3>Unit 4 — Electromagnetic Induction & AC Circuits</h3>
+<div class="ext-note"><div class="ext-head"><span class="ext-tag">Extended Notes</span><h4>Unit 3 — Magnetostatics — Full Chapter</h4></div>
+<h4 id="magnetic-field-b-and-the-lorentz-force">3.1 Magnetic Field (B) and the Lorentz Force</h4><p>A moving charge or a current experiences a force in a region of space where a magnetic field is present, in addition to any electric force. The magnetic field B at a point is defined operationally through the force experienced by a test charge q moving with velocity v:</p><p><em>F = q (v × B)</em></p><p>Combined with the electric force, this gives the full Lorentz force law:</p><p><em>F = q (E + v × B)</em></p><p>Unlike the electric force, the magnetic force is always perpendicular to the velocity of the charge, and therefore does no work on it — it can change the direction of motion but never the speed or kinetic energy of the particle. The SI unit of B is the tesla (T), where 1 T = 1 N·s/(C·m) = 1 Wb/m² = 1 kg/(A·s²).</p>
+<h4 id="magnetic-force-between-current-elements-and-definition-of-b">3.2 Magnetic Force Between Current Elements and Definition of B</h4><p>A current-carrying conductor consists of moving charges, so it experiences a force in a magnetic field. For a current element I dl (a small length dl of wire carrying current I), the force in a field B is:</p><p><em>dF = I dl × B</em></p><p>The mutual force between two current elements follows from combining this expression with the Biot–Savart law (Section 3.4): a current element I1 dl1 produces a field dB at the location of a second element I2 dl2, and by Ampere's force law, the resulting mutual force is:</p><p><em>dF = (μ0/4π) · I1 I2 [dl2 × (dl1 × r̂)] / r²</em></p><p>where r is the separation between the elements and μ0 = 4π×10⁻⁷ T·m/A is the permeability of free space. This experimentally-motivated force law between current elements is, historically, the basis from which the magnetic field B and the Biot–Savart law are derived, in a manner directly analogous to how Coulomb's law between charges leads to the electric field E.</p><p>Operationally, B at a point can therefore be defined as the vector quantity such that the force per unit length experienced by a current element placed there is dF/dl = I dl × B, with B being independent of the test current used to probe it, exactly as E is independent of the test charge.</p>
+<h4 id="magnetic-flux">3.3 Magnetic Flux</h4><p>Magnetic flux ΦB through a surface is defined analogously to electric flux:</p><p><em>ΦB = ∫∫S B · dA</em></p><p>with SI unit the weber (Wb), where 1 Wb = 1 T·m². Magnetic flux plays a central role in Faraday's law of electromagnetic induction (Unit 5). Because, as shown in Unit 4, magnetic field lines never begin or end (there are no magnetic monopoles), the net magnetic flux through any closed surface is always exactly zero — a result known as Gauss's law for magnetism.</p>
+<h4 id="biotsavart-law">3.4 Biot–Savart Law</h4><p>The Biot–Savart law gives the magnetic field produced at a point P by a current element I dl located at position r relative to P:</p><p><em>dB = (μ0/4π) · I dl × r̂ / r²</em></p><p>The direction of dB is perpendicular to both dl (the direction of current flow) and r̂ (the line joining the element to P), given by the right-hand rule. The total field due to an extended current-carrying conductor is found by integrating this expression over the entire current path.</p><p><img loading="lazy" src="notes-media/image7.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig. 3.1 — A current element I dl produces a field dB at P, perpendicular to both dl and the line r joining the element to P.</em></p><h5 id="limitations-of-the-biotsavart-law">Limitations of the Biot–Savart Law</h5><ul>
+<li><p>Strictly, the law applies to steady (time-independent) currents; an isolated current element I dl, as used in the derivation, is itself an idealisation, since in practice current can only flow in complete closed circuits (charge cannot accumulate indefinitely at the ends of an open element).</p></li>
+<li><p>Direct integration using the Biot–Savart law can be mathematically demanding for conductors lacking symmetry, in which case Ampere's law (Section 3.5), when applicable, is often calculationally simpler.</p></li>
+</ul><h5 id="applications-of-the-biotsavart-law">Applications of the Biot–Savart Law</h5><ul>
+<li><p>Calculating the field of current-carrying wires, loops, and coils of arbitrary shape, forming the basis for the design of electromagnets, solenoids, and inductors.</p></li>
+<li><p>Modelling the magnetic field of localised current distributions in geophysics and astrophysics (e.g. planetary and stellar magnetic fields generated by internal current systems).</p></li>
+<li><p>Providing the theoretical foundation from which Ampere's circuital law itself can be derived for steady currents.</p></li>
+</ul><h5 id="i-field-due-to-a-straight-current-carrying-conductor">(i) Field due to a Straight Current-Carrying Conductor</h5><p>Consider a straight wire carrying current I, and a field point P at perpendicular distance a from the wire. Let an element dl of the wire, at position x along the wire measured from the foot of the perpendicular, make angle θ with the line joining it to P. Using dl × r̂ = dl sinθ, and expressing x = a cotθ (so dx = −a cosec²θ dθ) and r = a/sinθ, the Biot–Savart law integrates to:</p><p><em>B = (μ0 I / 4πa) ∫θ1→θ2 sinθ dθ = (μ0 I / 4πa)(cosθ1 − cosθ2)</em></p><p>For an infinitely long straight wire, the limits become θ1 → 0 and θ2 → π, giving cosθ1 − cosθ2 = 2, so:</p><p><em>B = μ0 I / (2πa)</em></p><p>The field circles the wire in concentric loops, with direction given by the right-hand (grip) rule: if the thumb points along the current, the curled fingers indicate the direction of B.</p><p><strong><u>Example: Field near a long straight wire</u></strong></p><p>A long straight wire carries a current I = 10 A. Find B at a perpendicular distance of 5 cm.</p><p>B = μ0I/2πa = (4π×10⁻⁷ × 10)/(2π × 0.05) = 4×10⁻⁵ T = 40 μT.</p><h5 id="ii-field-due-to-a-current-loop">(ii) Field due to a Current Loop</h5><p><img loading="lazy" src="notes-media/image8.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig. 3.2 — Geometry for the axial field of a circular current loop of radius a.</em></p><p>Consider a circular loop of radius a carrying current I, and a field point P on its axis at distance x from the centre. Every element dl of the loop is at the same distance r = √(a²+x²) from P, and dl is always perpendicular to r (since r lies in the plane containing the axis and the radius to the element, while dl is tangential). Hence each element contributes a field dB = (μ0 I dl)/(4πr²), directed perpendicular to r in a plane containing the axis.</p><p>By symmetry, only the components of dB along the axis add up; the perpendicular components cancel for diametrically opposite elements. The axial component is dB sinφ = dB(a/r), so:</p><p><em>Bx = (μ0 I / 4πr²)(a/r) ∮ dl = (μ0 I / 4πr³)(a)(2πa) = μ0 I a² / [2(a²+x²)^(3/2)]</em></p><p>At the centre of the loop (x = 0), this reduces to the simple and important result:</p><p><em>B(centre) = μ0 I / (2a)</em></p><p>For x ≫ a, the field falls off as B ≈ μ0 I a² / (2x³), and the loop behaves as a magnetic dipole of moment m = I(πa²), with axial field B ≈ μ0 m / (2πx³).</p>
+<h4 id="amperes-circuital-law">3.5 Ampere's Circuital Law</h4><p>Ampere's law relates the line integral of B around any closed loop to the total (steady) current passing through the loop, and is the magnetic analogue of Gauss's law in electrostatics.</p><h5 id="integral-form">Integral Form</h5><p><em>∮C B · dl = μ0 Ienc</em></p><p>where Ienc is the net current enclosed by the closed loop (Amperian loop) C, counted positive or negative according to the right-hand rule relative to the sense of traversal of C. As with Gauss's law, this relation is most useful when symmetry allows a loop to be chosen along which B is constant in magnitude and either parallel or perpendicular to dl.</p><h5 id="differential-form">Differential Form</h5><p>Applying Stokes' theorem, ∮B·dl = ∫∫(∇×B)·dA, and writing Ienc = ∫∫J·dA in terms of the current density J, we obtain the local (differential) form of Ampere's law for steady currents:</p><p><em>∇ × B = μ0 J</em></p><p>(For time-varying fields, Maxwell later added a displacement-current term ε0∂E/∂t to the right-hand side; this modification is not required for the static cases treated in this unit.)</p><h5 id="limitations-of-amperes-circuital-law">Limitations of Ampere's Circuital Law</h5><ul>
+<li><p>As originally stated (without Maxwell's displacement-current correction), Ampere's law applies strictly only to steady currents; it fails to give consistent results for circuits with time-varying currents, such as a charging capacitor, unless the displacement-current term is included.</p></li>
+<li><p>Like Gauss's law, Ampere's law gives the field directly only when symmetry permits an Amperian loop on which B is constant in magnitude and either parallel or perpendicular to dl at every point.</p></li>
+</ul><h5 id="applications-of-amperes-circuital-law">Applications of Ampere's Circuital Law</h5><ul>
+<li><p>Rapid calculation of B for highly symmetric current distributions — straight wires, solenoids, toroids — as illustrated below.</p></li>
+<li><p>Design of solenoids and electromagnets used in relays, MRI machines, and particle accelerators.</p></li>
+<li><p>Derivation of the boundary conditions on B and H at the interface between two magnetic media (Section 4.8A).</p></li>
+</ul><h5 id="i-field-due-to-a-solenoid">(i) Field due to a Solenoid</h5><p>A solenoid is a long, tightly wound helical coil of wire; treated as n turns per unit length carrying current I, an ideal (infinitely long) solenoid produces a uniform field inside, parallel to its axis, and (ideally) zero field outside.</p><p>Choose a rectangular Amperian loop, with one long side of length L lying inside the solenoid parallel to the axis, the opposite long side lying far outside the solenoid, and two short sides perpendicular to the axis. The contribution from the outside segment is zero (B ≈ 0 there), the contributions from the two perpendicular segments vanish (B ⊥ dl inside, and B ≈ 0 outside), and only the interior long side contributes:</p><p><em>∮B·dl = B L = μ0 Ienc = μ0 (nL) I</em></p><p><em>B = μ0 n I</em></p><p>directed along the axis. This uniform-field result is independent of the position of the loop's interior side within the solenoid (as long as it is far from the ends) and independent of the cross-sectional shape of the solenoid.</p><h5 id="ii-field-due-to-a-toroid">(ii) Field due to a Toroid</h5><p><img loading="lazy" src="notes-media/image9.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig. 3.3 — Field patterns: (a) an ideal solenoid confines a uniform field to its interior; (b) a toroid confines its (1/r-varying) field entirely to its core.</em></p><p>A toroid is a solenoid bent into a closed ring (doughnut) shape, with N total turns carrying current I. By the cylindrical symmetry of the toroid, B is everywhere tangential to circles concentric with the toroid's central axis, and constant in magnitude on any such circle of radius r within the toroid's core.</p><p>Choosing an Amperian loop to be such a circle of radius r, threading through all N turns:</p><p><em>∮B·dl = B(2πr) = μ0 Ienc = μ0 N I</em></p><p><em>B = μ0 N I / (2πr)</em></p><p>valid for r within the core of the toroid. Outside the toroid (both inside the central hole and beyond the outer radius), the net enclosed current for any concentric Amperian loop is zero (each turn crosses the loop's plane twice, once in each direction), so B = 0 in those regions — the field of a toroid is, ideally, entirely confined within its core, unlike a straight solenoid which has some fringing field near its ends.</p><blockquote>
+<p><em>Note: A toroid can be thought of as an 'endless' solenoid: bending a solenoid into a closed loop eliminates the end effects and confines the field entirely to the core, at the price of the field no longer being perfectly uniform in magnitude (it varies as 1/r across the cross-section).</em></p>
+</blockquote>
+<h4 id="a-motion-of-a-charged-particle-in-a-uniform-magnetic-field-supplementary-topic">3.5A Motion of a Charged Particle in a Uniform Magnetic Field (Supplementary Topic)</h4><p>When a charged particle of mass m and charge q moves with velocity v perpendicular to a uniform magnetic field B, the magnetic force F = qv×B is always perpendicular to v, and hence perpendicular to the particle's motion at every instant. Since the force has no component along the velocity, it does no work and cannot change the particle's speed — it only continuously changes the direction of v, producing uniform circular motion.</p><p>The magnetic force provides exactly the centripetal force needed for this circular motion:</p><p><em>qvB = m v² / r ⇒ r = mv / (qB)</em></p><p>The angular frequency of this circular motion, called the cyclotron frequency, is:</p><p><em>ω = qB/m, with period T = 2πm/(qB)</em></p><p>Remarkably, both ω and T are independent of the particle's speed v (and hence of its kinetic energy) — a faster particle simply moves in a proportionally larger circle, completing each revolution in the same time. This property is the operating principle of the cyclotron, a device used to accelerate charged particles to high energies using a fixed-frequency alternating voltage synchronised with this constant cyclotron frequency. If the particle also has a velocity component parallel to B, that component is unaffected by the magnetic force (since v×B = 0 along B), and the resulting motion is a helix — uniform circular motion perpendicular to B combined with uniform straight-line motion parallel to B.</p>
+<h4 id="force-on-a-current-carrying-conductor-and-torque-on-a-current-loop">3.6 Force on a Current-Carrying Conductor and Torque on a Current Loop</h4><p>A straight conductor of length l carrying current I, placed in a uniform field B, experiences a net force (integrating dF = I dl×B over its length):</p><p><em>F = I l × B, magnitude F = BIl sinθ</em></p><p>where θ is the angle between the conductor and B. When a planar current loop of area A (carrying current I) is placed in a uniform field B, the net force on the loop is zero, but a net torque acts on it, tending to align its magnetic moment m = IA n̂ with B:</p><p><em>τ = m × B, magnitude τ = BIA sinθ</em></p><p>where θ is the angle between the normal to the loop and B. This torque is the operating principle of DC motors and moving-coil galvanometers.</p><p><strong><u>Example: Force between two parallel current-carrying wires</u></strong></p><p>Two long straight parallel wires, 5 cm apart, carry currents of 3 A and 4 A in the same direction. Find the force per unit length between them.</p><p>F/l = μ0I1I2/2πd = (4π×10⁻⁷ × 3 × 4)/(2π × 0.05) = 4.8×10⁻⁵ N/m, attractive (parallel currents attract).</p><p><strong><u>Example: Field at the centre of a current loop</u></strong></p><p>A circular coil of 50 turns and radius 4 cm carries a current of 2 A. Find the field at the centre.</p><p>B = μ0NI/2a = (4π×10⁻⁷ × 50 × 2)/(2 × 0.04) = 1.57×10⁻³ T.</p><p><strong><u>Example: Solenoid field</u></strong></p><p>A solenoid 50 cm long has 1000 turns and carries a current of 5 A. Find the field inside (away from the ends).</p><p>n = N/l = 1000/0.5 = 2000 turns/m. B = μ0nI = 4π×10⁻⁷ × 2000 × 5 = 1.26×10⁻² T.</p>
+<h4 id="review-questions-unit-3">Review Questions — Unit 3</h4><h5 id="short-answer-questions-2">Short Answer Questions</h5><ul>
+<li><p>Define magnetic field B in terms of the force on a moving charge. Write its SI unit.</p></li>
+<li><p>State the Biot–Savart law and explain each term in the expression.</p></li>
+<li><p>Why does the magnetic force do no work on a moving charge?</p></li>
+<li><p>State Ampere's circuital law in integral and differential form.</p></li>
+<li><p>Compare the magnetic field inside a solenoid and inside a toroid.</p></li>
+<li><p>Why is the field outside an ideal toroid zero, while a straight solenoid has some external fringing field?</p></li>
+</ul><h5 id="long-answer-derivation-questions-2">Long Answer / Derivation Questions</h5><ul>
+<li><p>Using the Biot–Savart law, derive the expression for the magnetic field due to a long straight current-carrying conductor.</p></li>
+<li><p>Derive the expression for the magnetic field on the axis of a circular current loop, and deduce the field at its centre.</p></li>
+<li><p>State and prove Ampere's circuital law, and use it to derive the field inside a long solenoid.</p></li>
+<li><p>Using Ampere's law, derive the expression for the magnetic field inside a toroid, and explain why it varies with r.</p></li>
+<li><p>Derive the differential form of Ampere's circuital law from its integral form using Stokes' theorem.</p></li>
+</ul><h5 id="numerical-problems-2">Numerical Problems</h5><ul>
+<li><p>Calculate the magnetic field at a distance of 15 cm from a long straight wire carrying a current of 6 A. [Ans: 8×10⁻⁶ T]</p></li>
+<li><p>A circular loop of radius 6 cm carries a current of 4 A. Find the field at a point on its axis 8 cm from the centre.</p></li>
+<li><p>A toroid has a mean radius of 10 cm, 500 turns, and carries a current of 2 A. Find the field within its core. [Ans: 2×10⁻³ T]</p></li>
+<li><p>Two parallel wires 10 cm apart carry currents of 2 A and 5 A in opposite directions. Find the force per unit length between them and state whether it is attractive or repulsive.</p></li>
+</ul><h5 id="multiple-choice-questions-2">Multiple Choice Questions</h5><ul>
+<li><p>1. The SI unit of magnetic field B is: (a) weber (b) tesla (c) henry (d) gauss only — Answer: (b)</p></li>
+<li><p>2. The magnetic field at the centre of a circular loop of radius a carrying current I is: (a) μ0I/2πa (b) μ0I/2a (c) μ0I/4πa (d) μ0Ia/2 — Answer: (b)</p></li>
+<li><p>3. Ampere's circuital law relates ∮B·dl to: (a) enclosed charge (b) enclosed current (c) magnetic flux (d) potential difference — Answer: (b)</p></li>
+<li><p>4. Inside an ideal long solenoid, the magnetic field is: (a) zero (b) uniform (c) varies as 1/r (d) varies as r — Answer: (b)</p></li>
+<li><p>5. Two parallel wires carrying current in the same direction: (a) repel (b) attract (c) exert no force (d) rotate — Answer: (b)</p></li>
+</ul>
+<h4 id="unit-3-summary">Unit 3 Summary</h4><table class="ext-table">
+<colgroup>
+<col style="width: 35%"/>
+<col style="width: 40%"/>
+<col style="width: 24%"/>
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Source</strong></td>
+<td><strong>Field</strong></td>
+<td><strong>Location</strong></td>
+</tr>
+<tr class="even">
+<td>Infinite straight wire</td>
+<td>B = μ0I/2πa</td>
+<td>distance a from wire</td>
+</tr>
+<tr class="odd">
+<td>Centre of circular loop</td>
+<td>B = μ0I/2a</td>
+<td>loop centre</td>
+</tr>
+<tr class="even">
+<td>On axis of circular loop</td>
+<td>B = μ0Ia²/2(a²+x²)^(3/2)</td>
+<td>distance x from centre</td>
+</tr>
+<tr class="odd">
+<td>Ideal solenoid (interior)</td>
+<td>B = μ0 n I</td>
+<td>inside, away from ends</td>
+</tr>
+<tr class="even">
+<td>Toroid (within core)</td>
+<td>B = μ0NI/2πr</td>
+<td>inside the core</td>
+</tr>
+</tbody>
+</table><p><strong>UNIT 4</strong></p><p><strong>Magnetic Properties</strong></p>
+</div></div><div class="note-block" id="u3"><h3>Unit 4 — Electromagnetic Induction & AC Circuits</h3>
 <p><b>Faraday's law:</b> EMF = −dΦ<sub>B</sub>/dt — a changing magnetic flux through a circuit induces an EMF;
 <b>Lenz's law</b> fixes the sign, stating the induced current opposes the change that produced it (energy
 conservation).</p>
@@ -260,7 +580,171 @@ current is maximum (series) or minimum (parallel/anti-resonance).</p>
 <p><b>Power in AC circuits:</b> real power P = VI cosφ (does actual work); reactive power Q = VI sinφ
 (oscillates between source and reactive elements); apparent power S = VI; power factor cosφ = P/S indicates
 how effectively power is being used.</p>
-</div><div class="note-block" id="u4"><h3>Unit 5 — Network Theorems & Maxwell's Equations</h3>
+<div class="ext-note"><div class="ext-head"><span class="ext-tag">Extended Notes</span><h4>Unit 4 — Magnetism of Matter (Full Chapter 4) — Full Chapter</h4></div>
+<h4 id="magnetism-of-matter-introduction">4.1 Magnetism of Matter — Introduction</h4><p>All materials respond to an applied magnetic field to some degree, because the orbital motion and intrinsic spin of electrons endow atoms with tiny magnetic dipole moments. When a material is placed in an external field, these atomic dipoles are affected — realigned, induced, or partially cancelled — producing a net magnetisation that either reinforces or opposes the applied field. Materials are broadly classified as diamagnetic, paramagnetic, or ferromagnetic according to the nature and strength of this response, discussed further in Section 4.8.</p>
+<h4 id="gausss-law-of-magnetism">4.2 Gauss's Law of Magnetism</h4><p>Unlike electric charges, isolated magnetic 'charges' (monopoles) have never been observed in nature — magnetic field lines always form closed loops, emerging from a north pole and re-entering at a south pole, continuing inside the magnet back to the north pole. Consequently, the net magnetic flux through any closed surface is always zero, regardless of the surface's shape or its location relative to magnets or currents.</p><h5 id="integral-form-1">Integral Form</h5><p><em>∮S B · dA = 0</em></p><h5 id="differential-form-1">Differential Form</h5><p>Applying the divergence theorem, ∮B·dA = ∫∫∫(∇·B) dV, and since this vanishes for every arbitrary volume, the integrand itself must vanish everywhere:</p><p><em>∇ · B = 0</em></p><p>This is one of Maxwell's four equations and expresses, in local form, the absence of magnetic monopoles. It is the magnetic analogue of Gauss's law for electricity, ∇·E = ρ/ε0, but with zero on the right-hand side because there is no magnetic charge density to source or sink the field lines.</p><h5 id="applications">Applications</h5><ul>
+<li><p>Confirms that magnetic field lines always form closed loops, justifying the closed-loop sketches used throughout Unit 3 (e.g. around a straight wire, solenoid, or toroid).</p></li>
+<li><p>Provides one of the four fundamental Maxwell's equations, essential to the unified theory of electromagnetism and electromagnetic waves.</p></li>
+<li><p>Used, together with Ampere's and Faraday's laws, to establish the boundary condition B1⊥ = B2⊥ at an interface between two media (Section 4.8A).</p></li>
+</ul><h5 id="limitations-1">Limitations</h5><p>Gauss's law of magnetism is exact and universally valid within classical electromagnetism (no experimental violation — i.e., no isolated magnetic monopole — has ever been confirmed); its 'limitation' is therefore conceptual rather than practical: certain theoretical extensions of physics (e.g. some grand unified theories) predict magnetic monopoles might exist, which would require modifying this law to ∇·B = ρm (a magnetic charge density), but no experimental evidence for this currently exists.</p>
+<h4 id="magnetisation-current">4.3 Magnetisation Current</h4><p>When a magnetic material is placed in an external field, the atomic current loops (associated with electron orbital and spin motion) tend to align, so that within the bulk of a uniformly magnetised material the microscopic currents of adjacent atomic loops cancel, but at the surface of the material an uncompensated net current remains. This effective surface current, called the magnetisation current or bound current, produces a magnetic field just as a real (free) conduction current would.</p><p>For a uniformly magnetised cylinder with magnetisation M along its axis, the equivalent surface current density (current per unit length along the axis) is:</p><p><em>Km = M × n̂</em></p><p>which, for a cylinder magnetised along its axis, reduces in magnitude to Km = M. In addition, if the magnetisation is non-uniform, a volume magnetisation (bound) current density arises:</p><p><em>Jm = ∇ × M</em></p><p>The total current density in a magnetic material is therefore the sum of the free (conduction) current density Jf and the bound current density Jm: J = Jf + Jm. The distinction between free and bound currents is essential for correctly applying Ampere's law inside magnetic materials, motivating the introduction of the auxiliary field H below.</p>
+<h4 id="relative-permeability-and-magnetic-susceptibility">4.4 Relative Permeability and Magnetic Susceptibility</h4><p>The magnetic susceptibility χm of a material characterises how readily it becomes magnetised in response to an applied field, defined through the linear relation (valid for isotropic, linear, non-ferromagnetic materials):</p><p><em>M = χm H</em></p><p>where M is the magnetisation (magnetic dipole moment per unit volume) and H is the magnetic field intensity (Section 4.5). The relative permeability μr is related to χm by:</p><p><em>μr = 1 + χm</em></p><p>and the absolute permeability of the material is μ = μr μ0, where μ0 is the permeability of free space. Materials are classified by the sign and magnitude of χm:</p><table class="ext-table">
+<colgroup>
+<col style="width: 21%"/>
+<col style="width: 27%"/>
+<col style="width: 26%"/>
+<col style="width: 24%"/>
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Type</strong></td>
+<td><strong>χm</strong></td>
+<td><strong>μr</strong></td>
+<td><strong>Typical Example</strong></td>
+</tr>
+<tr class="even">
+<td>Diamagnetic</td>
+<td>small, negative (~ −10⁻⁵)</td>
+<td>slightly &lt; 1</td>
+<td>Bismuth, copper, water</td>
+</tr>
+<tr class="odd">
+<td>Paramagnetic</td>
+<td>small, positive (~ +10⁻³ to 10⁻⁵)</td>
+<td>slightly &gt; 1</td>
+<td>Aluminium, platinum, oxygen</td>
+</tr>
+<tr class="even">
+<td>Ferromagnetic</td>
+<td>large, positive (up to ~10⁵), non-linear</td>
+<td>≫ 1, field- and history-dependent</td>
+<td>Iron, cobalt, nickel</td>
+</tr>
+</tbody>
+</table>
+<h4 id="magnetisation-vector-m-magnetic-intensity-h-and-the-relation-between-b-m-and-h">4.5 Magnetisation Vector (M), Magnetic Intensity (H), and the Relation between B, M and H</h4><p>The magnetisation vector M is defined as the net magnetic dipole moment per unit volume of a material:</p><p><em>M = dm / dV</em></p><p>where dm is the total magnetic dipole moment contained in a small volume dV. The magnetic field intensity (or auxiliary field) H is introduced to separate the contribution of free currents from that of bound (magnetisation) currents, allowing Ampere's law to be applied using only the free current, which is typically the experimentally controllable quantity:</p><p><em>H = B/μ0 − M</em></p><p>Rearranging, the fundamental relation connecting the three vectors is:</p><p><em>B = μ0 (H + M)</em></p><p>For linear, isotropic materials where M = χmH, substituting gives:</p><p><em>B = μ0(1 + χm) H = μ0 μr H = μH</em></p><p>Ampere's law can then be restated directly in terms of H and the free current alone, independent of the (generally unknown) bound currents:</p><p><em>∮ H · dl = Ifree,enc</em></p><blockquote>
+<p><em>Note: This H-based form of Ampere's law is exactly analogous to how the D field (electric displacement) is used in dielectrics to separate free and bound charge; H plays the role of D in magnetostatics.</em></p>
+</blockquote>
+<h4 id="stored-magnetic-energy-in-matter">4.6 Stored Magnetic Energy in Matter</h4><p>The energy density stored in a magnetic field within a linear magnetic medium is given, in analogy with the electrostatic energy density (ε0E²/2), by:</p><p><em>u = (1/2) B · H = (1/2) μ H² = B² / (2μ)</em></p><p>The total magnetic energy stored in a volume V is obtained by integrating this density:</p><p><em>Um = (1/2) ∫V B · H dV</em></p><p>For an inductor (see Unit 5) filled with a magnetic core of permeability μ, this expression is consistent with the circuit-theory result Um = (1/2)LI², where L is the self-inductance, since increasing μ increases both B (for a given free current) and hence L.</p>
+<h4 id="magnetic-circuit">4.7 Magnetic Circuit</h4><p><img loading="lazy" src="notes-media/image10.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig. 4.2 — A simple magnetic circuit: an N-turn coil establishes a flux Φ around a closed ferromagnetic core.</em></p><p>A magnetic circuit is a closed path (often through a ferromagnetic core, such as in a transformer or electromagnet) along which magnetic flux is guided, analogous to how an electric circuit guides current along a conducting path. The analogy between magnetic and electric circuits is summarised below:</p><table class="ext-table">
+<colgroup>
+<col style="width: 48%"/>
+<col style="width: 51%"/>
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Electric Circuit</strong></td>
+<td><strong>Magnetic Circuit</strong></td>
+</tr>
+<tr class="even">
+<td>EMF, ε</td>
+<td>Magnetomotive force, MMF = NI</td>
+</tr>
+<tr class="odd">
+<td>Current, I</td>
+<td>Magnetic flux, Φ</td>
+</tr>
+<tr class="even">
+<td>Resistance, R = ρl/A</td>
+<td>Reluctance, R = l/(μA)</td>
+</tr>
+<tr class="odd">
+<td>Ohm's law: ε = IR</td>
+<td>Φ = MMF / R = NI/R</td>
+</tr>
+</tbody>
+</table><p>For a magnetic circuit consisting of a core of mean length l, cross-sectional area A, permeability μ, and N turns of wire carrying current I, the reluctance is R = l/(μA), and the resulting flux is Φ = NI/R = μNIA/l. Series and parallel combinations of reluctances (for composite cores, or cores with air gaps) are combined by rules directly analogous to series and parallel resistances; an air gap, having μ ≈ μ0 rather than the much larger μ of the ferromagnetic core, typically dominates the total reluctance of a practical magnetic circuit even if it is physically very thin.</p>
+<h4 id="bh-curve-and-energy-loss-in-hysteresis">4.8 B–H Curve and Energy Loss in Hysteresis</h4><p>For ferromagnetic materials, the relationship between B and H is not linear, and moreover depends on the material's magnetic history — a phenomenon called hysteresis. Starting from an unmagnetised sample (B = H = 0) and increasing H, B rises along an initial magnetisation curve, rising steeply at first, then bending over and saturating (Bsat) as essentially all atomic magnetic domains become aligned with the field.</p><h5 id="description-of-the-hysteresis-loop">Description of the Hysteresis Loop</h5><p><img loading="lazy" src="notes-media/image11.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig. 4.1 — The B–H hysteresis loop, showing saturation (±Bsat), retentivity (Br) and coercivity (Hc).</em></p><ul>
+<li><p>If H is now reduced from its maximum value back to zero, B does not retrace the original curve but instead remains at a positive value called the retentivity or remanent magnetisation (Br) — the material retains some magnetisation even with no applied field, which is the basis of permanent magnets.</p></li>
+<li><p>To reduce B to zero, a reversed field of magnitude Hc, called the coercivity or coercive force, must be applied.</p></li>
+<li><p>Continuing to increase the reversed field drives the material to saturation in the opposite direction (−Bsat); reducing and reversing H again traces out a similar path back to +Bsat.</p></li>
+<li><p>The complete closed curve traced out over one full cycle of H is called the hysteresis loop.</p></li>
+</ul><h5 id="energy-loss-in-hysteresis">Energy Loss in Hysteresis</h5><p>Each time a ferromagnetic sample is taken around a complete hysteresis cycle, energy is dissipated as heat within the material, due to the work done in reorienting magnetic domains against internal friction-like resistance. It can be shown that the energy dissipated per unit volume per cycle exactly equals the area enclosed by the B–H hysteresis loop:</p><p><em>Wh = ∮ H dB (area of the loop, per unit volume, per cycle)</em></p><p>This hysteresis loss is a significant source of energy dissipation in AC devices such as transformers and motors, and is minimised in their design by using 'soft' magnetic materials (e.g., silicon steel) which have narrow hysteresis loops (low Hc, low loop area). Conversely, 'hard' magnetic materials, with wide hysteresis loops and high retentivity and coercivity, are chosen for permanent magnets, where retaining magnetisation is desirable rather than a drawback.</p><p><strong><u>Example: Comparing soft and hard magnetic materials</u></strong></p><p>Soft iron: narrow hysteresis loop, low coercivity, used in transformer cores and electromagnets, where the field must be reversed rapidly (e.g., 50 Hz) with minimal energy loss.</p><p>Steel/Alnico: wide hysteresis loop, high coercivity and retentivity, used for permanent magnets, where resistance to demagnetisation is essential.</p><h5 id="applications-of-the-hysteresis-loop">Applications of the Hysteresis Loop</h5><ul>
+<li><p>Selecting soft magnetic materials (narrow loop) for transformer and motor cores to minimise hysteresis loss and heating.</p></li>
+<li><p>Selecting hard magnetic materials (wide loop, high Br and Hc) for permanent magnets, magnetic recording media, and magnetic memory devices.</p></li>
+<li><p>Estimating hysteresis power loss in AC machinery from the measured loop area and operating frequency, an important part of electrical machine design.</p></li>
+</ul><h5 id="limitations-2">Limitations</h5><ul>
+<li><p>The hysteresis loop is not a fixed material property in the strictest sense — its shape depends on the maximum applied field, temperature, and mechanical stress history of the sample.</p></li>
+<li><p>Above the Curie temperature, the entire hysteresis phenomenon disappears as the material becomes paramagnetic, so hysteresis-loop parameters (Br, Hc) are only meaningful below Tc.</p></li>
+</ul>
+<h4 id="a-boundary-conditions-on-b-and-h-at-an-interface-supplementary-topic">4.8A Boundary Conditions on B and H at an Interface (Supplementary Topic)</h4><p>At the interface between two magnetic media of differing permeability (or between a magnetic material and free space), the fields B and H must satisfy certain matching (boundary) conditions, derived by applying Gauss's law of magnetism and Ampere's law to small pillbox and loop constructions straddling the interface, exactly as is done for D and E at a dielectric interface in electrostatics.</p><ul>
+<li><p>The normal component of B is continuous across the interface: B1⊥ = B2⊥ (a direct consequence of ∇·B = 0, applied to a thin pillbox).</p></li>
+<li><p>The tangential component of H is continuous across the interface, provided there is no free surface current: H1∥ = H2∥ (a consequence of Ampere's law, ∮H·dl = Ifree,enc, applied to a thin rectangular loop straddling the boundary).</p></li>
+</ul><p>Since B = μH, the continuity of H∥ but not of B∥ (unless μ1 = μ2) means that field lines bend at the interface between two magnetic media of different permeability, in a manner analogous to the refraction of light — a high-permeability material such as iron tends to concentrate and channel B field lines within itself, which is the physical basis for using ferromagnetic cores to guide flux in transformers and electromagnets (Section 4.7).</p>
+<h4 id="domain-theory-of-ferromagnetism-qualitative">4.9 Domain Theory of Ferromagnetism (Qualitative)</h4><p>The strong, non-linear response of ferromagnetic materials is explained by the existence of magnetic domains — microscopic regions (typically 10⁻⁶ to 10⁻⁴ m across) within which the atomic magnetic moments are already spontaneously aligned parallel to one another, due to strong quantum-mechanical exchange interactions between neighbouring atoms. In an unmagnetised sample, however, different domains point in different, randomly oriented directions, so the net macroscopic magnetisation is zero.</p><p>When an external field is applied, magnetisation proceeds by two mechanisms: (i) domains favourably oriented with respect to the field grow at the expense of unfavourably oriented neighbours, through the motion of domain walls, and (ii) at higher fields, the magnetisation direction within domains rotates to align more closely with the field. Saturation is reached when the sample effectively becomes a single domain aligned with the applied field. The domain-wall motion is not perfectly reversible — walls get pinned at crystal defects and impurities — which is the microscopic origin of hysteresis and coercivity discussed in Section 4.8.</p><p>Above a critical temperature called the Curie temperature (Tc), thermal agitation overcomes the exchange interaction, domains disappear, and the material becomes merely paramagnetic; for iron, Tc ≈ 1043 K (770°C).</p><p><strong><u>Example: Magnetisation and relative permeability</u></strong></p><p>A sample of paramagnetic material has H = 1000 A/m and acquires a magnetisation M = 2 A/m. Find its susceptibility χm and relative permeability μr.</p><p>χm = M/H = 2/1000 = 2×10⁻³. μr = 1 + χm = 1.002 (typical of a weak paramagnet).</p><p><strong><u>Example: Reluctance of a magnetic circuit</u></strong></p><p>An iron ring of mean circumference 40 cm and cross-sectional area 5 cm² has relative permeability 800. Find its reluctance, and the flux produced by a coil of 200 turns carrying 2 A wound on it.</p><p>R = l/(μ0μrA) = 0.4 / (4π×10⁻⁷ × 800 × 5×10⁻⁴) = 7.96×10⁵ A/Wb.</p><p>Φ = NI/R = (200×2)/7.96×10⁵ = 5.03×10⁻⁴ Wb.</p>
+<h4 id="review-questions-unit-4">Review Questions — Unit 4</h4><h5 id="short-answer-questions-3">Short Answer Questions</h5><ul>
+<li><p>State Gauss's law of magnetism in integral and differential form, and explain its physical significance.</p></li>
+<li><p>Define magnetisation vector M and magnetic intensity H.</p></li>
+<li><p>What is meant by bound (magnetisation) current? Distinguish it from free current.</p></li>
+<li><p>Define magnetic susceptibility and relative permeability, and state the relation between them.</p></li>
+<li><p>Distinguish between diamagnetic, paramagnetic and ferromagnetic materials on the basis of susceptibility.</p></li>
+<li><p>What are retentivity and coercivity? Illustrate with reference to the B–H loop.</p></li>
+<li><p>Why are soft magnetic materials preferred for transformer cores, while hard magnetic materials are used for permanent magnets?</p></li>
+</ul><h5 id="long-answer-derivation-questions-3">Long Answer / Derivation Questions</h5><ul>
+<li><p>Derive Gauss's law of magnetism in differential form from its integral form, and explain why there is no magnetic analogue of electric charge.</p></li>
+<li><p>Derive the relation B = μ0(H + M), and explain the physical role played by H in Ampere's law for magnetic media.</p></li>
+<li><p>Describe, with a labelled diagram, the B–H hysteresis loop of a ferromagnetic material, defining retentivity, coercivity, and saturation.</p></li>
+<li><p>Explain the domain theory of ferromagnetism and use it to account for hysteresis and the existence of the Curie temperature.</p></li>
+<li><p>Draw the analogy between electric and magnetic circuits and derive the expression for reluctance of a magnetic core.</p></li>
+</ul><h5 id="numerical-problems-3">Numerical Problems</h5><ul>
+<li><p>A magnetic material has H = 2000 A/m and B = 3.0 T. Find μ, μr and χm.</p></li>
+<li><p>The area of the hysteresis loop of a specimen corresponds to an energy loss of 200 J/m³ per cycle. Find the total energy lost per second in a 2 kg sample (density 7800 kg/m³) operating at 50 Hz.</p></li>
+<li><p>An air-cored toroid has 300 turns, mean radius 8 cm, and cross-section 3 cm². Find the reluctance and the self-inductance of the winding.</p></li>
+<li><p>A rod of paramagnetic material with χm = 2×10⁻⁴ is placed in a field H = 5000 A/m. Find its magnetisation M and the resulting B.</p></li>
+</ul><h5 id="multiple-choice-questions-3">Multiple Choice Questions</h5><ul>
+<li><p>1. The divergence of B is always: (a) ρ/ε0 (b) zero (c) μ0J (d) infinite — Answer: (b)</p></li>
+<li><p>2. For a paramagnetic material, χm is: (a) large and negative (b) small and positive (c) small and negative (d) large and positive — Answer: (b)</p></li>
+<li><p>3. The area of the B–H hysteresis loop represents: (a) stored energy (b) energy loss per cycle per unit volume (c) coercivity (d) permeability — Answer: (b)</p></li>
+<li><p>4. Reluctance in a magnetic circuit is analogous to which quantity in an electric circuit? (a) EMF (b) current (c) resistance (d) capacitance — Answer: (c)</p></li>
+<li><p>5. Above the Curie temperature, a ferromagnetic material becomes: (a) diamagnetic (b) paramagnetic (c) superconducting (d) perfectly ferromagnetic — Answer: (b)</p></li>
+</ul>
+<h4 id="classification-of-magnetic-materials">Classification of Magnetic Materials</h4><table class="ext-table">
+<colgroup>
+<col style="width: 20%"/>
+<col style="width: 27%"/>
+<col style="width: 27%"/>
+<col style="width: 24%"/>
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Property</strong></td>
+<td><strong>Diamagnetic</strong></td>
+<td><strong>Paramagnetic</strong></td>
+<td><strong>Ferromagnetic</strong></td>
+</tr>
+<tr class="even">
+<td>Origin</td>
+<td>Induced opposing dipoles (Lenz's law at atomic level); no permanent atomic dipole</td>
+<td>Permanent atomic dipoles, weakly aligned by field, randomised by thermal agitation</td>
+<td>Permanent atomic dipoles, strongly aligned within domains</td>
+</tr>
+<tr class="odd">
+<td>Behaviour in field</td>
+<td>Weakly repelled</td>
+<td>Weakly attracted</td>
+<td>Strongly attracted</td>
+</tr>
+<tr class="even">
+<td>Susceptibility χm</td>
+<td>Small, negative, ~temperature-independent</td>
+<td>Small, positive, decreases with T (Curie's law)</td>
+<td>Large, positive, highly non-linear, T-dependent (Curie temperature)</td>
+</tr>
+<tr class="odd">
+<td>Effect of removing field</td>
+<td>Magnetisation vanishes immediately</td>
+<td>Magnetisation vanishes (no memory)</td>
+<td>Retains magnetisation (hysteresis, permanent magnets)</td>
+</tr>
+<tr class="even">
+<td>Examples</td>
+<td>Bismuth, copper, gold, water</td>
+<td>Aluminium, platinum, chromium, oxygen</td>
+<td>Iron, cobalt, nickel, and their alloys</td>
+</tr>
+</tbody>
+</table><p><strong>UNIT 5</strong></p><p><strong>Electromagnetic Induction</strong></p>
+</div></div><div class="note-block" id="u4"><h3>Unit 5 — Network Theorems & Maxwell's Equations</h3>
 <p><b>Kirchhoff's laws:</b> KCL (sum of currents at a node = 0) and KVL (sum of voltage drops around a loop =
 0) are the basic tools for circuit analysis, derived from charge conservation and the conservative nature of
 the electrostatic field respectively (extended to quasi-static AC circuits).</p>
@@ -278,7 +762,138 @@ the continuity equation and Ampere's law consistent when charge accumulates on a
 Faraday's law, and the Ampere–Maxwell law. Together, in vacuum, they predict self-sustaining electromagnetic
 waves travelling at c = 1/√(μ₀ε₀), with energy flux given by the <b>Poynting vector</b> S = E×H.</p>
 </div></div>
-</div></div>
+<div class="ext-note"><div class="ext-head"><span class="ext-tag">Extended Notes</span><h4>Unit 5 — Electromagnetic Induction, incl. Appendices & Reference Material — Full Chapter</h4></div>
+<h4 id="faradays-law-of-electromagnetic-induction">5.1 Faraday's Law of Electromagnetic Induction</h4><p>Faraday discovered experimentally that a changing magnetic flux through a circuit induces an electromotive force (EMF) in that circuit, whether the change arises from a changing field, a moving circuit, or both. This phenomenon underlies the operation of generators, transformers, and inductors.</p><h5 id="integral-form-2">Integral Form</h5><p><em>ε = ∮C E · dl = − dΦB/dt</em></p><p>where ΦB = ∫∫S B·dA is the magnetic flux through any surface S bounded by the closed loop C, and ε is the induced EMF around the loop. The negative sign encodes Lenz's law (Section 5.2): the induced EMF always acts to oppose the change in flux that produced it. For a coil of N turns, the induced EMF is amplified by the number of turns:</p><p><em>ε = − N dΦB/dt</em></p><h5 id="differential-form-2">Differential Form</h5><p>Applying Stokes' theorem to the left side, ∮E·dl = ∫∫(∇×E)·dA, and writing dΦB/dt = ∫∫(∂B/∂t)·dA, we obtain, since the surface S is arbitrary:</p><p><em>∇ × E = − ∂B/∂t</em></p><p>This is one of Maxwell's four equations, and represents a profound departure from electrostatics: a time-varying magnetic field creates an electric field with non-zero curl — one that is no longer conservative and cannot be derived from a single-valued scalar potential alone. This induced E field is the mechanism by which EMF is generated in a stationary conductor placed in a changing magnetic field.</p><blockquote>
+<p><em>Note: Flux can change due to (i) a time-varying B with a stationary loop, (ii) a moving or deforming loop in a static but non-uniform field, or (iii) a rotating loop in a uniform field (the principle of the AC generator). Whatever the cause, Faraday's law ε = −dΦB/dt applies universally.</em></p>
+</blockquote><h5 id="applications-of-faradays-law">Applications of Faraday's Law</h5><ul>
+<li><p>AC and DC generators, converting mechanical rotational energy into electrical energy (Section 5.5).</p></li>
+<li><p>Transformers, which transfer electrical power between circuits via mutual induction (Section 5.0B).</p></li>
+<li><p>Induction cooktops and induction furnaces, which use induced eddy currents for direct heating.</p></li>
+<li><p>Metal detectors and electromagnetic flow meters, which detect changes in flux caused by a moving or conducting object.</p></li>
+<li><p>Wireless (inductive) charging systems, which transfer power between coils via a time-varying magnetic field.</p></li>
+</ul><h5 id="limitations-3">Limitations</h5><ul>
+<li><p>Faraday's law in the form ε = −dΦB/dt gives only the net EMF around a loop; determining the actual current requires additionally knowing the circuit's resistance and any other EMF sources, via Ohm's law/Kirchhoff's laws.</p></li>
+<li><p>For circuits in relative motion at speeds approaching the speed of light, the simple flux-rule picture must be supplemented by full relativistic electrodynamics, though this is far outside the non-relativistic scope of this course.</p></li>
+</ul>
+<h4 id="lenzs-law">5.2 Lenz's Law</h4><p><img loading="lazy" src="notes-media/image12.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig. 5.1 — As the magnet's north pole approaches the coil, the induced current creates a field that opposes the approach (Lenz's law).</em></p><p>Lenz's law states that the direction of an induced current is always such as to oppose the change in magnetic flux that produces it. Physically, this is a manifestation of energy conservation: if the induced current instead reinforced the change in flux, the process would be self-amplifying, generating energy from nothing, in violation of the first law of thermodynamics.</p><p>Lenz's law is already built into the minus sign of Faraday's law, ε = −dΦB/dt, but it is a useful qualitative tool for quickly determining the direction of induced currents without detailed calculation:</p><ul>
+<li><p>If flux through a loop is increasing, the induced current flows in a direction that creates a magnetic field opposing the increase (i.e., opposite to the original field, inside the loop).</p></li>
+<li><p>If flux is decreasing, the induced current flows so as to reinforce the original field, opposing the decrease.</p></li>
+<li><p>As a corollary, a moving magnet approaching a coil always experiences a retarding (repulsive) force from the induced current, and receding always experiences an attractive force — in either case, opposing the relative motion.</p></li>
+</ul><p><strong><u>Example: Direction of induced current</u></strong></p><p>A bar magnet's north pole approaches a circular loop of wire, increasing the flux through the loop (into the page, say). By Lenz's law, the induced current opposes this increase, flowing so as to create a field out of the page inside the loop — that is, counterclockwise as viewed from the approaching magnet. This makes the near face of the loop effectively a north pole, repelling the approaching magnet, consistent with energy conservation (work must be done to push the magnet closer).</p>
+<h4 id="self-and-mutual-induction">5.3 Self and Mutual Induction</h4><h5 id="self-inductance">Self-Inductance</h5><p>When current flows in a circuit, it produces a magnetic flux linking that same circuit. If the current changes, the resulting change in self-flux induces a 'back EMF' in the circuit itself, opposing the change in current — an effect called self-induction. The self-inductance L of a circuit is defined by:</p><p><em>Φself = L I, hence ε = − L (dI/dt)</em></p><p>The SI unit of inductance is the henry (H), where 1 H = 1 Wb/A = 1 V·s/A. Self-inductance depends only on the geometry of the circuit (and the permeability of any surrounding medium), not on the current itself (for linear media).</p><p><strong><u>Example: Self-inductance of a solenoid</u></strong></p><p>For a solenoid of N turns, length l, cross-sectional area A, and core permeability μ, the field inside is B = μnI (n = N/l), so the flux linkage is NΦ = N(BA) = μN²IA/l, giving:</p><p>L = μN²A/l = μn²(Al) = μn²(Volume).</p><p>This shows L increases with the square of the number of turns per unit length — doubling the turn density quadruples the inductance for the same solenoid volume.</p><h5 id="mutual-inductance">Mutual Inductance</h5><p>When two circuits are magnetically coupled (the flux from one links the other), a changing current in one circuit induces an EMF in the other. The mutual inductance M12 (between circuit 1 and circuit 2) is defined by:</p><p><em>Φ2 (due to I1) = M12 I1, ε2 = − M12 (dI1/dt)</em></p><p>A key theorem (the Neumann formula / reciprocity theorem) shows that the mutual inductance is symmetric: M12 = M21 = M, regardless of the shapes or relative arrangement of the two circuits — the flux linking circuit 2 per unit current in circuit 1 equals the flux linking circuit 1 per unit current in circuit 2. This reciprocal property is the basis for the operation of transformers, where an alternating current in a primary coil induces an EMF in a secondary coil via their mutual inductance.</p><p><strong><u>Example: Mutual inductance of two coaxial solenoids</u></strong></p><p>A short secondary coil of N2 turns is wound tightly around the middle of a long primary solenoid of n1 turns per unit length and cross-sectional area A. The field of the primary, B1 = μ0n1I1, links all N2 turns of the secondary, giving flux Φ2 = N2 B1 A = μ0 n1 N2 A I1, so:</p><p>M = μ0 n1 N2 A.</p><h5 id="applications-of-self--and-mutual-inductance">Applications of Self- and Mutual Inductance</h5><ul>
+<li><p>Inductors (self-inductance) are essential components of AC circuits, filters, and oscillators, and store energy in devices such as switch-mode power supplies.</p></li>
+<li><p>Mutual inductance is the working principle of transformers (Section 5.0B), induction coils, and wireless charging pads.</p></li>
+<li><p>Mutual inductance between adjacent circuits also gives rise to unwanted 'crosstalk' in electronics, which practical circuit and cable design must minimise through shielding and careful layout.</p></li>
+</ul><h5 id="limitations-4">Limitations</h5><p>The simple formulae for L and M derived above (e.g. for solenoids) assume idealised, tightly wound, infinitely long or well-separated coils with no fringing of the field; real, finite coils require correction factors or numerical computation for accurate values of L and M.</p>
+<h4 id="energy-stored-in-a-magnetic-field">5.4 Energy Stored in a Magnetic Field</h4><p>Establishing a current in an inductor requires work to be done against the induced back-EMF, and this work is stored as magnetic potential energy. Consider building up a current from 0 to I in an inductor L; at any instant, the back EMF is ε = L(dI/dt), and the instantaneous power delivered against it is P = εI = LI(dI/dt). The total work done (energy stored) is:</p><p><em>U = ∫0→I L I' dI' = (1/2) L I²</em></p><p>This is the energy stored in the magnetic field of the inductor once the final current I is established, and it remains stored (recoverable) as long as the current flows, exactly analogous to the energy (1/2)CV² stored in a charged capacitor's electric field.</p><p>As with the electric field, this energy can equivalently be regarded as distributed throughout space with an energy density, consistent with the expression obtained in Unit 4:</p><p><em>u = B² / (2μ0) (in vacuum), or u = B·H/2 = μH²/2 (in a linear medium)</em></p><p>For example, for a solenoid of volume Al, using L = μ0n²(Al) and B = μ0nI, we can verify:</p><p><em>U = (1/2)LI² = (1/2)μ0n²(Al)I² = [ (μ0nI)² / 2μ0 ](Al) = (B²/2μ0)(Al) = u × Volume</em></p><p>confirming that the circuit-based energy (1/2)LI² and the field-based energy density B²/2μ0 give identical results, reinforcing the view that magnetic energy genuinely resides in the field pervading the region where B is non-zero, not merely as an abstract circuit-element property.</p>
+<h4 id="a-motional-emf-supplementary-topic">5.0A Motional EMF (Supplementary Topic)</h4><p>A particularly instructive special case of Faraday's law arises when a conducting rod of length l moves with velocity v perpendicular to a uniform magnetic field B, sliding along a pair of stationary rails that close the circuit. Here the flux through the circuit changes purely because the area of the circuit changes with time, not because B itself varies.</p><p>This EMF can be understood microscopically: the free charges in the moving rod experience a magnetic force qv×B, of magnitude qvB, which drives them along the rod exactly as an electric field E = v×B would. Integrating this effective field along the rod gives the motional EMF directly:</p><p><em>ε = ∫ (v × B) · dl = Bvl</em></p><p>which can be verified to agree exactly with −dΦB/dt = −B(dA/dt) = −B(l)(−v) = Bvl, computed from the changing area of the circuit. This equivalence — between the force-based (v×B) picture and the flux-rule (−dΦ/dt) picture — illustrates the deep consistency of Faraday's law regardless of whether the flux change originates from a time-varying field (stationary circuit) or from relative motion (static field), a point Einstein highlighted as one of the motivations for special relativity.</p>
+<h4 id="b-eddy-currents-and-transformers-supplementary-topic">5.0B Eddy Currents and Transformers (Supplementary Topic)</h4><p>When a bulk conductor (rather than a thin wire loop) is exposed to a changing magnetic flux, or moves through a non-uniform field, circulating (eddy) currents are induced within the body of the conductor itself, in swirling loops perpendicular to B. By Lenz's law, these currents oppose the change producing them, giving rise to a retarding force on any relatively moving conductor (used deliberately in electromagnetic braking) and to resistive (I²R) heating losses within the conductor (used deliberately in induction furnaces, but undesirable in transformer cores and machine armatures, where they are minimised by laminating the core into thin, mutually insulated sheets that restrict the paths available to eddy currents).</p><p>A transformer exploits mutual inductance (Section 5.3) between a primary and secondary winding, both wound on a common laminated ferromagnetic core that concentrates and guides the flux (Section 4.8A) so that essentially all of the flux produced by the primary also links the secondary. For an ideal transformer with Np primary turns and Ns secondary turns, equal flux linkage per turn gives the transformation ratio:</p><p><em>Vs / Vp = Ns / Np</em></p><p>and, for an ideal (lossless) transformer, conservation of power (VpIp = VsIs) gives the corresponding current relation Is/Ip = Np/Ns — a step-up transformer (Ns &gt; Np) increases voltage while proportionally decreasing current, and vice versa for a step-down transformer.</p>
+<h4 id="the-ac-generator-an-application-of-faradays-law">5.5 The AC Generator — An Application of Faraday's Law</h4><p><img loading="lazy" src="notes-media/image13.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig. 5.2 — A coil rotating with angular velocity ω in a uniform field B generates a sinusoidal EMF (the AC generator principle).</em></p><p>A simple AC generator consists of a rectangular coil of N turns and area A rotating with constant angular velocity ω in a uniform magnetic field B. If θ = ωt is the angle between the normal to the coil and B at time t, the flux linkage is:</p><p><em>NΦB = NBA cos(ωt)</em></p><p>By Faraday's law, the induced EMF is:</p><p><em>ε = − d(NΦB)/dt = NBAω sin(ωt) = ε0 sin(ωt)</em></p><p>where ε0 = NBAω is the peak EMF. This sinusoidally varying EMF is the basis of AC power generation; the frequency of the generated EMF equals the rotational frequency of the coil, and the amplitude can be increased by increasing N, B, A, or ω.</p><p><strong><u>Example: EMF induced in a changing field</u></strong></p><p>A circular coil of 100 turns and radius 5 cm is placed with its plane perpendicular to a magnetic field that changes uniformly from 0.2 T to 0.8 T in 0.5 s. Find the average induced EMF.</p><p>Area A = π(0.05)² = 7.85×10⁻³ m². ΔΦ = ΔB×A = 0.6×7.85×10⁻³ = 4.71×10⁻³ Wb.</p><p>ε = N(ΔΦ/Δt) = 100 × (4.71×10⁻³/0.5) = 0.942 V.</p><p><strong><u>Example: Energy stored in an inductor</u></strong></p><p>An inductor of 2 H carries a steady current of 5 A. Find the energy stored in its magnetic field.</p><p>U = (1/2)LI² = (1/2)(2)(5)² = 25 J.</p><p><strong><u>Example: Mutual EMF between two coils</u></strong></p><p>Two coils have a mutual inductance of 0.5 H. If the current in the primary changes at a rate of 4 A/s, find the EMF induced in the secondary.</p><p>ε2 = −M(dI1/dt) = −0.5 × 4 = −2 V (magnitude 2 V, direction given by Lenz's law).</p>
+<h4 id="review-questions-unit-5">Review Questions — Unit 5</h4><h5 id="short-answer-questions-4">Short Answer Questions</h5><ul>
+<li><p>State Faraday's law of electromagnetic induction in both integral and differential form.</p></li>
+<li><p>State Lenz's law and explain how it is consistent with the principle of conservation of energy.</p></li>
+<li><p>Define self-inductance and mutual inductance, with their SI units.</p></li>
+<li><p>Show that mutual inductance is reciprocal, i.e., M12 = M21.</p></li>
+<li><p>Write the expression for energy stored in an inductor and explain its origin physically.</p></li>
+<li><p>Why must the induced electric field during electromagnetic induction be non-conservative?</p></li>
+</ul><h5 id="long-answer-derivation-questions-4">Long Answer / Derivation Questions</h5><ul>
+<li><p>State and derive Faraday's law of electromagnetic induction in differential form, starting from its integral form.</p></li>
+<li><p>Derive an expression for the self-inductance of a long solenoid.</p></li>
+<li><p>Derive an expression for the mutual inductance between two coaxial solenoids (a long primary and a short secondary wound around its middle).</p></li>
+<li><p>Derive the expression for the energy stored in the magnetic field of a current-carrying inductor, and show its equivalence to the field energy density B²/2μ0.</p></li>
+<li><p>Derive an expression for the EMF induced in a coil rotating with constant angular velocity in a uniform magnetic field (AC generator).</p></li>
+</ul><h5 id="numerical-problems-4">Numerical Problems</h5><ul>
+<li><p>A coil of 200 turns and area 0.02 m² rotates at 50 revolutions per second in a field of 0.1 T. Find the peak EMF generated.</p></li>
+<li><p>The current in a coil of self-inductance 0.4 H changes from 2 A to 6 A in 0.2 s. Find the average induced EMF.</p></li>
+<li><p>Two coils have mutual inductance 0.25 H. Find the EMF induced in one coil when the current in the other changes at 10 A/s.</p></li>
+<li><p>Find the energy density in a magnetic field of 0.5 T in vacuum. [Ans: ≈ 9.95×10⁴ J/m³]</p></li>
+</ul><h5 id="multiple-choice-questions-4">Multiple Choice Questions</h5><ul>
+<li><p>1. The SI unit of self-inductance is: (a) weber (b) tesla (c) henry (d) farad — Answer: (c)</p></li>
+<li><p>2. Lenz's law is a consequence of: (a) charge conservation (b) energy conservation (c) momentum conservation (d) Gauss's law — Answer: (b)</p></li>
+<li><p>3. The differential form of Faraday's law is: (a) ∇·E = −∂B/∂t (b) ∇×E = −∂B/∂t (c) ∇×B = μ0J (d) ∇·B = 0 — Answer: (b)</p></li>
+<li><p>4. Energy stored in an inductor carrying current I is: (a) LI (b) LI² (c) (1/2)LI² (d) (1/2)L²I — Answer: (c)</p></li>
+<li><p>5. In an AC generator, the induced EMF varies as: (a) cos(ωt) only (b) a constant (c) sin(ωt) (d) linearly with time — Answer: (c)</p></li>
+</ul>
+<h4 id="unit-5-summary">Unit 5 Summary</h4><table class="ext-table">
+<colgroup>
+<col style="width: 40%"/>
+<col style="width: 60%"/>
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Law / Quantity</strong></td>
+<td><strong>Expression</strong></td>
+</tr>
+<tr class="even">
+<td>Faraday's law (integral)</td>
+<td>ε = −dΦB/dt = −N dΦB/dt (N turns)</td>
+</tr>
+<tr class="odd">
+<td>Faraday's law (differential)</td>
+<td>∇ × E = −∂B/∂t</td>
+</tr>
+<tr class="even">
+<td>Lenz's law</td>
+<td>Induced effects oppose the change producing them</td>
+</tr>
+<tr class="odd">
+<td>Self-inductance</td>
+<td>Φself = LI ; ε = −L dI/dt</td>
+</tr>
+<tr class="even">
+<td>Mutual inductance</td>
+<td>Φ2 = M I1 ; M12 = M21</td>
+</tr>
+<tr class="odd">
+<td>Energy in an inductor</td>
+<td>U = (1/2)LI² = ∫(B²/2μ0)dV</td>
+</tr>
+</tbody>
+</table>
+<h4 id="a.1-gradient-divergence-and-curl">A.1 Gradient, Divergence and Curl</h4><ul>
+<li><p>Gradient of a scalar field V: ∇V = (∂V/∂x)x̂ + (∂V/∂y)ŷ + (∂V/∂z)ẑ — points in the direction of steepest increase of V.</p></li>
+<li><p>Divergence of a vector field A: ∇·A = ∂Ax/∂x + ∂Ay/∂y + ∂Az/∂z — a scalar measuring the net outward 'flow' of A per unit volume at a point.</p></li>
+<li><p>Curl of a vector field A: ∇×A — a vector measuring the local 'rotation' or circulation of A per unit area at a point.</p></li>
+</ul>
+<h4 id="a.2-integral-theorems">A.2 Integral Theorems</h4><ul>
+<li><p>Divergence theorem (Gauss–Ostrogradsky theorem): ∮S A·dA = ∫∫∫V (∇·A) dV — relates the flux of A through a closed surface S to the volume integral of ∇·A over the enclosed volume V. Used to pass between the integral and differential forms of Gauss's law (electric and magnetic).</p></li>
+<li><p>Stokes' theorem: ∮C A·dl = ∫∫S (∇×A)·dA — relates the circulation of A around a closed loop C to the flux of ∇×A through any surface S bounded by C. Used to pass between the integral and differential forms of Ampere's law and Faraday's law.</p></li>
+</ul>
+<h4 id="a.3-key-identities-used-in-these-notes">A.3 Key Identities Used in These Notes</h4><ul>
+<li><p>∇×(∇V) = 0 for any scalar V — this is why a conservative field (∇×E = 0) can always be written as E = −∇V.</p></li>
+<li><p>∇·(∇×A) = 0 for any vector A — consistent with ∇·B = 0 following automatically whenever B is written as the curl of a vector potential (a result explored in more advanced courses).</p></li>
+</ul>
+<h4 id="section-a-short-answer-answer-any-5-4-marks-each-20-marks">Section A (Short Answer — Answer any 5, 4 marks each = 20 marks)</h4><ul>
+<li><p>1. State Gauss's law and explain the significance of the Gaussian surface.</p></li>
+<li><p>2. Distinguish between electric field and electric potential.</p></li>
+<li><p>3. State the Biot–Savart law and mention two of its applications.</p></li>
+<li><p>4. Define magnetic susceptibility and relative permeability.</p></li>
+<li><p>5. State Faraday's and Lenz's laws of electromagnetic induction.</p></li>
+<li><p>6. Define self- and mutual inductance with their SI units.</p></li>
+</ul>
+<h4 id="section-b-medium-answer-answer-any-5-6-marks-each-30-marks">Section B (Medium Answer — Answer any 5, 6 marks each = 30 marks)</h4><ul>
+<li><p>1. Derive the electric field due to an infinite plane sheet of charge using Gauss's law.</p></li>
+<li><p>2. Derive the relation E = −∇V and explain the concept of equipotential surfaces.</p></li>
+<li><p>3. Using Ampere's circuital law, derive the magnetic field inside a long solenoid.</p></li>
+<li><p>4. Explain the B–H hysteresis loop, defining retentivity and coercivity.</p></li>
+<li><p>5. Derive the expression for the self-inductance of a long solenoid.</p></li>
+<li><p>6. Explain the domain theory of ferromagnetism.</p></li>
+</ul>
+<h4 id="section-c-long-answer-answer-any-2-10-marks-each-20-marks">Section C (Long Answer — Answer any 2, 10 marks each = 20 marks)</h4><ul>
+<li><p>1. State and prove Gauss's law of electrostatics, and use it to derive the electric field inside and outside a uniformly charged solid sphere.</p></li>
+<li><p>2. Derive the magnetic field on the axis of a circular current loop and at the centre of a toroid, using the Biot–Savart law and Ampere's law respectively.</p></li>
+<li><p>3. Derive Faraday's law of electromagnetic induction in differential form, and use it to obtain the EMF induced in a coil rotating in a uniform magnetic field.</p></li>
+</ul>
+<h4 id="text-books">Text Books</h4><ul>
+<li><p>Edward M. Purcell, Electricity and Magnetism (McGraw-Hill Education, 1986).</p></li>
+<li><p>David J. Griffiths, Introduction to Electrodynamics, 3rd Edn. (Benjamin Cummings, 1998).</p></li>
+</ul>
+<h4 id="reference-books">Reference Books</h4><ul>
+<li><p>Arthur F. Kip, Fundamentals of Electricity and Magnetism (McGraw-Hill, 1968).</p></li>
+<li><p>J. H. Fewkes &amp; John Yarwood, Electricity and Magnetism, Vol. I (Oxford University Press, 1991).</p></li>
+<li><p>D. C. Tayal, Electricity and Magnetism (Himalaya Publishing House, 1988).</p></li>
+</ul>
+</div></div></div>
 <footer>
   <div class="wrap">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
