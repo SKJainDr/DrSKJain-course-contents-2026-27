@@ -165,6 +165,21 @@ footer a{color:#f2d9a6;}
   a{color:#000 !important;text-decoration:none !important;}
   .card,.note-block{box-shadow:none !important;border:none !important;}
 }
+
+/* --- Extended detailed notes (unit-wise merge) --- */
+.ext-note{margin:22px 0 6px;padding-top:14px;border-top:2px dashed var(--line);}
+.ext-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.ext-tag{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  background:var(--gold);color:#0e2a3d;padding:3px 9px;border-radius:20px;}
+.ext-note h4{margin:14px 0 6px;color:var(--heading);}
+.ext-note h5{margin:14px 0 4px;color:var(--rust);}
+.ext-note h6{margin:10px 0 4px;color:var(--muted);font-size:1rem;}
+.ext-note p{margin:8px 0;}
+.ext-note table.ext-table{border-collapse:collapse;margin:12px 0;width:100%;font-size:.92rem;}
+.ext-note table.ext-table td, .ext-note table.ext-table th{border:1px solid var(--line);padding:6px 10px;text-align:left;}
+.ext-note table.ext-table th{background:var(--tint);}
+.ext-note img{display:block;}
+.ext-note ul,.ext-note ol{margin:8px 0;padding-left:24px;}
 </style>
 </head>
 <body>
@@ -206,7 +221,7 @@ footer a{color:#f2d9a6;}
   <p class="sub">Detailed, exam-oriented notes covering every syllabus unit.</p>
 </div></div>
 
-<div class="dl-bar"><button onclick="dlPrintPage()">🖨️ Download / Print this page (PDF)</button></div>
+<div class="dl-bar"><button onclick="dlPrintPage()">🖨️ Download / Print this page (PDF)</button></div><div class="dl-bar"><a href="downloads/VOI001_Lecture_Notes.docx" download style="text-decoration:none;"><button>📘 Download full detailed notes (DOCX)</button></a></div>
 <div class="section"><div class="wrap">
   <div class="toc"><a href="#u0">Unit 1 — Computer & Office Fundamentals</a><a href="#u1">Unit 2 — MS Word</a><a href="#u2">Unit 3 — MS Excel</a><a href="#u3">Unit 4 — MS PowerPoint</a><a href="#u4">Unit 5 — Internet, Email & MS Access</a></div>
   <div class="card"><div class="note-block" id="u0"><h3>Unit 1 — Computer & Office Fundamentals</h3>
@@ -218,7 +233,143 @@ manages resources, while application software (like MS Office) performs user tas
 common Ribbon-based interface for consistency across applications.</p>
 <p><b>Backstage view</b> (File tab) is where you open, save, print and manage document properties, distinct
 from the Ribbon which holds in-document editing commands organized into tabs and groups.</p>
-</div><div class="note-block" id="u1"><h3>Unit 2 — MS Word</h3>
+<div class="ext-note"><div class="ext-head"><span class="ext-tag">Extended Notes</span><h4>Unit 1 — Computer & Office Fundamentals — Full Chapter</h4></div>
+<h4 id="components-of-ms-office-covered-in-this-course">Components of MS-Office covered in this course</h4><table class="ext-table">
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Application</strong></th>
+<th><strong>Purpose (English)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>MS Word</td>
+<td>A word-processing program used to create, edit, and format text documents such as letters, reports, resumes, and notices.</td>
+</tr>
+<tr class="even">
+<td>MS Excel</td>
+<td>A spreadsheet program used for storing data in rows and columns, performing calculations, and analysing numeric data.</td>
+</tr>
+<tr class="odd">
+<td>MS PowerPoint</td>
+<td>A presentation program used to design slide shows containing text, images, charts, audio and video for effective communication.</td>
+</tr>
+</tbody>
+</table><blockquote>
+<p><strong>MS Word</strong> — पत्र, रिपोर्ट, बायोडाटा एवं सूचनाएँ जैसे पाठ (टेक्स्ट) दस्तावेज़ बनाने, संपादित करने तथा फॉर्मेट करने का प्रोग्राम।</p>
+<p><strong>MS Excel</strong> — पंक्तियों (rows) व स्तंभों (columns) में डेटा संग्रहीत करने, गणनाएँ करने तथा संख्यात्मक डेटा का विश्लेषण करने का प्रोग्राम।</p>
+<p><strong>MS PowerPoint</strong> — पाठ, चित्र, चार्ट, ऑडियो और वीडियो युक्त स्लाइड शो डिज़ाइन करने का प्रोग्राम, जो प्रभावी संप्रेषण (communication) के लिए उपयोग होता है।</p>
+</blockquote>
+<h4 id="how-to-install-ms-office-एमएस-ऑफस-इसटल-कस-कर">0.1 How to Install MS-Office (एमएस-ऑफिस इंस्टॉल कैसे करें)</h4><ol type="1">
+<li><p>Ensure the computer meets the minimum system requirements (Windows 10/11 or macOS, at least 4 GB RAM, 4 GB free disk space, and an internet connection for activation).</p></li>
+<li><p>Purchase a genuine licence or subscription (Microsoft 365) from the official Microsoft website (www.office.com) or use the licence key/DVD provided by your institution.</p></li>
+<li><p>Sign in (or create a free Microsoft account) at www.office.com using your email ID.</p></li>
+<li><p>Click Install Office (or Install apps) on the account/subscription page.</p></li>
+<li><p>Run the downloaded setup file (OfficeSetup.exe on Windows). Allow the User Account Control (UAC) prompt by clicking Yes.</p></li>
+<li><p>Wait while the installer downloads and installs all the applications (Word, Excel, PowerPoint, Outlook, etc.). A progress screen with a rotating animation is shown.</p></li>
+<li><p>Once installation finishes, click Close, then open any Office application and sign in again to Activate Office using your account.</p></li>
+<li><p>Verify the installation by opening Word/Excel/PowerPoint from the Start Menu and checking Account or File → Account to confirm the product is activated (it will show 'Product Activated').</p></li>
+</ol><blockquote>
+<p>स्थापना (installation) से पहले सुनिश्चित करें कि कंप्यूटर की न्यूनतम आवश्यकताएँ पूरी हों। आधिकारिक वेबसाइट www.office.com से लॉग-इन करें, 'Install Office' पर क्लिक करें, डाउनलोड हुई सेटअप फ़ाइल चलाएँ, User Account Control अनुमति दें, और स्थापना पूर्ण होने पर खाते से साइन-इन कर सॉफ्टवेयर सक्रिय (activate) करें।</p>
+</blockquote>
+<h4 id="opening-an-office-application">0.2 Opening an Office Application</h4><ol start="9" type="1">
+<li><p>Method 1 — Start Menu: Click the Windows Start button (bottom-left corner) → type the application name (e.g., 'Word') in the search box → click on the matching result.</p></li>
+<li><p>Method 2 — Desktop/Taskbar shortcut: Double-click the application icon on the Desktop, or single-click its pinned icon on the Taskbar.</p></li>
+<li><p>Method 3 — From File Explorer: Navigate to an existing file with the matching extension (.docx, .xlsx, .pptx) and double-click it; the associated application opens automatically along with that file.</p></li>
+<li><p>On the Start Screen that appears, choose 'Blank document/workbook/presentation' to begin a new file, or select a template, or click 'Open Other Documents/Workbooks/Presentations' to open an existing file.</p></li>
+</ol><blockquote>
+<p>एप्लीकेशन खोलने के तीन सामान्य तरीके हैं: (1) स्टार्ट मेनू से खोजकर, (2) डेस्कटॉप/टास्कबार के शॉर्टकट आइकन पर क्लिक करके, या (3) पहले से मौजूद फ़ाइल पर डबल-क्लिक करके। खुलने के बाद प्रारंभिक स्क्रीन पर 'Blank document' चुनकर नया दस्तावेज़ शुरू करें अथवा किसी टेम्पलेट का चयन करें।</p>
+</blockquote>
+<h4 id="saving-and-opening-files-सव-तथ-ओपन-करन">0.3 Saving and Opening Files (सेव तथा ओपन करना)</h4><table class="ext-table">
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Operation</strong></th>
+<th><strong>Effect (English)</strong></th>
+<th><strong>प्रभाव (Hindi)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>New (Ctrl+N)</td>
+<td>Creates a fresh, blank file so you can start typing/entering data from scratch.</td>
+<td>एक नई खाली फ़ाइल बनाता है।</td>
+</tr>
+<tr class="even">
+<td>Open (Ctrl+O)</td>
+<td>Displays a dialog box to browse to and load an existing file saved on the computer, a USB drive, or cloud storage (OneDrive).</td>
+<td>पहले से सहेजी गई फ़ाइल को खोजकर लोड करने के लिए संवाद बॉक्स दिखाता है।</td>
+</tr>
+<tr class="odd">
+<td>Save (Ctrl+S)</td>
+<td>Stores the current state of the file to disk under its existing name and location. If the file has never been saved, Save behaves like Save As and asks for a name/location.</td>
+<td>फ़ाइल को उसके वर्तमान नाम व स्थान पर सहेजता है।</td>
+</tr>
+<tr class="even">
+<td>Save As (F12)</td>
+<td>Opens a dialog box that lets you choose a NEW name, a new location (folder/drive), and a different file format (e.g., saving a .docx as a .pdf or as a .doc for older Word versions) — the original file remains untouched if you change the name.</td>
+<td>नया नाम, नया स्थान अथवा भिन्न फ़ाइल फॉर्मेट चुनकर सहेजने की सुविधा देता है।</td>
+</tr>
+<tr class="odd">
+<td>Close (Ctrl+W)</td>
+<td>Closes the currently open file. If unsaved changes exist, a prompt appears asking whether to save, discard, or cancel.</td>
+<td>वर्तमान में खुली फ़ाइल को बंद करता है।</td>
+</tr>
+</tbody>
+</table><h5 id="step-by-step-saving-a-file-for-the-first-time">Step-by-step: Saving a file for the first time</h5><ol start="13" type="1">
+<li><p>Click the File tab (top-left corner) → Save As (or press F12 / Ctrl+Shift+S).</p></li>
+<li><p>Choose a location: This PC (a folder on the hard disk), Browse (to pick any specific folder), or OneDrive (to save online).</p></li>
+<li><p>In the File name box, type a meaningful name for the file (avoid special characters such as \ / : * ? " &lt; &gt; |).</p></li>
+<li><p>In the Save as type drop-down, confirm the file format — Word Document (*.docx), Excel Workbook (*.xlsx), or PowerPoint Presentation (*.pptx) are the modern default formats.</p></li>
+<li><p>Click Save. The title bar now displays the new file name, confirming the save was successful.</p></li>
+<li><p>For subsequent edits, simply press Ctrl+S at regular intervals — this is good practice to avoid losing work due to power failure or a system crash.</p></li>
+</ol><p><strong>Common file formats:</strong></p><table class="ext-table">
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Application</strong></th>
+<th><strong>Default (Modern) Format</strong></th>
+<th><strong>Other Common Formats</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Word</td>
+<td>.docx</td>
+<td>.doc / .pdf / .rtf / .txt / .odt</td>
+</tr>
+<tr class="even">
+<td>Excel</td>
+<td>.xlsx</td>
+<td>.xls / .csv / .pdf / .ods</td>
+</tr>
+<tr class="odd">
+<td>PowerPoint</td>
+<td>.pptx</td>
+<td>.ppt / .pdf / .pptx (Show) / .jpg per slide</td>
+</tr>
+</tbody>
+</table><h5 id="helpful-tips">Helpful tips</h5><ul>
+<li><p>AutoSave / AutoRecover: Office automatically saves a temporary recovery copy of your work every few minutes (configurable under File → Options → Save). If the application closes unexpectedly, the Document Recovery pane offers to restore the last auto-saved version.</p></li>
+<li><p>Always keep a backup copy of important files on a pen-drive or cloud storage (OneDrive/Google Drive) in addition to the local hard disk.</p></li>
+<li><p>Use descriptive file names with dates, e.g., 'Fee_Report_July2026.xlsx', instead of vague names like 'Document1.docx', so files are easy to locate later.</p></li>
+</ul><p><strong>✎ Exercise 0.1 (Practice / अभ्यास)</strong></p><ol type="1">
+<li><p>Open MS Word, type your name and course details, save the file as 'MyFirstDocument' in Word format inside a folder named with your Roll Number, then close and reopen it to confirm it was saved correctly.</p></li>
+<li><p>Repeat the same New → Type → Save As → Close → Open cycle in MS Excel and MS PowerPoint.</p></li>
+</ol>
+</div></div><div class="note-block" id="u1"><h3>Unit 2 — MS Word</h3>
 <p><b>Formatting hierarchy:</b> character formatting (font, size, colour, bold/italic) → paragraph formatting
 (alignment, line spacing, indentation) → document-level formatting (styles, themes) — using Styles
 consistently makes documents easier to update and to convert into a table of contents automatically.</p>
@@ -230,7 +381,277 @@ correspondence.</p>
 <p><b>Reviewing tools:</b> Track Changes records edits with author attribution for collaborative review;
 Comments allow feedback without altering the text directly; both are essential for collaborative report
 writing.</p>
-</div><div class="note-block" id="u2"><h3>Unit 3 — MS Excel</h3>
+<div class="ext-note"><div class="ext-head"><span class="ext-tag">Extended Notes</span><h4>Unit 2 — MS Word — Full Chapter</h4></div>
+<h4 id="introduction-to-word-and-screen-layout">1.1 Introduction to Word and Screen Layout</h4><p>Microsoft Word is a Word Processing System (WPS) — a software application used to compose, edit, format, save and print text-based documents. Unlike a typewriter, a word processor allows unlimited correction, reformatting, and reuse of text before final printing.</p><blockquote>
+<p><strong>माइक्रोसॉफ्ट वर्ड एक 'वर्ड प्रोसेसिंग सिस्टम' है — एक ऐसा सॉफ्टवेयर जिससे पाठ आधारित दस्तावेज़ों को रचना, संपादन (edit), फॉर्मेट, सेव तथा प्रिंट किया जा सकता है। टाइपराइटर के विपरीत, वर्ड प्रोसेसर में अंतिम प्रिंट से पहले असीमित सुधार तथा पुनः प्रारूपण संभव है।</strong></p>
+</blockquote><p><img loading="lazy" src="notes-media/image1.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig 1.1 — Schematic layout of the MS Word screen</em></p><p>Key parts of the Word screen:</p><ul>
+<li><p>Title Bar — shows the file name and application name; contains Minimize, Restore/Maximize and Close buttons on the right.</p></li>
+<li><p>Quick Access Toolbar (QAT) — a customisable strip of frequently-used commands (Save, Undo, Redo) placed above or below the ribbon.</p></li>
+<li><p>Ribbon — a panel of tabs (File, Home, Insert, Design, Layout, References, Mailings, Review, View) each containing groups of related commands shown as icons/buttons.</p></li>
+<li><p>Ruler — horizontal and vertical guides (View → Ruler) used to gauge margins, indents and tab stops.</p></li>
+<li><p>Document Area (Text Area) — the blank workspace where the blinking vertical line, called the Insertion Point (cursor), shows where the next typed character will appear.</p></li>
+<li><p>Scroll Bars — vertical and horizontal bars to move up/down or left/right through a long document.</p></li>
+<li><p>Status Bar — bottom strip showing page number, word count, language, and View/Zoom controls.</p></li>
+</ul><h5 id="introduction-to-the-ribbon">1.1.1 Introduction to the Ribbon</h5><p>The Ribbon replaced the old menu-and-toolbar system from Word 2007 onwards. Every command a user needs is visible as a picture-labelled button, organised logically into Tabs → Groups → Commands, so users do not need to search through nested menus.</p><p><img loading="lazy" src="notes-media/image2.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig 1.2 — Ribbon Tabs and Command Groups (Home tab example)</em></p><ul>
+<li><p>Tab — a top-level category, e.g., Home, Insert, Design.</p></li>
+<li><p>Group — a labelled cluster inside a tab, e.g., the 'Font' group inside Home.</p></li>
+<li><p>Dialog Box Launcher — the small diagonal arrow (⤡) at the bottom-right corner of some groups; clicking it opens a full dialog box with more options (e.g., clicking the Font group launcher opens the complete Font dialog box).</p></li>
+<li><p>You can minimise the Ribbon (Ctrl+F1) to gain more screen space for the document, and restore it the same way.</p></li>
+</ul><blockquote>
+<p>रिबन में सभी कमांड चित्र-चिह्नित बटनों के रूप में टैब → ग्रुप → कमांड के क्रम में व्यवस्थित होते हैं, जिससे उपयोगकर्ता को पुराने मेनू सिस्टम की तरह खोजना नहीं पड़ता।</p>
+</blockquote>
+<h4 id="text-basics-typing-and-alignment">1.2 Text Basics: Typing and Alignment</h4><p>Typing text: Simply click inside the document area (to place the insertion point) and start typing on the keyboard. Word automatically wraps text to the next line when the current line is full — you should NOT press Enter at the end of every line; press Enter only to start a new paragraph.</p><p>Alignment of text (Home tab → Paragraph group) controls how text lines up horizontally with respect to the page margins:</p><table class="ext-table">
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Alignment</strong></th>
+<th><strong>Shortcut Key</strong></th>
+<th><strong>Effect</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Left Align</td>
+<td>Ctrl+L</td>
+<td>Text starts flush with the left margin (default for most documents).</td>
+</tr>
+<tr class="even">
+<td>Centre Align</td>
+<td>Ctrl+E</td>
+<td>Text is centred between the left and right margins — used for titles and headings.</td>
+</tr>
+<tr class="odd">
+<td>Right Align</td>
+<td>Ctrl+R</td>
+<td>Text is flush with the right margin — used for dates or signatures.</td>
+</tr>
+<tr class="even">
+<td>Justify</td>
+<td>Ctrl+J</td>
+<td>Text is stretched evenly so both left and right edges are straight — used in newspapers and books.</td>
+</tr>
+</tbody>
+</table><blockquote>
+<p>पाठ का संरेखण (alignment) यह निर्धारित करता है कि पंक्तियाँ पृष्ठ के हाशियों (margins) के सापेक्ष कैसे व्यवस्थित हों — बायाँ, मध्य, दायाँ अथवा दोनों ओर से समान (justify)।</p>
+</blockquote>
+<h4 id="editing-text">1.3 Editing Text</h4><p>Editing means modifying text already typed. Before most editing commands can act, the relevant text must first be Selected (highlighted).</p><ul>
+<li><p>Select text: click and drag the mouse over the text, OR click at the start and Shift+click at the end, OR double-click a word to select it, OR triple-click a paragraph to select the whole paragraph.</p></li>
+<li><p>Select All — Ctrl+A: selects the entire content of the document in one action (Home tab → Editing group → Select → Select All).</p></li>
+<li><p>Cut — Ctrl+X: removes the selected text/object and places it on the Clipboard (temporary memory) for use elsewhere.</p></li>
+<li><p>Copy — Ctrl+C: duplicates the selected text/object onto the Clipboard while leaving the original in place.</p></li>
+<li><p>Paste — Ctrl+V: inserts the Clipboard's content at the current cursor position. Paste Options (Keep Source Formatting / Merge Formatting / Keep Text Only) appear as a small icon after pasting.</p></li>
+<li><p>Clear (Delete key or Home → Font → Clear Formatting): removes selected text, or strips all character formatting back to the default style, without deleting the text itself.</p></li>
+<li><p>Find (Ctrl+F): opens the Navigation Pane to search for a word or phrase throughout the document, highlighting every match.</p></li>
+<li><p>Replace (Ctrl+H): opens the Find and Replace dialog box, allowing a search term to be substituted — one at a time (Replace) or throughout the document (Replace All).</p></li>
+</ul><p>Example: To correct every occurrence of the misspelling 'recieve' to 'receive' in a 10-page document instantly, press Ctrl+H, type 'recieve' in Find what, type 'receive' in Replace with, and click Replace All.</p><blockquote>
+<p>संपादन (editing) का अर्थ है पहले से टाइप किए गए पाठ में परिवर्तन करना — जैसे काटना (Cut), नक़ल करना (Copy), चिपकाना (Paste), खोजना (Find) और बदलना (Replace)। अधिकांश आदेशों के लिए पहले पाठ को चुनना (select) आवश्यक है।</p>
+</blockquote>
+<h4 id="file-creating-saving-and-opening">1.4 File Creating, Saving and Opening</h4><p>These operations (New, Open, Close, Save, Save As) are common to all Office applications and are covered in detail in Chapter 0, Section 0.3. In Word specifically:</p><ul>
+<li><p>New (Ctrl+N) opens a blank document, or File → New shows built-in templates (resume, letter, report).</p></li>
+<li><p>Open (Ctrl+O) browses to and loads an existing .docx/.doc file.</p></li>
+<li><p>Save (Ctrl+S) stores changes; Save As (F12) stores under a new name/location/format.</p></li>
+<li><p>Close (Ctrl+W) closes the active document window without closing the Word application itself.</p></li>
+</ul>
+<h4 id="formatting-text-and-paragraphs">1.5 Formatting Text and Paragraphs</h4><p>Formatting improves readability and visual appeal without changing the actual words. The Home tab → Font group contains most character-level formatting tools:</p><table class="ext-table">
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Command</strong></th>
+<th><strong>Shortcut</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Font Size</td>
+<td>Ctrl+Shift+&gt; / &lt;</td>
+<td>Increases/decreases the height of characters, measured in points (pt); body text is usually 11-12 pt, headings 14-28 pt.</td>
+</tr>
+<tr class="even">
+<td>Font Style (Typeface)</td>
+<td>—</td>
+<td>Changes the design of characters, e.g., Calibri, Times New Roman, Arial.</td>
+</tr>
+<tr class="odd">
+<td>Font Colour</td>
+<td>—</td>
+<td>Changes the colour of the text via the Font Colour bucket icon.</td>
+</tr>
+<tr class="even">
+<td>Bold</td>
+<td>Ctrl+B</td>
+<td>Thickens the strokes of characters for emphasis.</td>
+</tr>
+<tr class="odd">
+<td>Italic</td>
+<td>Ctrl+I</td>
+<td>Slants characters, often used for titles of books or foreign words.</td>
+</tr>
+<tr class="even">
+<td>Underline</td>
+<td>Ctrl+U</td>
+<td>Draws a line beneath the text.</td>
+</tr>
+<tr class="odd">
+<td>Change Case</td>
+<td>Shift+F3</td>
+<td>Cycles text between Sentence case, lowercase, UPPERCASE, Capitalize Each Word, and tOGGLE cASE.</td>
+</tr>
+</tbody>
+</table><p>Paragraph-level formatting (Home tab → Paragraph group, or Layout tab → Paragraph group):</p><ul>
+<li><p>Line Spacing — the vertical gap between lines within a paragraph (e.g., single, 1.5 lines, double). Set via the Line and Paragraph Spacing icon.</p></li>
+<li><p>Paragraph Spacing — extra space added Before or After a paragraph (Layout tab → Spacing → Before/After), used instead of pressing Enter twice, which keeps spacing consistent throughout the document.</p></li>
+<li><p>Tabs — pressing the Tab key moves the cursor to the next tab stop (default every 0.5 inch); custom tab stops (left, centre, right, decimal, bar) can be set by clicking on the ruler or via Home → Paragraph → dialog launcher → Tabs button.</p></li>
+<li><p>Indents — control how far a paragraph is pushed in from the margin: First Line Indent (only the first line), Hanging Indent (all lines except the first — common in bibliographies), and Left/Right Indent (the whole paragraph).</p></li>
+</ul><blockquote>
+<p>फॉर्मेटिंग से पठनीयता (readability) व आकर्षकता बढ़ती है। फॉन्ट साइज़, शैली, रंग, बोल्ड, इटैलिक, अंडरलाइन जैसे उपकरण अक्षर-स्तर पर कार्य करते हैं, जबकि लाइन स्पेसिंग, पैराग्राफ स्पेसिंग, टैब्स व इंडेंट पूरे पैराग्राफ के स्वरूप को नियंत्रित करते हैं।</p>
+</blockquote><p><strong>✎ Exercise 1.5 (Practice / अभ्यास)</strong></p><ol start="3" type="1">
+<li><p>Type a paragraph of at least 5 sentences about your favourite hobby. Apply: Font = Times New Roman, Size = 12, first line indent = 0.5", line spacing = 1.5, and justify alignment.</p></li>
+<li><p>Type the heading 'MY DAILY ROUTINE' and format it as Bold, 18 pt, centred, and in a different colour from the body text.</p></li>
+</ol>
+<h4 id="styles-and-content">1.6 Styles and Content</h4><p>A Style is a saved, named set of formatting instructions (font, size, colour, spacing) that can be applied in one click, ensuring consistency throughout a long document. Styles are available in the Home tab → Styles gallery.</p><ul>
+<li><p>Using Built-in Styles: select text and click a style thumbnail (Normal, Heading 1, Heading 2, Title, Quote, etc.) in the Styles gallery.</p></li>
+<li><p>Modifying a Style: right-click a style in the gallery → Modify → change font/size/colour/spacing → click OK; every place that style is used updates automatically.</p></li>
+<li><p>Creating a New Style: format a piece of text exactly as desired, select it, open the Styles pane (Ctrl+Alt+Shift+S), click New Style, give it a name, and click OK.</p></li>
+<li><p>Creating a List Style: in the Styles pane, choose New Style → Style type: List, then define the numbering/bullet format that will repeat consistently wherever the style is applied.</p></li>
+</ul><p>Table of Contents (TOC) and References:</p><ol start="19" type="1">
+<li><p>Apply Heading 1 / Heading 2 styles to all chapter and section titles throughout the document.</p></li>
+<li><p>Click at the location where the TOC should appear (usually right after the title page).</p></li>
+<li><p>Go to References tab → Table of Contents → choose an Automatic Table style.</p></li>
+<li><p>Word scans the document for headings and builds a clickable, page-numbered TOC automatically.</p></li>
+<li><p>If content is added or removed later, click anywhere inside the TOC and press Update Table (or F9) to refresh page numbers.</p></li>
+</ol><ul>
+<li><p>Adding Internal (Cross-) References: References tab → Cross-reference — lets you refer to 'see Figure 3' or 'see Table 2' so the number updates automatically if the figure is moved.</p></li>
+<li><p>Adding a Footnote (References tab → Insert Footnote, or Alt+Ctrl+F): places a small superscript number in the text and a corresponding note at the BOTTOM of the same page — used for citations or brief clarifications.</p></li>
+<li><p>Adding an Endnote (References tab → Insert Endnote, or Alt+Ctrl+D): similar to a footnote, but all notes collect together at the END of the document/section instead of the page bottom.</p></li>
+</ul><blockquote>
+<p>स्टाइल (Style) फॉर्मेटिंग का एक सुरक्षित नामित समूह है, जिसे एक क्लिक में लागू किया जा सकता है। हैडिंग स्टाइल का उपयोग करने पर 'Table of Contents' (विषय-सूची) स्वतः तैयार हो जाती है। फ़ुटनोट पृष्ठ के नीचे तथा एंडनोट दस्तावेज़ के अंत में दिखाई देते हैं।</p>
+</blockquote>
+<h4 id="bullets-and-numbered-lists">1.7 Bullets and Numbered Lists</h4><p>Lists organise related items for clarity. Home tab → Paragraph group offers three list buttons: Bullets, Numbering, and Multilevel List.</p><ul>
+<li><p>Bulleted List: applies a symbol (•, ○, ■) before each list item — used when the order of items does not matter.</p></li>
+<li><p>Numbered List: applies sequential numbers/letters (1, 2, 3… or a, b, c…) — used when sequence or ranking matters (e.g., steps of a procedure).</p></li>
+<li><p>Multilevel List: combines several levels of numbering/bullets (1, 1.1, 1.1.1…) for outlines, legal documents, and syllabi such as this one — press Tab to demote and Shift+Tab to promote an item to a different level.</p></li>
+<li><p>Customising a List Style: click the drop-down arrow next to Bullets/Numbering → Define New Bullet / Define New Number Format to choose a custom symbol, font, colour, or numbering style (Roman numerals, alphabets, etc.).</p></li>
+</ul><p><strong>✎ Exercise 1.7 (Practice / अभ्यास)</strong></p><ol start="5" type="1">
+<li><p>Create a numbered list of the 5 subjects you are studying this semester.</p></li>
+<li><p>Create a multilevel list outlining a project report with at least 2 levels, e.g., 1. Introduction, 1.1 Background, 1.2 Objectives, 2. Methodology …</p></li>
+</ol>
+<h4 id="working-with-objects-imagery-and-graphics">1.8 Working with Objects, Imagery and Graphics</h4><p>The Insert tab lets you enrich a document with non-text elements.</p><ul>
+<li><p>Shapes (Insert → Shapes): ready-made geometric outlines (rectangles, arrows, callouts, flowchart symbols) drawn by click-and-drag.</p></li>
+<li><p>Clip Art &amp; Pictures (Insert → Pictures): inserts an image from 'This Device', 'Stock Images', or 'Online Pictures'; once inserted, the Picture Format tab appears for cropping, resizing, applying artistic effects and picture styles/borders.</p></li>
+<li><p>WordArt (Insert → WordArt): inserts stylised, decorative text with preset colour/outline/shadow effects — good for document titles or banners.</p></li>
+<li><p>SmartArt (Insert → SmartArt): inserts a ready-made diagram (list, process, cycle, hierarchy/org-chart, relationship) into which you simply type text — Word automatically arranges shapes and connecting lines.</p></li>
+<li><p>Columns (Layout tab → Columns): splits the page text into 2, 3, or custom vertical columns, like a newspaper.</p></li>
+<li><p>Change the order of objects: right-click an object → Bring Forward / Send Backward / Bring to Front / Send to Back, to control which object appears on top when several overlap.</p></li>
+<li><p>Page Number, Date &amp; Time (Insert tab): automatically inserts and updates the current page number, or today's date/time, at the cursor position.</p></li>
+<li><p>Text Boxes (Insert → Text Box): a movable, resizable frame that can hold independent text anywhere on the page, useful for pull-quotes or labels.</p></li>
+<li><p>Symbols (Insert → Symbol): inserts special characters not on the keyboard, e.g., ©, ±, α, ₹.</p></li>
+<li><p>Chart (Insert → Chart): embeds an editable Excel-linked chart (column, line, pie, etc.) directly inside the Word document.</p></li>
+<li><p>Page Background (Design tab → Page Color / Page Borders / Watermark): adds a background colour, a decorative page border, or faded watermark text (e.g., 'DRAFT' or 'CONFIDENTIAL') behind the main text.</p></li>
+</ul><p><strong>✎ Exercise 1.8 (Practice / अभ्यास)</strong></p><ol start="7" type="1">
+<li><p>Insert a SmartArt hierarchy diagram showing your college's organisational structure (Principal → HOD → Faculty → Students).</p></li>
+<li><p>Insert a picture, resize it to fit within a paragraph of text with 'Square' text wrapping, and add a caption below it.</p></li>
+<li><p>Add a light watermark reading 'SAMPLE' to a one-page practice document.</p></li>
+</ol>
+<h4 id="working-with-tables">1.9 Working with Tables</h4><p><img loading="lazy" src="notes-media/image3.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig 1.3 — Structure of a table</em></p><p>A Table organises data into a grid of Rows (horizontal) and Columns (vertical); the intersection of a row and a column is called a Cell.</p><ol start="24" type="1">
+<li><p>Creating &amp; Inserting a Table: Insert tab → Table → drag across the grid to choose the number of rows/columns, or click Insert Table to type exact numbers, or use Draw Table for an irregular table.</p></li>
+<li><p>Table Formatting: click inside the table to reveal the contextual Table Design and Layout tabs.</p></li>
+<li><p>Table Styles (Table Design tab): one-click preset colour/border themes for the whole table.</p></li>
+<li><p>Alignment Options (Layout tab → Alignment group): align text within cells (top-left, centre, bottom-right, etc.) and control text direction.</p></li>
+<li><p>Merge &amp; Split (Layout tab → Merge group): Merge Cells combines two or more selected cells into one (e.g., for a table title spanning several columns); Split Cells divides one cell into several.</p></li>
+<li><p>Manual and Automatic Editing: rows/columns can be added or removed manually (right-click → Insert/Delete), or a table can auto-adjust column width to fit its content (Layout → AutoFit).</p></li>
+<li><p>Use of Tables for Figures and Footnotes: tables are often used 'invisibly' (borders removed) to precisely align a figure with its caption/footnote text below it.</p></li>
+</ol><p><strong>✎ Exercise 1.9 (Practice / अभ्यास)</strong></p><ol start="10" type="1">
+<li><p>Create a 5×4 table listing Roll No., Name, Subject, and Marks for 4 students. Apply a built-in Table Style, merge the top row into one cell for the title 'Mark Sheet', and centre-align all data.</p></li>
+</ol>
+<h4 id="borders-and-shading">1.10 Borders and Shading</h4><ul>
+<li><p>Page Border (Design tab → Page Borders): places a decorative line, box, shadow, 3-D, or art border around the entire page — useful for certificates and invitations.</p></li>
+<li><p>Shading Text and Paragraph (Home tab → Paragraph → Shading bucket icon): applies a background colour behind selected text or an entire paragraph, e.g., to highlight important notices.</p></li>
+</ul>
+<h4 id="header-and-footer">1.11 Header and Footer</h4><p>The Header is the area at the TOP margin and the Footer is the area at the BOTTOM margin of every page — ideal for repeating information like a document title, chapter name, page number, author, or logo.</p><ol start="31" type="1">
+<li><p>Go to Insert tab → Header (or Footer) → choose a built-in design, or click Edit Header/Footer, or simply double-click the top/bottom margin area of the page.</p></li>
+<li><p>Type or insert content (text, page number, date, picture/logo) — it will repeat automatically on every subsequent page.</p></li>
+<li><p>The Header &amp; Footer Design tab lets you insert objects into the header/footer, such as Page Number (with page X of Y format), Date &amp; Time, and Pictures.</p></li>
+<li><p>Adding a Section Break (Layout tab → Breaks → Section Breaks) before a page allows that section to have a DIFFERENT header/footer (e.g., no page number on the title page, Roman numerals for the preface, and Arabic numerals for the main chapters) — inside Header &amp; Footer Design, toggle off 'Link to Previous' to disconnect it from the earlier section.</p></li>
+<li><p>Click Close Header and Footer (or double-click inside the body text) to return to normal editing.</p></li>
+</ol><blockquote>
+<p><em>है</em>डर पृष्ठ के ऊपरी भाग में तथा फ़ुटर निचले भाग में स्थित होता है, जो प्रत्येक पृष्ठ पर दोहराई जाने वाली जानकारी (जैसे शीर्षक, पृष्ठ संख्या) दिखाने के लिए प्रयुक्त होता है। सेक्शन ब्रेक जोड़कर विभिन्न भागों में भिन्न हैडर/फ़ुटर रखे जा सकते हैं।</p>
+</blockquote>
+<h4 id="mail-merge">1.12 Mail Merge</h4><p><img loading="lazy" src="notes-media/image4.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig 1.4 — Mail merge process flow</em></p><p>Mail Merge combines a single main document (e.g., an invitation letter) with a list of unique recipient details (names, addresses) to automatically generate many personalised copies — extremely useful for bulk letters, certificates, mailing labels, and envelopes.</p><ol start="36" type="1">
+<li><p>Start the main document (e.g., an invitation letter) in Word.</p></li>
+<li><p>Go to Mailings tab → Start Mail Merge → choose the output type: Letters, E-mail Messages, Envelopes, Labels, or Directory.</p></li>
+<li><p>Select Recipients: Type a New Address List (fill a small built-in form), or Use an Existing List (browse to and import an Excel file/CSV containing the recipient data), or Choose from Outlook Contacts.</p></li>
+<li><p>Click Insert Merge Field to place placeholders (e.g., «FirstName», «Address») at the desired positions in the letter, wherever personalised data should appear.</p></li>
+<li><p>Click Preview Results to see how the letter looks with actual data substituted for each recipient, one at a time.</p></li>
+<li><p>Set rules for merges (Mailings → Rules) for conditional content, e.g., an 'If…Then…Else' rule to show 'Mr.' or 'Ms.' based on a Gender field.</p></li>
+<li><p>Click Finish &amp; Merge → choose Print Documents (send directly to the printer), Edit Individual Documents (creates one combined file with a separate letter per recipient), or Send E-mail Messages.</p></li>
+<li><p>Merging to Envelopes / Labels follows the same steps but starts by choosing Envelopes/Labels under Start Mail Merge, and selecting the correct envelope/label size.</p></li>
+</ol><p>Example: A college wants to send 200 personalised admit cards. The admit card template is the main document; a Roll No./Name/Exam Centre Excel sheet is the recipient list; mail merge produces 200 individually addressed admit cards in seconds instead of manually typing each one.</p><blockquote>
+<p>मेल मर्ज एक ही मुख्य दस्तावेज़ को प्राप्तकर्ताओं की सूची (जैसे एक्सेल फ़ाइल) से जोड़कर अनेक व्यक्तिगत प्रतियाँ (personalised copies) स्वतः तैयार करता है — जैसे सैकड़ों छात्रों के प्रवेश-पत्र एक साथ बनाना।</p>
+</blockquote><p><strong>✎ Exercise 1.12 (Practice / अभ्यास)</strong></p><ol start="11" type="1">
+<li><p>Create an Excel sheet with columns Name, Course, and RollNo for 5 students. In Word, draft a simple 'Admit Card' letter with merge fields for these three, and complete a mail merge to produce 5 individual admit cards.</p></li>
+</ol>
+<h4 id="proofing-the-document">1.13 Proofing the Document</h4><ul>
+<li><p>Check Spelling as You Type: Word underlines suspected misspellings with a red wavy line as you type; right-click the word for suggested corrections.</p></li>
+<li><p>Mark Grammar Errors as You Type: grammar/style issues are underlined with a blue/gold wavy line; right-click for suggestions. The full check can also be run via Review tab → Editor / Spelling &amp; Grammar (F7).</p></li>
+<li><p>Setting AutoCorrect Options (File → Options → Proofing → AutoCorrect Options): configure automatic fixes for common typos (e.g., 'teh' → 'the'), automatic capitalisation of the first letter of sentences, and custom text replacements you define yourself.</p></li>
+</ul>
+<h4 id="printing">1.14 Printing</h4><ul>
+<li><p>Page Setup (Layout tab → Page Setup group, or dialog launcher): configure Margins (space between text and paper edge), Orientation (Portrait/Landscape), and Size (A4, Letter, Legal).</p></li>
+<li><p>Setting Margins: choose a preset (Normal 1", Narrow 0.5", Wide) or click Custom Margins to type exact top/bottom/left/right values.</p></li>
+<li><p>Print Preview: File tab → Print shows a live preview pane on the right, alongside settings for number of copies, specific page ranges, one-sided/two-sided printing, and which printer to use.</p></li>
+<li><p>Print (Ctrl+P): sends the document to the selected printer once all settings are confirmed.</p></li>
+</ul>
+<h4 id="making-documents-attractive-useful-and-easy-to-read">1.15 Making Documents Attractive, Useful and Easy to Read</h4><p>Beyond simply knowing the commands, a good document design follows some universal principles:</p><ul>
+<li><p>Consistency: use the same font family (usually just one for body text, one for headings) and consistent heading styles throughout.</p></li>
+<li><p>White space: leave adequate margins and paragraph spacing; do not cram text edge-to-edge — this improves readability.</p></li>
+<li><p>Visual hierarchy: larger/bolder text for titles, medium for sub-headings, and normal for body text helps the reader scan the document quickly.</p></li>
+<li><p>Use of lists and tables: converting long comma-separated sentences into bullet points or a table makes information easier to compare and remember.</p></li>
+<li><p>Meaningful headings and a Table of Contents make long documents (like a project report or thesis) navigable.</p></li>
+<li><p>Alt Text for images (right-click picture → Edit Alt Text): improves accessibility for visually impaired readers using screen readers, and is good practice for all professional documents.</p></li>
+<li><p>Proofread before sharing: always run spelling/grammar check and read the document once fully before printing or emailing it.</p></li>
+</ul><blockquote>
+<p>एक अच्छा दस्तावेज़ बनाने के लिए संगति (consistency), उचित रिक्त स्थान (white space), दृश्य पदानुक्रम (visual hierarchy), सूचियों व तालिकाओं का उपयोग, तथा भेजने से पहले प्रूफ़रीड करना — ये सभी सिद्धांत दस्तावेज़ को आकर्षक, उपयोगी व सुगम बनाते हैं।</p>
+</blockquote>
+<h4 id="worked-walkthrough-formatting-a-formal-leave-application-letter">1.16 Worked Walkthrough: Formatting a Formal Leave Application Letter</h4><p>This walkthrough ties together many commands covered above into a single realistic task — drafting a formal leave-application letter to the Head of Department (HOD).</p><ol start="44" type="1">
+<li><p>Open a New blank document (Ctrl+N). Set the page margins to Normal (Layout tab → Margins → Normal).</p></li>
+<li><p>Type today's date at the top, then press Enter twice, and Right-align (Ctrl+R) just the date line.</p></li>
+<li><p>Return to Left alignment (Ctrl+L) and type the recipient's designation and department, e.g., 'To,\nThe Head of Department,\nDepartment of Computer Science'.</p></li>
+<li><p>Leave one blank line, then type the salutation 'Respected Sir/Madam,' followed by another blank line.</p></li>
+<li><p>Type the body of the letter in 3-4 sentences explaining the reason for leave, the dates, and a request for approval. Justify (Ctrl+J) this paragraph and set Line Spacing to 1.15 for comfortable readability.</p></li>
+<li><p>Leave two blank lines, then type 'Yours sincerely,' followed by blank lines for a signature, and finally the student's name and roll number in Bold.</p></li>
+<li><p>Select the entire letter and set the Font to Times New Roman, Size 12, for a formal appearance.</p></li>
+<li><p>Insert a Footer (Insert → Footer) containing the college name in small, grey, italic text (Font Colour and Size adjusted accordingly).</p></li>
+<li><p>Run Spelling &amp; Grammar Check (F7) and correct any flagged issues.</p></li>
+<li><p>Save As (F12) the file as 'LeaveApplication_&lt;RollNo&gt;.docx', then use Print Preview to confirm the layout before printing.</p></li>
+</ol><p>This single exercise practises alignment, spacing, font formatting, footers, and proofing all at once — the same workflow pattern (plan → type → format → proof → save → print) applies to almost any real-world Word document, from a resume to a project report.</p><blockquote>
+<p>यह अभ्यास संरेखण, स्पेसिंग, फॉन्ट फॉर्मेटिंग, फ़ुटर तथा प्रूफ़िंग को एक साथ जोड़ता है। योजना बनाना → टाइप करना → फॉर्मेट करना → जाँचना → सहेजना → प्रिंट करना — यही सामान्य प्रक्रिया लगभग किसी भी वास्तविक वर्ड दस्तावेज़ के लिए लागू होती है।</p>
+</blockquote><p><strong>✎ Exercise 1.16 (Practice / अभ्यास)</strong></p><ol start="12" type="1">
+<li><p>Following the walkthrough above, draft your own formal Leave Application letter addressed to your HOD for 3 days of leave, applying every formatting step listed.</p></li>
+</ol>
+<h4 id="applications-of-ms-word">1.17 Applications of MS Word</h4><ul>
+<li><p>Academic: assignments, project reports, theses, research papers, question papers.</p></li>
+<li><p>Official/Business: letters, memos, circulars, minutes of meetings, offer letters, contracts.</p></li>
+<li><p>Personal: resumes/CVs, invitation cards, greeting cards, personal letters.</p></li>
+<li><p>Publishing: newsletters, brochures, flyers using columns, WordArt, and page borders.</p></li>
+<li><p>Mass communication: mail-merged letters, certificates, and mailing labels for large groups.</p></li>
+</ul>
+<h4 id="limitations-of-ms-word">1.18 Limitations of MS Word</h4><ul>
+<li><p>Not ideal for complex numeric calculations or large datasets — Excel is far better suited for that.</p></li>
+<li><p>Very large documents with many embedded high-resolution images can become slow and prone to file corruption.</p></li>
+<li><p>Precise pixel-level page-layout control (as needed in professional graphic design/DTP) is limited compared to dedicated desktop-publishing software like Adobe InDesign.</p></li>
+<li><p>Collaborative real-time co-authoring requires all users to have compatible Office versions or a shared OneDrive/SharePoint account.</p></li>
+<li><p>Automatic formatting (AutoCorrect, AutoFormat) occasionally makes unwanted changes if not configured carefully.</p></li>
+</ul>
+</div></div><div class="note-block" id="u2"><h3>Unit 3 — MS Excel</h3>
 <p><b>Cell referencing:</b> a <b>relative reference</b> (e.g. A1) adjusts automatically when a formula is
 copied to another cell; an <b>absolute reference</b> (e.g. $A$1) stays fixed; a <b>mixed reference</b>
 (e.g. $A1 or A$1) fixes only the row or only the column.</p>
@@ -242,7 +663,277 @@ data from a table — foundational for computing student grades from boundary co
 automatically colouring marks below a passing threshold) without altering the underlying values.</p>
 <p><b>Charts</b> (column, line, pie, etc.) turn tabular data into visual insight and are inserted via the
 Insert tab, referencing a selected data range.</p>
-</div><div class="note-block" id="u3"><h3>Unit 4 — MS PowerPoint</h3>
+<div class="ext-note"><div class="ext-head"><span class="ext-tag">Extended Notes</span><h4>Unit 3 — MS Excel — Full Chapter</h4></div>
+<h4 id="introduction-to-the-excel-environment">2.1 Introduction to the Excel Environment</h4><p>Microsoft Excel is an Electronic Spreadsheet program — software that stores and processes data arranged in a grid of rows and columns, allowing automatic calculation, analysis, and visualisation of numeric information.</p><blockquote>
+<p>माइक्रोसॉफ्ट एक्सेल एक इलेक्ट्रॉनिक स्प्रेडशीट प्रोग्राम है, जो पंक्तियों (rows) व स्तंभों (columns) की ग्रिड में डेटा संग्रहीत तथा संसाधित करता है, जिससे स्वचालित गणना, विश्लेषण व दृश्यांकन (visualisation) संभव होता है।</p>
+</blockquote><p><img loading="lazy" src="notes-media/image5.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig 2.1 — Schematic layout of the MS Excel screen</em></p><ul>
+<li><p>Workbook — the entire Excel file (extension .xlsx); a single workbook can contain many worksheets.</p></li>
+<li><p>Worksheet (Sheet) — one page/tab within a workbook, made up of the row-column grid; sheet tabs appear at the bottom, and new sheets are added via the '+' icon.</p></li>
+<li><p>Rows — numbered 1, 2, 3 … running horizontally (a worksheet has 1,048,576 rows).</p></li>
+<li><p>Columns — lettered A, B, C … Z, AA, AB … running vertically (a worksheet has 16,384 columns, up to XFD).</p></li>
+<li><p>Cell — the intersection of a row and column, e.g., cell 'B5' is at the intersection of column B and row 5. Every cell has a unique Cell Address / Cell Reference.</p></li>
+<li><p>Name Box — top-left box showing the address of the currently active cell (or a chosen name).</p></li>
+<li><p>Formula Bar — displays the actual content (text, number, or formula) typed into the active cell, even if the cell itself displays a calculated result.</p></li>
+<li><p>Naming Cells (Formulas tab → Define Name, or type directly in the Name Box): assigns a memorable name (e.g., 'TaxRate') to a cell/range so formulas can refer to 'TaxRate' instead of '$B$2', improving readability.</p></li>
+</ul><h5 id="navigating-and-selecting-items-entering-data">2.1.1 Navigating and Selecting Items, Entering Data</h5><ul>
+<li><p>Navigate with the arrow keys, mouse click, or by typing a cell address into the Name Box and pressing Enter (e.g., type 'H25' to jump straight there).</p></li>
+<li><p>Ctrl+Home jumps to cell A1; Ctrl+End jumps to the last used cell.</p></li>
+<li><p>Select a range by clicking a cell and dragging, or clicking the first cell then Shift+clicking the last cell of a rectangular range (e.g., A1:D10).</p></li>
+<li><p>Select an entire row/column by clicking its row number/column letter heading; select the whole sheet with Ctrl+A or the small triangle at the top-left corner of the grid.</p></li>
+<li><p>Enter data: click a cell, type the value, and press Enter (moves down), Tab (moves right), or an arrow key to confirm and move to the neighbouring cell.</p></li>
+<li><p>Excel auto-detects the data type: numbers align right, text aligns left, and dates are recognised and can be used in date arithmetic.</p></li>
+</ul><p><strong>✎ Exercise 2.1 (Practice / अभ्यास)</strong></p><ol start="13" type="1">
+<li><p>Open a new workbook, rename Sheet1 to 'Marksheet', and enter a small table with headers Roll No, Name, Physics, Chemistry, Maths in row 1 for 5 students.</p></li>
+</ol>
+<h4 id="creating-and-saving-the-excel-workbook">2.2 Creating and Saving the Excel Workbook</h4><p>New, Open, Close, Save, and Save As work exactly as described in Chapter 0 — the default Excel format is Excel Workbook (*.xlsx); use Save As → CSV (Comma delimited) to export plain tabular data for use in other software.</p>
+<h4 id="formatting-text-and-cells">2.3 Formatting Text and Cells</h4><table class="ext-table">
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Command</strong></th>
+<th><strong>Location</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Font Size / Style / Colour, Bold, Italic, Underline</td>
+<td>Home tab → Font group</td>
+<td>Same as Word — controls the appearance of cell content.</td>
+</tr>
+<tr class="even">
+<td>Wrap Text</td>
+<td>Home tab → Alignment group</td>
+<td>Displays long text on multiple lines within one cell instead of spilling into neighbouring cells or being cut off.</td>
+</tr>
+<tr class="odd">
+<td>Merge &amp; Centre</td>
+<td>Home tab → Alignment group</td>
+<td>Combines selected cells into one larger cell and centres the content — typically used for a table title spanning several columns.</td>
+</tr>
+<tr class="even">
+<td>Number Format</td>
+<td>Home tab → Number group</td>
+<td>Changes how a value is displayed: Currency (₹1,234.00), Accounting, Percentage, Date, Time, Fraction, Scientific — WITHOUT changing the underlying stored value.</td>
+</tr>
+<tr class="odd">
+<td>Borders / Fill Colour</td>
+<td>Home tab → Font group icons</td>
+<td>Adds gridlines around cells or a background colour, useful for highlighting totals or headers.</td>
+</tr>
+</tbody>
+</table><ul>
+<li><p>Formatting Rows, Columns &amp; Cells: right-click a row/column header → Row Height / Column Width to set an exact size, or double-click the boundary to AutoFit to content.</p></li>
+<li><p>Cutting, Copying, Pasting, Paste Special: Ctrl+X / Ctrl+C / Ctrl+V work as in Word; Paste Special (Ctrl+Alt+V) offers advanced options such as pasting only Values (result, not formula), only Formats, or Transpose (convert a row of data into a column, or vice-versa).</p></li>
+<li><p>Inserting and Deleting: right-click a row/column/cell → Insert or Delete to add or remove it, shifting neighbouring cells accordingly.</p></li>
+<li><p>Importing and Exporting Data: Data tab → Get Data / From Text-CSV imports external data; Save As → CSV exports the current sheet to a plain-text comma-separated file readable by almost any software.</p></li>
+<li><p>Adding and Editing Borders, Headers and Footers: Page Layout tab → Print Titles, or Insert tab → Header &amp; Footer (switches to Page Layout view) to add repeating headers/footers on printed pages.</p></li>
+<li><p>Worksheet Management: right-click a sheet tab for Insert, Delete, Rename, Move or Copy, Tab Colour, and Hide/Unhide options — useful for comparing or reorganising multiple related sheets (e.g., 'Jan', 'Feb', 'Mar' sales sheets).</p></li>
+<li><p>Conditional Formatting (Home tab → Conditional Formatting): automatically applies formatting (colour, icon, data bar) to cells that meet a rule, e.g., highlight all marks below 40 in red to flag failing students.</p></li>
+<li><p>Linking Excel Data: typing '=Sheet2!A1' in one cell displays the live value from another sheet/cell — updates automatically if the source changes; data can even be linked across workbooks.</p></li>
+<li><p>Freezing/Hiding Rows/Columns (View tab → Freeze Panes): keeps header rows/columns visible on screen while scrolling through a very long/wide sheet; Hide temporarily removes a row/column from view without deleting its data.</p></li>
+<li><p>Find and Replace (Ctrl+F / Ctrl+H): same function as in Word, but can also search within formulas or specific value types.</p></li>
+<li><p>Undo (Ctrl+Z) / Redo (Ctrl+Y): reverse or reapply the most recent action(s) — Excel keeps a history of many recent steps.</p></li>
+</ul><p><strong>✎ Exercise 2.3 (Practice / अभ्यास)</strong></p><ol start="14" type="1">
+<li><p>In the Marksheet from Exercise 2.1, apply Currency-style formatting is not needed, but apply Bold+Fill Colour to the header row, use Merge &amp; Centre for a title 'Semester Marksheet' across all columns, and apply Conditional Formatting to highlight any mark below 33 in red.</p></li>
+</ol>
+<h4 id="performing-calculations-with-formulas-and-functions">2.4 Performing Calculations with Formulas and Functions</h4><p>A Formula is a user-defined calculation that always begins with an equals sign (=), e.g., =B2+C2. A Function is a predefined, ready-made formula provided by Excel that performs a specific calculation, e.g., =SUM(B2:B10).</p><ol start="54" type="1">
+<li><p>Creating a Simple Formula: click the target cell, type '=', click/type the first cell reference, type an operator (+, -, *, /), click/type the next reference, then press Enter. Example: =B2+C2+D2 adds three cell values.</p></li>
+<li><p>Setting up your Own Formula: combine operators, parentheses for precedence, and multiple cell references or functions in a single expression, e.g., =(B2+C2+D2)/3 to compute an average manually.</p></li>
+<li><p>Copying a formula down/across a range instantly recalculates it for each row/column by adjusting relative references (see Section 2.5).</p></li>
+</ol><h5 id="date-and-time-functions">2.4.1 Date and Time Functions</h5><table class="ext-table">
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Function</strong></th>
+<th><strong>Example</strong></th>
+<th><strong>Result / Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>TODAY()</td>
+<td>=TODAY()</td>
+<td>Returns the current date; updates automatically each day the file is opened.</td>
+</tr>
+<tr class="even">
+<td>NOW()</td>
+<td>=NOW()</td>
+<td>Returns the current date AND time.</td>
+</tr>
+<tr class="odd">
+<td>DATE(y,m,d)</td>
+<td>=DATE(2026,7,22)</td>
+<td>Builds a date from separate year, month, day numbers.</td>
+</tr>
+<tr class="even">
+<td>DATEDIF(start,end,unit)</td>
+<td>=DATEDIF(A1,B1,"D")</td>
+<td>Calculates the difference between two dates in days ("D"), months ("M"), or years ("Y") — useful for age or tenure calculation.</td>
+</tr>
+</tbody>
+</table><h5 id="relative-and-absolute-cell-referencing">2.4.2 Relative and Absolute Cell Referencing</h5><p><img loading="lazy" src="notes-media/image6.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig 2.2 — Relative vs Absolute referencing</em></p><p>This is one of the most important concepts in spreadsheet work:</p><ul>
+<li><p>Relative Reference (e.g., A1): when a formula containing A1 is copied to another cell, the reference automatically adjusts based on the new position — ideal for repeating the same type of calculation down many rows (e.g., Total = Price × Quantity for every row).</p></li>
+<li><p>Absolute Reference (e.g., $A$1): the dollar signs 'lock' the column and row so the reference does NOT change when the formula is copied — essential when every row must refer to one fixed value, such as a single tax rate or exchange rate cell.</p></li>
+<li><p>Mixed Reference (e.g., $A1 or A$1): locks only the column OR only the row, letting the formula adjust in one direction while staying fixed in the other.</p></li>
+<li><p>Press F4 immediately after typing/clicking a cell reference to cycle through A1 → $A$1 → A$1 → $A1 → back to A1.</p></li>
+</ul><p>Example: If cell E2 contains the formula =C2*$F$1 (where F1 holds a fixed GST rate of 18%), copying E2 down to E3, E4… will correctly change C2 to C3, C4… while $F$1 always stays fixed at F1.</p><blockquote>
+<p>रिलेटिव रेफरेंस कॉपी करने पर बदल जाता है, जबकि एब्सोल्यूट रेफरेंस ($ चिन्ह के साथ) स्थिर रहता है। यह अवधारणा तब आवश्यक होती है जब किसी एक निश्चित मान (जैसे टैक्स दर) को कई पंक्तियों में संदर्भित करना हो।</p>
+</blockquote><h5 id="introduction-to-in-built-functions">2.4.3 Introduction to In-Built Functions</h5><table class="ext-table">
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Category</strong></th>
+<th><strong>Function(s)</strong></th>
+<th><strong>Example &amp; Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistical/Conditional</td>
+<td>SUMIF, COUNTIF, COUNTA</td>
+<td>=SUMIF(B2:B20,"&gt;=40") adds only marks ≥ 40; =COUNTIF(B2:B20,"Pass") counts cells containing 'Pass'; =COUNTA(A2:A20) counts all non-blank cells (text or number).</td>
+</tr>
+<tr class="even">
+<td>Financial</td>
+<td>PMT, FV, PV</td>
+<td>=PMT(rate,nper,pv) calculates the fixed periodic payment for a loan given interest rate, number of periods, and present value.</td>
+</tr>
+<tr class="odd">
+<td>Logical</td>
+<td>IF, AND, OR, NOT</td>
+<td>=IF(B2&gt;=40,"Pass","Fail") displays 'Pass' or 'Fail' based on a condition; AND/OR combine multiple conditions.</td>
+</tr>
+<tr class="even">
+<td>Lookup &amp; Reference</td>
+<td>VLOOKUP, HLOOKUP, INDEX, MATCH</td>
+<td>=VLOOKUP(lookup_value, table_array, col_index, FALSE) searches a value in the FIRST COLUMN of a table and returns a value from a specified column in the same row.</td>
+</tr>
+<tr class="odd">
+<td>Mathematical</td>
+<td>SUM, ROUND, ABS, SQRT, POWER</td>
+<td>=SUM(B2:B10) totals a range; =ROUND(A1,2) rounds to 2 decimal places.</td>
+</tr>
+<tr class="even">
+<td>Statistical</td>
+<td>AVERAGE, MAX, MIN, MEDIAN, STDEV</td>
+<td>=AVERAGE(B2:B10) calculates the mean; =MAX/MIN find the highest/lowest value.</td>
+</tr>
+<tr class="odd">
+<td>Text</td>
+<td>LEFT, RIGHT, MID, CONCATENATE/TEXTJOIN, UPPER, LOWER, TRIM</td>
+<td>=CONCATENATE(A2," ",B2) joins first and last names with a space; =LEFT(A2,3) extracts the first 3 characters.</td>
+</tr>
+<tr class="even">
+<td>Database</td>
+<td>DSUM, DAVERAGE, DCOUNT</td>
+<td>Perform SUM/AVERAGE/COUNT on a table that meets multiple criteria, similar to a simple database query.</td>
+</tr>
+</tbody>
+</table><p>Worked Example — VLOOKUP: Suppose a 'Rate Table' on Sheet2 lists Product Code and Price. In Sheet1, =VLOOKUP(A2, Sheet2!$A$2:$B$10, 2, FALSE) looks up the product code in A2 within Sheet2's table and returns the matching price from the 2nd column — the last argument FALSE requests an EXACT match.</p><blockquote>
+<p>इन-बिल्ट फ़ंक्शन पहले से तैयार गणनाएँ हैं — जैसे SUMIF/COUNTIF सशर्त योग व गणना करते हैं, IF तार्किक निर्णय देता है, तथा VLOOKUP/HLOOKUP किसी तालिका में मान खोजकर संबंधित परिणाम लौटाते हैं।</p>
+</blockquote><p><strong>✎ Exercise 2.4 (Practice / अभ्यास)</strong></p><ol start="15" type="1">
+<li><p>In the Marksheet, add a 'Total' column using SUM, a 'Percentage' column using a formula dividing by total maximum marks, and a 'Result' column using IF that shows 'Pass' if percentage ≥ 33, else 'Fail'.</p></li>
+<li><p>Create a small 'Rate Table' of 5 items with Item Code and Price on a second sheet, then use VLOOKUP on the first sheet to fetch prices for a bill of 3 items.</p></li>
+<li><p>Use TODAY() and DATEDIF to calculate your age in years from your date of birth.</p></li>
+</ol>
+<h4 id="sorting-and-filtering-data">2.5 Sorting and Filtering Data</h4><ul>
+<li><p>Sort (Data tab → Sort, or the A→Z / Z→A buttons): arranges rows in ascending or descending order based on one or more chosen columns (e.g., sort a marksheet by Percentage, highest first).</p></li>
+<li><p>Filter (Data tab → Filter, or Ctrl+Shift+L): adds drop-down arrows to each header cell, letting you temporarily display only rows meeting chosen criteria.</p></li>
+<li><p>Number Filter: filters based on numeric conditions (Greater Than, Between, Top 10, etc.).</p></li>
+<li><p>Text Filter: filters based on text conditions (Equals, Contains, Begins With, etc.).</p></li>
+<li><p>Custom Filtering: combines two conditions with AND/OR logic, e.g., show rows where Marks &gt; 60 AND Subject = 'Physics'.</p></li>
+<li><p>Removing Filters: click Filter again to remove the drop-down arrows and show all rows; or click 'Clear' under the Filter drop-down to remove just one column's filter.</p></li>
+<li><p>Conditional Formatting (also covered in 2.3): visually flags data meeting a rule while Sort/Filter physically re-order or hide rows.</p></li>
+<li><p>Creating Sub-Totals (Data tab → Subtotal): automatically groups data by a chosen column and inserts SUM/AVERAGE/COUNT sub-total rows for each group (requires the data to be sorted by that column first).</p></li>
+<li><p>Pivot Tables (Insert tab → PivotTable): an interactive summary tool that lets you drag-and-drop fields into Rows, Columns, Values, and Filters areas to instantly summarise large datasets — e.g., total sales by Region and by Month — without writing any formula.</p></li>
+</ul><p><strong>✎ Exercise 2.5 (Practice / अभ्यास)</strong></p><ol start="18" type="1">
+<li><p>Sort the Marksheet in descending order of Percentage. Apply a Text Filter to show only students whose Name begins with a chosen letter. Then create a Pivot Table summarising average marks by Subject (if subjects were entered per row instead of per column, restructure a copy of the data accordingly).</p></li>
+</ol>
+<h4 id="creating-and-formatting-charts">2.6 Creating and Formatting Charts</h4><p><img loading="lazy" src="notes-media/image7.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig 2.3 — Common chart types and their purpose</em></p><ol start="57" type="1">
+<li><p>Select the data range (including headers) that you want to chart.</p></li>
+<li><p>Go to Insert tab → Charts group → choose a chart type: Column, Bar, Line, Pie, etc. (or click Recommended Charts for Excel's suggestion).</p></li>
+<li><p>Once inserted, the contextual Chart Design and Format tabs appear.</p></li>
+<li><p>Chart Design tab: Add Chart Element (title, axis titles, data labels, gridlines, legend), Change Colours, and choose a Chart Style.</p></li>
+<li><p>Format tab: fine-tune individual elements' fill colour, outline, and text effects by selecting them and using Format Selection.</p></li>
+<li><p>Editing the Chart Data Range: click the chart → Chart Design → Select Data to add/remove a data series or change the cell range being plotted.</p></li>
+<li><p>Editing a Data Series: within Select Data, click Edit next to a series to change its name or the values it plots.</p></li>
+<li><p>Changing the Chart Type: right-click the chart → Change Chart Type to switch, e.g., from a Column chart to a Line chart, without re-entering data.</p></li>
+<li><p>Creating Tables in Excel (Insert tab → Table, or Ctrl+T): converts a plain data range into a structured 'Excel Table' with automatic banded rows, a filter-enabled header, and automatically expanding formulas/formatting as new rows are added.</p></li>
+</ol><p>Choosing the right chart: use a Column/Bar chart to compare values across categories; a Line chart to show a trend over time; a Pie chart to show the proportion of parts to a whole (best with ≤6 categories).</p><p><strong>✎ Exercise 2.6 (Practice / अभ्यास)</strong></p><ol start="19" type="1">
+<li><p>Using the Marksheet, create a Column chart comparing each student's Total marks, with a proper Chart Title and axis titles. Then create a Pie chart showing the proportion of Pass vs Fail students.</p></li>
+</ol>
+<h4 id="advanced-list-management">2.7 Advanced List Management</h4><ul>
+<li><p>INDEX and MATCH: a more flexible alternative to VLOOKUP. MATCH(lookup_value, lookup_array, 0) finds the POSITION of a value within a range; INDEX(array, row_num) then returns the value at that position. Combined as =INDEX(B2:B10, MATCH(A2, C2:C10, 0)), this can look leftward (unlike VLOOKUP) and is more robust when columns are inserted or reordered.</p></li>
+<li><p>Drawing &amp; Picture Objects in Excel: Insert tab → Shapes/Pictures work exactly as in Word, useful for adding a company logo to a report or callouts to a chart.</p></li>
+<li><p>Forms and Form Controls in Excel (Developer tab → Insert → Form Controls): adds interactive controls such as Check Boxes, Option (Radio) Buttons, Combo Boxes/Drop-down Lists, and Spin Buttons directly onto a worksheet — useful for building simple data-entry forms or interactive dashboards; each control can be linked to a specific cell to record its value.</p></li>
+</ul>
+<h4 id="proofing-and-printing-a-spreadsheet">2.8 Proofing and Printing a Spreadsheet</h4><ul>
+<li><p>Page Setup (Page Layout tab → Page Setup group): configure Margins, Orientation (Portrait/Landscape — Landscape suits wide tables), Size, and Print Area.</p></li>
+<li><p>Setting Print Area (Page Layout → Print Area → Set Print Area): restricts printing to only the selected range instead of the entire used area of the sheet.</p></li>
+<li><p>Print Titles (Page Layout → Print Titles): repeats chosen header row(s)/column(s) on every printed page — essential for long tables spanning multiple pages.</p></li>
+<li><p>Inserting Column/Page Header and Footer, and objects within them: same concept as Word — switch to Page Layout view (View tab) to add a header/footer directly, including page numbers, file name, or a logo picture.</p></li>
+<li><p>Print Preview (File → Print): shows exactly how the printed pages will look, including page breaks (visible as dashed blue lines in Normal view, or solid lines in Page Break Preview under the View tab).</p></li>
+<li><p>Enable Background Error Checking (File → Options → Formulas): Excel continuously scans for common formula errors (like #DIV/0! or inconsistent formulas) and flags the cell with a small green triangle.</p></li>
+<li><p>Setting AutoCorrect Options: same dialog as Word (File → Options → Proofing) for automatic typo correction while typing in cells.</p></li>
+</ul><p><strong>✎ Exercise 2.8 (Practice / अभ्यास)</strong></p><ol start="20" type="1">
+<li><p>Set the Print Area to just the Marksheet table, set the header row to repeat via Print Titles, switch to Landscape orientation, and preview the printout using Print Preview.</p></li>
+</ol>
+<h4 id="making-spreadsheets-attractive-useful-and-easy">2.9 Making Spreadsheets Attractive, Useful and Easy</h4><ul>
+<li><p>Freeze the header row so column titles remain visible while scrolling through long data.</p></li>
+<li><p>Use Conditional Formatting sparingly (2-3 rules) to draw attention to what matters (e.g., red for below-target, green for above-target) rather than colouring everything.</p></li>
+<li><p>Keep raw data on one sheet and build charts/pivot tables on a separate 'Dashboard' sheet referencing it, so the summary view stays clean.</p></li>
+<li><p>Use named ranges (e.g., 'TaxRate') instead of bare cell references in important formulas, making them self-documenting.</p></li>
+<li><p>Protect important cells/sheets (Review tab → Protect Sheet) containing formulas, so they are not accidentally overwritten by other users.</p></li>
+</ul>
+<h4 id="worked-walkthrough-building-a-complete-student-gradebook">2.10 Worked Walkthrough: Building a Complete Student Gradebook</h4><p>This walkthrough combines many Excel skills into one realistic, end-to-end task.</p><ol start="66" type="1">
+<li><p>In a new workbook, rename Sheet1 to 'Gradebook'. In row 1, type headers: Roll No, Name, Test1 (20), Test2 (20), Assignment (10), Total (50), Percentage, Grade.</p></li>
+<li><p>Enter data for at least 10 students in rows 2-11.</p></li>
+<li><p>In the Total column, enter =SUM(C2:E2) and copy it down for all students (the relative reference automatically adjusts each row).</p></li>
+<li><p>In the Percentage column, enter =(F2/50)*100 and format the column using the Percentage or a custom Number format showing one decimal place.</p></li>
+<li><p>In the Grade column, enter a nested IF,</p></li>
+</ol><blockquote>
+<p>e.g. =IF(G2&gt;=75,"A",IF(G2&gt;=60,"B",IF(G2&gt;=40,"C","F"))), and copy down.</p>
+</blockquote><ol start="71" type="1">
+<li><p>Apply Conditional Formatting to the Grade column: highlight all 'F' grades in red fill.</p></li>
+<li><p>Freeze the top row (View tab → Freeze Panes → Freeze Top Row) so headers remain visible while scrolling.</p></li>
+<li><p>Sort the data by Percentage in descending order (Data tab → Sort) to identify the class topper instantly.</p></li>
+<li><p>Insert a Column Chart comparing every student's Total marks, with a proper chart title.</p></li>
+<li><p>Use =COUNTIF(H2:H11,"F") in a summary cell to count how many students have failed, and =AVERAGE(G2:G11) to find the class average percentage.</p></li>
+<li><p>Set the Print Area to the data table, apply Print Titles so the header row repeats on every printed page, and preview before printing.</p></li>
+<li><p>Save the workbook as 'Gradebook_&lt;ClassName&gt;.xlsx'.</p></li>
+</ol><p>Notice how this single exercise uses formulas, functions, conditional formatting, sorting, charts, and printing together — this integrated approach mirrors how Excel is actually used in real academic and office settings, rather than each feature being used in isolation.</p><blockquote>
+<p>यह अभ्यास सूत्रों (formulas), फ़ंक्शनों, सशर्त फॉर्मेटिंग, सॉर्टिंग, चार्ट तथा प्रिंटिंग को एक साथ जोड़ता है — यही एकीकृत दृष्टिकोण वास्तविक कार्यालयी व शैक्षणिक उपयोग में एक्सेल के उपयोग को दर्शाता है।</p>
+</blockquote><p><strong>✎ Exercise 2.10 (Practice / अभ्यास)</strong></p><ol start="21" type="1">
+<li><p>Build your own Gradebook following the walkthrough above using your actual class's subjects and at least 10 real or representative student records.</p></li>
+</ol>
+<h4 id="applications-of-ms-excel">2.11 Applications of MS Excel</h4><ul>
+<li><p>Academic record-keeping: mark sheets, attendance registers, result analysis.</p></li>
+<li><p>Finance and accounting: budgets, invoices, loan/EMI calculators, ledgers.</p></li>
+<li><p>Business analytics: sales dashboards, inventory tracking, pivot-table based reporting.</p></li>
+<li><p>Scientific/statistical data analysis: tabulating experimental readings and computing averages, standard deviation, trends.</p></li>
+<li><p>Scheduling and planning: timetables, project Gantt-style charts, event budgets.</p></li>
+</ul>
+<h4 id="limitations-of-ms-excel">2.12 Limitations of MS Excel</h4><ul>
+<li><p>Not a true relational database — handling extremely large datasets (hundreds of thousands of rows with complex relationships) is better done in Access/SQL.</p></li>
+<li><p>Formula errors can silently propagate through a worksheet if not carefully audited (Formulas tab → Error Checking / Trace Precedents helps).</p></li>
+<li><p>Multiple users editing the same local file simultaneously can cause conflicts unless using a shared cloud workbook (co-authoring via OneDrive).</p></li>
+<li><p>Complex nested formulas can become difficult to read/maintain — thorough documentation (comments, named ranges) is essential.</p></li>
+<li><p>Charts and pivot tables need the source data to be 'clean' (no blank rows, consistent headers) — messy data produces misleading results.</p></li>
+</ul>
+</div></div><div class="note-block" id="u3"><h3>Unit 4 — MS PowerPoint</h3>
 <p><b>Slide structure:</b> a Slide Master controls the consistent look (fonts, colours, placeholders) across
 all slides using a given theme, so changes to the Master propagate automatically to every slide.</p>
 <p><b>Multimedia content:</b> pictures, SmartArt diagrams, charts and tables can be embedded directly; scanned
@@ -253,7 +944,170 @@ an animation applies to individual objects within a slide (e.g. text appearing b
 sparingly for professional presentations.</p>
 <p><b>Delivery:</b> Presenter View shows the speaker their notes and the next slide while the audience sees
 only the current slide — a valuable feature for confident, well-paced delivery.</p>
-</div><div class="note-block" id="u4"><h3>Unit 5 — Internet, Email & MS Access</h3>
+<div class="ext-note"><div class="ext-head"><span class="ext-tag">Extended Notes</span><h4>Unit 4 — MS PowerPoint — Full Chapter</h4></div>
+<h4 id="setting-up-the-powerpoint-environment">3.1 Setting up the PowerPoint Environment</h4><p>Microsoft PowerPoint is a presentation-graphics program used to design a Slide Show — a sequence of slides containing text, images, charts, audio, and video, projected or played back to communicate ideas to an audience.</p><blockquote>
+<p>माइक्रोसॉफ्ट पावरपॉइंट एक प्रेजेंटेशन-ग्राफिक्स प्रोग्राम है, जिससे स्लाइड शो — पाठ, चित्र, चार्ट, ऑडियो व वीडियो युक्त स्लाइडों का क्रम — तैयार किया जाता है, जो दर्शकों तक विचार पहुँचाने के लिए प्रस्तुत किया जाता है।</p>
+</blockquote><p><img loading="lazy" src="notes-media/image8.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig 3.1 — Schematic layout of the PowerPoint screen</em></p><ul>
+<li><p>Slide Thumbnail Pane (left) — shows small previews of every slide in order; click a thumbnail to jump to that slide, drag to reorder.</p></li>
+<li><p>Slide Editing Area (centre) — the large working area showing the current slide, with Placeholders (dashed boxes reading 'Click to add Title/Text') where content is typed or inserted.</p></li>
+<li><p>Notes Pane (bottom) — a private area for speaker notes, visible to the presenter but not to the audience during a Slide Show.</p></li>
+<li><p>Status Bar — shows slide number, applied theme/design, view buttons (Normal, Slide Sorter, Reading View, Slide Show), and Zoom control.</p></li>
+<li><p>New/Open/Close/Save/Save As: identical concepts to Word and Excel; default format is PowerPoint Presentation (*.pptx).</p></li>
+<li><p>Typing text: click inside a placeholder and type; text auto-fits or shrinks slightly if it overflows the placeholder box.</p></li>
+<li><p>Alignment of text: Home tab → Paragraph group offers the same Left/Centre/Right/Justify options (Ctrl+L/E/R/J) as in Word.</p></li>
+</ul>
+<h4 id="formatting-text">3.2 Formatting Text</h4><p>PowerPoint's text-formatting tools (Home tab → Font group) are essentially identical to Word's:</p><ul>
+<li><p>Font Size, Font Style, Font Colour — control the appearance of characters; slide text is usually kept LARGE (24-40 pt for body, 36-54 pt for titles) so it is readable from the back of a room.</p></li>
+<li><p>Bold (Ctrl+B), Italic (Ctrl+I), Underline (Ctrl+U) for emphasis.</p></li>
+<li><p>Cut (Ctrl+X), Copy (Ctrl+C), Paste (Ctrl+V), Paste Special (Ctrl+Alt+V — e.g., paste as a picture to 'freeze' formatting), Select All (Ctrl+A), Clear formatting.</p></li>
+<li><p>Find (Ctrl+F) &amp; Replace (Ctrl+H) to search/substitute text across all slides.</p></li>
+<li><p>Working with Tabs &amp; Indents: within a text placeholder, Tab demotes a bullet point to the next outline level; Shift+Tab promotes it — this is how sub-points are created.</p></li>
+</ul>
+<h4 id="creating-slides-and-applying-themes">3.3 Creating Slides and Applying Themes</h4><ol start="78" type="1">
+<li><p>Inserting a New Slide: Home tab → New Slide (or Ctrl+M) adds a slide after the current one; the small arrow under New Slide lets you pick a specific Layout (Title Slide, Title and Content, Two Content, Blank, etc.).</p></li>
+<li><p>Changing the Layout of Slides: Home tab → Layout, to switch an existing slide's placeholder arrangement without losing its content.</p></li>
+<li><p>Duplicating a Slide: right-click a slide thumbnail → Duplicate Slide (or Ctrl+D) — creates an exact copy, useful when several slides share a similar structure.</p></li>
+<li><p>Copying and Pasting a Slide: right-click → Copy, then right-click the destination position → Paste (with options to Keep Source Formatting or Use Destination Theme).</p></li>
+<li><p>Applying Themes (Design tab → Themes gallery): instantly changes the colour scheme, fonts, and background graphics of the ENTIRE presentation with one click.</p></li>
+<li><p>Changing Theme Colour (Design tab → Variants → Colours): swaps just the colour palette while keeping the same theme layout.</p></li>
+<li><p>Slide Background (Design tab → Format Background): sets a solid colour, gradient, texture/pattern, or picture as the background of the current slide or all slides.</p></li>
+<li><p>Using Slide Views (View tab): Normal (editing), Slide Sorter (grid overview of all slides for easy reordering), Notes Page (full-page view of notes), Reading View, and Slide Show (full-screen playback).</p></li>
+</ol><blockquote>
+<p>नई स्लाइड जोड़ने, लेआउट बदलने, स्लाइड की नक़ल (duplicate) बनाने, तथा थीम (Theme) व बैकग्राउंड सेट करने से संपूर्ण प्रस्तुति का रंग-रूप एक ही क्लिक में सुसंगत रूप से बदला जा सकता है।</p>
+</blockquote>
+<h4 id="working-with-bullets-and-numbering">3.4 Working with Bullets and Numbering</h4><ul>
+<li><p>Multilevel Numbering and Bulleting: within a text placeholder, use Tab/Shift+Tab to create sub-levels, each with its own bullet symbol/number style — Home tab → Bullets/Numbering drop-down to customise.</p></li>
+<li><p>Creating a List: type each point and press Enter for the next bullet, exactly as in Word.</p></li>
+<li><p>Page Bordering &amp; Page Background: apply a border via a rectangle shape with no fill, or use Format Background for background colour/image on slides.</p></li>
+<li><p>Aligning Text, Text Direction: Home tab → Paragraph group offers alignment and text-direction (horizontal, rotated, stacked) options identical to Word.</p></li>
+<li><p>Column Options (Home tab → Add or Remove Columns): splits text within a placeholder into 2 or 3 columns, useful for comparison lists.</p></li>
+</ul><p><strong>✎ Exercise 3.4 (Practice / अभ्यास)</strong></p><ol start="22" type="1">
+<li><p>Create a 5-slide presentation titled 'Introduction to Computers' with a Title Slide, and 4 content slides using multilevel bulleted lists. Apply a Design theme and a consistent colour palette.</p></li>
+</ol>
+<h4 id="working-with-objects">3.5 Working with Objects</h4><ul>
+<li><p>Shapes, Clip Art &amp; Pictures, WordArt, SmartArt — inserted via the Insert tab exactly as described for Word (Section 1.8); PowerPoint additionally auto-resizes objects to fit within the slide's visible area.</p></li>
+<li><p>Change the Order of Objects: right-click → Bring Forward/Backward, Bring to Front/Send to Back — critical when several shapes/pictures/text boxes overlap on a slide.</p></li>
+<li><p>Inserting Slide Header and Footer (Insert tab → Header &amp; Footer): adds a fixed date, slide number, or short footer text (e.g., 'B.Sc. VOI001') that can appear on all slides or be excluded from the Title Slide.</p></li>
+<li><p>Inserting Text Boxes, Shapes: for labels, captions, or callouts anywhere on the slide.</p></li>
+<li><p>Using Quick Styles (Format tab, when a shape/picture is selected): one-click preset combinations of fill, outline, and effects.</p></li>
+<li><p>Inserting WordArt, Symbols, Chart: identical Insert-tab tools to Word; a chart inserted in PowerPoint opens a small linked Excel worksheet for entering/editing the chart's data.</p></li>
+</ul>
+<h4 id="hyperlinks-and-action-buttons">3.6 Hyperlinks and Action Buttons</h4><ul>
+<li><p>Inserting a Hyperlink (Insert tab → Link, or Ctrl+K): select text or an object, then link it to another slide within the presentation, an external website URL, an email address, or another file — clicking the link during the slide show jumps to that destination.</p></li>
+<li><p>Action Buttons (Insert tab → Shapes → Action Buttons category, e.g., Home, Next, Back, custom): pre-drawn button shapes that trigger an action (go to next/previous/first/last slide, run a program, play a sound) when clicked during the presentation.</p></li>
+<li><p>Editing Hyperlinks and Action Buttons: right-click the linked object → Edit Hyperlink / Edit Action Settings to change or remove the destination.</p></li>
+<li><p>WordArt &amp; Shapes can themselves be turned into clickable hyperlinks or action buttons using the same Insert → Link dialog.</p></li>
+</ul><p>Example: A 'Contents' slide with 5 bulleted topics can have each bullet hyperlinked to its corresponding slide, and a small 'Home' action button placed on every subsequent slide to jump back to Contents — creating an interactive, non-linear presentation.</p><blockquote>
+<p>हाइपरलिंक व एक्शन बटन प्रस्तुति को इंटरैक्टिव (interactive) बनाते हैं — क्लिक करने पर सीधे किसी अन्य स्लाइड, वेबसाइट या फ़ाइल पर पहुँचा जा सकता है।</p>
+</blockquote>
+<h4 id="working-with-movies-and-sound">3.7 Working with Movies and Sound</h4><ul>
+<li><p>Inserting a Movie/Video from a Computer File (Insert tab → Video → This Device): embeds a video clip directly onto the slide.</p></li>
+<li><p>Inserting an Audio File (Insert tab → Audio → Audio on My PC): embeds background music, narration, or sound effects; the audio icon can be hidden or set to play automatically/across all slides.</p></li>
+<li><p>Audio-Video Playback and Format Options (Playback tab, appears when a media object is selected): choose Start (On Click / Automatically), Volume, Loop until Stopped, and Hide While Not Playing.</p></li>
+<li><p>Video Options: Play Full Screen, Rewind after Playing.</p></li>
+<li><p>Adjust Options (Format tab): Corrections (brightness/contrast), Colour, and Poster Frame (the preview image shown before playback starts).</p></li>
+<li><p>Reshaping &amp; Bordering Video: apply Video Styles (preset frames/shapes) or a custom Video Shape/Border from the Format tab, just like formatting a picture.</p></li>
+</ul>
+<h4 id="using-smartart-and-tables">3.8 Using SmartArt and Tables</h4><ul>
+<li><p>Working with Tables (Insert tab → Table): identical concept to Word — rows/columns/cells for organised tabular data on a slide.</p></li>
+<li><p>Table Formatting, Table Styles, Alignment Options, Merge &amp; Split: same Table Design/Layout contextual tabs as Word.</p></li>
+<li><p>Converting Text to SmartArt: select an existing bulleted text placeholder → Home tab → Convert to SmartArt → choose a diagram layout (e.g., process, cycle, hierarchy); PowerPoint automatically redistributes the text into the shapes.</p></li>
+</ul><p><strong>✎ Exercise 3.8 (Practice / अभ्यास)</strong></p><ol start="23" type="1">
+<li><p>On one slide, insert a 3×3 table comparing three social media platforms. On another slide, type a 4-point bulleted list of 'Steps to make tea' and convert it into a Process SmartArt diagram.</p></li>
+</ol>
+<h4 id="animation-and-slide-transition">3.9 Animation and Slide Transition</h4><p><img loading="lazy" src="notes-media/image9.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig 3.2 — Transitions occur between slides; animations occur within a slide</em></p><p>It is important to distinguish these two related but different features:</p><table class="ext-table">
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Feature</strong></th>
+<th><strong>Where it applies</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Transition</td>
+<td>Between two slides</td>
+<td>Controls how the NEXT slide replaces the current one (e.g., Fade, Push, Wipe) — set on the Transitions tab.</td>
+</tr>
+<tr class="even">
+<td>Animation</td>
+<td>Within a single slide</td>
+<td>Controls how an individual object (text, picture, shape) enters, is emphasised, or exits WHILE that slide is showing — set on the Animations tab.</td>
+</tr>
+</tbody>
+</table><ul>
+<li><p>Default Animation: a basic entrance effect (e.g., Appear, Fade) applied to a placeholder via Animations tab → Animation gallery.</p></li>
+<li><p>Custom Animation (Animation Pane, Animations tab → Animation Pane): lists every animation applied to the current slide's objects, in order, and lets you add multiple effects of the three types — Entrance (object appears), Emphasis (object already visible changes, e.g., spins or grows), and Exit (object leaves the slide).</p></li>
+<li><p>Modifying a Default or Custom Animation: select an applied animation in the Animation Pane → Effect Options to change its direction/shape, or drag the small numbered tag to reorder it among other animations.</p></li>
+<li><p>Reordering Animation Using the Animation Pane: drag entries up/down to change the sequence in which effects play.</p></li>
+<li><p>Apply a Slide Transition (Transitions tab → gallery): click a transition style, then set its Duration and Sound (optional).</p></li>
+<li><p>Modifying a Transition: Transitions tab → Effect Options changes the direction/variant of the chosen transition (e.g., 'Push' can come from Left, Right, Top, Bottom).</p></li>
+<li><p>Advancing to the Next Slide (Transitions tab → Timing group): choose On Mouse Click (manual, presenter-controlled) and/or After a set number of seconds (automatic, for a self-running kiosk presentation).</p></li>
+</ul><p>Guidance: use animation and transitions sparingly and consistently — one transition style throughout, and only entrance animations on bullet points to reveal them one at a time — because excessive or mismatched effects distract the audience rather than aiding communication.</p><blockquote>
+<p>ट्रांज़िशन दो स्लाइडों के बीच होता है (एक स्लाइड से दूसरी में जाने का प्रभाव), जबकि एनिमेशन एक ही स्लाइड के भीतर किसी वस्तु के प्रवेश, प्रभाव अथवा निकास को नियंत्रित करता है। इनका संयमित उपयोग प्रस्तुति को प्रभावी बनाता है।</p>
+</blockquote><p><strong>✎ Exercise 3.9 (Practice / अभ्यास)</strong></p><ol start="24" type="1">
+<li><p>Apply a consistent slide transition (e.g., Fade, 1 second) to all slides of your 'Introduction to Computers' presentation. On the content slides, apply an Entrance animation ('Fly In' or 'Wipe') to each bullet point so they appear one at a time on mouse click.</p></li>
+</ol>
+<h4 id="slide-show-options">3.10 Slide Show Options</h4><ul>
+<li><p>Start Slide Show (Slide Show tab → From Beginning, or F5): plays the presentation full-screen starting at slide 1.</p></li>
+<li><p>Start from Current Slide (Shift+F5): begins playback from whichever slide is currently open, useful while checking a specific slide.</p></li>
+<li><p>Rehearse Timings (Slide Show tab → Rehearse Timings): lets the presenter practice while PowerPoint records how long each slide is shown, which can then be reused to auto-advance slides at the same pace during an unattended/kiosk playback.</p></li>
+<li><p>Creating a Custom Slide Show (Slide Show tab → Custom Slide Show): defines a named sub-set and/or reordering of slides from the full deck — useful for showing a shorter version to a different audience without duplicating or deleting the original slides.</p></li>
+</ul>
+<h4 id="proofing-and-printing">3.11 Proofing and Printing</h4><ul>
+<li><p>Check Spelling as You Type: same red-wavy-line mechanism as Word; run a full check via Review tab → Spelling (F7).</p></li>
+<li><p>Setting AutoCorrect Options: File → Options → Proofing → AutoCorrect Options, same dialog shared across Office apps.</p></li>
+<li><p>Save as Video (File → Export → Create a Video): renders the entire presentation, including timings, narration, and animations, into a single video file (.mp4) that plays without PowerPoint installed.</p></li>
+<li><p>Save as JPEG Files (File → Save As → choose JPEG File Interchange Format): saves either the current slide or every slide of the presentation as separate image files.</p></li>
+<li><p>Save as PowerPoint Show File (Save As → PowerPoint Show *.ppsx): a file that opens DIRECTLY into full-screen Slide Show mode (skipping the editing view) when double-clicked — convenient for handing over a presentation to be run by someone else.</p></li>
+<li><p>Print Preview and Print (File → Print): choose to print Full Page Slides, Notes Pages (slide + speaker notes), Outline (text only), or Handouts (multiple small slides per page, e.g., 3 or 6-per-page, ideal for giving the audience a paper reference with note-taking lines).</p></li>
+</ul>
+<h4 id="making-presentations-attractive-useful-and-easy">3.12 Making Presentations Attractive, Useful and Easy</h4><ul>
+<li><p>Follow the 6×6 rule as a guideline: no more than roughly 6 bullet points per slide and 6 words per bullet, to avoid overcrowding a slide with text — key ideas, not full sentences, belong on a slide.</p></li>
+<li><p>Maintain a consistent Theme, font, and colour scheme across every slide of the deck.</p></li>
+<li><p>Prefer images, icons, and SmartArt diagrams over long paragraphs — visuals are processed and remembered faster than dense text.</p></li>
+<li><p>Ensure sufficient colour contrast between text and background so content is legible even in a brightly lit room.</p></li>
+<li><p>Use the Notes Pane for detailed speaking points rather than cramming them onto the visible slide.</p></li>
+<li><p>Rehearse timing and use Presenter View (a second-monitor / projector-friendly view that shows the presenter their notes and the next slide while the audience only sees the current slide).</p></li>
+</ul><blockquote>
+<p>प्रस्तुति को प्रभावी बनाने हेतु प्रत्येक स्लाइड पर सीमित बिंदु, संगत थीम, अधि-चित्र/SmartArt व कम पाठ, तथा उचित रंग-विरोधाभास (contrast) का ध्यान रखें।</p>
+</blockquote>
+<h4 id="worked-walkthrough-building-a-seminar-presentation">3.13 Worked Walkthrough: Building a Seminar Presentation</h4><p>This walkthrough combines many PowerPoint skills into one realistic, end-to-end task — building a short seminar presentation on 'Renewable Energy'.</p><ol start="86" type="1">
+<li><p>Create a New presentation and apply a clean, professional Design theme with good colour contrast.</p></li>
+<li><p>Slide 1 (Title Slide): type the title 'Renewable Energy Sources' and your name/roll number as subtitle.</p></li>
+<li><p>Slide 2 (Contents): list the topics to be covered as a bulleted list; later, hyperlink each bullet to its corresponding slide (Section 3.6).</p></li>
+<li><p>Slide 3: type a short bulleted definition of renewable energy, then select the text and Convert to SmartArt using a simple list or process layout.</p></li>
+<li><p>Slide 4: insert a Column Chart (linked mini-Excel sheet) comparing the approximate share of solar, wind, hydro, and other sources.</p></li>
+<li><p>Slide 5: insert a relevant picture or diagram, and apply a Picture Style/border from the Format tab.</p></li>
+<li><p>Slide 6 (Summary): a short bulleted recap of key points, plus a 'Thank You' closing line.</p></li>
+<li><p>Add a small Home action button (Insert → Shapes → Action Buttons) on Slides 3-6 that links back to the Contents slide (Slide 2).</p></li>
+<li><p>Apply ONE consistent Transition (e.g., Fade) to all slides via Transitions tab → Apply To All.</p></li>
+<li><p>On Slide 3's bulleted SmartArt, apply an Entrance animation so points appear one at a time on mouse click, and check the sequence in the Animation Pane.</p></li>
+<li><p>Add slide numbers and a footer with the course code via Insert → Header &amp; Footer → Apply to All.</p></li>
+<li><p>Rehearse Timings once to check pacing, then Save As a .pptx, and additionally Save As a .ppsx (PowerPoint Show) so it can be handed over to run directly in Slide Show mode.</p></li>
+</ol><p>As with the earlier Word and Excel walkthroughs, notice how design (theme, layout), content (SmartArt, chart, picture), interactivity (hyperlinks/action buttons), and motion (transitions/animations) are combined thoughtfully rather than applied excessively — this restraint is itself part of good presentation design (Section 3.12).</p><blockquote>
+<p>यह अभ्यास डिज़ाइन (थीम, लेआउट), सामग्री (SmartArt, चार्ट, चित्र), इंटरैक्टिविटी (हाइपरलिंक/एक्शन बटन) तथा गति (ट्रांज़िशन/एनिमेशन) को संतुलित रूप से जोड़ता है — यही संयम एक अच्छी प्रस्तुति के डिज़ाइन का भाग है।</p>
+</blockquote><p><strong>✎ Exercise 3.13 (Practice / अभ्यास)</strong></p><ol start="25" type="1">
+<li><p>Build your own 6-slide seminar presentation on a topic from your own subject specialisation, following the complete walkthrough above.</p></li>
+</ol>
+<h4 id="applications-of-ms-powerpoint">3.14 Applications of MS PowerPoint</h4><ul>
+<li><p>Academic seminars, project/thesis defence presentations, guest lectures.</p></li>
+<li><p>Corporate/business pitches, training modules, sales presentations.</p></li>
+<li><p>Digital signage and self-running kiosk displays (using Rehearse Timings and Custom Slide Show).</p></li>
+<li><p>Video creation for online learning (using Save as Video with narration and timings).</p></li>
+</ul>
+<h4 id="limitations-of-ms-powerpoint">3.15 Limitations of MS PowerPoint</h4><ul>
+<li><p>Encourages a tendency towards oversimplified, bullet-point-heavy communication that can strip away necessary nuance if not designed carefully ('death by PowerPoint').</p></li>
+<li><p>Heavy use of embedded video/audio significantly increases file size, which can make sharing or emailing the file difficult.</p></li>
+<li><p>Complex custom animations may not display identically across different PowerPoint versions or on other software (e.g., Google Slides, LibreOffice Impress) that opens the .pptx file.</p></li>
+<li><p>A slide show is a supporting visual aid, not a substitute for a well-prepared, engaging spoken delivery by the presenter.</p></li>
+</ul>
+</div></div><div class="note-block" id="u4"><h3>Unit 5 — Internet, Email & MS Access</h3>
 <p><b>Internet basics:</b> the World Wide Web (WWW) is a system of interlinked hypertext documents accessed
 via browsers over the internet; basic services include email, file transfer, and web browsing (HTTP/HTTPS).</p>
 <p><b>Web browsers</b> (Chrome, Edge, Firefox) render web pages and provide tools for bookmarking, history and
@@ -265,7 +1119,378 @@ correspondence.</p>
 (questions asked of the data), Forms (data-entry interfaces) and Reports (formatted output) — introducing the
 idea of structured data storage beyond a single spreadsheet.</p>
 </div></div>
-</div></div>
+<div class="ext-note"><div class="ext-head"><span class="ext-tag">Extended Notes</span><h4>Unit 5 — Integration, Keyboard Shortcuts, Troubleshooting & Practice Questions (Full Reference) — Full Chapter</h4></div>
+<h4 id="how-the-three-applications-work-together">4.1 How the Three Applications Work Together</h4><p>Although MS Word, Excel, and PowerPoint are distinct applications, they are designed to interoperate seamlessly, forming an integrated 'office suite':</p><ul>
+<li><p>A Word mail-merge letter can pull its recipient list directly from an Excel worksheet (Section 1.12).</p></li>
+<li><p>A Word document can embed a live Excel chart or table that updates automatically if the source spreadsheet changes.</p></li>
+<li><p>A PowerPoint slide's chart is, internally, powered by a linked mini Excel worksheet — editing the chart data reopens Excel.</p></li>
+<li><p>Text and outlines typed in Word's Outline View can be sent directly into PowerPoint (Home → New Slide → Slides from Outline) to quickly draft a presentation skeleton from a written report.</p></li>
+<li><p>All three applications share the same Ribbon philosophy, the same File tab (Backstage view) for Save/Open/Print/Options, and the same AutoCorrect/spell-check engine — so skills learnt in one transfer directly to the others.</p></li>
+</ul>
+<h4 id="comparative-summary-table">4.2 Comparative Summary Table</h4><table class="ext-table">
+<colgroup>
+<col style="width: 24%"/>
+<col style="width: 24%"/>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Aspect</strong></th>
+<th><strong>MS Word</strong></th>
+<th><strong>MS Excel</strong></th>
+<th><strong>MS PowerPoint</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Primary purpose</td>
+<td>Compose &amp; format text documents</td>
+<td>Store, calculate &amp; analyse numeric data</td>
+<td>Design visual slide presentations</td>
+</tr>
+<tr class="even">
+<td>Basic unit</td>
+<td>Page / Paragraph</td>
+<td>Cell / Worksheet</td>
+<td>Slide</td>
+</tr>
+<tr class="odd">
+<td>Core strength</td>
+<td>Rich text formatting, referencing, mail merge</td>
+<td>Formulas, functions, pivot tables, charts</td>
+<td>Visual storytelling, animation, slide show</td>
+</tr>
+<tr class="even">
+<td>Typical file extension</td>
+<td>.docx</td>
+<td>.xlsx</td>
+<td>.pptx</td>
+</tr>
+<tr class="odd">
+<td>Common output</td>
+<td>Printed/PDF document</td>
+<td>Report / dashboard / chart</td>
+<td>Live presentation / exported video</td>
+</tr>
+</tbody>
+</table>
+<h4 id="career-and-skill-building-value">4.3 Career and Skill-Building Value</h4><p>Proficiency in MS-Office remains one of the most universally demanded 'soft skills' across almost every industry and job role, including those unrelated to computing:</p><ul>
+<li><p>Employability: most job postings, from clerical to managerial roles, explicitly list 'MS Office proficiency' as a required or preferred skill.</p></li>
+<li><p>Academic value: report writing (Word), data/result analysis (Excel), and seminar/viva presentations (PowerPoint) are needed throughout a student's academic and research career.</p></li>
+<li><p>Entrepreneurship: small-business owners routinely use Word for invoices/letters, Excel for accounts and inventory, and PowerPoint for pitching to investors or clients.</p></li>
+<li><p>Transferable logic: spreadsheet logic (formulas, referencing, conditional rules) is foundational for later learning of databases, programming, and data analysis tools.</p></li>
+</ul><blockquote>
+<p>एमएस-ऑफिस में दक्षता लगभग हर उद्योग व नौकरी में अपेक्षित एक सार्वभौमिक कौशल है — रिपोर्ट लेखन, डेटा विश्लेषण तथा प्रस्तुतियों के लिए यह ज्ञान शैक्षणिक व व्यावसायिक दोनों जीवन में उपयोगी है।</p>
+</blockquote>
+<h4 id="final-consolidated-practice-project-अतम-समकत-अभयस-परयजन">4.4 Final Consolidated Practice Project (अंतिम समेकित अभ्यास परियोजना)</h4><p>As a capstone exercise combining all three applications, students should complete the following mini-project:</p><ol start="98" type="1">
+<li><p>In Excel, create a workbook recording the results of a small survey you conduct among at least 15 classmates (e.g., favourite subject, hours of study per day, mode of transport to college). Use formulas/functions (COUNTIF, AVERAGE) to summarise the data, and create at least one chart.</p></li>
+<li><p>In Word, write a 2-3 page formal report describing the survey's purpose, methodology, and findings, referencing the Excel chart (paste it as a linked/embedded object), and format the report using Styles, a Table of Contents, headers/footers, and correct page numbering.</p></li>
+<li><p>In PowerPoint, design a 6-8 slide presentation summarising the same survey for a 5-minute classroom presentation, following the attractiveness guidelines in Section 3.12, including at least one SmartArt diagram and one chart.</p></li>
+<li><p>Submit all three files together, correctly named with your Roll Number, demonstrating an integrated command of MS-Office.</p></li>
+</ol>
+<h4 id="universal-shortcuts-word-excel-powerpoint">5.1 Universal Shortcuts (Word, Excel, PowerPoint)</h4><table class="ext-table">
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Shortcut</strong></th>
+<th><strong>Action</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ctrl+N</td>
+<td>New file</td>
+</tr>
+<tr class="even">
+<td>Ctrl+O</td>
+<td>Open file</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+S</td>
+<td>Save</td>
+</tr>
+<tr class="even">
+<td>F12</td>
+<td>Save As</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+W</td>
+<td>Close file</td>
+</tr>
+<tr class="even">
+<td>Ctrl+P</td>
+<td>Print</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+Z</td>
+<td>Undo</td>
+</tr>
+<tr class="even">
+<td>Ctrl+Y</td>
+<td>Redo</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+X</td>
+<td>Cut</td>
+</tr>
+<tr class="even">
+<td>Ctrl+C</td>
+<td>Copy</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+V</td>
+<td>Paste</td>
+</tr>
+<tr class="even">
+<td>Ctrl+A</td>
+<td>Select All</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+F</td>
+<td>Find</td>
+</tr>
+<tr class="even">
+<td>Ctrl+H</td>
+<td>Replace</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+B</td>
+<td>Bold</td>
+</tr>
+<tr class="even">
+<td>Ctrl+I</td>
+<td>Italic</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+U</td>
+<td>Underline</td>
+</tr>
+<tr class="even">
+<td>Ctrl+P</td>
+<td>Print</td>
+</tr>
+<tr class="odd">
+<td>F1</td>
+<td>Help</td>
+</tr>
+<tr class="even">
+<td>F7</td>
+<td>Spelling &amp; Grammar check</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ms-word-specific-shortcuts">5.2 MS Word-Specific Shortcuts</h4><table class="ext-table">
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Shortcut</strong></th>
+<th><strong>Action</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ctrl+L / E / R / J</td>
+<td>Align Left / Centre / Right / Justify</td>
+</tr>
+<tr class="even">
+<td>Ctrl+1 / 2 / 5</td>
+<td>Single / Double / 1.5 line spacing</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+Shift+&gt; / &lt;</td>
+<td>Increase / Decrease font size</td>
+</tr>
+<tr class="even">
+<td>Ctrl+Alt+F</td>
+<td>Insert Footnote</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+Alt+D</td>
+<td>Insert Endnote</td>
+</tr>
+<tr class="even">
+<td>Ctrl+Enter</td>
+<td>Insert a Page Break</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+K</td>
+<td>Insert Hyperlink</td>
+</tr>
+<tr class="even">
+<td>Shift+F3</td>
+<td>Change Case</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+Shift+S</td>
+<td>Apply / open Styles pane</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ms-excel-specific-shortcuts">5.3 MS Excel-Specific Shortcuts</h4><table class="ext-table">
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Shortcut</strong></th>
+<th><strong>Action</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ctrl+Home / End</td>
+<td>Go to cell A1 / last used cell</td>
+</tr>
+<tr class="even">
+<td>Ctrl+Arrow key</td>
+<td>Jump to edge of data region</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+Shift+L</td>
+<td>Toggle AutoFilter</td>
+</tr>
+<tr class="even">
+<td>Ctrl+;</td>
+<td>Insert today's date</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+Shift+:</td>
+<td>Insert current time</td>
+</tr>
+<tr class="even">
+<td>F2</td>
+<td>Edit active cell</td>
+</tr>
+<tr class="odd">
+<td>F4</td>
+<td>Toggle relative/absolute reference (while editing formula)</td>
+</tr>
+<tr class="even">
+<td>Alt+=</td>
+<td>AutoSum (quick SUM formula)</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+Shift+$</td>
+<td>Apply Currency format</td>
+</tr>
+<tr class="even">
+<td>Ctrl+1</td>
+<td>Open Format Cells dialog</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+Page Up/Down</td>
+<td>Move to previous/next worksheet</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ms-powerpoint-specific-shortcuts">5.4 MS PowerPoint-Specific Shortcuts</h4><table class="ext-table">
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Shortcut</strong></th>
+<th><strong>Action</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>F5</td>
+<td>Start Slide Show from beginning</td>
+</tr>
+<tr class="even">
+<td>Shift+F5</td>
+<td>Start Slide Show from current slide</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+M</td>
+<td>New Slide</td>
+</tr>
+<tr class="even">
+<td>Ctrl+D</td>
+<td>Duplicate selected slide/object</td>
+</tr>
+<tr class="odd">
+<td>Esc</td>
+<td>End Slide Show</td>
+</tr>
+<tr class="even">
+<td>B / W (during show)</td>
+<td>Black-out / White-out the screen</td>
+</tr>
+<tr class="odd">
+<td>Ctrl+Shift+C / V</td>
+<td>Copy / Paste formatting (Format Painter shortcut)</td>
+</tr>
+</tbody>
+</table><p><strong>✎ Exercise 5.1 (Practice / अभ्यास)</strong></p><ol start="26" type="1">
+<li><p>Practice at least 10 shortcuts above by completing one earlier exercise from Chapters 1-3 using ONLY the keyboard shortcuts instead of mouse clicks wherever possible.</p></li>
+</ol>
+<h4 id="b.1-installation-and-startup-issues">B.1 Installation and Startup Issues</h4><ul>
+<li><p>Q: MS-Office asks for a Product Key / will not activate. What should I do? — A: Ensure you are signed in with the Microsoft account linked to a genuine licence, and that your internet connection is active during activation; contact your institution's IT support if using an institutional licence.</p></li>
+<li><p>Q: Word/Excel/PowerPoint opens very slowly. — A: Disable unnecessary Add-ins (File → Options → Add-ins → Manage: COM Add-ins → Go), and check that the computer meets minimum RAM requirements.</p></li>
+<li><p>Q: I cannot find an installed application. — A: Use the Windows search bar (Windows key, then type the app name) rather than searching only the Desktop.</p></li>
+</ul>
+<h4 id="b.2-file-saving-and-recovery">B.2 File Saving and Recovery</h4><ul>
+<li><p>Q: The application crashed before I could save — is my work lost? — A: Reopen the application; a Document Recovery pane usually appears automatically offering the last AutoRecover version. Also check File → Info → Manage Document → Recover Unsaved Documents.</p></li>
+<li><p>Q: I saved my file but cannot find it. — A: Use File → Open → Recent to see recently used files, or search the file name (including its extension, e.g. .docx) in File Explorer's search box.</p></li>
+<li><p>Q: My .docx file will not open on an older computer. — A: Older Office versions (2003 and earlier) use .doc; use Save As to export a compatible copy, or ask the recipient to install the free 'Compatibility Pack' or update Office.</p></li>
+</ul>
+<h4 id="b.3-common-word-issues">B.3 Common Word Issues</h4><ul>
+<li><p>Q: My Table of Contents shows the wrong page numbers after editing. — A: Click inside the TOC and press F9, or right-click → Update Field → Update entire table.</p></li>
+<li><p>Q: Extra blank pages appear at the end of my document. — A: Usually caused by an extra paragraph mark or a manual page break; turn on Home → Show/Hide (¶) to reveal and delete the hidden marks.</p></li>
+<li><p>Q: My mail merge is only producing ONE letter instead of one-per-recipient. — A: Ensure Finish &amp; Merge → Edit Individual Documents (not simply Print) is used to view all merged copies, and confirm the recipient list is not filtered to a single row.</p></li>
+</ul>
+<h4 id="b.4-common-excel-issues">B.4 Common Excel Issues</h4><ul>
+<li><p>Q: My formula shows #DIV/0! — A: This means the formula is dividing by zero or by an empty cell; check that the denominator cell contains a valid non-zero number.</p></li>
+<li><p>Q: My formula shows #REF! — A: A cell referenced by the formula has been deleted; re-enter the correct reference.</p></li>
+<li><p>Q: My formula shows #NAME? — A: The function name is misspelt, or a required argument/quote mark is missing.</p></li>
+<li><p>Q: VLOOKUP returns #N/A. — A: The lookup value does not exist in the first column of the table array, or there is a leading/trailing space mismatch; use TRIM() or check spelling.</p></li>
+<li><p>Q: My numbers appear as ##### in a cell. — A: The column is too narrow for the value; double-click the column border to AutoFit the width.</p></li>
+</ul>
+<h4 id="b.5-common-powerpoint-issues">B.5 Common PowerPoint Issues</h4><ul>
+<li><p>Q: My embedded video will not play on another computer. — A: Ensure the video was inserted from 'This Device' (embedded) rather than linked from an external drive; keep the video file in the same folder if using a linked file, or use File → Info → 'Optimize Compatibility' before sharing.</p></li>
+<li><p>Q: Fonts look different when I open my presentation on another computer. — A: The custom font is likely not installed there; use File → Options → Save → 'Embed fonts in the file' before sharing, or stick to common system fonts.</p></li>
+<li><p>Q: My animations play in the wrong order. — A: Open the Animation Pane (Animations tab) and drag the numbered entries into the desired order.</p></li>
+</ul>
+<h4 id="c.1-multiple-choice-questions-mcqs">C.1 Multiple Choice Questions (MCQs)</h4><ol start="102" type="1">
+<li><p>The default file extension of a Word document (2007 onwards) is: (a) .doc (b) .docx (c) .txt (d) .rtf — Answer: (b)</p></li>
+<li><p>Which shortcut key is used to apply Justify alignment in Word? (a) Ctrl+L (b) Ctrl+E (c) Ctrl+J (d) Ctrl+R — Answer: (c)</p></li>
+<li><p>In Excel, which symbol must every formula begin with? (a) # (b) @ (c) = (d) $ — Answer: (c)</p></li>
+<li><p>Which Excel reference type does NOT change when a formula is copied to another cell? (a) Relative (b) Absolute (c) Both change (d) Neither — Answer: (b)</p></li>
+<li><p>Which function in Excel would you use to count cells meeting a condition? (a) SUM (b) COUNTIF (c) AVERAGE (d) VLOOKUP — Answer: (b)</p></li>
+<li><p>In PowerPoint, an effect applied BETWEEN two slides is called a: (a) Animation (b) Transition (c) Template (d) Placeholder — Answer: (b)</p></li>
+<li><p>Which key starts a PowerPoint slide show from the very first slide? (a) F2 (b) F5 (c) F7 (d) F12 — Answer: (b)</p></li>
+<li><p>Mail Merge in Word is primarily used for: (a) Formatting fonts (b) Creating personalised bulk letters (c) Inserting pictures (d) Checking spelling — Answer: (b)</p></li>
+<li><p>Which view in PowerPoint shows small thumbnails of all slides for easy reordering? (a) Normal (b) Slide Sorter (c) Reading View (d) Notes Page — Answer: (b)</p></li>
+<li><p>A Pivot Table in Excel is primarily used to: (a) Draw shapes (b) Summarise and analyse large datasets interactively (c) Check spelling (d) Insert headers — Answer: (b)</p></li>
+</ol>
+<h4 id="c.2-short-answer-questions">C.2 Short Answer Questions</h4><ul>
+<li><p>Differentiate between Save and Save As, with an example of when each would be used.</p></li>
+<li><p>Explain the difference between a Footnote and an Endnote.</p></li>
+<li><p>What is the difference between Relative and Absolute cell referencing in Excel? Give one example formula of each.</p></li>
+<li><p>List any four in-built Excel functions along with their purpose.</p></li>
+<li><p>Differentiate between a Slide Transition and an Animation in PowerPoint.</p></li>
+<li><p>What is Mail Merge? List its main steps.</p></li>
+<li><p>What is a Pivot Table, and how is it different from simple sorting/filtering?</p></li>
+<li><p>Explain the purpose of Header and Footer in a Word document, and how a Section Break allows different headers in different parts of a document.</p></li>
+</ul>
+<h4 id="c.3-practical-long-answer-questions">C.3 Practical / Long-Answer Questions</h4><ul>
+<li><p>Create a formatted one-page resume (bio-data) in MS Word using Styles, a Table for personal details, and appropriate headers/footers.</p></li>
+<li><p>Create an Excel workbook to record and analyse the attendance of 20 students over one month, using COUNTIF to calculate attendance percentage and Conditional Formatting to flag students below 75% attendance.</p></li>
+<li><p>Design an 8-10 slide PowerPoint presentation on any topic of your subject specialisation, incorporating SmartArt, at least one chart, hyperlinked navigation, and appropriately-applied transitions/animations.</p></li>
+<li><p>Explain, with suitable illustrations/diagrams, how MS Word, Excel and PowerPoint can be used together to prepare a complete project report and its accompanying viva presentation.</p></li>
+</ul><p>*****</p><p><strong>Best Wishes</strong></p><p><strong>For</strong></p><p><strong>Great Learning</strong></p>
+</div></div></div>
 <footer>
   <div class="wrap">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">

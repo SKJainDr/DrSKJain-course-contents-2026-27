@@ -165,7 +165,24 @@ footer a{color:#f2d9a6;}
   a{color:#000 !important;text-decoration:none !important;}
   .card,.note-block{box-shadow:none !important;border:none !important;}
 }
+
+/* --- Extended detailed notes (unit-wise merge) --- */
+.ext-note{margin:22px 0 6px;padding-top:14px;border-top:2px dashed var(--line);}
+.ext-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.ext-tag{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  background:var(--gold);color:#0e2a3d;padding:3px 9px;border-radius:20px;}
+.ext-note h4{margin:14px 0 6px;color:var(--heading);}
+.ext-note h5{margin:14px 0 4px;color:var(--rust);}
+.ext-note h6{margin:10px 0 4px;color:var(--muted);font-size:1rem;}
+.ext-note p{margin:8px 0;}
+.ext-note table.ext-table{border-collapse:collapse;margin:12px 0;width:100%;font-size:.92rem;}
+.ext-note table.ext-table td, .ext-note table.ext-table th{border:1px solid var(--line);padding:6px 10px;text-align:left;}
+.ext-note table.ext-table th{background:var(--tint);}
+.ext-note img{display:block;}
+.ext-note ul,.ext-note ol{margin:8px 0;padding-left:24px;}
 </style>
+<script>window.MathJax = {tex:{inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]}};</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
 </head>
 <body>
 <button id="themeToggleBtn" aria-label="Toggle dark/light theme" title="Toggle dark/light theme"
@@ -206,7 +223,7 @@ footer a{color:#f2d9a6;}
   <p class="sub">Detailed, exam-oriented notes covering every syllabus unit.</p>
 </div></div>
 
-<div class="dl-bar"><button onclick="dlPrintPage()">🖨️ Download / Print this page (PDF)</button></div>
+<div class="dl-bar"><button onclick="dlPrintPage()">🖨️ Download / Print this page (PDF)</button></div><div class="dl-bar"><a href="downloads/MPY301_Laser_Physics_Lecture_Notes.docx" download style="text-decoration:none;"><button>📘 Download full detailed notes (DOCX)</button></a></div>
 <div class="section"><div class="wrap">
   <div class="toc"><a href="#u0">Unit 1 — Laser Fundamentals & Population Inversion</a><a href="#u1">Unit 2 — Laser Types</a><a href="#u2">Unit 3 — Holography & Fibre Optics</a><a href="#u3">Unit 4 — Lasers in Science</a><a href="#u4">Unit 5 — Lasers in Industry</a></div>
   <div class="card"><div class="note-block" id="u0"><h3>Unit 1 — Laser Fundamentals & Population Inversion</h3>
@@ -230,7 +247,295 @@ operation).</p>
 selecting specific longitudinal/transverse modes and building up coherent intensity. <b>Coherence:</b>
 temporal coherence relates to the laser's narrow linewidth (long coherence length); spatial coherence
 relates to the uniform phase across the beam's wavefront, giving low divergence and tight focusability.</p>
-</div><div class="note-block" id="u1"><h3>Unit 2 — Laser Types</h3>
+<div class="ext-note"><div class="ext-head"><span class="ext-tag">Extended Notes</span><h4>Unit 1 — Laser Fundamentals & Population Inversion — Full Chapter</h4></div>
+<h4 id="introduction">1.1 Introduction</h4><p>The word <strong>LASER</strong> is an acronym for <em>Light Amplification by Stimulated Emission of Radiation</em>. A laser is a device that produces and amplifies a narrow, intense, coherent beam of electromagnetic radiation through the process of <strong>stimulated emission</strong>, first predicted theoretically by Albert Einstein in 1917 and first realised experimentally as the ruby laser by T. H. Maiman in 1960 (following the maser — microwave amplification by stimulated emission of radiation — of Townes, Basov and Prokhorov in 1954).</p><p>Unlike conventional (thermal or spontaneous) light sources such as incandescent lamps or gas-discharge lamps, laser light is characterised by an extraordinary degree of <strong>coherence</strong> (temporal and spatial), <strong>monochromaticity</strong>, <strong>directionality</strong> and <strong>brightness (intensity)</strong>. These unique properties arise directly from the quantum-mechanical process of stimulated emission occurring inside an optical resonator, and form the subject matter of this unit.</p>
+<h4 id="laser-fundamentals-interaction-of-radiation-with-matter">1.2 Laser Fundamentals: Interaction of Radiation with Matter</h4><p>Matter can interact with electromagnetic radiation in three fundamentally distinct ways. Consider an atomic (or molecular) system possessing two energy levels, a lower level of energy <span class="math inline">\(E_{1}\)</span> (population <span class="math inline">\(N_{1}\)</span> atoms per unit volume) and an upper level of energy <span class="math inline">\(E_{2}\)</span> (population <span class="math inline">\(N_{2}\)</span> per unit volume), with <span class="math inline">\(E_{2} &gt; E_{1}\)</span>. A photon of energy <span class="math inline">\(h\nu = E_{2} - E_{1}\)</span> can induce transitions between these two levels.</p><h5 id="absorption-stimulated-absorption">1.2.1 Absorption (Stimulated Absorption)</h5><p>If an atom is in the lower state <span class="math inline">\(E_{1}\)</span> and a photon of energy <span class="math inline">\(h\nu = E_{2} - E_{1}\)</span> is incident upon it, the atom may absorb the photon and jump to the excited state <span class="math inline">\(E_{2}\)</span>. This process is called (stimulated) <strong>absorption</strong>. The rate of absorption is proportional both to the number of atoms <span class="math inline">\(N_{1}\)</span> in the lower state and to the spectral energy density <span class="math inline">\(\rho(\nu)\)</span> of the radiation field:</p><p><span class="math display">\[\left( \frac{dN_{1}}{dt} \right)_{abs} = - B_{12}\,\rho(\nu)\, N_{1}\]</span></p><p>where <span class="math inline">\(B_{12}\)</span> is the <strong>Einstein coefficient of stimulated absorption</strong>.</p><h5 id="spontaneous-emission">1.2.2 Spontaneous Emission</h5><p>An atom in the excited state <span class="math inline">\(E_{2}\)</span> is inherently unstable and, even in the complete absence of an external radiation field, may decay to the lower state <span class="math inline">\(E_{1}\)</span> after a characteristic <strong>lifetime</strong> <span class="math inline">\(\tau\)</span>, emitting a photon of energy <span class="math inline">\(h\nu = E_{2} - E_{1}\)</span>. This process, called <strong>spontaneous emission</strong>, is a random process: the emitted photons have random phase, random direction and random polarisation, uncorrelated with each other. The rate of spontaneous emission depends only on the population of the excited state:</p><p><span class="math display">\[\left( \frac{dN_{2}}{dt} \right)_{spon} = - A_{21}\, N_{2}\]</span></p><p>where <span class="math inline">\(A_{21}\)</span> is the <strong>Einstein coefficient of spontaneous emission</strong>; <span class="math inline">\(A_{21} = 1/\tau_{spon}\)</span> is simply the reciprocal of the spontaneous radiative lifetime. Ordinary light sources (bulbs, discharge lamps, the Sun) emit light almost entirely by spontaneous emission, which is why such light is incoherent.</p><h5 id="stimulated-emission">1.2.3 Stimulated Emission</h5><p>Einstein’s revolutionary postulate (1917) was that a photon of energy <span class="math inline">\(h\nu = E_{2} - E_{1}\)</span> incident on an atom that is <em>already</em> in the excited state <span class="math inline">\(E_{2}\)</span> can <strong>induce</strong> (stimulate) that atom to make a downward transition to <span class="math inline">\(E_{1}\)</span>, emitting a second photon in the process. The crucial and remarkable feature of this stimulated photon is that it is emitted:</p><ul>
+<li>in the <strong>same direction</strong> as the incident (stimulating) photon,</li>
+<li>with the <strong>same phase</strong>,</li>
+<li>with the <strong>same frequency</strong>, and</li>
+<li>with the <strong>same polarisation</strong></li>
+</ul><p>as the stimulating photon. The two photons — the original and the newly created one — are thus indistinguishable, coherent copies of each other. It is this process, repeated in cascade through a suitable medium, that produces <strong>coherent optical amplification</strong>, i.e., the laser action. The rate of stimulated emission is</p><p><span class="math display">\[\left( \frac{dN_{2}}{dt} \right)_{stim} = - B_{21}\,\rho(\nu)\, N_{2}\]</span></p><p>where <span class="math inline">\(B_{21}\)</span> is the <strong>Einstein coefficient of stimulated emission</strong>.</p><p><em>(Insert Fig. 1.1 here — three fundamental radiative transitions: absorption, spontaneous emission, stimulated emission.)</em></p><p><img alt="Fig. 1.1 Three fundamental radiative transitions in a two-level atomic system: (a) absorption, (b) spontaneous emission, (c) stimulated emission, showing that stimulated emission produces a photon identical in phase, frequency, direction and polarisation to the incident photon." loading="lazy" src="notes-media/image1.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 1.1 Three fundamental radiative transitions in a two-level atomic system: (a) absorption, (b) spontaneous emission, (c) stimulated emission, showing that stimulated emission produces a photon identical in phase, frequency, direction and polarisation to the incident photon.</p><p><strong>Comparison — Spontaneous vs. Stimulated Emission</strong></p><table class="ext-table">
+<colgroup>
+<col style="width: 23%"/>
+<col style="width: 33%"/>
+<col style="width: 43%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Property</th>
+<th>Spontaneous Emission</th>
+<th>Stimulated Emission</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Trigger</td>
+<td>Occurs on its own (no external photon needed)</td>
+<td>Requires an incident photon of matching energy</td>
+</tr>
+<tr class="even">
+<td>Direction of emitted photon</td>
+<td>Random, in all directions</td>
+<td>Same direction as the stimulating photon</td>
+</tr>
+<tr class="odd">
+<td>Phase</td>
+<td>Random, uncorrelated</td>
+<td>Same phase as the stimulating photon</td>
+</tr>
+<tr class="even">
+<td>Coherence</td>
+<td>Incoherent</td>
+<td>Coherent</td>
+</tr>
+<tr class="odd">
+<td>Number of photons produced</td>
+<td>One</td>
+<td>Two (original + emitted), leading to amplification</td>
+</tr>
+<tr class="even">
+<td>Dominant regime</td>
+<td>Low photon density / thermal sources</td>
+<td>High photon density inside a laser cavity with population inversion</td>
+</tr>
+<tr class="odd">
+<td>Rate expression</td>
+<td><span class="math display">\[A_{21}N_{2}\]</span></td>
+<td><span class="math display">\[B_{21}\rho(\nu)N_{2}\]</span></td>
+</tr>
+</tbody>
+</table>
+<h4 id="einsteins-theory-and-the-einstein-a-and-b-coefficients-derivation">1.3 Einstein’s Theory and the Einstein A and B Coefficients — Derivation</h4><p>Einstein derived the relationships between <span class="math inline">\(A_{21}\)</span>, <span class="math inline">\(B_{12}\)</span> and <span class="math inline">\(B_{21}\)</span> by considering an ensemble of atoms in <strong>thermal equilibrium</strong> with black-body (Planck) radiation at temperature <span class="math inline">\(T\)</span>, inside an enclosure (cavity) at temperature <span class="math inline">\(T\)</span>, and demanding that the resulting radiation density reproduce Planck’s law.</p><p><strong>Setting up the rate equation.</strong> Consider two non-degenerate levels 1 and 2 with populations <span class="math inline">\(N_{1}\)</span>, <span class="math inline">\(N_{2}\)</span> (<span class="math inline">\(N_{2} &lt; N_{1}\)</span> in thermal equilibrium) interacting with isotropic radiation of spectral energy density <span class="math inline">\(\rho(\nu)\)</span>. In equilibrium, the upward (absorption) rate must equal the total downward (spontaneous + stimulated) rate:</p><p><span class="math display">\[B_{12}\,\rho(\nu)\, N_{1}\mspace{6mu} = \mspace{6mu} A_{21}\, N_{2} + B_{21}\,\rho(\nu)\, N_{2}\]</span></p><p>Solving for <span class="math inline">\(\rho(\nu)\)</span>:</p><p><span class="math display">\[\rho(\nu) = \frac{A_{21}\, N_{2}}{B_{12}N_{1} - B_{21}N_{2}} = \frac{A_{21}}{B_{12}\frac{N_{1}}{N_{2}} - B_{21}}\]</span></p><p>In thermal equilibrium, the level populations follow the <strong>Boltzmann distribution</strong>:</p><p><span class="math display">\[\frac{N_{2}}{N_{1}} = \frac{g_{2}}{g_{1}}\, e^{- \left( E_{2} - E_{1} \right)/k_{B}T} = \frac{g_{2}}{g_{1}}\, e^{- h\nu/k_{B}T}\]</span></p><p>where <span class="math inline">\(g_{1},g_{2}\)</span> are the degeneracies of the two levels and <span class="math inline">\(k_{B}\)</span> is Boltzmann’s constant. Hence</p><p><span class="math display">\[\frac{N_{1}}{N_{2}} = \frac{g_{1}}{g_{2}}\, e^{h\nu/k_{B}T}\]</span></p><p>Substituting,</p><p><span class="math display">\[\rho(\nu) = \frac{A_{21}}{B_{12}\frac{g_{1}}{g_{2}}\, e^{h\nu/k_{B}T} - B_{21}} = \frac{A_{21}/B_{21}}{\frac{B_{12}g_{1}}{B_{21}g_{2}}\, e^{h\nu/k_{B}T} - 1}\]</span></p><p>For this expression to reduce to <strong>Planck’s radiation law</strong>,</p><p><span class="math display">\[\rho(\nu) = \frac{8\pi h\nu^{3}}{c^{3}} \cdot \frac{1}{e^{h\nu/k_{B}T} - 1}\]</span></p><p>as <span class="math inline">\(T \rightarrow \infty\)</span> (or by comparing term by term for all <span class="math inline">\(T\)</span>), two conditions must hold:</p><ol type="1">
+<li><span class="math inline">\(B_{12}\, g_{1} = B_{21}\, g_{2}\)</span>, i.e. for non-degenerate levels (<span class="math inline">\(g_{1} = g_{2}\)</span>), <span class="math inline">\(\boxed{B_{12} = B_{21} = B}\)</span> — <strong>the probabilities of stimulated absorption and stimulated emission are equal.</strong></li>
+</ol><span class="math display">\[\boxed{\frac{A_{21}}{B_{21}} = \frac{8\pi h\nu^{3}}{c^{3}}}\]</span><p>This is the celebrated <strong>Einstein relation</strong>, connecting the spontaneous and stimulated emission coefficients. It shows that <span class="math inline">\(A_{21}/B_{21} \propto \nu^{3}\)</span> — spontaneous emission becomes overwhelmingly more probable relative to stimulated emission as the frequency increases. This is precisely why it is far easier to build masers (microwave, low <span class="math inline">\(\nu\)</span>) than lasers (optical, high <span class="math inline">\(\nu\)</span>): at optical frequencies an enormous stimulating photon flux (i.e., a resonant cavity building up <span class="math inline">\(\rho(\nu)\)</span>) is required to make stimulated emission compete with spontaneous emission.</p><p><strong>Ratio of stimulated to spontaneous emission rates:</strong></p><p><span class="math display">\[\frac{R_{stim}}{R_{spon}} = \frac{B_{21}\rho(\nu)}{A_{21}} = \frac{\rho(\nu)c^{3}}{8\pi h\nu^{3}} = \frac{1}{e^{h\nu/k_{B}T} - 1}\]</span></p><p>At optical frequencies and ordinary temperatures this ratio is minuscule (<span class="math inline">\(\sim 10^{- 2}\)</span> or less), confirming that spontaneous emission dominates in thermal sources — laser action requires an artificially large <span class="math inline">\(\rho(\nu)\)</span> (achieved by cavity feedback) and a <strong>non-equilibrium</strong> population distribution (population inversion) to make stimulated emission dominant.</p>
+<h4 id="condition-for-light-amplification-population-inversion">1.4 Condition for Light Amplification: Population Inversion</h4><p>For a light wave traversing a medium of two-level atoms, the net rate of change of photon number depends on the difference between stimulated emission and absorption events:</p><p><span class="math display">\[\frac{dI}{dz} \propto \left( N_{2} - N_{1} \right)\]</span></p><p>Under thermal equilibrium, the Boltzmann law guarantees <span class="math inline">\(N_{1} &gt; N_{2}\)</span> always (since <span class="math inline">\(E_{2} &gt; E_{1}\)</span>), so <span class="math inline">\(\left( N_{2} - N_{1} \right) &lt; 0\)</span> and the beam is <strong>attenuated</strong> (absorption dominates) — this is the everyday, thermal-equilibrium situation.</p><p>For <strong>optical amplification</strong> (gain) rather than attenuation, we require</p><p><span class="math display">\[\boxed{N_{2} &gt; N_{1}}\]</span></p><p>a condition called <strong>population inversion</strong>, since it is the <em>inverse</em> of the normal Boltzmann (thermal-equilibrium) ordering. Population inversion is a non-equilibrium condition and can never be achieved by thermal means alone (e.g. simply heating the medium) — it must be produced by an external energy input, called <strong>pumping</strong>.</p><p><strong>Formal definition:</strong> <em>Population inversion is a non-equilibrium condition of a laser medium in which a higher-energy state has a larger population of atoms/molecules than a lower-energy state, in contradiction to the Boltzmann distribution that governs thermal equilibrium.</em></p><p>A useful, formal way to express this is with a <strong>negative temperature</strong>: since <span class="math inline">\(N_{2}/N_{1} = \left( g_{2}/g_{1} \right)e^{- h\nu/k_{B}T}\)</span>, if <span class="math inline">\(N_{2} &gt; N_{1}\)</span> this equation is only satisfied for <span class="math inline">\(T &lt; 0\)</span>. Such a “negative absolute temperature” is not a true thermodynamic temperature but a convenient bookkeeping device describing the inverted, non-equilibrium population.</p>
+<h4 id="pumping-mechanisms-of-producing-population-inversion">1.5 Pumping — Mechanisms of Producing Population Inversion</h4><p><strong>Pumping</strong> is the process of supplying energy to the active (gain) medium of a laser from an external source in order to raise atoms/molecules from the ground state (or lower laser level) to the upper laser level, so as to create and sustain population inversion. Common pumping mechanisms include:</p><ol type="1">
+<li><strong>Optical pumping</strong> — an intense flash lamp (e.g. xenon flash lamp) or another laser (laser diode) illuminates the gain medium; atoms absorb this light and are excited to upper energy bands, from which they relax (usually via fast, non-radiative decay) into the (metastable) upper laser level. Used in solid-state lasers (ruby, Nd:YAG) and dye lasers.</li>
+<li><strong>Electrical discharge pumping</strong> — a DC, RF or pulsed electrical discharge accelerates free electrons that collide with and excite atoms/molecules/ions of the gain medium. Used in gas lasers (He-Ne, Argon-ion, CO2, N2) and excimer lasers.</li>
+<li><strong>Electron-beam (e-beam) pumping</strong> — a high-energy electron beam is fired directly into the gain medium (common in high-power excimer and CO2 lasers).</li>
+<li><strong>Chemical pumping</strong> — population inversion results directly from an exothermic chemical reaction that preferentially populates excited states of the product molecule (e.g. HF/DF chemical lasers).</li>
+<li><strong>Injection (current) pumping</strong> — in semiconductor diode lasers, forward biasing a p–n junction injects electrons and holes into the active region, where they recombine radiatively; the population inversion here is between conduction- and valence-band states.</li>
+<li><strong>Direct-conversion pumping</strong> (nuclear, thermal or gas-dynamic pumping) — used in specialised systems such as gas-dynamic CO2 lasers and (historically proposed) nuclear-pumped lasers.</li>
+</ol>
+<h4 id="two-level-three-level-and-four-level-laser-systems">1.6 Two-Level, Three-Level and Four-Level Laser Systems</h4><h5 id="why-a-simple-two-level-system-cannot-lase">1.6.1 Why a Simple Two-Level System Cannot Lase</h5><p>It is instructive to first ask whether population inversion — and hence laser action — is possible in a system with only <strong>two</strong> energy levels pumped by the very same radiation that would also be amplified. In such a system, as soon as <span class="math inline">\(N_{2}\)</span> approaches <span class="math inline">\(N_{1}\)</span> (i.e., as populations equalise, <span class="math inline">\(N_{1} = N_{2}\)</span>), the rates of stimulated absorption (<span class="math inline">\(B_{12}\rho N_{1}\)</span>) and stimulated emission (<span class="math inline">\(B_{21}\rho N_{2}\)</span>) become equal (recall <span class="math inline">\(B_{12} = B_{21}\)</span>), so the <em>net</em> pumping rate into level 2 vanishes — the system “bleaches” or saturates at <span class="math inline">\(N_{1} = N_{2}\)</span> at best, and population inversion (<span class="math inline">\(N_{2} &gt; N_{1}\)</span>) can never be reached in a strictly two-level system pumped optically on the same transition. This fundamental result is why practical, continuously-operating lasers require <strong>at least three energy levels</strong>.</p><h5 id="three-level-laser-scheme">1.6.2 Three-Level Laser Scheme</h5><p>In a <strong>three-level laser</strong>, atoms are pumped from the ground state <span class="math inline">\(E_{0}\)</span> to a short-lived excited “pump band” <span class="math inline">\(E_{2}\)</span>. From <span class="math inline">\(E_{2}\)</span>, atoms decay rapidly (by fast, non-radiative — typically phonon-assisted — transitions) to a relatively long-lived <strong>metastable state</strong> <span class="math inline">\(E_{1}\)</span>, which becomes the <strong>upper laser level</strong>. Because the metastable state has a long lifetime (microseconds to milliseconds, compared to nanoseconds for ordinary excited states), atoms accumulate there. Laser emission is the transition <span class="math inline">\(E_{1} \rightarrow E_{0}\)</span>, i.e., <strong>the lower laser level is the ground state itself</strong>.</p><p><img alt="Fig. 1.2 Three-level laser energy scheme, as realised, for example, in the ruby laser." loading="lazy" src="notes-media/image2.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 1.2 Three-level laser energy scheme, as realised, for example, in the ruby laser.</p><p><strong>Key drawback:</strong> because the lower laser level (<span class="math inline">\(E_{0}\)</span>) is the ground state, which is normally heavily populated, achieving population inversion requires pumping <em>more than half</em> of all the ground-state atoms into the upper (metastable) level — an inherently inefficient process requiring very high pump powers. This is why three-level lasers (e.g., ruby) are typically <strong>pulsed</strong> rather than continuous-wave devices.</p><h5 id="four-level-laser-scheme">1.6.3 Four-Level Laser Scheme</h5><p>In a <strong>four-level laser</strong>, a fourth level is introduced below the upper laser level but above the ground state. Atoms are pumped from the ground state <span class="math inline">\(E_{0}\)</span> to a short-lived pump band <span class="math inline">\(E_{3}\)</span>, decay rapidly and non-radiatively to the metastable upper laser level <span class="math inline">\(E_{2}\)</span>, and lasing occurs on the transition <span class="math inline">\(E_{2} \rightarrow E_{1}\)</span>, where <span class="math inline">\(E_{1}\)</span> (the <strong>lower laser level</strong>) lies <em>above</em> the ground state <span class="math inline">\(E_{0}\)</span>. Because <span class="math inline">\(E_{1}\)</span> is not the ground state, it is normally almost empty (rapidly and non-radiatively depopulated back to <span class="math inline">\(E_{0}\)</span>) at ordinary temperatures (Boltzmann factor <span class="math inline">\(e^{- \left( E_{1} - E_{0} \right)/k_{B}T} \ll 1\)</span> if <span class="math inline">\(E_{1} - E_{0} \gg k_{B}T\)</span>).</p><p><img alt="Fig. 1.3 Four-level laser energy scheme, as realised, for example, in the Nd:YAG laser." loading="lazy" src="notes-media/image3.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 1.3 Four-level laser energy scheme, as realised, for example, in the Nd:YAG laser.</p><p><strong>Key advantage:</strong> since the lower laser level <span class="math inline">\(E_{1}\)</span> is essentially unpopulated to begin with, population inversion between <span class="math inline">\(E_{2}\)</span> and <span class="math inline">\(E_{1}\)</span> is achieved as soon as even a small number of atoms are pumped into <span class="math inline">\(E_{2}\)</span> — the <strong>threshold pump power required is much lower</strong> than for a three-level system, and continuous-wave (CW) operation becomes practical. Most modern, efficient lasers (Nd:YAG, He-Ne, CO2, semiconductor diode lasers) are four-level (or effectively four-level) systems.</p><p><strong>Comparison — Three-Level vs. Four-Level Lasers</strong></p><table class="ext-table">
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 34%"/>
+<col style="width: 39%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Three-Level Laser</th>
+<th>Four-Level Laser</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Lower laser level</td>
+<td>Ground state (heavily populated)</td>
+<td>An excited level above ground state (nearly empty)</td>
+</tr>
+<tr class="even">
+<td>Population inversion threshold</td>
+<td>High (must pump &gt;50% of ground-state atoms)</td>
+<td>Low (only a small population in upper level suffices)</td>
+</tr>
+<tr class="odd">
+<td>Pumping power required</td>
+<td>Very high</td>
+<td>Comparatively low</td>
+</tr>
+<tr class="even">
+<td>Typical mode of operation</td>
+<td>Pulsed</td>
+<td>CW or pulsed</td>
+</tr>
+<tr class="odd">
+<td>Efficiency</td>
+<td>Lower</td>
+<td>Higher</td>
+</tr>
+<tr class="even">
+<td>Examples</td>
+<td>Ruby laser</td>
+<td>Nd:YAG, He-Ne, CO2, semiconductor lasers</td>
+</tr>
+</tbody>
+</table>
+<h4 id="optical-gain-amplification-coefficient">1.7 Optical Gain (Amplification Coefficient)</h4><p>When population inversion exists, an electromagnetic wave of frequency <span class="math inline">\(\nu\)</span> passing through the gain medium grows in intensity according to</p><p><span class="math display">\[I(z) = I(0)\, e^{g(\nu)z}\]</span></p><p>where <span class="math inline">\(g(\nu)\)</span>, the <strong>gain coefficient</strong> (units: m<span class="math inline">\(^{- 1}\)</span> or cm<span class="math inline">\(^{- 1}\)</span>), is given (for a homogeneously broadened line, near line-centre) by</p><p><span class="math display">\[g(\nu) = \left\lbrack N_{2} - \frac{g_{2}}{g_{1}}N_{1} \right\rbrack\sigma(\nu)\]</span></p><p>where <span class="math inline">\(\sigma(\nu)\)</span> is the <strong>stimulated-emission cross-section</strong>, related to <span class="math inline">\(B_{21}\)</span> and the lineshape function <span class="math inline">\(g(\nu)\)</span> (the normalised spectral lineshape) by</p><p><span class="math display">\[\sigma(\nu) = \frac{A_{21}\lambda^{2}}{8\pi n^{2}}\, g(\nu)\]</span></p><p>(<span class="math inline">\(n\)</span> = refractive index of the medium, <span class="math inline">\(\lambda\)</span> = vacuum wavelength). Practically, laser oscillation builds up only if the <strong>round-trip gain exceeds the round-trip loss</strong> of the cavity (see §1.9, threshold condition) — i.e. gain must overcome losses due to mirror transmission, scattering, diffraction and absorption in the cavity.</p>
+<h4 id="main-components-of-a-laser">1.8 Main Components of a Laser</h4><p>Every laser, irrespective of the particular gain medium, consists of three essential components (Fig. 1.4):</p><ol type="1">
+<li><strong>Active (gain) medium</strong> — the material (gas, liquid, solid or semiconductor) in which population inversion is created, and in which stimulated emission produces optical amplification.</li>
+<li><strong>Pumping (energy) source</strong> — supplies the energy needed to create and sustain population inversion in the active medium (optical, electrical, chemical, etc., as discussed in §1.5).</li>
+<li><strong>Optical resonator (cavity)</strong> — usually a pair of mirrors, one fully reflecting and one partially reflecting (the “output coupler”), placed at the two ends of the gain medium. The resonator provides <strong>optical feedback</strong>: photons emitted by stimulated emission travel back and forth (are “recycled”) through the gain medium multiple times, building up the beam intensity through repeated amplification, while also imposing frequency selectivity (resonant modes) and spatial (transverse-mode) definition on the output beam. A small fraction of the intra-cavity power is transmitted through the partially reflecting mirror as the usable laser output.</li>
+</ol><p><img alt="Fig. 1.4 Essential components of a laser system: pump source, active medium and optical resonator (formed by a fully reflecting mirror and a partially reflecting output coupler)." loading="lazy" src="notes-media/image4.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 1.4 Essential components of a laser system: pump source, active medium and optical resonator (formed by a fully reflecting mirror and a partially reflecting output coupler).</p>
+<h4 id="the-optical-resonator-cavity">1.9 The Optical Resonator (Cavity)</h4><h5 id="role-and-threshold-condition">1.9.1 Role and Threshold Condition</h5><p>The optical resonator serves two purposes: (i) it provides the positive feedback necessary for the light to make many passes through the gain medium, and (ii) through its geometry it selects/reinforces certain frequencies (<strong>longitudinal modes</strong>) and spatial field distributions (<strong>transverse modes</strong>) that satisfy a resonance condition.</p><p>For steady-state oscillation to be sustained, the wave must reproduce itself (in amplitude and phase) after one complete round trip through the cavity of length <span class="math inline">\(L\)</span> containing the gain medium and mirrors of reflectivities <span class="math inline">\(R_{1}\)</span> and <span class="math inline">\(R_{2}\)</span>. The <strong>threshold condition</strong> for the onset of laser oscillation is</p><p><span class="math display">\[R_{1}R_{2}\, e^{2g_{th}L}\, e^{- 2\alpha L} = 1\quad \Rightarrow \quad g_{th} = \alpha + \frac{1}{2L}\ln\left( \frac{1}{R_{1}R_{2}} \right)\]</span></p><p>where <span class="math inline">\(\alpha\)</span> represents the (non-useful) internal losses per unit length (absorption, scattering, diffraction), and <span class="math inline">\(g_{th}\)</span> is the minimum (threshold) gain coefficient the population inversion must produce for oscillation to begin (and to be sustained against cavity losses). Below threshold, the device acts merely as an amplified-spontaneous-emission source (weak, incoherent glow); above threshold, coherent oscillation builds up rapidly and the output stabilises (saturates) at a level set by the balance between gain and loss (<strong>gain saturation</strong>).</p><h5 id="longitudinal-modes">1.9.2 Longitudinal Modes</h5><p>A standing wave can exist inside the cavity only if the cavity length <span class="math inline">\(L\)</span> is an integer multiple of half the wavelength inside the medium:</p><p><span class="math display">\[L = q\,\frac{\lambda}{2n},\quad\quad q = 1,2,3,\ldots\]</span></p><p>Each integer <span class="math inline">\(q\)</span> defines a distinct <strong>longitudinal (axial) mode</strong>, with mode frequencies</p><p><span class="math display">\[\nu_{q} = q\,\frac{c}{2nL}\]</span></p><p>separated by the constant <strong>free spectral range</strong></p><p><span class="math display">\[\Delta\nu = \nu_{q + 1} - \nu_{q} = \frac{c}{2nL}\]</span></p><p>Only those longitudinal modes falling within the gain bandwidth of the active medium (where <span class="math inline">\(g(\nu) \geq g_{th}\)</span>) can actually oscillate; a laser may thus emit several closely-spaced longitudinal modes (“multimode” operation) or, with additional mode-selecting elements (etalons), a single mode.</p><p><img alt="Fig. 1.6 A longitudinal resonator (standing-wave) mode inside the optical cavity; the cavity length L must equal an integral number of half-wavelengths." loading="lazy" src="notes-media/image5.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 1.6 A longitudinal resonator (standing-wave) mode inside the optical cavity; the cavity length <span class="math inline">\(L\)</span> must equal an integral number of half-wavelengths.</p><h5 id="transverse-electromagnetic-tem-modes">1.9.3 Transverse Electromagnetic (TEM) Modes</h5><p>In addition to longitudinal modes, the resonator supports distinct transverse intensity patterns across the beam cross-section, labelled <span class="math inline">\(\text{TEM}_{mn}\)</span> (Transverse ElectroMagnetic modes), where <span class="math inline">\(m,n\)</span> are the number of intensity nodes along two perpendicular transverse directions. The <strong>TEM</strong><span class="math inline">\(_{00}\)</span> <strong>mode</strong> has a smooth, single-lobed Gaussian intensity profile, the lowest divergence, and the highest degree of spatial coherence — it is the mode most desired for practical applications and is selected using an intracavity aperture.</p><h5 id="types-of-resonators-stability">1.9.4 Types of Resonators — Stability</h5><p>Resonators are classified by mirror curvature/geometry as <strong>plane-parallel (Fabry–Pérot)</strong>, <strong>concentric (spherical)</strong>, <strong>confocal</strong>, and <strong>hemispherical</strong>, or more generally as <strong>stable</strong> or <strong>unstable</strong>, according to the stability criterion (for mirrors of radii of curvature <span class="math inline">\(R_{1}\)</span>, <span class="math inline">\(R_{2}\)</span> separated by <span class="math inline">\(L\)</span>):</p><p><span class="math display">\[0 \leq g_{1}g_{2} \leq 1,\quad\quad\text{where }g_{i} = 1 - \frac{L}{R_{i}}\]</span></p><p>Stable resonators confine the beam by repeated refocusing (used in most gas and solid-state lasers); unstable resonators (used in high-gain, high-power lasers) allow larger mode volumes at the expense of higher diffraction losses, but efficiently extract energy from a large gain volume.</p><h5 id="quality-factor-q-of-the-cavity">1.9.5 Quality Factor (Q) of the Cavity</h5><p>The <strong>quality factor</strong> <span class="math inline">\(Q\)</span> of a resonator measures how well it stores optical energy relative to its losses:</p><p><span class="math display">\[Q = 2\pi\,\nu_{0}\,\frac{\text{energy stored in the cavity}}{\text{power lost}} = \omega_{0}\tau_{c}\]</span></p><p>where <span class="math inline">\(\tau_{c}\)</span> is the <strong>photon lifetime</strong> (average time before a photon is lost from the cavity by transmission/absorption/scattering). Techniques such as <strong>Q-switching</strong> (rapidly switching the cavity Q from a low to a high value) are used to generate very short, high-peak-power laser pulses (see §1.11).</p>
+<h4 id="properties-of-laser-light">1.10 Properties of Laser Light</h4><p>Laser radiation differs from conventional (thermal) light in four principal respects: coherence, monochromaticity, directionality, and brightness. Each has a precise physical/mathematical definition.</p><h5 id="temporal-coherence">1.10.1 Temporal Coherence</h5><p><strong>Temporal coherence</strong> describes the correlation of the phase of a light wave with itself at a <em>later time</em> at the <em>same point in space</em> — i.e., how well the wave can be predicted to remain in phase with an earlier copy of itself after a time delay <span class="math inline">\(\tau\)</span>. It is quantified by the <strong>coherence time</strong> <span class="math inline">\(\tau_{c}\)</span> and the corresponding <strong>coherence length</strong></p><p><span class="math display">\[l_{c} = c\,\tau_{c}\]</span></p><p>Temporal coherence is directly related to the <strong>spectral purity (monochromaticity)</strong> of the source: a source of frequency bandwidth <span class="math inline">\(\Delta\nu\)</span> has a coherence time</p><p><span class="math display">\[\tau_{c} \approx \frac{1}{\Delta\nu}\]</span></p><p>Because laser output has an extremely narrow linewidth <span class="math inline">\(\Delta\nu\)</span> (as low as a few Hz to kHz in stabilised single-mode lasers, versus <span class="math inline">\(10^{9}\)</span>–<span class="math inline">\(10^{15}\)</span> Hz for conventional sources), the coherence length of laser light can range from millimetres to many kilometres, compared with only a few wavelengths to a few centimetres for ordinary light sources. Temporal coherence is what makes two-beam interference (e.g. in a Michelson interferometer) observable over long path differences, and is what makes holography possible (Unit 3).</p><h5 id="spatial-coherence">1.10.2 Spatial Coherence</h5><p><strong>Spatial coherence</strong> describes the correlation of the phase of a light wave <em>between two different points</em> in a wavefront (perpendicular to the propagation direction) <em>at the same instant</em>. A spatially coherent source behaves, to a good approximation, as a single point source (or as a uniform-phase extended source), so that light from different parts of the beam can interfere constructively (as in Young’s double-slit experiment) even when both slits are illuminated by the <em>same</em> source aperture, unlike an ordinary extended thermal source in which different points radiate independently and incoherently. High spatial coherence is what allows a laser beam to be focused to a <strong>diffraction-limited spot</strong> and gives it low divergence (see below).</p><h5 id="directionality">1.10.3 Directionality</h5><p>Because the resonator forces oscillation of only those waves travelling nearly along the cavity axis (all other directions suffer excessive diffraction/geometric loss), laser light emerges as a highly <strong>directional</strong>, narrow, nearly parallel beam. The (diffraction-limited) angular divergence of a TEM<span class="math inline">\(_{00}\)</span> Gaussian beam of waist radius <span class="math inline">\(w_{0}\)</span> is</p><p><span class="math display">\[\theta \approx \frac{\lambda}{\pi w_{0}}\]</span></p><p>For a typical He-Ne laser this divergence is only about 1 milliradian, allowing a laser beam to travel kilometres with little spreading — a property exploited in laser ranging, LIDAR, and alignment applications (Unit 5).</p><h5 id="monochromaticity">1.10.4 Monochromaticity</h5><p>Laser output is concentrated in an extremely narrow band of wavelengths (in the ideal, single-longitudinal-mode limit, theoretically approaching the <strong>Schawlow–Townes linewidth</strong>, set fundamentally by spontaneous-emission-induced phase noise). Practical lasers achieve linewidths <span class="math inline">\(\Delta\nu/\nu \sim 10^{- 6}\)</span>–<span class="math inline">\(10^{- 15}\)</span>, vastly narrower than the linewidths of spectral (discharge) lamps (<span class="math inline">\(\Delta\nu/\nu \sim 10^{- 4}\)</span>–<span class="math inline">\(10^{- 6}\)</span>) or thermal sources.</p><h5 id="brightness-radiance">1.10.5 Brightness (Radiance)</h5><p><strong>Radiance (brightness)</strong> is defined as the optical power emitted per unit source area per unit solid angle:</p><p><span class="math display">\[B = \frac{P}{A\,\Omega}\]</span></p><p>Because laser light combines high power with a very small emitting area <em>and</em> a very small divergence solid angle <span class="math inline">\(\Omega \sim \theta^{2}\)</span>, its brightness exceeds that of the most intense conventional (even thermal, high-temperature) sources by many orders of magnitude — a focused laser beam can, in principle, exceed the surface brightness of the Sun.</p><p><strong>Summary Table — Laser Light vs. Ordinary (Thermal) Light</strong></p><table class="ext-table">
+<colgroup>
+<col style="width: 32%"/>
+<col style="width: 38%"/>
+<col style="width: 29%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Property</th>
+<th>Laser Light</th>
+<th>Ordinary Light</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Coherence (temporal &amp; spatial)</td>
+<td>High</td>
+<td>Very low / absent</td>
+</tr>
+<tr class="even">
+<td>Monochromaticity</td>
+<td>Extremely narrow linewidth</td>
+<td>Broad range of wavelengths</td>
+</tr>
+<tr class="odd">
+<td>Directionality</td>
+<td>Highly directional, low divergence</td>
+<td>Diverges in all directions</td>
+</tr>
+<tr class="even">
+<td>Intensity/Brightness</td>
+<td>Extremely high (concentrated)</td>
+<td>Comparatively low, spread out</td>
+</tr>
+<tr class="odd">
+<td>Focusability</td>
+<td>Can be focused to a diffraction-limited spot</td>
+<td>Cannot be focused as tightly</td>
+</tr>
+</tbody>
+</table>
+<h4 id="experimental-measurement-of-coherence">1.10.6 Experimental Measurement of Coherence</h4><p>The temporal coherence of a source is experimentally probed with a <strong>Michelson interferometer</strong>: the beam is split into two paths of adjustable path-length difference <span class="math inline">\(\Delta x\)</span> (via a movable mirror) and recombined; interference fringes remain visible only while <span class="math inline">\(\Delta x\)</span> is less than the coherence length <span class="math inline">\(l_{c} = c\tau_{c}\)</span>, and the fringe <strong>visibility</strong></p><p><span class="math display">\[V = \frac{I_{\max} - I_{\min}}{I_{\max} + I_{\min}}\]</span></p><p>falls from unity (perfect coherence) toward zero as <span class="math inline">\(\Delta x\)</span> approaches and exceeds <span class="math inline">\(l_{c}\)</span>. Spatial coherence, by contrast, is probed with <strong>Young’s double-slit experiment</strong>: fringes of high visibility are obtained across a wide slit separation only if the source possesses high spatial coherence (a small angular size, or effectively point-like emission, as for a single-transverse-mode TEM<span class="math inline">\(_{00}\)</span> laser beam); an extended, spatially incoherent thermal source shows a rapid loss of fringe visibility as the slit separation is increased beyond the transverse coherence width.</p>
+<h4 id="resonator-stability-diagram-extended-discussion">1.10.7 Resonator Stability Diagram (Extended Discussion)</h4><p>Recasting the stability parameters <span class="math inline">\(g_{1} = 1 - L/R_{1}\)</span> and <span class="math inline">\(g_{2} = 1 - L/R_{2}\)</span> (§1.9.4) as Cartesian axes, the stability condition <span class="math inline">\(0 \leq g_{1}g_{2} \leq 1\)</span> defines a bounded region (bordered by two branches of the rectangular hyperbola <span class="math inline">\(g_{1}g_{2} = 1\)</span> and by the axes <span class="math inline">\(g_{1}g_{2} = 0\)</span>) within which a resonator configuration is stable — meaning that a paraxial ray, after very many round trips, remains confined near the cavity axis rather than “walking off” and escaping the mirror apertures. Configurations lying exactly on the stability boundary (e.g. the <strong>plane-parallel</strong> resonator, <span class="math inline">\(R_{1} = R_{2} = \infty\)</span>, so <span class="math inline">\(g_{1} = g_{2} = 1\)</span>; or the <strong>confocal</strong> resonator, <span class="math inline">\(R_{1} = R_{2} = L\)</span>, so <span class="math inline">\(g_{1} = g_{2} = 0\)</span>) are only marginally stable in the idealised geometric-optics picture and are extremely sensitive in practice to small mirror misalignment; most practical laser resonators are therefore designed with parameters placed safely within the interior of the stability region (e.g. the common <strong>near-hemispherical</strong> or <strong>near-concentric</strong> designs used in many gas and solid-state lasers).</p>
+<h4 id="cw-and-pulsed-lasers">1.11 CW and Pulsed Lasers</h4><p>Lasers may be operated in two broad temporal regimes:</p><p><strong>Continuous-Wave (CW) lasers</strong> emit a steady, uninterrupted beam of (ideally) constant output power, the pump maintaining population inversion continuously above threshold. Four-level systems with efficient heat removal (gas lasers, many solid-state and semiconductor lasers) are well suited to CW operation. CW output is characterised by its average power (watts).</p><p><strong>Pulsed lasers</strong> emit energy in discrete bursts (pulses), characterised by pulse energy (joules), pulse duration, repetition rate, and <strong>peak power</strong> (energy/pulse duration), which can vastly exceed the average power. Pulsed operation is used when very high instantaneous (peak) intensities are required (materials processing, nonlinear optics) or when the gain medium (e.g. ruby, a three-level system) cannot sustain CW population inversion because of pump-power/thermal limitations. Pulsed operation is achieved by:</p><ul>
+<li><strong>Normal (free-running) pulsing</strong> — the pump itself (e.g. a flash lamp) is pulsed.</li>
+<li><strong>Q-switching</strong> — the cavity Q (feedback) is deliberately kept low while the pump builds up a very large population inversion (well above the normal threshold that would apply at high Q); the Q is then rapidly switched to a high value, causing the entire stored inversion to be dumped almost instantaneously into a single, extremely intense pulse of short duration (typically nanoseconds) and very high peak power. Methods of Q-switching include rotating mirrors, electro-optic (Pockels-cell) shutters, acousto-optic modulators and saturable-absorber dyes.</li>
+<li><strong>Mode-locking</strong> — many longitudinal modes are forced to oscillate with a fixed phase relationship, causing them to interfere constructively at periodic intervals, producing an extremely short train of ultrashort pulses (picoseconds to femtoseconds), of period <span class="math inline">\(2L/c\)</span> (the cavity round-trip time) and correspondingly enormous peak powers.</li>
+</ul><p><img alt="Fig. 1.5 Comparison of CW output (steady power) and pulsed output (a train of discrete, high-peak-power pulses)." loading="lazy" src="notes-media/image6.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 1.5 Comparison of CW output (steady power) and pulsed output (a train of discrete, high-peak-power pulses).</p><p><strong>Comparison — CW vs. Pulsed Lasers</strong></p><table class="ext-table">
+<colgroup>
+<col style="width: 19%"/>
+<col style="width: 41%"/>
+<col style="width: 38%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>CW Laser</th>
+<th>Pulsed Laser</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Output</td>
+<td>Continuous, constant power</td>
+<td>Discrete bursts of energy</td>
+</tr>
+<tr class="even">
+<td>Peak power</td>
+<td>Equal to average power</td>
+<td>Can be very much higher than average power</td>
+</tr>
+<tr class="odd">
+<td>Typical uses</td>
+<td>Communication, alignment, continuous material heating, CW spectroscopy</td>
+<td>Drilling, welding, ranging, nonlinear optics, ultrafast spectroscopy</td>
+</tr>
+<tr class="even">
+<td>Thermal load on gain medium</td>
+<td>Continuous — requires efficient cooling</td>
+<td>Distributed in bursts — average heating can be lower</td>
+</tr>
+<tr class="odd">
+<td>Example</td>
+<td>He-Ne, Ar-ion, CW Nd:YAG, CW CO2</td>
+<td>Ruby, Q-switched/mode-locked Nd:YAG, pulsed N2/excimer</td>
+</tr>
+</tbody>
+</table>
+<h4 id="introduction-to-general-types-of-lasers">1.12 Introduction to General Types of Lasers</h4><p>Lasers are broadly classified according to the physical state of the active medium:</p><ol type="1">
+<li><strong>Solid-state lasers</strong> — active ions doped in an insulating crystalline or glass host (e.g. ruby: Cr<span class="math inline">\(^{3 +}\)</span>:Al<span class="math inline">\(_{2}\)</span>O<span class="math inline">\(_{3}\)</span>; Nd:YAG: Nd<span class="math inline">\(^{3 +}\)</span>:Y<span class="math inline">\(_{3}\)</span>Al<span class="math inline">\(_{5}\)</span>O<span class="math inline">\(_{12}\)</span>).</li>
+<li><strong>Gas lasers</strong> — active medium is a gas or gas mixture, further sub-classified as atomic (He-Ne), ionic (Argon-ion), molecular (CO<span class="math inline">\(_{2}\)</span>, N<span class="math inline">\(_{2}\)</span>) and excimer (ArF, KrF) lasers.</li>
+<li><strong>Liquid (dye) lasers</strong> — an organic dye dissolved in a solvent, offering wide tunability.</li>
+<li><strong>Semiconductor (diode) lasers</strong> — population inversion between conduction- and valence-band states of a forward-biased p–n junction.</li>
+<li><strong>Fibre lasers</strong> — rare-earth-doped optical fibre serves as the gain medium, pumped by diode lasers.</li>
+<li><strong>Chemical lasers</strong> — population inversion produced directly by an exothermic chemical reaction.</li>
+<li><strong>Free-electron lasers</strong> — relativistic electron beams passing through a periodic magnetic (“wiggler”) structure, offering broad wavelength tunability.</li>
+</ol><p>These are treated systematically, with detailed constructions, in Unit 2.</p>
+<h4 id="a-rate-equations-and-threshold-population-inversion-four-level-system">1.12A Rate Equations and Threshold Population Inversion — Four-Level System</h4><p>A more quantitative picture of laser dynamics is obtained from the <strong>rate equations</strong>, which track the time evolution of the population inversion <span class="math inline">\(\Delta N = N_{2} - N_{1}\)</span> and the intracavity photon number <span class="math inline">\(\phi\)</span>. For an idealised four-level laser (with pump rate <span class="math inline">\(R_{p}\)</span> into the upper level, upper-level lifetime <span class="math inline">\(\tau_{2}\)</span>, and photon cavity lifetime <span class="math inline">\(\tau_{c}\)</span>):</p><p><span class="math display">\[\frac{d\Delta N}{dt} = R_{p} - \frac{\Delta N}{\tau_{2}} - B\,\Delta N\,\phi\]</span></p><p><span class="math display">\[\frac{d\phi}{dt} = B\,\Delta N\,\phi - \frac{\phi}{\tau_{c}} + \left( \text{spontaneous contribution} \right)\]</span></p><p>where <span class="math inline">\(B\)</span> is a stimulated-transition rate constant proportional to <span class="math inline">\(B_{21}\)</span>. In steady state (<span class="math inline">\(d\phi/dt = 0\)</span>, above threshold), the gain exactly balances cavity loss, which <strong>pins (clamps) the population inversion at its threshold value</strong>:</p><p><span class="math display">\[\Delta N_{th} = \frac{1}{B\tau_{c}}\]</span></p><p>independent of how hard the medium is pumped beyond threshold — any additional pump power above threshold goes entirely into increasing the photon number <span class="math inline">\(\phi\)</span> (i.e., the output power), not into further increasing the inversion. This “gain clamping” behaviour explains why laser output power increases essentially <strong>linearly</strong> with pump power once threshold is exceeded:</p><p><span class="math display">\[P_{out} \propto \left( R_{p} - R_{p,th} \right)\]</span></p><p>a characteristic “kink” in the output-power-versus-pump-power curve at threshold that is one of the clearest experimental signatures distinguishing laser (stimulated-emission-dominated) output from ordinary spontaneous (LED-like, lamp-like) emission, which instead increases only gradually and shows no threshold kink.</p>
+<h4 id="b-linewidth-of-laser-radiation-the-schawlow-townes-limit">1.12B Linewidth of Laser Radiation — the Schawlow-Townes Limit</h4><p>Even a laser operating in a single longitudinal mode does not have a mathematically infinite spectral purity: residual <strong>spontaneous emission</strong> events (which add photons of random phase into the oscillating mode) impose a fundamental, irreducible quantum-mechanical lower limit on the laser linewidth, the <strong>Schawlow–Townes linewidth</strong>:</p><p><span class="math display">\[\Delta\nu_{ST} = \frac{2\pi h\nu\,\left( \Delta\nu_{c} \right)^{2}}{P_{out}}\]</span></p><p>where <span class="math inline">\(\Delta\nu_{c}\)</span> is the passive-cavity linewidth (inversely proportional to the cavity photon lifetime <span class="math inline">\(\tau_{c}\)</span>) and <span class="math inline">\(P_{out}\)</span> is the output power. In practice, technical noise sources (mechanical vibration of the cavity mirrors, pump-power fluctuations, thermal drifts) dominate over this fundamental quantum limit in ordinary lasers, and elaborate active stabilisation techniques are required to approach the Schawlow–Townes limit in precision applications such as frequency standards and gravitational-wave detection (e.g. LIGO).</p>
+<h4 id="c-worked-examples">1.12C Worked Examples</h4><p><strong>Example 1.1.</strong> <em>Calculate the ratio</em> <span class="math inline">\(N_{2}/N_{1}\)</span> <em>for a two-level system in thermal equilibrium at T = 300 K for a transition corresponding to visible light of wavelength 600 nm (</em><span class="math inline">\(g_{1} = g_{2}\)</span><em>).</em></p><p>Energy of transition: <span class="math inline">\(E = hc/\lambda = \left( 6.63 \times 10^{- 34} \right)\left( 3 \times 10^{8} \right)/\left( 600 \times 10^{- 9} \right) = 3.3 \times 10^{- 19}\,\text{J}\)</span>. <span class="math inline">\(k_{B}T\)</span> at 300 K <span class="math inline">\(= 1.38 \times 10^{- 23} \times 300 = 4.14 \times 10^{- 21}\)</span> J.</p><p><span class="math display">\[\frac{N_{2}}{N_{1}} = e^{- E/k_{B}T} = e^{- 3.3 \times 10^{- 19}/4.14 \times 10^{- 21}} = e^{- 79.7} \approx 10^{- 35}\]</span></p><p>This extraordinarily small ratio shows why, at optical frequencies and ordinary temperatures, the upper level of a thermal source is essentially unpopulated, confirming that thermal light sources cannot spontaneously exhibit population inversion — external pumping is indispensable for laser action.</p><p><strong>Example 1.2.</strong> <em>A laser cavity of length 30 cm contains a medium of refractive index 1. Calculate the frequency separation (free spectral range) between adjacent longitudinal modes.</em></p><p><span class="math display">\[\Delta\nu = \frac{c}{2nL} = \frac{3 \times 10^{8}}{2 \times 1 \times 0.30} = 5 \times 10^{8}\ \text{Hz} = 500\ \text{MHz}\]</span></p><p><strong>Example 1.3.</strong> <em>A He-Ne laser beam of wavelength 632.8 nm has a beam waist radius of 0.5 mm. Estimate its far-field divergence angle.</em></p><p><span class="math display">\[\theta \approx \frac{\lambda}{\pi w_{0}} = \frac{632.8 \times 10^{- 9}}{\pi \times 0.5 \times 10^{- 3}} \approx 4.0 \times 10^{- 4}\ \text{rad} \approx 0.4\ \text{mrad}\]</span></p><p>This very small divergence explains why a He-Ne laser beam remains only a few centimetres wide even after travelling many tens of metres.</p>
+<h4 id="unit-summary">1.13 Unit Summary</h4><ul>
+<li>Stimulated emission produces coherent photons identical in phase, frequency, direction and polarisation to the stimulating photon; this underlies laser amplification.</li>
+<li>Einstein’s coefficients <span class="math inline">\(A_{21}\)</span>, <span class="math inline">\(B_{12} = B_{21}\)</span> satisfy <span class="math inline">\(A_{21}/B_{21} = 8\pi h\nu^{3}/c^{3}\)</span>, derived by requiring consistency with Planck’s law under thermal equilibrium.</li>
+<li>Population inversion (<span class="math inline">\(N_{2} &gt; N_{1}\)</span>) is essential for net optical gain and requires external pumping; it cannot occur in true thermal equilibrium.</li>
+<li>Three-level systems (lower laser level = ground state) need high pump power; four-level systems (lower laser level above ground state, rapidly depopulated) achieve inversion far more easily and permit efficient CW operation.</li>
+<li>A laser requires a gain medium, a pump source, and an optical resonator; the resonator sets the threshold condition, longitudinal/transverse modes, and cavity Q.</li>
+<li>Laser light is distinguished from ordinary light by temporal coherence, spatial coherence, directionality (low divergence) and brightness.</li>
+<li>Lasers may operate CW or pulsed (including Q-switched and mode-locked regimes) depending on application.</li>
+</ul>
+<h4 id="important-formulae-unit-1">1.14 Important Formulae (Unit 1)</h4><table class="ext-table">
+<colgroup>
+<col style="width: 55%"/>
+<col style="width: 44%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Quantity</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Einstein relation</td>
+<td><span class="math display">\[A_{21}/B_{21} = 8\pi h\nu^{3}/c^{3}\]</span></td>
+</tr>
+<tr class="even">
+<td>Boltzmann population ratio</td>
+<td><span class="math display">\[N_{2}/N_{1} = \left( g_{2}/g_{1} \right)e^{- h\nu/k_{B}T}\]</span></td>
+</tr>
+<tr class="odd">
+<td>Threshold gain</td>
+<td><span class="math display">\[g_{th} = \alpha + \frac{1}{2L}\ln\left( 1/R_{1}R_{2} \right)\]</span></td>
+</tr>
+<tr class="even">
+<td>Longitudinal mode frequency</td>
+<td><span class="math display">\[\nu_{q} = qc/2nL\]</span></td>
+</tr>
+<tr class="odd">
+<td>Free spectral range</td>
+<td><span class="math display">\[\Delta\nu = c/2nL\]</span></td>
+</tr>
+<tr class="even">
+<td>Coherence length</td>
+<td><span class="math display">\[l_{c} = c\tau_{c} \approx c/\Delta\nu\]</span></td>
+</tr>
+<tr class="odd">
+<td>Beam divergence (Gaussian TEM<span class="math inline">\(_{00}\)</span>)</td>
+<td><span class="math display">\[\theta \approx \lambda/\pi w_{0}\]</span></td>
+</tr>
+<tr class="even">
+<td>Resonator stability</td>
+<td><span class="math inline">\(0 \leq g_{1}g_{2} \leq 1\)</span>, <span class="math inline">\(g_{i} = 1 - L/R_{i}\)</span></td>
+</tr>
+</tbody>
+</table>
+<h4 id="review-questions">1.15 Review Questions</h4><ol type="1">
+<li>Derive the Einstein relation between <span class="math inline">\(A_{21}\)</span> and <span class="math inline">\(B_{21}\)</span>, starting from thermal equilibrium considerations, and explain its physical significance. (CO5)</li>
+<li>Distinguish clearly between spontaneous and stimulated emission with the help of a suitable diagram. (CO2)</li>
+<li>What is population inversion? Why can it not be achieved in a two-level system? (CO1, CO2)</li>
+<li>Compare three-level and four-level laser schemes, giving one example of each. (CO2, CO4)</li>
+<li>Explain the role of the optical resonator in a laser. Derive the threshold gain condition. (CO1, CO4)</li>
+<li>Define temporal and spatial coherence. How do they differ from the coherence of ordinary light? (CO1)</li>
+<li>Distinguish between CW and pulsed lasers. Explain Q-switching and mode-locking. (CO4)</li>
+<li>What is meant by directionality and brightness of laser light? Derive an expression for beam divergence. (CO1)</li>
+</ol>
+</div></div><div class="note-block" id="u1"><h3>Unit 2 — Laser Types</h3>
 <p><b>Solid-state lasers</b> use ions doped in a crystalline or glass host. <b>Ruby laser</b> (Cr³⁺ in Al₂O₃,
 694.3 nm, three-level, optically pumped by a flashlamp, typically pulsed). <b>Nd:YAG</b> (Nd³⁺ in
 Y₃Al₅O₁₂, 1064 nm, four-level, can run CW or pulsed, widely used in industrial cutting/welding and medicine).</p>
@@ -247,7 +552,312 @@ widely tunable across the visible spectrum.</p>
 produces light; compact, efficient, directly current-modulated — the workhorse of telecom and consumer
 optics. <b>Fibre lasers</b> use a rare-earth-doped optical fibre as the gain medium, offering excellent beam
 quality and efficient heat dissipation for high-power industrial and telecom applications.</p>
-</div><div class="note-block" id="u2"><h3>Unit 3 — Holography & Fibre Optics</h3>
+<div class="ext-note"><div class="ext-head"><span class="ext-tag">Extended Notes</span><h4>Unit 2 — Laser Types — Full Chapter</h4></div>
+<h4 id="introduction-1">2.0 Introduction</h4><p>Having established the general theory of laser action in Unit 1, this unit examines the construction, working principle, energy-level scheme, characteristic parameters, advantages, limitations and applications of the principal families of lasers, classified by the physical state of the active (gain) medium: <strong>atomic, ionic, molecular, excimer (gas lasers), liquid (dye), solid-state, semiconductor and fibre lasers.</strong></p>
+<h4 id="atomic-gas-lasers-the-heliumneon-he-ne-laser">2.1 Atomic Gas Lasers — The Helium–Neon (He-Ne) Laser</h4><p>The He-Ne laser, demonstrated by Ali Javan, William Bennett and Donald Herriott in 1961, was the first CW gas laser and remains one of the most widely used lasers for alignment, interferometry, holography and teaching laboratories.</p><h5 id="construction">2.1.1 Construction</h5><p>The active medium is a mixture of helium and neon gases (typical partial-pressure ratio He:Ne ≈ 10:1, total pressure ~1 torr) sealed inside a narrow-bore quartz/glass capillary discharge tube. Electrodes (anode and cathode) at the ends of the tube sustain a DC glow discharge (~2 kV, few mA) through the gas. The discharge tube is placed between two mirrors forming the optical resonator — one end fully reflecting (R ≈ 100%), the other partially reflecting (R ≈ 98–99%) to couple out the beam. Brewster-angle windows are often used at the tube ends to ensure the output is linearly polarised with minimal reflection loss.</p><p><img alt="Fig. 2.1 Construction of a He-Ne gas laser: capillary discharge tube containing He-Ne gas mixture, anode/cathode for the DC discharge, and the resonator mirrors." loading="lazy" src="notes-media/image7.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 2.1 Construction of a He-Ne gas laser: capillary discharge tube containing He-Ne gas mixture, anode/cathode for the DC discharge, and the resonator mirrors.</p><h5 id="working-excitation-and-energy-transfer-mechanism">2.1.2 Working — Excitation and Energy Transfer Mechanism</h5><p>Electrons accelerated in the discharge collide with, and excite, helium atoms to the long-lived (metastable) <span class="math inline">\(2^{1}S\)</span> and <span class="math inline">\(2^{3}S\)</span> states. These helium metastable levels happen to lie very close in energy to the <span class="math inline">\(4S\)</span> and <span class="math inline">\(5S\)</span> excited levels of neon — a <strong>near-resonant coincidence</strong>. Consequently, excited He atoms transfer their energy efficiently to ground-state Ne atoms via <strong>inelastic (resonant) atom–atom collisions</strong> (collisions of the second kind):</p><p><span class="math display">\[\text{He}^{*} + \text{Ne} \rightarrow \text{He} + \text{Ne}^{*} + \Delta E\]</span></p><p>This selectively populates the Ne 5S and 4S levels (upper laser levels), while the lower laser levels (Ne 3P, 4P) remain sparsely populated (since He plays no role in populating them, and they decay rapidly to the 2P/2S levels via spontaneous emission and subsequently to the ground state through wall collisions in the narrow capillary bore — hence the requirement of a <em>narrow</em> bore for efficient He-Ne operation). This constitutes an effectively <strong>four-level</strong> laser scheme.</p><p>Neon provides several possible laser transitions, of which the most familiar is the visible red line at <strong>632.8 nm</strong> (Ne 5S → 3P), though the He-Ne laser can also operate at 1.15 μm and 3.39 μm (infrared) and at 543.5 nm (green) with suitable mirror coatings.</p><p><img alt="Fig. 2.2 He-Ne laser energy-level (excitation-transfer) scheme, showing electron-impact excitation of He, resonant collisional transfer to Ne, and the 632.8 nm laser transition." loading="lazy" src="notes-media/image8.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 2.2 He-Ne laser energy-level (excitation-transfer) scheme, showing electron-impact excitation of He, resonant collisional transfer to Ne, and the 632.8 nm laser transition.</p><h5 id="characteristics">2.1.3 Characteristics</h5><table class="ext-table">
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 74%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Typical Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Wavelength</td>
+<td>632.8 nm (visible red); also 1.15 μm, 3.39 μm, 543.5 nm</td>
+</tr>
+<tr class="even">
+<td>Output power</td>
+<td>0.5–50 mW (typical)</td>
+</tr>
+<tr class="odd">
+<td>Mode of operation</td>
+<td>CW</td>
+</tr>
+<tr class="even">
+<td>Efficiency</td>
+<td>Very low (~0.01–0.1%)</td>
+</tr>
+<tr class="odd">
+<td>Gain medium</td>
+<td>He:Ne gas mixture (~10:1), low pressure</td>
+</tr>
+<tr class="even">
+<td>Pumping</td>
+<td>DC/RF electrical discharge</td>
+</tr>
+<tr class="odd">
+<td>Linewidth</td>
+<td>Very narrow; high coherence length (up to several metres)</td>
+</tr>
+</tbody>
+</table><h5 id="applications-and-limitations">2.1.4 Applications and Limitations</h5><p><strong>Applications:</strong> interferometry and metrology, holography, alignment and surveying, barcode scanners, laboratory optics teaching, spectroscopy reference source. <strong>Limitations:</strong> low output power, low efficiency, fragile glass construction, requires high-voltage supply.</p>
+<h4 id="ionic-gas-lasers-the-argon-ion-laser">2.2 Ionic Gas Lasers — The Argon-Ion Laser</h4><h5 id="construction-and-working">2.2.1 Construction and Working</h5><p>In ionic lasers, the active species is a <em>singly or doubly ionised</em> atom rather than a neutral atom. In the argon-ion laser, a high-current-density DC (or RF) discharge (tens of amperes, in a narrow bore tube usually of beryllium oxide (BeO) to withstand the high thermal load, surrounded by an axial magnetic field to confine the discharge plasma and prevent bore erosion) first ionises argon atoms, and a second violent electron collision excites the Ar⁺ ion to upper laser levels. Because two sequential collisions are required (a two-step excitation process), argon-ion lasers demand very high discharge current densities and dissipate large amounts of heat, requiring water cooling.</p><h5 id="energy-levels-and-output">2.2.2 Energy Levels and Output</h5><p>Laser transitions occur between excited states of Ar⁺, giving a family of lines in the blue-green, the strongest being <strong>488.0 nm</strong> (blue) and <strong>514.5 nm</strong> (green); with a total of about 10 lines available between 350–530 nm. The lower laser level decays rapidly (radiatively) to the Ar⁺ ground state, and the ion subsequently recombines with a free electron to return to neutral argon — the overall scheme, though ionic, again behaves as an effectively four-level laser.</p><h5 id="characteristics-applications-limitations">2.2.3 Characteristics, Applications, Limitations</h5><table class="ext-table">
+<colgroup>
+<col style="width: 26%"/>
+<col style="width: 73%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Typical Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Wavelength</td>
+<td>488.0 nm, 514.5 nm (multi-line, blue-green)</td>
+</tr>
+<tr class="even">
+<td>Output power</td>
+<td>0.1–20 W (CW)</td>
+</tr>
+<tr class="odd">
+<td>Efficiency</td>
+<td>Very low (~0.01–0.1%)</td>
+</tr>
+<tr class="even">
+<td>Cooling</td>
+<td>Water cooling essential</td>
+</tr>
+</tbody>
+</table><p><strong>Applications:</strong> pumping tunable dye lasers and Ti:sapphire lasers, retinal photocoagulation (ophthalmology), Raman spectroscopy excitation, laser light shows, semiconductor wafer inspection. <strong>Limitations:</strong> very low efficiency, high power consumption, requires forced water cooling and a confining magnetic field, bulky power supply.</p>
+<h4 id="molecular-gas-lasers-the-carbon-dioxide-co₂-laser">2.3 Molecular Gas Lasers — The Carbon Dioxide (CO₂) Laser</h4><h5 id="construction-1">2.3.1 Construction</h5><p>The CO₂ laser active medium is a gas mixture of <strong>CO₂, N₂ and He</strong> (in typical ratios such as 1:2:3) at low pressure, contained in a discharge tube (or, in higher-power designs, in a fast-flowing gas stream — “gas-dynamic” or “transverse-flow” CO₂ lasers, or sealed-off waveguide designs). A DC or RF electrical discharge excites the gas mixture. Resonator mirrors are typically gold-coated (highly reflective in the infrared) with one output mirror made of a material transparent to 10.6 μm radiation (e.g. germanium, zinc selenide, or a partially transmissive coupler for high-power industrial systems). CO₂ lasers are amongst the most efficient and highest-power (continuous or pulsed) lasers available.</p><h5 id="working-vibrational-energy-levels">2.3.2 Working — Vibrational Energy Levels</h5><p>Unlike atomic lasers, CO₂ laser action involves transitions between <strong>vibrational-rotational energy levels</strong> of the CO₂ molecule (a linear triatomic molecule with three normal vibrational modes: symmetric stretch <span class="math inline">\(\nu_{1}\)</span>, bending <span class="math inline">\(\nu_{2}\)</span>, and asymmetric stretch <span class="math inline">\(\nu_{3}\)</span>). Electron-impact collisions in the discharge excite <strong>N₂ molecules</strong> into their first vibrationally excited state <span class="math inline">\(v = 1\)</span>, which lies extremely close in energy to the CO₂ (00°1) asymmetric-stretch level (the <strong>upper laser level</strong>) — again a resonant energy-transfer mechanism analogous to He→Ne transfer:</p><p><span class="math display">\[\text{N}_{2}(v = 1) + \text{CO}_{2}\left( 00^{\circ}0 \right) \rightarrow \text{N}_{2}(v = 0) + \text{CO}_{2}\left( 00^{\circ}1 \right)\]</span></p><p>Since N₂ has no permanent dipole moment, its vibrationally excited state is metastable (cannot decay by electric-dipole radiation) and thus acts as an efficient, long-lived energy-storage reservoir feeding CO₂. Lasing occurs on two principal transitions from the (00°1) level: to (10°0) giving <strong>10.6 μm</strong>, and to (02°0) giving <strong>9.6 μm</strong> (10.6 μm being the stronger, more commonly used line). <strong>Helium</strong> in the mixture assists by efficiently conducting heat away from the discharge (preventing thermal population of the lower laser levels, which would destroy the inversion) and by depopulating the lower CO₂ levels via collisions, restoring the ground state.</p><p><img alt="Fig. 2.3 CO2 laser vibrational energy levels showing resonant N2 to CO2 energy transfer and the 10.6 μm laser transition; He assists cooling and depopulation of the lower level." loading="lazy" src="notes-media/image9.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 2.3 CO2 laser vibrational energy levels showing resonant N2 to CO2 energy transfer and the 10.6 μm laser transition; He assists cooling and depopulation of the lower level.</p><h5 id="characteristics-1">2.3.3 Characteristics</h5><table class="ext-table">
+<colgroup>
+<col style="width: 22%"/>
+<col style="width: 77%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Typical Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Wavelength</td>
+<td>10.6 μm (far infrared)</td>
+</tr>
+<tr class="even">
+<td>Output power</td>
+<td>mW to tens of kilowatts (CW); very high pulse energies</td>
+</tr>
+<tr class="odd">
+<td>Efficiency</td>
+<td>High (15–20%), the highest among gas lasers</td>
+</tr>
+<tr class="even">
+<td>Gas mixture</td>
+<td>CO₂ : N₂ : He</td>
+</tr>
+</tbody>
+</table><h5 id="applications-and-limitations-1">2.3.4 Applications and Limitations</h5><p><strong>Applications:</strong> industrial materials processing — cutting, welding, drilling of metals, engraving (Unit 5); surgical laser scalpel; laser marking; military range-finding and directed-energy applications; scientific research (spectroscopy, isotope separation). <strong>Limitations:</strong> long wavelength cannot be transmitted through ordinary glass optics or optical fibre (requires special IR-transparent optics); bulky gas-handling/flow systems for high-power operation; not easily focused to as small a spot as visible/near-IR lasers because of the diffraction limit (<span class="math inline">\(\propto \lambda\)</span>).</p>
+<h4 id="excimer-lasers">2.4 Excimer Lasers</h4><h5 id="principle">2.4.1 Principle</h5><p>The term <strong>“excimer”</strong> (excited dimer) refers to a diatomic molecule that is stable only in an electronically <em>excited</em> state and dissociates (is unbound / repulsive) in its ground state. Common excimer lasers use noble-gas halides (ArF, KrF, XeCl, XeF), which are formed transiently in a high-energy electrical discharge or electron-beam-pumped mixture of a noble gas, a halogen-donor gas (e.g. F₂, HCl) and a buffer gas:</p><p><span class="math display">\[\text{Ar}^{*} + \text{F}_{2} \rightarrow \text{ArF}^{*} + \text{F}\]</span></p><p>Because the ground state of ArF* is essentially unbound/repulsive (dissociating almost immediately after emission), the <strong>lower “laser level” is intrinsically and continuously depopulated</strong> — this is an ideal (indeed the most efficient possible) four-level scheme, easily maintaining population inversion.</p><h5 id="construction-and-output">2.4.2 Construction and Output</h5><p>Excimer lasers are pulsed devices, pumped by a fast, high-voltage transverse electrical discharge (or electron beam, for the highest-energy systems), operating in the <strong>ultraviolet</strong>:</p><table class="ext-table">
+<colgroup>
+<col style="width: 42%"/>
+<col style="width: 57%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Excimer</th>
+<th>Wavelength</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ArF</td>
+<td>193 nm</td>
+</tr>
+<tr class="even">
+<td>KrF</td>
+<td>248 nm</td>
+</tr>
+<tr class="odd">
+<td>XeCl</td>
+<td>308 nm</td>
+</tr>
+<tr class="even">
+<td>XeF</td>
+<td>351 nm</td>
+</tr>
+</tbody>
+</table><h5 id="characteristics-applications-and-limitations">2.4.3 Characteristics, Applications and Limitations</h5><p><strong>Characteristics:</strong> pulsed operation (pulse durations ~10–50 ns), high pulse energies (up to several joules), high average power at high repetition rates, deep-UV output.</p><p><strong>Applications:</strong> photolithography for semiconductor integrated-circuit fabrication (ArF 193 nm is the workhorse of modern IC manufacturing), refractive eye surgery (LASIK, using 193 nm ArF for precise corneal ablation), micromachining, UV spectroscopy and photochemistry, pumping of dye lasers.</p><p><strong>Limitations:</strong> the reactive and corrosive/toxic halogen-donor gases (F₂, HCl) require careful handling and corrosion-resistant components; the gas mixture must be periodically replenished; UV radiation poses eye/skin safety hazards; comparatively complex, high-maintenance systems.</p>
+<h4 id="liquid-dye-lasers">2.5 Liquid (Dye) Lasers</h4><h5 id="construction-and-working-1">2.5.1 Construction and Working</h5><p>The active medium is an organic dye (e.g. Rhodamine 6G, coumarin) dissolved in an appropriate solvent (ethanol, methanol, water), typically circulated through the pump/gain region as a free-flowing jet stream (to avoid thermal degradation and photobleaching that would occur in a static cell). The dye is optically pumped, usually by another laser (nitrogen laser, excimer laser, frequency-doubled Nd:YAG, or a flash lamp for older designs).</p><p>Dye molecules possess broad, overlapping vibrational-rotational sub-levels within their electronic ground (<span class="math inline">\(S_{0}\)</span>) and first excited singlet (<span class="math inline">\(S_{1}\)</span>) states, giving rise to broad absorption and emission bands (four-level-like behaviour, since fast non-radiative relaxation within the vibrational manifold of <span class="math inline">\(S_{1}\)</span>, and within <span class="math inline">\(S_{0}\)</span>, ensures the lower laser level is quickly depopulated). This large <strong>homogeneous linewidth</strong> is the key distinguishing feature of dye lasers: it makes them <strong>continuously tunable</strong> over a wide range (often 30–40 nm or more per dye) by inserting a wavelength-selective element (diffraction grating, prism, birefringent filter) inside the resonator.</p><h5 id="characteristics-applications-and-limitations-1">2.5.2 Characteristics, Applications and Limitations</h5><p><strong>Characteristics:</strong> wide tunability (a family of different dyes together spans the near-UV through near-IR, roughly 320–1200 nm); can be operated CW or pulsed; comparatively low efficiency but capable of high peak powers when pulsed.</p><p><strong>Applications:</strong> spectroscopy requiring wavelength tunability (including saturation and high-resolution spectroscopy, Unit 4), photodynamic cancer therapy, isotope separation, dye-laser-pumped nonlinear-optics experiments.</p><p><strong>Limitations:</strong> dyes photodegrade (bleach) with use and must be periodically replaced/replenished; flowing-dye systems are messy and maintenance-intensive; toxic/flammable solvents; largely superseded in many applications today by tunable solid-state lasers (e.g. Ti:sapphire) and optical parametric oscillators.</p>
+<h4 id="solid-state-lasers">2.6 Solid-State Lasers</h4><p>In solid-state lasers, the active species is an impurity ion (typically a transition-metal or rare-earth ion) doped at low concentration into a transparent insulating <strong>host crystal or glass</strong>. The host provides mechanical rigidity and a fixed crystal-field environment; the dopant ion provides the laser transition.</p><h5 id="the-ruby-laser-cr³al₂o₃-the-first-laser">2.6.1 The Ruby Laser (Cr³⁺:Al₂O₃) — the First Laser</h5><p><strong>Construction:</strong> A cylindrical rod of synthetic ruby (sapphire, Al₂O₃, doped with ~0.05% Cr³⁺ by weight, which gives the crystal its characteristic pink colour) with polished, parallel end-faces — one fully silvered, the other partially silvered to serve as the resonator mirrors directly on the rod itself in the original Maiman design (external mirrors are used in modern versions). The rod is surrounded by a helical (or, in modern designs, a linear) <strong>xenon flash lamp</strong> that provides intense pulses of broadband optical pump light.</p><p><img alt="Fig. 2.4 Construction of the (three-level) ruby laser: Cr3+-doped ruby rod optically pumped by a helical xenon flash lamp inside a reflective pump cavity." loading="lazy" src="notes-media/image10.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 2.4 Construction of the (three-level) ruby laser: Cr3+-doped ruby rod optically pumped by a helical xenon flash lamp inside a reflective pump cavity.</p><p><strong>Working:</strong> Cr³⁺ ions are pumped by the green/blue bands of the flash-lamp spectrum from the ground state to broad excited absorption bands; they decay rapidly, non-radiatively, to the long-lived (~3 ms) metastable <span class="math inline">\(^{2}E\)</span> level (the upper laser level). Laser emission occurs on the <span class="math inline">\(^{2}E \rightarrow^{4}A_{2}\)</span> transition at <strong>694.3 nm</strong> (deep red) — this is the archetypal <strong>three-level</strong> laser system (§1.6.2), and hence operates in pulsed mode with a relatively high threshold pump energy.</p><p><strong>Applications:</strong> historically important as the first working laser (1960); pulsed holography; laser rangefinders; tattoo and hair removal (dermatology); ruby is now largely superseded by Nd:YAG for most industrial/medical uses but remains pedagogically important.</p><h5 id="the-ndyag-laser-nd³y₃al₅o₁₂">2.6.2 The Nd:YAG Laser (Nd³⁺:Y₃Al₅O₁₂)</h5><p><strong>Construction:</strong> A rod of yttrium aluminium garnet (YAG) crystal doped with neodymium (Nd³⁺) ions, optically pumped either by a krypton (or xenon) arc lamp housed in an elliptical reflective pump cavity (focusing lamp light efficiently onto the rod) or, in modern systems, by <strong>diode lasers</strong> (diode-pumped solid-state, DPSS, lasers) matched to the Nd³⁺ absorption bands, offering far higher efficiency, compactness and beam quality.</p><p><img alt="Fig. 2.5 Construction of the (four-level) Nd:YAG laser: Nd3+-doped YAG rod pumped by an arc lamp/diode array." loading="lazy" src="notes-media/image11.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 2.5 Construction of the (four-level) Nd:YAG laser: Nd3+-doped YAG rod pumped by an arc lamp/diode array.</p><p><strong>Working:</strong> Nd³⁺ is pumped from the ground state to broad absorption bands, decays rapidly and non-radiatively to the metastable <span class="math inline">\(^{4}F_{3/2}\)</span> level (upper laser level, lifetime ~230 μs), and lasing occurs to the <span class="math inline">\(^{4}I_{11/2}\)</span> level (lower laser level) at <strong>1064 nm</strong> (near-infrared); since the <span class="math inline">\(^{4}I_{11/2}\)</span> level lies well above the ground state <span class="math inline">\(^{4}I_{9/2}\)</span> and is rapidly depopulated thermally, Nd:YAG is a genuine <strong>four-level</strong> system, and hence operates efficiently in CW as well as pulsed (including Q-switched and mode-locked) modes.</p><p><strong>Characteristics/Applications:</strong> high average power (CW, up to hundreds of watts to kW in industrial systems) and, when Q-switched, very high peak powers, used in metal cutting/welding/drilling, surgery, frequency-doubled (532 nm, green) for pumping Ti:sapphire and dye lasers, laser range-finding/military designators, industrial marking.</p><h5 id="comparison-ruby-vs.-ndyag">2.6.3 Comparison — Ruby vs. Nd:YAG</h5><table class="ext-table">
+<colgroup>
+<col style="width: 36%"/>
+<col style="width: 34%"/>
+<col style="width: 29%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Ruby Laser</th>
+<th>Nd:YAG Laser</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Active ion</td>
+<td>Cr³⁺</td>
+<td>Nd³⁺</td>
+</tr>
+<tr class="even">
+<td>Host</td>
+<td>Al₂O₃ (sapphire)</td>
+<td>Y₃Al₅O₁₂ (YAG)</td>
+</tr>
+<tr class="odd">
+<td>Laser scheme</td>
+<td>Three-level</td>
+<td>Four-level</td>
+</tr>
+<tr class="even">
+<td>Wavelength</td>
+<td>694.3 nm (visible red)</td>
+<td>1064 nm (near-IR)</td>
+</tr>
+<tr class="odd">
+<td>Mode of operation</td>
+<td>Pulsed only</td>
+<td>CW and pulsed</td>
+</tr>
+<tr class="even">
+<td>Efficiency</td>
+<td>Low</td>
+<td>Higher</td>
+</tr>
+<tr class="odd">
+<td>Threshold pump energy</td>
+<td>High</td>
+<td>Comparatively low</td>
+</tr>
+</tbody>
+</table>
+<h4 id="semiconductor-diode-lasers">2.7 Semiconductor (Diode) Lasers</h4><h5 id="principle-and-construction">2.7.1 Principle and Construction</h5><p>In a semiconductor laser, population inversion is created between the <strong>conduction band</strong> (electrons) and <strong>valence band</strong> (holes) of a heavily-doped <strong>p–n junction diode</strong>, forward biased so as to inject electrons and holes into a thin <strong>active region</strong>, where they recombine radiatively, emitting photons at an energy close to the semiconductor <strong>bandgap</strong> <span class="math inline">\(E_{g}\)</span> (<span class="math inline">\(h\nu \approx E_{g}\)</span>). Modern diode lasers use a <strong>double-heterostructure</strong> design — a thin, lower-bandgap active layer (e.g. GaAs) sandwiched between two higher-bandgap cladding layers (e.g. p- and n-type AlGaAs) — which simultaneously confines both the injected carriers and the optical field to the thin active region (waveguiding by the refractive-index step between core and cladding), dramatically lowering the threshold current compared to simple homojunction designs.</p><p>The two cleaved crystal facets perpendicular to the junction plane, at the ends of the device, act as the resonator mirrors: because of the semiconductor’s high refractive index (<span class="math inline">\(n \approx 3.5\)</span>), the Fresnel reflectivity at a bare cleaved facet (~30%) is often sufficient feedback without additional mirror coatings.</p><p><img alt="Fig. 2.6 Double-heterostructure semiconductor (diode) laser: p-AlGaAs/GaAs active region/n-AlGaAs sandwich with metal contacts; light is emitted from the thin active layer at the cleaved facets." loading="lazy" src="notes-media/image12.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 2.6 Double-heterostructure semiconductor (diode) laser: p-AlGaAs/GaAs active region/n-AlGaAs sandwich with metal contacts; light is emitted from the thin active layer at the cleaved facets.</p><h5 id="working">2.7.2 Working</h5><p>At low forward bias (below the lasing threshold current), the device emits by spontaneous emission (LED-like behaviour). Above the threshold current density <span class="math inline">\(J_{th}\)</span>, sufficient carrier density accumulates in the active region to create population inversion, and stimulated emission dominates, producing coherent laser output. The wavelength is set primarily by the bandgap of the active-region material and can be tuned across the visible to mid-infrared by choice of semiconductor alloy composition (e.g. InGaAsP for telecom wavelengths 1.3–1.55 μm, AlGaAs for 780–850 nm, InGaN for blue/violet ~405 nm, GaN for green/blue).</p><h5 id="characteristics-applications-and-limitations-2">2.7.3 Characteristics, Applications and Limitations</h5><p><strong>Characteristics:</strong> extremely compact (chip-scale, ~mm size), very high electrical-to-optical efficiency (up to 50–70%), low operating voltage/current, directly current-modulatable at very high speed (GHz), inexpensive in mass production, wide range of available wavelengths.</p><p><strong>Applications:</strong> optical-fibre telecommunications (Unit 3), CD/DVD/Blu-ray optical data storage, laser printers and barcode scanners, pump sources for solid-state and fibre lasers (DPSS, fibre-laser pumping), laser pointers, sensing (LIDAR), display technology.</p><p><strong>Limitations:</strong> inherently higher beam divergence and poorer beam quality (more astigmatic/elliptical) than gas or solid-state lasers because of the small, asymmetric emitting aperture (requires collimating/shaping optics); comparatively lower single-device output power (though scalable via diode arrays/bars); sensitive to temperature (wavelength drifts with temperature) and to electrical transients (electrostatic discharge).</p>
+<h4 id="fibre-lasers">2.8 Fibre Lasers</h4><h5 id="construction-and-working-2">2.8.1 Construction and Working</h5><p>A fibre laser uses an optical fibre whose core is doped with rare-earth ions (commonly <strong>erbium (Er³⁺)</strong>, <strong>ytterbium (Yb³⁺)</strong>, or Er/Yb co-doped) as the active (gain) medium. The fibre is typically a <strong>double-clad</strong> design: an inner core (doped, single-mode, carries the laser light) surrounded by an inner cladding (multi-mode, large area, carries and confines the pump light from a diode laser as it is gradually absorbed along the fibre length by the doped core) and an outer cladding. Feedback is provided either by conventional bulk mirrors at the fibre ends or, more commonly in modern designs, by <strong>fibre Bragg gratings (FBGs)</strong> — periodic refractive-index perturbations written directly into the fibre core that act as narrow-band, wavelength-selective mirrors.</p><p><img alt="Fig. 2.7 Basic architecture of a fibre laser: diode pump light launched into a rare-earth-doped double-clad active fibre, bounded by fibre Bragg grating reflectors." loading="lazy" src="notes-media/image13.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 2.7 Basic architecture of a fibre laser: diode pump light launched into a rare-earth-doped double-clad active fibre, bounded by fibre Bragg grating reflectors.</p><h5 id="characteristics-applications-and-limitations-3">2.8.2 Characteristics, Applications and Limitations</h5><p><strong>Characteristics:</strong> the long, thin, flexible gain fibre offers an extremely large surface-area-to-volume ratio (excellent heat dissipation, enabling very high average CW powers — kilowatts — with good beam quality), high electrical efficiency, robustness (no free-space optical alignment needed once fabricated), compact and lightweight compared to equivalent-power bulk solid-state lasers.</p><p><strong>Applications:</strong> high-power industrial cutting/welding/marking (increasingly replacing CO₂ and Nd:YAG lasers in many industrial applications, Unit 5), telecommunications amplification (erbium-doped fibre amplifiers, EDFAs — Unit 3), medical and scientific instrumentation, LIDAR and remote sensing, defence directed-energy systems.</p><p><strong>Limitations:</strong> nonlinear optical effects (stimulated Raman/Brillouin scattering, self-phase modulation) can limit achievable peak power/pulse energy in a long fibre; limited choice of gain wavelengths (set by available rare-earth-ion transitions); careful thermal/mode management is needed at extreme powers.</p>
+<h4 id="a-additional-gas-lasers-nitrogen-helium-cadmium-and-chemical-lasers">2.8A Additional Gas Lasers — Nitrogen, Helium-Cadmium and Chemical Lasers</h4><p><strong>Nitrogen (N₂) laser.</strong> A purely molecular gas laser (unlike CO₂, it uses no auxiliary energy-transfer partner gas) that lases on an <em>electronic</em> (not vibrational) transition of the N₂ molecule at <strong>337.1 nm</strong> (UV), pumped by an extremely fast, high-voltage transverse electrical discharge. Because the upper laser level has a shorter radiative lifetime than the lower laser level (a “self-terminating” transition), population inversion can only be sustained for a few nanoseconds, so the N₂ laser is inherently a <strong>pulsed-only</strong>, superradiant device (it typically has such high single-pass gain that it operates as an amplifier of spontaneous emission without even requiring a high-reflectivity cavity mirror). It is widely used as a simple, inexpensive pump source for pulsed dye lasers.</p><p><strong>Helium–Cadmium (He-Cd) laser.</strong> A metal-vapour ionic gas laser: cadmium metal is thermally vaporised into a He buffer-gas discharge (via a technique called cataphoresis, which transports Cd⁺ ions uniformly along the discharge tube), and lasing occurs on Cd⁺ ionic transitions at 325 nm (UV) and 441.6 nm (blue), pumped by a mechanism of Penning ionisation/charge transfer from He metastables, analogous in spirit to the He-Ne energy-transfer scheme. Used in photolithography, fluorescence excitation, and laser printing.</p><p><strong>Chemical lasers (HF/DF).</strong> Population inversion is produced directly by the energy released in a highly exothermic chemical reaction, e.g.</p><p><span class="math display">\[\text{H}_{2} + \text{F} \rightarrow \text{HF}^{*} + \text{H}\]</span></p><p>in which the HF product molecule is preferentially formed in a vibrationally excited state, giving population inversion between vibrational levels of HF without any electrical or optical pumping at all — the chemical reaction itself supplies the pump energy. HF/DF chemical lasers emit in the mid-infrared (2.6–3.3 μm for HF) and have historically been developed for very high continuous power (megawatt-class, e.g. the airborne/ground-based directed-energy laser programmes) since chemical reactants can in principle supply energy at a rate not limited by electrical power-supply engineering.</p>
+<h4 id="b-worked-example">2.8B Worked Example</h4><p><strong>Example 2.1.</strong> <em>A CO₂ laser delivers a continuous output power of 100 W from an electrical input power of 600 W. Calculate its efficiency, and compare it qualitatively with a typical He-Ne laser of efficiency 0.05%.</em></p><p><span class="math display">\[\eta = \frac{P_{out}}{P_{in}} \times 100\% = \frac{100}{600} \times 100\% \approx 16.7\%\]</span></p><p>This is about three orders of magnitude higher than the typical He-Ne laser efficiency (~0.05%), consistent with the general trend that molecular vibrational lasers (CO₂) and semiconductor diode lasers are intrinsically far more efficient than atomic or ionic gas lasers, which suffer large quantum-defect and excitation-pathway losses.</p>
+<h4 id="a-threshold-current-in-semiconductor-lasers">2.7A Threshold Current in Semiconductor Lasers</h4><p>The onset of lasing in a diode laser occurs at a well-defined <strong>threshold current</strong> <span class="math inline">\(I_{th}\)</span>, below which the device emits weak, broad-spectrum spontaneous emission (LED-like) and above which stimulated emission dominates, producing a sharp increase in the slope of the light-output-versus-current (L-I) characteristic — directly analogous to the pump-threshold behaviour described generally in §1.12A. The threshold current density is approximately</p><p><span class="math display">\[J_{th} \approx \frac{e\, d\, N_{th}}{\eta_{i}\,\tau_{s}}\]</span></p><p>where <span class="math inline">\(d\)</span> is the active-layer thickness, <span class="math inline">\(N_{th}\)</span> the threshold carrier density required for transparency/gain, <span class="math inline">\(\eta_{i}\)</span> the internal quantum efficiency, and <span class="math inline">\(\tau_{s}\)</span> the spontaneous carrier lifetime. Because <span class="math inline">\(J_{th}\)</span> scales with the active-layer thickness <span class="math inline">\(d\)</span>, the double-heterostructure design (§2.7.1), which confines carriers to an extremely thin active layer (as thin as tens of nanometres in modern quantum-well laser diodes), dramatically reduces the threshold current relative to early, thick-active-region homojunction designs — a key reason why modern diode lasers can operate continuously at room temperature with only milliamps of threshold current, whereas the earliest (1962) semiconductor lasers required cryogenic cooling and pulsed operation to avoid thermal runaway.</p>
+<h4 id="c-free-electron-lasers-fel-brief-overview">2.8C Free-Electron Lasers (FEL) — Brief Overview</h4><p>Unlike all the lasers discussed above, a <strong>free-electron laser</strong> does not use a bound-electron atomic/molecular/semiconductor transition at all. Instead, a beam of free, relativistic electrons (from a particle accelerator) is passed through a spatially periodic magnetic field structure called a <strong>wiggler</strong> (or <strong>undulator</strong>), which forces the electrons into a sinusoidal transverse trajectory; the transversely oscillating (accelerating) relativistic electrons emit synchrotron-like radiation, and under the right conditions (an appropriately designed optical cavity or, for X-ray FELs, self-amplified spontaneous emission over a very long undulator) this radiation is coherently amplified. Because the emission wavelength depends on the electron beam energy and the wiggler period/field strength — both externally, continuously adjustable — free-electron lasers are unique in offering very broad, continuous wavelength tunability, from microwaves through the visible to X-rays, though at the cost of requiring a large, expensive particle-accelerator infrastructure, restricting FELs to a small number of major national research facilities.</p>
+<h4 id="comparative-overview-of-laser-types">2.9 Comparative Overview of Laser Types</h4><table class="ext-table">
+<colgroup>
+<col style="width: 19%"/>
+<col style="width: 15%"/>
+<col style="width: 17%"/>
+<col style="width: 17%"/>
+<col style="width: 14%"/>
+<col style="width: 15%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Laser Type</th>
+<th>Active Medium</th>
+<th>Typical Wavelength</th>
+<th>Pumping</th>
+<th>Operation</th>
+<th>Typical Efficiency</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>He-Ne</td>
+<td>He-Ne gas</td>
+<td>632.8 nm</td>
+<td>Electrical discharge</td>
+<td>CW</td>
+<td>~0.01–0.1%</td>
+</tr>
+<tr class="even">
+<td>Argon-ion</td>
+<td>Ar⁺</td>
+<td>488/514.5 nm</td>
+<td>Electrical discharge</td>
+<td>CW</td>
+<td>~0.01–0.1%</td>
+</tr>
+<tr class="odd">
+<td>CO₂</td>
+<td>CO₂:N₂:He</td>
+<td>10.6 μm</td>
+<td>Electrical discharge</td>
+<td>CW/pulsed</td>
+<td>~15–20%</td>
+</tr>
+<tr class="even">
+<td>Excimer (ArF/KrF)</td>
+<td>Noble-gas halide</td>
+<td>193/248 nm</td>
+<td>Discharge/e-beam</td>
+<td>Pulsed</td>
+<td>~1–2%</td>
+</tr>
+<tr class="odd">
+<td>Dye</td>
+<td>Organic dye in solvent</td>
+<td>Tunable, ~320–1200 nm</td>
+<td>Optical (laser/lamp)</td>
+<td>CW/pulsed</td>
+<td>~1%</td>
+</tr>
+<tr class="even">
+<td>Ruby</td>
+<td>Cr³⁺:Al₂O₃</td>
+<td>694.3 nm</td>
+<td>Flash lamp</td>
+<td>Pulsed</td>
+<td>&lt;1%</td>
+</tr>
+<tr class="odd">
+<td>Nd:YAG</td>
+<td>Nd³⁺:YAG</td>
+<td>1064 nm</td>
+<td>Lamp/diode</td>
+<td>CW/pulsed</td>
+<td>~1–3% (lamp), higher (diode)</td>
+</tr>
+<tr class="even">
+<td>Semiconductor diode</td>
+<td>p-n junction (GaAs, InGaAsP, etc.)</td>
+<td>0.4–2 μm (material-dependent)</td>
+<td>Injection current</td>
+<td>CW/pulsed</td>
+<td>~30–70%</td>
+</tr>
+<tr class="odd">
+<td>Fibre</td>
+<td>Rare-earth-doped fibre</td>
+<td>~1.0–2.0 μm (dopant-dependent)</td>
+<td>Diode laser</td>
+<td>CW/pulsed</td>
+<td>~20–30%</td>
+</tr>
+</tbody>
+</table>
+<h4 id="unit-summary-1">2.10 Unit Summary</h4><ul>
+<li>Atomic gas lasers (He-Ne) rely on resonant collisional energy transfer between a metastable buffer gas (He) and the lasing species (Ne).</li>
+<li>Ionic lasers (Argon-ion) require a two-step ionisation-then-excitation process, demanding very high discharge currents.</li>
+<li>Molecular lasers (CO₂) exploit vibrational energy levels and resonant N₂→CO₂ energy transfer, achieving the highest efficiency among gas lasers.</li>
+<li>Excimer lasers exploit bound-excited/unbound-ground-state molecules, giving an ideal four-level UV laser system.</li>
+<li>Dye lasers offer broad tunability due to the broad vibronic bands of organic dye molecules.</li>
+<li>Solid-state lasers (ruby — three-level, pulsed; Nd:YAG — four-level, CW/pulsed) use rare-earth or transition-metal ions doped in crystalline hosts.</li>
+<li>Semiconductor diode lasers achieve population inversion by carrier injection across a p-n junction and are the most efficient, most compact lasers.</li>
+<li>Fibre lasers use rare-earth-doped fibre as a high-surface-area gain medium, enabling very high average power with excellent beam quality.</li>
+</ul>
+<h4 id="review-questions-1">2.11 Review Questions</h4><ol type="1">
+<li>Explain, with a labelled diagram, the construction and working of the He-Ne laser. Why is helium necessary? (CO1, CO2)</li>
+<li>Describe the excitation mechanism of the CO₂ laser and explain the role of nitrogen and helium in the gas mixture. (CO2, CO3)</li>
+<li>What is an excimer? Explain why excimer lasers are inherently efficient four-level systems. (CO1, CO2)</li>
+<li>Compare the constructions and laser schemes of the ruby and Nd:YAG lasers. (CO2, CO4)</li>
+<li>Explain the principle of population inversion in a semiconductor diode laser and the role of the double-heterostructure. (CO1, CO2)</li>
+<li>Describe the construction and working of a fibre laser. What are its main advantages over conventional solid-state lasers? (CO2, CO3)</li>
+<li>Tabulate and compare the wavelength, pumping method and typical efficiency of at least five different laser types. (CO1)</li>
+</ol>
+</div></div><div class="note-block" id="u2"><h3>Unit 3 — Holography & Fibre Optics</h3>
 <p><b>Holography</b> records the complete wavefront (both amplitude and phase) scattered from an object by
 interfering it with a coherent reference beam on a high-resolution photographic emulsion. Unlike an ordinary
 photograph (intensity only), a hologram reconstructs a full 3-D image when illuminated by a beam matching the
@@ -262,7 +872,244 @@ dispersion and ease of coupling. <b>Fibre amplifiers</b> (e.g. Erbium-Doped Fibr
 optical signals directly, without opto-electronic conversion, and are essential to long-haul telecom links.
 <b>Fibre-optic sensors</b> exploit changes in intensity, phase or polarization of guided light to sense
 strain, temperature, pressure or chemical concentration remotely and immune to electromagnetic interference.</p>
-</div><div class="note-block" id="u3"><h3>Unit 4 — Lasers in Science</h3>
+<div class="ext-note"><div class="ext-head"><span class="ext-tag">Extended Notes</span><h4>Unit 3 — Holography & Fibre Optics — Full Chapter</h4></div>
+<h4 id="part-a-holography">Part A: Holography</h4>
+<h4 id="introduction-and-basic-principle">3.1 Introduction and Basic Principle</h4><p><strong>Holography</strong> (from the Greek <em>holos</em> = “whole” + <em>graphein</em> = “to write”) is a technique, invented by Dennis Gabor in 1948 (Nobel Prize, 1971), for recording and subsequently reconstructing the <em>complete</em> wavefront of light scattered by an object — both its <strong>amplitude and phase</strong> information — rather than merely the intensity distribution recorded by an ordinary photograph. The result is a genuinely three-dimensional image possessing parallax: the viewer can move their head and see the object from slightly different angles, exactly as with a real object.</p><p>Ordinary photography records only the <strong>intensity</strong> (<span class="math inline">\(\propto\)</span> amplitude²) of light arriving at the film, with all phase information lost — this is why a photograph is only a flat, two-dimensional record. Holography overcomes this limitation by using the wave-interference between the light scattered from the object (the <strong>object beam</strong>) and a mutually-coherent <strong>reference beam</strong> derived from the same source, to encode the phase information of the object wave as a spatially varying fringe (interference) pattern of intensity, which <em>can</em> be recorded on an ordinary photographic (or now, digital) recording medium.</p><p>Holography became practical only after the invention of the laser (1960), because it fundamentally requires a light source of very high <strong>temporal and spatial coherence</strong> — this is why holography is treated immediately after the study of laser properties (Unit 1, §1.10).</p>
+<h4 id="basic-principle-of-holography-interference-recording">3.2 Basic Principle of Holography — Interference Recording</h4><p>Let the object wave arriving at the recording plate be represented by a complex amplitude</p><p><span class="math display">\[O(x,y) = O_{0}(x,y)\, e^{i\phi_{O}(x,y)}\]</span></p><p>and the reference wave (typically a simple, known plane or spherical wave) by</p><p><span class="math display">\[R(x,y) = R_{0}\, e^{i\phi_{R}(x,y)}\]</span></p><p>Both waves, being derived from the same coherent laser source (typically by splitting the beam with a beam-splitter), interfere at the recording plate, producing a total field <span class="math inline">\(O + R\)</span>, whose recorded intensity is</p><p><span class="math display">\[I(x,y) = |O + R|^{2} = |O|^{2} + |R|^{2} + OR^{*} + O^{*}R\]</span></p><p><span class="math display">\[= O_{0}^{2} + R_{0}^{2} + 2\, O_{0}R_{0}\cos\left\lbrack \phi_{O}(x,y) - \phi_{R}(x,y) \right\rbrack\]</span></p><p>This is the key result: although the recording medium (photographic emulsion) can only respond to <em>intensity</em>, the recorded intensity pattern <span class="math inline">\(I(x,y)\)</span> <em>contains, encoded within the amplitude and spacing of its interference fringes</em>, complete information about both the amplitude <span class="math inline">\(O_{0}(x,y)\)</span> <strong>and</strong> the phase <span class="math inline">\(\phi_{O}(x,y)\)</span> of the original object wave. The developed photographic plate — the <strong>hologram</strong> — is thus a complex diffraction grating (a fine, irregular fringe pattern) that stores the full wavefront information, even though the object itself may have been removed or destroyed after exposure.</p>
+<h4 id="construction-recording-of-a-hologram">3.3 Construction (Recording) of a Hologram</h4><p>The standard (off-axis, Leith–Upatnieks, 1962) recording setup consists of:</p><ol type="1">
+<li>A <strong>highly coherent laser source</strong> (temporal coherence length must exceed the maximum object-to-reference path difference; spatial coherence must be adequate to illuminate both the object and reference paths coherently).</li>
+<li>A <strong>beam-splitter</strong>, which divides the laser beam into two: the object beam and the reference beam.</li>
+<li><strong>Mirrors and beam-expanding lenses</strong>, which direct and expand the object beam onto the object (so that light scattered/reflected from all points of the object reaches the photographic plate) and direct the reference beam directly onto the plate at a suitable angle (avoiding the object).</li>
+<li>A <strong>high-resolution photographic plate or film</strong> (holographic emulsions require far higher resolving power — thousands of lines/mm — than ordinary photographic film, because the interference fringes recorded can be extremely fine, of the order of the light wavelength).</li>
+<li><strong>Vibration isolation</strong> (an optical table) — because the recording depends on stable interference fringes, the entire setup must remain stationary to within a small fraction of a wavelength during the exposure.</li>
+</ol><p><img alt="Fig. 3.1 Off-axis (Leith-Upatnieks) hologram recording setup: laser beam split into a reference beam and an object beam, both converging coherently on the photographic plate." loading="lazy" src="notes-media/image14.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 3.1 Off-axis (Leith-Upatnieks) hologram recording setup: laser beam split into a reference beam and an object beam, both converging coherently on the photographic plate.</p><p>After exposure, the plate is chemically developed and fixed (as in ordinary photography), yielding the finished <strong>hologram</strong> — a seemingly random, fine-grained pattern that, to the naked eye, shows no resemblance to the original object at all.</p>
+<h4 id="reconstruction-of-the-hologram">3.4 Reconstruction of the Hologram</h4><p>To reconstruct (view) the recorded image, the developed hologram is illuminated with a beam identical (or closely similar in wavelength and direction) to the original reference beam <span class="math inline">\(R(x,y)\)</span>. The amplitude transmittance of the developed hologram is proportional to the recorded intensity, <span class="math inline">\(t(x,y) \propto I(x,y)\)</span>, so the field transmitted through the illuminated hologram is</p><p><span class="math display">\[R \cdot t \propto R\left( O_{0}^{2} + R_{0}^{2} \right) + R \cdot R\, O^{*} + |R|^{2}\, O\]</span></p><p>Examining the three terms:</p><ul>
+<li>The <strong>first term</strong> (<span class="math inline">\(\propto R\)</span>) is simply the (attenuated) reconstruction beam continuing straight through — the zero-order (undiffracted) beam.</li>
+<li>The <strong>third term</strong> is proportional to <span class="math inline">\(O(x,y)\)</span> itself (since <span class="math inline">\(|R|^{2} = R_{0}^{2}\)</span> is just a constant) — this term exactly reproduces the original object wavefront. An observer looking into the hologram from the far side, along the original object direction, sees a wave <em>indistinguishable</em> from the wave that would have come from the real object — this reconstructs a <strong>virtual image</strong>, located exactly where the original object was, exhibiting full three-dimensional parallax.</li>
+<li>The <strong>second term</strong> is proportional to <span class="math inline">\(O^{*}(x,y)\)</span>, the complex conjugate of the object wave — this produces a second, <strong>real image</strong> (which can be projected onto a screen), typically formed on the opposite side of the hologram, often distorted/pseudoscopic (depth-reversed) unless special geometry is used.</li>
+</ul><p><img alt="Fig. 3.2 Hologram reconstruction: illuminating the developed hologram with the reference beam regenerates the original object wavefront, producing a virtual three-dimensional image." loading="lazy" src="notes-media/image15.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 3.2 Hologram reconstruction: illuminating the developed hologram with the reference beam regenerates the original object wavefront, producing a virtual three-dimensional image.</p><p><strong>Key conceptual point:</strong> because <em>every</em> small area of the hologram has, during recording, received light scattered from (in principle) the <em>entire</em> object, each small fragment of a hologram, if cut out and illuminated alone, is capable of reconstructing the <em>entire</em> object (albeit viewed through a smaller aperture, with correspondingly reduced resolution) — a strikingly different property from an ordinary photograph, where a torn fragment shows only the corresponding fragment of the picture.</p>
+<h4 id="types-of-holograms-brief-classification">3.5 Types of Holograms (brief classification)</h4><ul>
+<li><strong>Transmission holograms</strong> — viewed by transmitted (reconstruction beam passes through the hologram to the eye); require the same wavelength as the recording laser (or nearly so).</li>
+<li><strong>Reflection (Denisyuk) holograms</strong> — recorded with object and reference beams incident from opposite sides of the plate; can be viewed in ordinary white light because the fine fringe spacing through the emulsion thickness acts as a wavelength-selective (Bragg) reflector.</li>
+<li><strong>Rainbow holograms</strong> — a transmission hologram of a hologram, sacrificing vertical parallax to permit viewing in white light.</li>
+<li><strong>Computer-generated holograms (CGH)</strong> — the interference pattern is computed and written directly (e.g., by an electron beam or laser writer) rather than recorded optically from a real object.</li>
+</ul>
+<h4 id="applications-of-holography">3.6 Applications of Holography</h4><ul>
+<li><strong>Holographic interferometry / Holographic Non-Destructive Testing (HNDT)</strong> — discussed in detail below (§3.7).</li>
+<li><strong>Holographic data storage</strong> — discussed below (§3.8).</li>
+<li><strong>Security and anti-counterfeiting</strong> — holograms embossed on currency notes, credit cards, passports and branded packaging (difficult to reproduce without the original master).</li>
+<li><strong>Display holography</strong> — art, museum exhibits, product visualisation, 3-D imaging.</li>
+<li><strong>Optical elements</strong> — holographic optical elements (HOEs) can function as lenses, gratings, beam-splitters and combiners (e.g. heads-up-displays).</li>
+<li><strong>Holographic microscopy and metrology</strong> — precision measurement of microscopic surface deformation and 3-D profiling.</li>
+</ul>
+<h4 id="holographic-non-destructive-testing-hndt">3.7 Holographic Non-Destructive Testing (HNDT)</h4><p><strong>Holographic interferometry</strong> compares two holographic exposures of the <em>same</em> object recorded at two different times (or under two different loading/stress/thermal conditions) on the <em>same</em> photographic plate. Upon reconstruction, the two slightly different wavefronts interfere with each other, producing a fringe pattern that directly maps out any minute surface or internal deformation, strain, or vibration that occurred between the two exposures (with sensitivity down to a fraction of the light wavelength, i.e., of the order of tens of nanometres).</p><p>This forms the basis of <strong>Holographic Non-Destructive Testing (HNDT)</strong>, a technique for inspecting the structural integrity of components (aerospace panels, turbine blades, tyres, composite materials, welds) <em>without physically damaging or altering</em> them:</p><ol type="1">
+<li>A first (“reference-state”) hologram of the unstressed object is recorded.</li>
+<li>The object is then subjected to a small controlled stress, vibration, heating, or pressure change.</li>
+<li>A second exposure is recorded on the same plate (double-exposure holographic interferometry), or the object is observed live against the first hologram (real-time holographic interferometry).</li>
+<li>On reconstruction, interference fringes appear wherever the object surface has moved or deformed between the two states; regions of <strong>hidden defects</strong> (delaminations, voids, disbonds, cracks) show anomalous, irregular fringe patterns because they deform differently from the surrounding sound material under the applied stress.</li>
+</ol><p><strong>Advantages of HNDT:</strong> whole-field (entire surface examined simultaneously, not point-by-point), extremely high sensitivity (sub-micron), completely non-contact and non-destructive, applicable to complex-shaped and composite structures where conventional NDT (ultrasonic, radiographic) methods are difficult to apply. <strong>Limitations:</strong> requires a highly vibration-isolated environment and coherent laser source; interpretation of complex fringe patterns requires skill; not well suited to very rough or highly diffusely scattering surfaces without special treatment.</p>
+<h4 id="holographic-data-storage">3.8 Holographic Data Storage</h4><p>Because a hologram can store information throughout the <em>volume</em> (thickness) of the recording medium (not just at its surface, as in conventional optical/magnetic storage), and because many different holograms can be superimposed in the same volume by recording each with a reference beam at a slightly different angle or wavelength (<strong>angle/wavelength multiplexing</strong>), holographic storage offers, in principle, extremely high data-storage densities (potentially exceeding conventional storage by orders of magnitude) and very fast parallel (page-wise) read-out, since an entire 2-D data page (e.g. an array of binary bits encoded as bright/dark pixels on a spatial light modulator) can be recorded and reconstructed in a single exposure/read-out event, rather than bit-by-bit.</p>
+<h4 id="comparison-holography-vs.-conventional-photography">3.9 Comparison — Holography vs. Conventional Photography</h4><table class="ext-table">
+<colgroup>
+<col style="width: 24%"/>
+<col style="width: 34%"/>
+<col style="width: 41%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Ordinary Photography</th>
+<th>Holography</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Information recorded</td>
+<td>Intensity only</td>
+<td>Both amplitude and phase</td>
+</tr>
+<tr class="even">
+<td>Dimensionality of image</td>
+<td>2-D (no parallax)</td>
+<td>3-D (full parallax)</td>
+</tr>
+<tr class="odd">
+<td>Focusing</td>
+<td>Requires a lens/camera to focus the image at the film</td>
+<td>No imaging lens is needed at the recording stage</td>
+</tr>
+<tr class="even">
+<td>Effect of damage/tearing</td>
+<td>Torn portion is permanently lost</td>
+<td>Any small fragment can reconstruct the whole scene (lower resolution)</td>
+</tr>
+<tr class="odd">
+<td>Light source requirement</td>
+<td>Any light source</td>
+<td>Highly coherent (laser) source required</td>
+</tr>
+</tbody>
+</table>
+<h4 id="part-b-fibre-optics">Part B: Fibre Optics</h4>
+<h4 id="introduction-optical-fibre-principle">3.10 Introduction — Optical Fibre Principle</h4><p>An <strong>optical fibre</strong> is a thin, flexible, cylindrical waveguide made of transparent dielectric material (glass or plastic) that guides light along its length by repeated <strong>total internal reflection (TIR)</strong>. The basic structure (Fig. 3.3) consists of three coaxial regions:</p><ol type="1">
+<li><strong>Core</strong> — the central, light-carrying region, of refractive index <span class="math inline">\(n_{1}\)</span>.</li>
+<li><strong>Cladding</strong> — a surrounding layer of slightly lower refractive index <span class="math inline">\(n_{2} &lt; n_{1}\)</span>, which provides the refractive-index step responsible for TIR and also protects the core from surface contamination/scratches that would otherwise cause severe light loss.</li>
+<li><strong>Buffer coating / jacket</strong> — an outer protective polymer layer providing mechanical strength and protection from the environment (not part of the optical waveguide itself).</li>
+</ol><p><img alt="Fig. 3.3 Structure of an optical fibre (core, cladding, buffer) and the total-internal-reflection ray path along the core (step-index fibre)." loading="lazy" src="notes-media/image16.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 3.3 Structure of an optical fibre (core, cladding, buffer) and the total-internal-reflection ray path along the core (step-index fibre).</p><h5 id="principle-of-total-internal-reflection">3.10.1 Principle of Total Internal Reflection</h5><p>By Snell’s law, a ray travelling in a denser medium (<span class="math inline">\(n_{1}\)</span>) incident on the boundary with a rarer medium (<span class="math inline">\(n_{2} &lt; n_{1}\)</span>) at an angle of incidence <span class="math inline">\(\theta\)</span> (measured from the normal) is partly refracted and partly reflected; as <span class="math inline">\(\theta\)</span> increases, the refraction angle approaches 90°, and beyond a <strong>critical angle</strong> <span class="math inline">\(\theta_{c}\)</span>, given by</p><p><span class="math display">\[\sin\theta_{c} = \frac{n_{2}}{n_{1}}\]</span></p><p>all the light is reflected back into the denser medium — <strong>total internal reflection</strong>. In an optical fibre, the core-cladding interface is designed so that light launched into the core at a sufficiently shallow (grazing) angle to the fibre axis undergoes TIR at every core-cladding interaction, so that it is guided along the length of the fibre with (ideally) no loss due to refraction/leakage at the boundary, bouncing in a zig-zag path along a step-index fibre core.</p>
+<h4 id="numerical-aperture-na-and-acceptance-angle-derivation">3.11 Numerical Aperture (NA) and Acceptance Angle — Derivation</h4><p>The <strong>numerical aperture</strong> quantifies the light-gathering ability of the fibre: the maximum angle (relative to the fibre axis), <span class="math inline">\(\theta_{\max}\)</span>, within which an incident ray, upon entering the fibre end-face from an external medium of refractive index <span class="math inline">\(n_{0}\)</span> (usually air, <span class="math inline">\(n_{0} = 1\)</span>), will strike the core-cladding interface at or beyond the critical angle <span class="math inline">\(\theta_{c}\)</span> and hence be guided by TIR (Fig. 3.4).</p><p>Consider a ray entering the flat fibre end-face at angle <span class="math inline">\(\theta_{i}\)</span> to the fibre axis, refracting to angle <span class="math inline">\(\theta_{r}\)</span> inside the core (Snell’s law at the end-face: <span class="math inline">\(n_{0}\sin\theta_{i} = n_{1}\sin\theta_{r}\)</span>), and then striking the core-cladding boundary at angle <span class="math inline">\(\left( 90{^\circ} - \theta_{r} \right)\)</span> to the normal of that boundary. For guidance, we require</p><p><span class="math display">\[90{^\circ} - \theta_{r} \geq \theta_{c}\quad \Rightarrow \quad\theta_{r} \leq 90{^\circ} - \theta_{c}\]</span></p><p>The maximum acceptance angle <span class="math inline">\(\theta_{\max}\)</span> corresponds to the limiting case <span class="math inline">\(\theta_{r} = 90{^\circ} - \theta_{c}\)</span>, i.e. <span class="math inline">\(\cos\theta_{r} = sin\theta_{c} = n_{2}/n_{1}\)</span>, so <span class="math inline">\(\sin\theta_{r} = \sqrt{1 - \left( n_{2}/n_{1} \right)^{2}}\)</span>. Then</p><p><span class="math display">\[n_{0}\sin\theta_{\max} = n_{1}\sin\theta_{r} = n_{1}\sqrt{1 - \left( \frac{n_{2}}{n_{1}} \right)^{2}} = \sqrt{n_{1}^{2} - n_{2}^{2}}\]</span></p><p>Hence the <strong>numerical aperture</strong> is defined as</p><p><span class="math display">\[\boxed{NA = n_{0}\sin\theta_{\max} = \sqrt{n_{1}^{2} - n_{2}^{2}}}\]</span></p><p>For <span class="math inline">\(n_{0} = 1\)</span> (air), <span class="math inline">\(NA = sin\theta_{\max}\)</span>. It is also convenient to define the <strong>fractional refractive-index difference</strong></p><p><span class="math display">\[\Delta = \frac{n_{1} - n_{2}}{n_{1}} \approx \frac{n_{1}^{2} - n_{2}^{2}}{2n_{1}^{2}}\]</span></p><p>so that <span class="math inline">\(NA \approx n_{1}\sqrt{2\Delta}\)</span>. All rays entering the fibre end-face within the cone of half-angle <span class="math inline">\(\theta_{\max}\)</span> — the <strong>acceptance cone</strong> — will be captured and guided by the fibre; rays outside this cone strike the cladding boundary at less than the critical angle and are refracted out, being lost.</p><p><img alt="Fig. 3.4 Acceptance cone and numerical aperture of an optical fibre." loading="lazy" src="notes-media/image17.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 3.4 Acceptance cone and numerical aperture of an optical fibre.</p>
+<h4 id="types-of-optical-fibres">3.12 Types of Optical Fibres</h4><p>Optical fibres are classified in two independent ways — by the <strong>refractive-index profile</strong> of the core, and by the <strong>number of modes</strong> (propagation paths) they support.</p><h5 id="by-refractive-index-profile">3.12.1 By Refractive-Index Profile</h5><ul>
+<li><strong>Step-index fibre</strong> — the core has a uniform refractive index <span class="math inline">\(n_{1}\)</span>, which drops abruptly (in a “step”) to <span class="math inline">\(n_{2}\)</span> at the core-cladding boundary. Light travels along straight-line, zig-zag ray paths (Fig. 3.3).</li>
+<li><strong>Graded-index fibre</strong> — the core refractive index decreases gradually (typically following a parabolic profile) from a maximum on the axis to <span class="math inline">\(n_{2}\)</span> at the cladding boundary. Rays follow smooth, sinusoidal (curved) paths rather than sharp zig-zags, because they are continuously refracted (rather than sharply reflected) by the graded index; rays travelling farther from the axis, in a lower-index region, travel <em>faster</em>, approximately compensating for their longer geometric path length — this significantly reduces (though does not eliminate) <strong>modal dispersion</strong>.</li>
+</ul><h5 id="by-number-of-modes">3.12.2 By Number of Modes</h5><ul>
+<li><strong>Single-mode fibre (SMF)</strong> — a very small core diameter (~8–10 μm), comparable to the wavelength of light, such that only a single transverse propagation mode (the fundamental mode) is supported; determined by the <strong>normalised frequency (V-number)</strong>:</li>
+</ul><span class="math display">\[V = \frac{2\pi a}{\lambda}\, NA\]</span><ul>
+<li>(where <span class="math inline">\(a\)</span> is the core radius). Single-mode propagation requires <span class="math inline">\(V &lt; 2.405\)</span>. Single-mode fibres are free of modal dispersion and are used for long-haul, high-bandwidth telecommunications.</li>
+</ul><ul>
+<li><strong>Multimode fibre (MMF)</strong> — a larger core diameter (~50–1000 μm) supports many simultaneous propagation modes/ray-paths, each experiencing a slightly different path length and hence group delay, giving rise to <strong>modal (intermodal) dispersion</strong>, which limits the achievable bandwidth-distance product; used for short-distance, lower-bandwidth links (e.g. within a building) because of easier launching/coupling of light and lower-cost components.</li>
+</ul><p><strong>Comparison — Step-Index vs. Graded-Index; Single-Mode vs. Multimode</strong></p><table class="ext-table">
+<colgroup>
+<col style="width: 24%"/>
+<col style="width: 20%"/>
+<col style="width: 25%"/>
+<col style="width: 29%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Step-Index Multimode</th>
+<th>Graded-Index Multimode</th>
+<th>Single-Mode (Step-Index)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Core diameter</td>
+<td>Large (~50–200 μm)</td>
+<td>Large (~50–100 μm)</td>
+<td>Small (~8–10 μm)</td>
+</tr>
+<tr class="even">
+<td>Index profile</td>
+<td>Uniform, sharp step</td>
+<td>Gradually varying (parabolic)</td>
+<td>Uniform, sharp step</td>
+</tr>
+<tr class="odd">
+<td>Modal dispersion</td>
+<td>High</td>
+<td>Reduced</td>
+<td>Absent (single ray path)</td>
+</tr>
+<tr class="even">
+<td>Bandwidth</td>
+<td>Low</td>
+<td>Moderate</td>
+<td>Very high</td>
+</tr>
+<tr class="odd">
+<td>Typical use</td>
+<td>Short, low-speed links</td>
+<td>Medium-distance LANs</td>
+<td>Long-haul, high-speed telecom</td>
+</tr>
+<tr class="even">
+<td>Coupling ease (from source)</td>
+<td>Easy</td>
+<td>Easy</td>
+<td>Difficult (requires precise alignment)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="losses-attenuation-in-optical-fibres">3.13 Losses (Attenuation) in Optical Fibres</h4><p>Signal power decreases exponentially with distance along the fibre; attenuation is expressed in <strong>decibels per kilometre</strong>:</p><p><span class="math display">\[\alpha\,\left( \text{dB/km} \right) = \frac{10}{L}\log_{10}\left( \frac{P_{in}}{P_{out}} \right)\]</span></p><p>Principal loss mechanisms include:</p><ul>
+<li><strong>Absorption losses</strong> — intrinsic material absorption (e.g. by residual OH⁻ ion impurities, giving characteristic absorption peaks) and impurity absorption from imperfect fabrication.</li>
+<li><strong>Rayleigh scattering</strong> — scattering from microscopic (sub-wavelength) refractive-index inhomogeneities frozen into the glass during manufacture; scales as <span class="math inline">\(1/\lambda^{4}\)</span>, fundamentally limiting the lowest achievable loss and favouring the use of longer wavelengths (hence the choice of the 1.3 μm and 1.55 μm “telecom windows”, where both Rayleigh scattering and OH⁻ absorption are minimised).</li>
+<li><strong>Bending losses</strong> — macro-bending (large-scale, visible curvature of the fibre) and micro-bending (small-scale random distortions, e.g. from cabling stresses) both cause light to leak out of the core because the guidance condition (angle beyond <span class="math inline">\(\theta_{c}\)</span>) is violated locally.</li>
+<li><strong>Connector/splice losses</strong> — imperfect alignment or Fresnel reflection at joints between fibre segments or at connectors.</li>
+</ul>
+<h4 id="a-dispersion-in-optical-fibres-and-the-bandwidth-length-product">3.13A Dispersion in Optical Fibres and the Bandwidth-Length Product</h4><p>In addition to attenuation (§3.13), the <strong>information-carrying capacity</strong> of a fibre link is fundamentally limited by <strong>dispersion</strong> — the spreading, in time, of an optical pulse as it propagates along the fibre, which ultimately causes adjacent data pulses to overlap and become indistinguishable at the receiver. Three principal mechanisms contribute:</p><ol type="1">
+<li><strong>Modal (intermodal) dispersion</strong> — present only in multimode fibres (§3.12.2): different guided modes (ray paths) travel different physical path lengths (and, in graded-index fibre, at different local speeds) along the fibre, arriving at the far end at slightly different times.</li>
+<li><strong>Material (chromatic) dispersion</strong> — the refractive index of silica is itself a function of wavelength, <span class="math inline">\(n(\lambda)\)</span>; since any real optical pulse/source has a finite spectral width <span class="math inline">\(\Delta\lambda\)</span>, different spectral components of the same pulse travel at slightly different group velocities and arrive at slightly different times.</li>
+<li><strong>Waveguide dispersion</strong> — even at a single, fixed wavelength, the fraction of optical power guided in the core versus evanescently extending into the cladding is itself wavelength-dependent, contributing an additional, geometry-dependent term to the total chromatic dispersion (of opposite sign to material dispersion in silica at the wavelengths of interest, allowing the two to be balanced against each other by suitable fibre design).</li>
+</ol><p>The total pulse spreading (in time) determines the maximum usable bit rate <span class="math inline">\(B\)</span> for a given fibre length <span class="math inline">\(L\)</span>, often expressed as a fibre’s characteristic <strong>bandwidth-length product</strong> <span class="math inline">\(B \times L\)</span> (units: MHz·km or GHz·km), a figure of merit allowing direct comparison of different fibre types and designs; single-mode fibre, being free of the (typically dominant) modal-dispersion contribution, achieves bandwidth-length products orders of magnitude higher than multimode fibre, which is why virtually all long-haul, high-bit-rate telecommunication links use single-mode fibre operating near the “zero-dispersion wavelength” (~1310 nm for standard silica fibre, where material and waveguide dispersion cancel) or with dispersion-shifted/dispersion-compensated designs optimised for the low-loss 1550 nm window.</p>
+<h4 id="b-worked-examples">3.13B Worked Examples</h4><p><strong>Example 3.1.</strong> <em>An optical fibre has a core refractive index</em> <span class="math inline">\(n_{1} = 1.50\)</span> <em>and a cladding refractive index</em> <span class="math inline">\(n_{2} = 1.47\)</span><em>. Calculate (a) the critical angle, (b) the numerical aperture, and (c) the acceptance angle in air.</em></p><ol type="a">
+<li><p><span class="math inline">\(\sin\theta_{c} = n_{2}/n_{1} = 1.47/1.50 = 0.980 \Rightarrow \theta_{c} \approx 78.5{^\circ}\)</span></p></li>
+<li><p><span class="math inline">\(NA = \sqrt{n_{1}^{2} - n_{2}^{2}} = \sqrt{(1.50)^{2} - (1.47)^{2}} = \sqrt{2.25 - 2.1609} = \sqrt{0.0891} \approx 0.2985\)</span></p></li>
+<li><p><span class="math inline">\(\theta_{\max} = \sin^{- 1}(NA) = \sin^{- 1}(0.2985) \approx 17.4{^\circ}\)</span></p></li>
+</ol><p><strong>Example 3.2.</strong> <em>A 20 km fibre link has an input power of 1 mW and an output power of 10 μW. Calculate the attenuation in dB/km.</em></p><p><span class="math display">\[\alpha = \frac{10}{L}\log_{10}\left( \frac{P_{in}}{P_{out}} \right) = \frac{10}{20}\log_{10}\left( \frac{1000}{10} \right) = 0.5 \times \log_{10}(100) = 0.5 \times 2 = 1.0\ \text{dB/km}\]</span></p>
+<h4 id="fibre-optic-communication">3.14 Fibre Optic Communication</h4><p>An optical-fibre communication link (Fig. 3.5) converts an electrical information signal into an optical signal, transmits it along the fibre, and reconverts it back to an electrical signal:</p><p><img alt="Fig. 3.5 Basic block diagram of an optical fibre communication link: electrical signal, modulator driver, optical source, fibre channel, photodetector, and receiver electronics." loading="lazy" src="notes-media/image18.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 3.5 Basic block diagram of an optical fibre communication link: electrical signal, modulator driver, optical source, fibre channel, photodetector, and receiver electronics.</p><p>Key components: an <strong>optical source</strong> (LED for lower-cost/lower-bandwidth links, or a semiconductor laser diode for high-bandwidth, long-haul links — Unit 2, §2.7), the <strong>fibre</strong> itself (the transmission medium), and a <strong>photodetector</strong> (a PIN or avalanche photodiode) that converts the received optical signal back into an electrical current.</p><p><strong>Advantages of fibre-optic communication over conventional copper-wire/coaxial-cable transmission:</strong></p><ul>
+<li>Enormous information-carrying capacity (bandwidth), owing to the very high carrier (optical) frequency.</li>
+<li>Very low attenuation, permitting long repeater-less spans.</li>
+<li>Complete immunity to electromagnetic interference (EMI) and radio-frequency interference, and no crosstalk between adjacent fibres.</li>
+<li>Electrical isolation — no risk of sparking; safe for use in explosive/flammable environments.</li>
+<li>Small size, light weight, and (for silica) abundant, inexpensive raw material.</li>
+<li>High security — very difficult to tap a fibre link without detectable signal loss.</li>
+</ul>
+<h4 id="fibre-amplifiers">3.15 Fibre Amplifiers</h4><p>Long-haul fibre links require periodic amplification to overcome accumulated attenuation. The <strong>Erbium-Doped Fibre Amplifier (EDFA)</strong> is the dominant technology used in modern telecommunication networks: a short length of silica fibre, whose core is doped with erbium (Er³⁺) ions, is spliced into the transmission line and “pumped” by a diode laser (typically at 980 nm or 1480 nm) via a wavelength-division multiplexing coupler. The pump light excites Er³⁺ ions to a metastable upper level; the weak, attenuated signal (at ~1550 nm, coinciding with an Er³⁺ emission band — chosen deliberately for this reason) travelling through the doped fibre then stimulates emission from these excited ions, coherently amplifying the signal <em>directly in the optical domain</em>, without ever needing to convert it back to an electrical signal (unlike older electronic “regenerator” repeaters). EDFAs can simultaneously amplify many wavelength-division-multiplexed (WDM) channels over a broad gain bandwidth (~1530–1565 nm), a critical enabling technology for the modern high-capacity global fibre-optic internet backbone.</p>
+<h4 id="fibre-optic-sensors">3.16 Fibre-Optic Sensors</h4><p>Because the light propagating in a fibre is sensitive to external perturbations (strain, temperature, pressure, vibration, refractive-index changes, magnetic/electric fields via appropriate coatings), optical fibres can themselves serve as <strong>distributed or point sensors</strong>, in addition to their role as a transmission medium.</p><ul>
+<li><strong>Intensity-modulated sensors</strong> — external perturbation (e.g. micro-bending) changes the transmitted light intensity, which is directly measured.</li>
+<li><strong>Phase-modulated (interferometric) sensors</strong> — perturbation changes the optical path length (phase) in one arm of a fibre interferometer (e.g. Mach–Zehnder, Sagnac, or Fabry–Pérot configuration), detected via interference with a reference arm; extremely sensitive (used, e.g., in the fibre-optic gyroscope, based on the Sagnac effect, and in hydrophones).</li>
+<li><strong>Fibre Bragg Grating (FBG) sensors</strong> — a periodic refractive-index grating written into the fibre core reflects a specific (Bragg) wavelength that shifts linearly with strain or temperature applied to the grating region; widely used for distributed structural-health monitoring of bridges, dams, aircraft and pipelines.</li>
+</ul><p><strong>Advantages of fibre-optic sensors:</strong> immune to electromagnetic interference, can operate in hazardous/explosive or electrically noisy environments, capable of remote and distributed sensing over long distances (tens of kilometres) using a single fibre, small size and light weight, high sensitivity.</p>
+<h4 id="a-the-bragg-condition-for-fibre-bragg-gratings">3.16A The Bragg Condition for Fibre Bragg Gratings</h4><p>A fibre Bragg grating (§3.16) consists of a periodic modulation of the core refractive index, of period <span class="math inline">\(\Lambda\)</span>, written along a short section of the fibre. Light propagating along the fibre is partially reflected at each successive index perturbation; these many small reflected contributions interfere <strong>constructively</strong> (reinforcing each other into a single, strong reflected wave) only for a wavelength satisfying the <strong>Bragg condition</strong></p><p><span class="math display">\[\boxed{\lambda_{B} = 2\, n_{eff}\,\Lambda}\]</span></p><p>where <span class="math inline">\(n_{eff}\)</span> is the effective (modal) refractive index of the guided mode. All other wavelengths pass through the grating with little reflection. When the grating region is mechanically strained (elongated/compressed) or its temperature changed, both the grating period <span class="math inline">\(\Lambda\)</span> and (to a smaller extent, via the elasto-optic/thermo-optic effect) the effective index <span class="math inline">\(n_{eff}\)</span> change, causing a proportional shift in the reflected Bragg wavelength:</p><p><span class="math display">\[\frac{\Delta\lambda_{B}}{\lambda_{B}} = \left( 1 - p_{e} \right)\,\varepsilon + \left( \alpha_{\Lambda} + \alpha_{n} \right)\,\Delta T\]</span></p><p>where <span class="math inline">\(\varepsilon\)</span> is the applied strain, <span class="math inline">\(p_{e}\)</span> the effective photo-elastic coefficient, and <span class="math inline">\(\alpha_{\Lambda},\alpha_{n}\)</span> the thermal-expansion and thermo-optic coefficients respectively. Measuring this Bragg-wavelength shift (with a spectrometer or a tunable filter) forms the direct working principle of FBG strain/temperature sensors (§3.16).</p>
+<h4 id="unit-summary-2">3.17 Unit Summary</h4><ul>
+<li>Holography records the complete wavefront (amplitude and phase) of light using laser interference between an object beam and a coherent reference beam; the developed hologram is a complex fringe pattern that reconstructs a full 3-D image when illuminated with the reference beam.</li>
+<li>Holographic (double-exposure) interferometry compares two wavefronts of an object under different conditions, enabling Holographic Non-Destructive Testing (HNDT) with sub-micron sensitivity for whole-field, non-contact inspection.</li>
+<li>Holographic data storage exploits volume (angle/wavelength) multiplexing of many holograms in the same recording medium for very high storage densities.</li>
+<li>Optical fibres guide light by total internal reflection between a higher-index core and lower-index cladding; the numerical aperture <span class="math inline">\(NA = \sqrt{n_{1}^{2} - n_{2}^{2}}\)</span> sets the light-gathering acceptance cone.</li>
+<li>Fibres are classified as step-index/graded-index and as single-mode/multimode; single-mode fibres eliminate modal dispersion and dominate long-haul telecommunications.</li>
+<li>Fibre-optic communication links offer enormous bandwidth, low loss, and immunity to electromagnetic interference; erbium-doped fibre amplifiers (EDFAs) provide all-optical signal amplification.</li>
+<li>Optical fibres also serve as highly sensitive intensity-, phase-, and Bragg-grating-based sensors for strain, temperature and other physical quantities.</li>
+</ul>
+<h4 id="important-formulae-unit-3">3.18 Important Formulae (Unit 3)</h4><table class="ext-table">
+<colgroup>
+<col style="width: 45%"/>
+<col style="width: 54%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Quantity</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Recorded hologram intensity</td>
+<td><span class="math display">\[I = O_{0}^{2} + R_{0}^{2} + 2O_{0}R_{0}\cos\left( \phi_{O} - \phi_{R} \right)\]</span></td>
+</tr>
+<tr class="even">
+<td>Critical angle</td>
+<td><span class="math display">\[\sin\theta_{c} = n_{2}/n_{1}\]</span></td>
+</tr>
+<tr class="odd">
+<td>Numerical aperture</td>
+<td><span class="math display">\[NA = n_{0}\sin\theta_{\max} = \sqrt{n_{1}^{2} - n_{2}^{2}}\]</span></td>
+</tr>
+<tr class="even">
+<td>Fractional index difference</td>
+<td><span class="math display">\[\Delta = \left( n_{1} - n_{2} \right)/n_{1}\]</span></td>
+</tr>
+<tr class="odd">
+<td>V-number (normalised frequency)</td>
+<td><span class="math inline">\(V = (2\pi a/\lambda)\, NA\)</span>; single mode if <span class="math inline">\(V &lt; 2.405\)</span></td>
+</tr>
+<tr class="even">
+<td>Fibre attenuation</td>
+<td><span class="math display">\[\alpha\,\left( \text{dB/km} \right) = (10/L)\log_{10}\left( P_{in}/P_{out} \right)\]</span></td>
+</tr>
+</tbody>
+</table>
+<h4 id="review-questions-2">3.19 Review Questions</h4><ol type="1">
+<li>Explain the basic principle of holography. Derive an expression for the intensity recorded at the photographic plate. (CO1, CO5)</li>
+<li>With a neat diagram, describe the recording and reconstruction of a hologram. (CO2)</li>
+<li>What is Holographic Non-Destructive Testing? Explain its principle and advantages. (CO3, CO5)</li>
+<li>Derive an expression for the numerical aperture of an optical fibre. (CO1, CO5)</li>
+<li>Distinguish between step-index and graded-index fibres, and between single-mode and multimode fibres. (CO2)</li>
+<li>Describe the various sources of attenuation in an optical fibre. (CO4)</li>
+<li>With a block diagram, explain the working of an optical-fibre communication system. (CO1)</li>
+<li>What is an erbium-doped fibre amplifier? Explain its working and importance in telecommunication. (CO4)</li>
+<li>Explain the working principle of any two types of fibre-optic sensors. (CO4)</li>
+</ol>
+</div></div><div class="note-block" id="u3"><h3>Unit 4 — Lasers in Science</h3>
 <p><b>Saturation spectroscopy</b> is a Doppler-free technique: a strong "pump" beam saturates (partially
 depletes) a velocity subgroup of atoms resonant with it, and a weaker counter-propagating "probe" beam reveals
 a narrow dip (Lamb dip) at line centre, resolving structure hidden under Doppler broadening.</p>
@@ -280,7 +1127,63 @@ fuel pellet to compress and heat it to fusion conditions. <b>Medical application
 (cutting/coagulation via controlled tissue ablation), ophthalmology (LASIK, retinal photocoagulation), and
 dermatology; <b>photo-chemical applications</b> use laser light to selectively drive chemical reactions
 (photodynamic therapy, laser-induced chemistry).</p>
-</div><div class="note-block" id="u4"><h3>Unit 5 — Lasers in Industry</h3>
+<div class="ext-note"><div class="ext-head"><span class="ext-tag">Extended Notes</span><h4>Unit 4 — Lasers in Science — Full Chapter</h4></div>
+<h4 id="introduction-2">4.0 Introduction</h4><p>The unique properties of laser light established in Unit 1 — extreme monochromaticity, high intensity/brightness, tunability (for certain laser types), coherence and directionality, and (for pulsed/mode-locked lasers) very short pulse duration — make lasers indispensable tools for modern scientific investigation. This unit surveys the principal applications of lasers in spectroscopy and other areas of physical, chemical and biomedical science: saturation spectroscopy, excited-state spectroscopy, nonlinear spectroscopy, time-domain spectroscopy, stimulated Raman emission, laser fusion, medical applications, and photochemical applications.</p>
+<h4 id="conventional-doppler-broadened-spectroscopy-the-motivation-for-laser-techniques">4.1 Conventional (Doppler-Broadened) Spectroscopy — the Motivation for Laser Techniques</h4><p>In a gas at temperature <span class="math inline">\(T\)</span>, atoms/molecules move with a Maxwell–Boltzmann distribution of velocities; an atom moving with velocity component <span class="math inline">\(v_{z}\)</span> along the direction of an observing/exciting light beam sees the light Doppler-shifted, so that atoms of different velocities absorb/emit at slightly different apparent frequencies. The <em>net effect</em>, when the absorption/emission of the whole ensemble is observed, is a <strong>Doppler-broadened</strong> spectral line of Gaussian profile with full width at half maximum</p><p><span class="math display">\[\Delta\nu_{D} = \nu_{0}\sqrt{\frac{8k_{B}T\ln 2}{mc^{2}}}\]</span></p><p>which, for typical atomic transitions at room temperature, is orders of magnitude broader than the intrinsic natural linewidth of the transition (set by the spontaneous-emission lifetime, <span class="math inline">\(\Delta\nu_{nat} = 1/2\pi\tau\)</span>). This Doppler broadening masks fine details of atomic/molecular structure (isotope shifts, hyperfine structure, closely-spaced fine-structure components) that would otherwise be resolvable. The high spectral purity and tunability of lasers made it possible to develop <strong>Doppler-free</strong> techniques — most importantly, saturation spectroscopy — that circumvent this fundamental limitation.</p>
+<h4 id="saturation-spectroscopy">4.2 Saturation Spectroscopy</h4><p><strong>Principle.</strong> Saturation (Doppler-free) spectroscopy uses two counter-propagating, mutually coherent laser beams derived from the <em>same</em> tunable laser and traversing the <em>same</em> region of an absorbing (low-pressure) gas cell: a strong <strong>pump (saturating) beam</strong> and a much weaker <strong>probe beam</strong>, travelling in opposite directions (Fig. 4.2).</p><p>Because the two beams travel in opposite directions through the gas, an atom moving with velocity <span class="math inline">\(v_{z}\)</span> sees the pump beam Doppler-shifted by <span class="math inline">\(+ kv_{z}\)</span> and the probe beam Doppler-shifted by <span class="math inline">\(- kv_{z}\)</span> (or vice versa, depending on sign convention) — the two beams are resonant with the <em>same</em> atom (same velocity class) only for atoms with <span class="math inline">\(v_{z} \approx 0\)</span> (i.e. those moving perpendicular, or very nearly so, to the beam direction), when the laser frequency is tuned exactly to the true (Doppler-free) atomic transition frequency <span class="math inline">\(\nu_{0}\)</span>.</p><p>When the pump beam is tuned off the exact line-centre, it interacts strongly with (and “saturates” — partially depletes the ground-state population of, via optical pumping/power broadening) one particular velocity class of atoms, while the counter-propagating weak probe beam, at the same laser frequency but Doppler-shifted oppositely, interacts with a <em>different</em> velocity class, and is therefore largely unaffected — the probe beam experiences the <em>full, unsaturated</em> Doppler-broadened absorption. But when the laser frequency is tuned exactly to <span class="math inline">\(\nu_{0}\)</span> (line centre), <em>both</em> beams interact with the <em>same</em> zero-velocity atoms; the strong pump beam saturates (partially bleaches) this common velocity group, so the weak probe beam then experiences <em>reduced</em> absorption — a narrow dip (“Lamb dip”) appears in the probe-beam absorption spectrum, precisely at <span class="math inline">\(\nu_{0}\)</span>, with a width set by the much narrower natural (homogeneous) linewidth rather than the broad Doppler width.</p><p><img alt="Fig. 4.2 Pump-probe arrangement for Doppler-free saturation spectroscopy: a strong pump beam and weak counter-propagating probe beam derived from the same tunable laser interact with the same (zero-velocity) atoms only at exact line-centre." loading="lazy" src="notes-media/image19.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 4.2 Pump-probe arrangement for Doppler-free saturation spectroscopy: a strong pump beam and weak counter-propagating probe beam derived from the same tunable laser interact with the same (zero-velocity) atoms only at exact line-centre.</p><p><strong>Result and significance.</strong> Saturation spectroscopy resolves spectral features (hyperfine splittings, isotope shifts, closely spaced fine-structure lines) that are completely hidden under ordinary Doppler-broadened absorption, achieving resolution limited essentially by the natural linewidth (or by residual power/transit-time broadening) — improvements of two to three orders of magnitude in resolution over conventional spectroscopy. It underlies, among other things, the precise frequency stabilisation of lasers (e.g. the iodine-stabilised He-Ne laser) used as wavelength/frequency standards, and precision tests of fundamental physics (e.g. the Lamb shift, Rydberg constant measurements).</p>
+<h4 id="excited-state-spectroscopy">4.3 Excited-State Spectroscopy</h4><p>Conventional absorption spectroscopy probes transitions from the (thermally populated) ground state. <strong>Excited-state spectroscopy</strong> uses an intense laser (the “pump”) to first populate a selected excited state of the atom/molecule, and then studies the subsequent absorption or emission spectrum arising from <em>that</em> excited state (using a second, tunable probe laser, or by monitoring the fluorescence/emission spectrum) — thereby directly determining energy levels, lifetimes and transition probabilities of excited states that are inaccessible from the ground state alone (because such transitions may be forbidden by selection rules from the ground state, or the relevant higher excited states may lie at energies not reachable in a single step from the ground state). Excited-state (pump-probe) spectroscopy is central to understanding photochemical reaction intermediates, excited-state lifetimes, and energy-transfer pathways in complex molecules.</p>
+<h4 id="nonlinear-spectroscopy">4.4 Nonlinear Spectroscopy</h4><p>At the very high electric field intensities achievable with laser beams (especially focused, pulsed lasers), the induced polarisation of the medium is no longer simply proportional to the applied field (as assumed in ordinary, linear optics); rather, the polarisation must be expanded as a power series</p><p><span class="math display">\[P = \varepsilon_{0}\left( \chi^{(1)}E + \chi^{(2)}E^{2} + \chi^{(3)}E^{3} + \cdots \right)\]</span></p><p>where <span class="math inline">\(\chi^{(1)}\)</span> is the ordinary (linear) susceptibility and <span class="math inline">\(\chi^{(2)},\chi^{(3)},\ldots\)</span> are the nonlinear susceptibilities. These nonlinear terms give rise to a rich variety of phenomena that are the subject matter of <strong>nonlinear spectroscopy</strong> and nonlinear optics generally:</p><ul>
+<li><strong>Second-harmonic generation (SHG)</strong> and <strong>sum/difference-frequency generation</strong> — arise from <span class="math inline">\(\chi^{(2)}\)</span> (requires a non-centrosymmetric medium); used to frequency-double laser output (e.g. 1064 nm Nd:YAG → 532 nm) and in nonlinear spectroscopic techniques such as SHG microscopy.</li>
+<li><strong>Two-photon absorption spectroscopy</strong> — an atom/molecule simultaneously absorbs two photons (each of half the transition energy) via a <span class="math inline">\(\chi^{(3)}\)</span> process; because the two-photon transition probability (for counter-propagating beams) is <em>Doppler-free</em> by a mechanism analogous to saturation spectroscopy (residual first-order Doppler shifts from the two photons exactly cancel for counter-propagating beams), two-photon spectroscopy is a second important route to Doppler-free, high-resolution spectroscopy, and additionally accesses states of different parity/symmetry than are reachable by single-photon transitions.</li>
+<li><strong>Coherent Anti-Stokes Raman Spectroscopy (CARS)</strong> and other four-wave-mixing techniques — exploit <span class="math inline">\(\chi^{(3)}\)</span> processes to produce a strong, coherent, background-free signal at a new, blue-shifted frequency, widely used for combustion diagnostics and biomedical/chemical imaging.</li>
+<li><strong>Self-focusing, optical Kerr effect, saturable absorption</strong> — intensity-dependent refractive index changes (<span class="math inline">\(n = n_{0} + n_{2}I\)</span>) important both as a spectroscopic tool and as the physical basis of passive mode-locking (§1.11).</li>
+</ul><p>Nonlinear spectroscopic techniques generally require the high peak intensities available only from (often pulsed) laser sources, and provide information (state symmetries, ultrafast dynamics, background-free selectivity) not accessible by ordinary linear spectroscopy.</p>
+<h4 id="time-domain-spectroscopy-and-its-applications">4.5 Time-Domain Spectroscopy and its Applications</h4><p><strong>Time-domain (ultrafast/pump-probe) spectroscopy</strong> exploits the ability of mode-locked lasers to generate extremely short optical pulses (picoseconds down to a few femtoseconds) to directly observe the time evolution of fast physical, chemical and biological processes — molecular vibrations, chemical bond breaking/forming, electronic relaxation, energy/charge transfer, and photochemical reaction dynamics — occurring on timescales far shorter than can be resolved by any electronic detector.</p><p><strong>Principle (pump-probe technique).</strong> A short laser pulse is split into a strong <strong>pump pulse</strong>, which initiates (excites) the process under study at time <span class="math inline">\(t = 0\)</span>, and a weaker <strong>probe pulse</strong>, whose arrival at the sample is delayed relative to the pump by a precisely controllable optical path-length difference <span class="math inline">\(\Delta x\)</span> (using a mechanical delay stage), corresponding to a time delay</p><p><span class="math display">\[\Delta t = \frac{\Delta x}{c}\]</span></p><p>(a delay of just 1 mm in path length corresponds to a time delay of only ~3.3 picoseconds, illustrating why femtosecond-resolution timing is achievable using ordinary mechanical translation stages). By recording the probe-pulse absorption/transmission/reflectivity as a function of <span class="math inline">\(\Delta t\)</span> and repeating for many different delays, the transient state of the sample can be mapped out with time resolution limited essentially only by the pulse duration itself.</p><p><strong>Applications:</strong> direct observation of chemical reaction transition states (the foundation of <strong>femtochemistry</strong>, pioneered by Ahmed Zewail, Nobel Prize 1999); study of ultrafast carrier dynamics in semiconductors and photovoltaic materials; investigation of the primary events of photosynthesis and vision (retinal isomerisation); characterisation of ultrafast optical/photonic devices and materials.</p>
+<h4 id="stimulated-raman-emission-raman-scattering-and-stimulated-raman-scattering">4.6 Stimulated Raman Emission (Raman Scattering and Stimulated Raman Scattering)</h4><h5 id="spontaneous-raman-scattering-background">4.6.1 Spontaneous Raman Scattering — Background</h5><p>When monochromatic light (frequency <span class="math inline">\(\nu_{0}\)</span>) is scattered by a molecule, most of the scattered light retains the same frequency (elastic, <strong>Rayleigh scattering</strong>), but a small fraction is scattered <em>inelastically</em>: the molecule undergoes a change of vibrational (or rotational) state, exchanging a quantum of vibrational energy <span class="math inline">\(h\nu_{v}\)</span> with the photon field. If the molecule gains vibrational energy (ends in a higher vibrational state), the scattered photon has correspondingly <em>lower</em> energy — a <strong>Stokes line</strong> at <span class="math inline">\(\nu_{0} - \nu_{v}\)</span>; if the molecule loses vibrational energy (starting from an already vibrationally excited state and ending in the ground vibrational state), the scattered photon has <em>higher</em> energy — an <strong>anti-Stokes line</strong> at <span class="math inline">\(\nu_{0} + \nu_{v}\)</span> (much weaker at ordinary temperatures, since the thermal population of excited vibrational states is small).</p><p><img alt="Fig. 4.1 Energy-level picture of Rayleigh and Raman (Stokes/anti-Stokes) scattering via a virtual intermediate state." loading="lazy" src="notes-media/image20.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 4.1 Energy-level picture of Rayleigh and Raman (Stokes/anti-Stokes) scattering via a virtual intermediate state.</p><h5 id="stimulated-raman-scattering-srs">4.6.2 Stimulated Raman Scattering (SRS)</h5><p>At the very high intensities available from (particularly pulsed) lasers, the Stokes-shifted scattered field itself becomes intense enough to <em>stimulate</em> further Raman transitions (in exact analogy to stimulated emission of light in a two-level laser medium, §1.2.3) — the Stokes wave grows exponentially at the expense of the incident (pump) laser beam as it propagates through the Raman-active medium, a process called <strong>Stimulated Raman Scattering (SRS)</strong> or Stimulated Raman Emission. Because SRS is a stimulated (coherent, gain) process, essentially all of the scattered light can be concentrated into the Stokes beam (very high conversion efficiency, in contrast to the exceedingly weak spontaneous Raman effect), and the technique is used to build tunable <strong>Raman lasers/amplifiers</strong> and, through cascaded Stokes/anti-Stokes generation, to generate coherent light at a whole comb of new frequencies from a single fixed-frequency pump laser. <strong>Coherent Anti-Stokes Raman Spectroscopy (CARS)</strong>, mentioned above, is a related four-wave-mixing technique that generates a strong, coherent anti-Stokes signal, exploited extensively for vibrational imaging/spectroscopy of chemical and biological samples without fluorescent background.</p>
+<h4 id="laser-fusion-inertial-confinement-fusion">4.7 Laser Fusion (Inertial Confinement Fusion)</h4><p><strong>Principle.</strong> Laser (inertial confinement) fusion aims to achieve controlled thermonuclear fusion (typically of the deuterium-tritium reaction, <span class="math inline">\(^{2}\)</span>H + <span class="math inline">\(^{3}\)</span>H → <span class="math inline">\(^{4}\)</span>He + n + 17.6 MeV) by using multiple, extremely powerful, precisely synchronised laser beams (e.g. Nd:glass or KrF excimer lasers, delivering many kilojoules to megajoules of energy in nanosecond pulses) to symmetrically irradiate a small spherical pellet (typically ~mm diameter) containing deuterium-tritium fuel.</p><p><strong>Mechanism.</strong> The intense laser energy rapidly ablates (vaporises and ionises) the outer surface layer of the pellet; by Newton’s third law, the outward-blasting ablated plasma drives an inward-directed <strong>implosion (rocket-like reaction) shock</strong> that compresses the remaining fuel to enormous densities (many hundreds to thousands of times solid density) and heats it to the extreme temperatures (tens to hundreds of millions of kelvin) required to overcome the Coulomb repulsion between fusing nuclei — the fuel’s own <strong>inertia</strong> confines it (for the extremely brief duration of the implosion, nanoseconds) long enough for a significant fraction of the fuel to undergo fusion before the compressed plasma disassembles, hence the name <strong>inertial confinement fusion (ICF)</strong>, in contrast to magnetic confinement fusion (tokamaks), which confines a much lower-density plasma for a much longer time using strong magnetic fields.</p><p><strong>Significance and applications:</strong> a potential future source of clean, abundant energy (net energy gain from ICF was first demonstrated at the U.S. National Ignition Facility in December 2022); ICF experiments also provide invaluable data for understanding the physics of stellar interiors and (in a national-security context) for maintaining nuclear-weapon stockpile science without underground nuclear testing.</p><p><strong>Challenges/limitations:</strong> achieving the extremely high degree of implosion symmetry and fuel compression required is technically formidable (any asymmetry in laser illumination seeds hydrodynamic (Rayleigh–Taylor) instabilities that disrupt the implosion); overall “wall-plug” energy efficiency of large laser-driver facilities remains low, and repetition rate/target-injection engineering for a practical power plant remains a major unsolved challenge.</p>
+<h4 id="medical-applications-of-lasers">4.8 Medical Applications of Lasers</h4><p>The precise, controllable delivery of optical energy — with wavelength, power, pulse duration and spot size all independently selectable — makes lasers valuable across many branches of medicine:</p><ul>
+<li><strong>Ophthalmology</strong> — photocoagulation of retinal tears/diabetic retinopathy (argon/diode lasers), refractive corneal surgery (LASIK, using excimer-laser ablation, Unit 2 §2.4.3), posterior capsulotomy (Nd:YAG laser).</li>
+<li><strong>Dermatology</strong> — hair removal, tattoo removal, treatment of vascular lesions/port-wine stains and pigmented lesions (selective photothermolysis exploiting differential absorption by target chromophores such as melanin or haemoglobin), skin resurfacing.</li>
+<li><strong>Surgery (laser scalpel)</strong> — the CO₂ laser (Unit 2 §2.3) is widely used as a bloodless surgical scalpel, simultaneously cutting tissue and cauterising (sealing) small blood vessels by localised thermal coagulation, reducing bleeding and infection risk; also used in gynaecological, ENT and neurosurgical procedures.</li>
+<li><strong>Dentistry</strong> — cavity preparation, soft-tissue procedures, teeth whitening.</li>
+<li><strong>Lithotripsy</strong> — pulsed (e.g. holmium:YAG) laser fragmentation of kidney/urinary stones delivered via optical fibre through minimally invasive endoscopic instruments.</li>
+<li><strong>Photodynamic therapy (PDT)</strong> — a light-activated (typically laser-excited) photosensitising drug, selectively taken up by tumour tissue, generates cytotoxic reactive oxygen species upon laser irradiation, selectively destroying cancerous tissue while sparing surrounding healthy tissue.</li>
+<li><strong>Laser Doppler flowmetry / optical coherence tomography (OCT)</strong> — non-invasive diagnostic imaging of blood flow and of tissue micro-structure (e.g. retina), respectively, exploiting laser coherence properties.</li>
+</ul><p><strong>Advantages of laser surgery:</strong> precision (minimal damage to surrounding tissue), reduced bleeding (simultaneous cauterisation), reduced infection risk (non-contact), often reduced patient recovery time. <strong>Limitations:</strong> high equipment cost, need for specialised operator training, potential for thermal damage if parameters are not carefully controlled, limited penetration depth for some techniques.</p>
+<h4 id="a-physical-mechanisms-of-laser-tissue-interaction">4.8A Physical Mechanisms of Laser-Tissue Interaction</h4><p>The medical applications listed in §4.8 rely on a small number of underlying physical mechanisms by which laser light interacts with biological tissue, distinguished mainly by the irradiance (power density) and exposure time employed:</p><ol type="1">
+<li><strong>Photothermal interaction</strong> — absorbed optical energy is converted to heat, raising local tissue temperature; depending on the temperature reached, this produces coagulation (~60–70°C, protein denaturation — used for tissue welding/haemostasis), vaporisation (~100°C, used for cutting/ablation), or carbonisation (&gt;150°C, generally undesirable, minimised by pulsing).</li>
+<li><strong>Photomechanical (photodisruptive) interaction</strong> — extremely short, high-peak-power pulses (nanosecond to femtosecond, focused to a tiny spot) generate a local micro-plasma via optical breakdown; the rapidly expanding plasma launches a mechanical shockwave that mechanically disrupts tissue with minimal thermal spread — exploited in Nd:YAG posterior capsulotomy and femtosecond-laser corneal flap creation (femto-LASIK).</li>
+<li><strong>Photochemical interaction</strong> — as in photodynamic therapy (§4.8) and excimer-laser (193 nm ArF) corneal photoablation, absorbed photon energy directly breaks molecular bonds (or activates a photosensitiser) without significant bulk heating, allowing extremely precise material removal/therapeutic effect with minimal collateral thermal damage to adjacent tissue.</li>
+</ol><p>The choice of laser wavelength for a given medical application is governed principally by the <strong>selective absorption</strong> of that wavelength by the target chromophore (melanin, haemoglobin, water, or a specific drug photosensitiser) relative to surrounding tissue — a principle known as <strong>selective photothermolysis</strong> — allowing the target to be selectively heated/destroyed while sparing the surrounding, non-absorbing tissue.</p>
+<h4 id="photochemical-applications">4.9 Photochemical Applications</h4><p>Because laser light can be tuned to match specific, narrow molecular absorption transitions, and can deliver very high photon fluxes, lasers enable <strong>selective photochemistry</strong> — driving chemical reactions, or specific reaction pathways, with a precision unattainable by broadband (thermal or lamp) excitation:</p><ul>
+<li><strong>Laser-induced isotope separation</strong> — exploiting small isotope shifts in molecular vibrational/electronic absorption spectra, a tuned laser can selectively excite (and thereby selectively drive a chemical reaction, or selectively photoionise/photodissociate) molecules containing one particular isotope, enabling isotope enrichment (e.g. uranium isotope separation, industrially important for nuclear fuel) without the large-scale infrastructure of conventional diffusion/centrifuge methods.</li>
+<li><strong>Laser-induced fluorescence (LIF)</strong> — a widely used ultra-sensitive analytical technique for chemical detection/diagnostics (e.g. in combustion research, environmental trace-gas monitoring, and single-molecule biochemistry), in which a tuned laser selectively excites a target species, whose subsequent fluorescence is detected, giving both high sensitivity and high chemical specificity.</li>
+<li><strong>Photolithography and laser-induced chemical vapour deposition</strong> — precise, localised photochemical/photothermal decomposition of precursor gases for microfabrication (also discussed under industrial applications, Unit 5).</li>
+<li><strong>Laser-driven photopolymerisation</strong> — used in stereolithography (3-D printing) and in dental/UV-curable resins, where a focused (often UV) laser selectively initiates polymerisation only at the illuminated region.</li>
+<li><strong>Photodynamic therapy</strong> (§4.8) is itself fundamentally a photochemical process.</li>
+</ul>
+<h4 id="a-worked-examples">4.9A Worked Examples</h4><p><strong>Example 4.1.</strong> <em>A pump-probe delay stage introduces an extra optical path length of 3 mm between the pump and probe beams. Calculate the corresponding time delay.</em></p><p><span class="math display">\[\Delta t = \frac{\Delta x}{c} = \frac{3 \times 10^{- 3}}{3 \times 10^{8}} = 1.0 \times 10^{- 11}\ \text{s} = 10\ \text{ps}\]</span></p><p>This illustrates how a laboratory-scale mechanical translation stage (millimetre-scale travel) provides picosecond-to-femtosecond time resolution for pump-probe spectroscopy.</p><p><strong>Example 4.2.</strong> <em>Light of wavelength 500 nm is Raman-scattered by a molecule with a vibrational wavenumber shift of 1000 cm⁻¹. Calculate the wavelength of the Stokes line.</em></p><p>Incident wavenumber: <span class="math inline">\({\bar{\nu}}_{0} = 1/\left( 500 \times 10^{- 7}\,\text{cm} \right) = 20,000\ \text{cm}^{- 1}\)</span>. Stokes wavenumber: <span class="math inline">\({\bar{\nu}}_{S} = {\bar{\nu}}_{0} - \Delta\bar{\nu} = 20,000 - 1000 = 19,000\ \text{cm}^{- 1}\)</span>. Stokes wavelength: <span class="math inline">\(\lambda_{S} = 1/{\bar{\nu}}_{S} = 1/19,000\ \text{cm} = 5.263 \times 10^{- 5}\ \text{cm} = 526.3\ \text{nm}\)</span>. As expected, the Stokes line is shifted to a longer wavelength (lower energy) than the incident light.</p>
+<h4 id="unit-summary-3">4.10 Unit Summary</h4><ul>
+<li>Doppler broadening obscures fine spectral detail in conventional spectroscopy; saturation (pump-probe) spectroscopy exploits counter-propagating beams to achieve Doppler-free resolution at line centre.</li>
+<li>Excited-state spectroscopy directly probes transitions and dynamics originating from a laser-populated excited state, inaccessible from the ground state alone.</li>
+<li>Nonlinear spectroscopy (two-photon absorption, CARS, harmonic generation) exploits high-intensity, laser-only nonlinear light-matter interactions for additional selectivity, symmetry information, and further Doppler-free resolution.</li>
+<li>Time-domain (pump-probe, femtochemistry) spectroscopy uses ultrashort mode-locked laser pulses and a controllable optical delay to resolve ultrafast chemical/physical dynamics.</li>
+<li>Stimulated Raman scattering coherently amplifies the Stokes-shifted scattered light at high pump intensity, enabling efficient Raman lasers and CARS imaging.</li>
+<li>Laser (inertial confinement) fusion uses symmetric, high-power laser implosion of a fuel pellet to achieve the temperature/density conditions for nuclear fusion.</li>
+<li>Lasers have transformative applications across surgery, ophthalmology, dermatology, dentistry, lithotripsy, and photodynamic cancer therapy.</li>
+<li>Tunable, high-intensity laser light enables highly selective photochemistry: isotope separation, laser-induced fluorescence diagnostics, and photopolymerisation.</li>
+</ul>
+<h4 id="review-questions-3">4.11 Review Questions</h4><ol type="1">
+<li>What is Doppler broadening? Explain how saturation spectroscopy overcomes this limitation. (CO3, CO5)</li>
+<li>Distinguish between excited-state spectroscopy and ground-state (conventional) absorption spectroscopy. (CO3)</li>
+<li>Explain any two nonlinear spectroscopic techniques and the physical origin of the nonlinearity involved. (CO3)</li>
+<li>Describe the pump-probe technique of time-domain spectroscopy and explain how femtosecond time resolution is achieved using a mechanical delay stage. (CO5)</li>
+<li>Distinguish between spontaneous Raman scattering and stimulated Raman scattering. (CO3)</li>
+<li>Explain the principle of laser (inertial confinement) fusion. (CO3)</li>
+<li>Discuss any three medical applications of lasers with the underlying physical principle in each case. (CO3)</li>
+<li>What is meant by laser-induced isotope separation? Explain its underlying principle. (CO3)</li>
+</ol>
+</div></div><div class="note-block" id="u4"><h3>Unit 5 — Lasers in Industry</h3>
 <p><b>Materials processing</b> exploits the laser's ability to deliver highly localized, controllable energy.
 <b>Drilling and cutting</b> use focused pulsed or CW beams to vaporize/melt material along a precise path,
 with minimal heat-affected zone compared to mechanical methods. <b>Welding</b> uses a focused beam to melt and
@@ -299,7 +1202,142 @@ melting the bulk material.</p>
 pulses reflected from a target, with applications in atmospheric sensing, autonomous vehicles, topographic
 mapping and meteorology.</p>
 </div></div>
-</div></div>
+<div class="ext-note"><div class="ext-head"><span class="ext-tag">Extended Notes</span><h4>Unit 5 — Lasers in Industry — Full Chapter</h4></div>
+<h4 id="introduction-3">5.0 Introduction</h4><p>Industrial applications of lasers exploit above all the ability to deliver a very large amount of optical energy, precisely and repeatably, to a very small, well-defined spot, producing highly localised heating, melting or vaporisation without significant mechanical contact with the workpiece. This unit surveys the physical basis and practice of laser <strong>materials processing</strong> — drilling, cutting, welding, alloying, thermal (surface) deposition, laser chemical vapour deposition, hardening and annealing — and concludes with the principle of <strong>LIDAR</strong>, an important laser application in remote sensing and ranging.</p>
+<h4 id="physical-basis-of-laser-materials-processing">5.1 Physical Basis of Laser Materials Processing</h4><p>When a laser beam of power <span class="math inline">\(P\)</span> is focused to a spot of area <span class="math inline">\(A\)</span>, the resulting <strong>power density (intensity)</strong></p><p><span class="math display">\[I = \frac{P}{A}\]</span></p><p>can reach extremely high values (10<span class="math inline">\(^{6}\)</span>–10<span class="math inline">\(^{10}\)</span> W/cm² or more for pulsed, focused beams), vastly exceeding the power densities achievable by conventional heat sources (flame, arc). The interaction of this concentrated energy with the workpiece surface proceeds, depending on the intensity and exposure (dwell) time, through a sequence of physical regimes:</p><ol type="1">
+<li><strong>Heating</strong> (below the melting point) — used for annealing, transformation hardening.</li>
+<li><strong>Melting</strong> (above melting point, below vaporisation) — used for welding, surface alloying, cladding.</li>
+<li><strong>Vaporisation/ablation</strong> (above the vaporisation threshold) — used for cutting, drilling, marking, engraving.</li>
+</ol><p>Because the laser beam couples energy into the material <em>optically</em> (via absorption) rather than by mechanical contact, laser processing offers a <strong>non-contact</strong>, highly localised, precisely controllable (in space, via focusing, and in time, via pulse duration/power modulation) processing method, applicable to a very wide range of materials (metals, ceramics, polymers, semiconductors, composites) — including materials that are difficult to machine conventionally (very hard, brittle, or highly reactive materials).</p><p><img alt="Fig. 5.1 Generic schematic of laser materials processing (cutting/drilling/welding): a focused high-power laser beam, optionally assisted by a coaxial gas jet, produces localised melting/vaporisation at the workpiece." loading="lazy" src="notes-media/image21.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 5.1 Generic schematic of laser materials processing (cutting/drilling/welding): a focused high-power laser beam, optionally assisted by a coaxial gas jet, produces localised melting/vaporisation at the workpiece.</p><p><strong>Common industrial laser sources:</strong> CO₂ lasers (10.6 μm, high average power, historically dominant for cutting/welding of metals — Unit 2, §2.3), Nd:YAG lasers (1064 nm, deliverable through optical fibre, well suited to spot-welding, drilling, marking — Unit 2, §2.6.2), and increasingly <strong>high-power fibre lasers</strong> (Unit 2, §2.8), which today are replacing CO₂ and Nd:YAG systems in much of industrial cutting/welding owing to their higher efficiency, superior beam quality and lower maintenance requirements.</p>
+<h4 id="laser-drilling">5.2 Laser Drilling</h4><p><strong>Principle.</strong> A high-intensity, usually pulsed, laser beam is tightly focused onto the workpiece surface. Each pulse rapidly heats, melts and vaporises a small volume of material; the resulting vapour pressure/plasma recoil also ejects some molten material from the growing hole. Repeated pulses progressively deepen the hole; for very small, deep, precise holes, the beam (or the workpiece) may additionally be moved in a small circular (“trepanning”) pattern, or multiple pulses fired at slightly different focal depths, to control hole taper and roundness.</p><p><strong>Characteristics:</strong> capable of producing very small-diameter holes (down to a few micrometres) with high aspect ratio, in materials difficult to drill mechanically (hardened steel, ceramics, diamond, thin films); extremely fast (a hole can be drilled in a single or a few pulses, milliseconds).</p><p><strong>Applications:</strong> drilling of turbine-blade cooling holes (aerospace), fuel-injector nozzles (automotive), printed-circuit-board via holes (electronics), diamond dies for wire drawing, surgical needles. <strong>Limitations:</strong> hole taper (holes are often slightly conical rather than perfectly cylindrical); possible recast layer/micro-cracking at the hole edge from rapid re-solidification; limited maximum practical hole depth-to-diameter ratio.</p>
+<h4 id="laser-cutting">5.3 Laser Cutting</h4><p><strong>Principle.</strong> A continuous or high-repetition-rate pulsed laser beam, focused to a small spot, is scanned (or the workpiece is moved) along the desired cut path, continuously melting/vaporising a narrow <strong>kerf</strong> (cut width) through the material thickness. Almost invariably, a coaxial <strong>assist gas jet</strong> (oxygen, nitrogen, or an inert gas such as argon, depending on the material and desired edge quality) is directed through the same nozzle as the focused beam:</p><ul>
+<li><strong>Oxygen assist</strong> — for cutting mild/carbon steel, the oxygen reacts exothermically with the hot metal (an assisted combustion/oxidation reaction), supplying substantial additional energy and greatly increasing achievable cutting speed and thickness, at the cost of an oxidised cut-edge.</li>
+<li><strong>Nitrogen (inert) assist</strong> — used for stainless steel and aluminium (and where oxidation of the cut edge must be avoided); the gas serves mainly to blow the molten material out of the kerf, giving a clean, oxide-free edge, but requires higher laser power for a given cutting speed/thickness than oxygen-assisted cutting.</li>
+</ul><p><strong>Applications:</strong> sheet-metal cutting in automotive and general manufacturing, precision cutting of electronic components, fabric/textile and paper cutting (lower-power CO₂/fibre lasers), stent and medical-device manufacture. <strong>Advantages over mechanical cutting:</strong> no tool wear (non-contact), very narrow kerf (minimal material waste), ability to cut complex, intricate 2-D/3-D contours (CNC/CAD-driven), minimal mechanical distortion of the workpiece, applicable to hard/brittle materials difficult to cut mechanically. <strong>Limitations:</strong> reflective/highly conductive materials (e.g. copper, polished aluminium) are more difficult to cut (require higher power, shorter wavelengths, e.g. fibre lasers rather than CO₂); heat-affected zone (HAZ) at the cut edge may alter local material properties.</p>
+<h4 id="laser-welding">5.4 Laser Welding</h4><p><strong>Principle.</strong> The focused laser beam locally melts the material at the joint between two workpieces (without vaporising it, unlike cutting), which then resolidifies to form a fused joint as the beam (or workpiece) advances along the joint line. Two regimes are recognised:</p><ul>
+<li><strong>Conduction-mode welding</strong> (lower power density) — heat is conducted away from the surface absorption point, producing a shallow, wide weld pool — used for thin sheet, precision, cosmetic welds.</li>
+<li><strong>Keyhole (deep-penetration) welding</strong> (higher power density) — the intense beam vaporises a small channel (“keyhole”) of metal vapour/plasma that penetrates deep into the material; surrounding molten metal flows around and behind the advancing keyhole and resolidifies, producing a deep, narrow, high-aspect-ratio weld, structurally comparable to (or exceeding) electron-beam welding but without the requirement of a vacuum chamber.</li>
+</ul><p><strong>Applications:</strong> automotive body/chassis assembly (high-speed spot and seam welding), aerospace structural components, medical-device assembly (e.g. pacemaker housings), micro-welding of electronic components. <strong>Advantages:</strong> narrow heat-affected zone (minimal thermal distortion of surrounding material) compared with conventional arc welding; high welding speed; capable of welding dissimilar and difficult-to-weld metals; no filler material or physical electrode contact required; easily automated/robotically controlled. <strong>Limitations:</strong> requires precise joint fit-up/alignment (small gaps are not well tolerated, unlike arc welding which can bridge gaps with filler wire); high capital equipment cost; potential porosity in keyhole welds if process parameters are not well controlled.</p>
+<h4 id="laser-alloying-and-cladding">5.5 Laser Alloying and Cladding</h4><p><strong>Laser (surface) alloying</strong> uses a laser beam to locally melt a thin surface layer of a base material together with a deliberately introduced alloying element (pre-placed as a coating, or fed as powder/wire into the melt pool), so that upon rapid resolidification the surface region acquires a new, tailored composition and set of properties (e.g. enhanced hardness, wear resistance, or corrosion resistance) while the bulk of the component retains its original (often more economical, tougher) base composition.</p><p><strong>Laser cladding</strong> is closely related: a coating material (metal powder or wire) is melted onto the substrate surface by the laser beam to build up a bonded (usually metallurgically fused, not merely mechanically bonded) surface layer — used both for protective/functional coatings and, in an additive-manufacturing (3-D printing) context, for building up or repairing (restoring worn dimensions of) metal components layer by layer.</p><p><strong>Applications:</strong> wear- and corrosion-resistant coatings on turbine blades, valve seats, dies and moulds; repair/refurbishment of worn or damaged high-value components (avoiding complete replacement); functionally graded surface engineering.</p>
+<h4 id="thermal-laser-deposition-and-laser-chemical-vapour-deposition-lcvd">5.6 Thermal (Laser) Deposition and Laser Chemical Vapour Deposition (LCVD)</h4><p><strong>Laser thermal deposition</strong> broadly refers to laser-assisted physical/thermal deposition of material onto a substrate (e.g. laser-assisted evaporation or laser-induced forward transfer), where the laser supplies precisely localised thermal energy to vaporise/transfer source material onto the target substrate.</p><p><strong>Laser Chemical Vapour Deposition (LCVD)</strong> uses a focused laser beam to locally decompose a precursor gas (via localised heating — <strong>pyrolytic LCVD</strong>, or via direct photochemical bond-breaking — <strong>photolytic LCVD</strong>) so that a solid reaction product is deposited <em>only</em> at the laser-illuminated spot on the substrate, rather than over the whole substrate as in conventional (furnace-heated) CVD. Because deposition is confined to the small, precisely positioned focal spot, LCVD permits <strong>direct-write</strong> deposition of fine conductive lines, microstructures, or even free-standing 3-D micro-structures (by scanning/translating the focal spot), without the need for photolithographic masking.</p><p><strong>Applications:</strong> repair of photomasks and integrated-circuit interconnects (direct-write conductor deposition), fabrication of micro-electromechanical (MEMS) structures, localised sensor/electrode fabrication, rapid prototyping of micro-scale conductive/functional structures. <strong>Advantages:</strong> maskless, highly localised, single-step direct-write process; can be performed at lower overall substrate temperature than conventional (furnace) CVD, since heating is confined to the immediate laser spot. <strong>Limitations:</strong> relatively slow (serial, spot-by-spot) process compared to whole-wafer conventional CVD; deposit quality/purity can be affected by incomplete precursor decomposition.</p>
+<h4 id="laser-hardening-transformation-hardening">5.7 Laser Hardening (Transformation Hardening)</h4><p><strong>Principle.</strong> A laser beam (typically defocused/scanned to give a broader, lower-power-density spot than for cutting) rapidly heats a thin surface layer of a steel (or other hardenable alloy) component into the austenitic phase-field temperature range, without melting the surface; because only a thin surface layer is heated (the bulk of the component remains cool and acts as an effective heat sink), the heated layer <strong>self-quenches</strong> extremely rapidly (by rapid conduction of heat into the surrounding cold bulk material) as soon as the laser beam moves on, transforming the austenite into hard <strong>martensite</strong> — precisely the same metallurgical transformation exploited in conventional quench-hardening, but achieved here without any external quenching medium (oil/water bath) and confined to only the required surface region.</p><p><strong>Applications:</strong> hardening of gear teeth, cam shafts, cylinder liners, cutting-tool edges, and other wear-critical machine-component surfaces, where only the surface (not the bulk) needs to be hard and wear-resistant while the core remains tough. <strong>Advantages:</strong> selective, localised hardening of only the required surface region/pattern (leaving the rest of the component in its original, tougher state); minimal distortion (since the bulk of the component stays cool, unlike furnace hardening of the entire part); no quenchant required; precisely repeatable and automatable.</p>
+<h4 id="laser-annealing">5.8 Laser Annealing</h4><p><strong>Principle.</strong> A laser beam is used to locally heat a material (commonly a semiconductor, such as ion-implanted silicon) to a temperature sufficient to remove crystal-lattice defects/damage and/or to electrically activate implanted dopant atoms (by allowing them to move into substitutional lattice sites), followed by rapid resolidification/recrystallisation — again exploiting the very short, spatially confined thermal cycle achievable with a laser, which minimises unwanted diffusion of dopant profiles (a significant limitation of conventional furnace annealing, where the entire wafer must be held at high temperature for a comparatively long time).</p><p><strong>Applications:</strong> post-ion-implantation annealing/dopant activation in semiconductor device fabrication; recrystallisation of amorphous or polycrystalline silicon thin films (e.g. for thin-film-transistor displays); stress relief in metal components. <strong>Advantages:</strong> extremely short, localised thermal cycle (microseconds to milliseconds) minimises dopant diffusion/spreading, preserving sharp, precisely engineered dopant concentration profiles that furnace annealing would blur.</p>
+<h4 id="lidar-light-detection-and-ranging">5.9 LIDAR (Light Detection and Ranging)</h4><p><strong>Principle.</strong> LIDAR is the optical (laser) analogue of RADAR: a short, intense laser pulse is transmitted toward a target (or, for atmospheric LIDAR, toward the atmosphere itself); a fraction of the light is reflected or backscattered by the target/atmospheric constituents (aerosols, molecules, clouds) back toward a co-located receiver telescope and photodetector. By precisely timing the round-trip travel time <span class="math inline">\(\Delta t\)</span> between pulse transmission and the detected return, the distance (range) <span class="math inline">\(R\)</span> to the reflecting/scattering target is determined from</p><p><span class="math display">\[\boxed{R = \frac{c\,\Delta t}{2}}\]</span></p><p>the factor of 2 accounting for the round trip (out and back).</p><p><img alt="Fig. 5.2 Principle of LIDAR: a pulsed laser transmitter and a co-located receiver telescope/detector determine target range from the round-trip time of flight of the backscattered pulse." loading="lazy" src="notes-media/image22.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p>Fig. 5.2 Principle of LIDAR: a pulsed laser transmitter and a co-located receiver telescope/detector determine target range from the round-trip time of flight of the backscattered pulse.</p><p>Beyond simple ranging, LIDAR systems can additionally extract information from the <em>spectral/polarisation content</em> and the <em>intensity profile</em> of the backscattered signal (e.g. Doppler-shift LIDAR for wind-velocity measurement via the optical Doppler effect on aerosol backscatter; Differential Absorption LIDAR, DIAL, using two wavelengths — one on and one off a molecular absorption line — to determine the concentration of a specific atmospheric trace gas, such as ozone or water vapour, along the beam path).</p><p><strong>Applications:</strong> high-resolution topographic mapping and surveying (airborne/satellite LIDAR); autonomous-vehicle obstacle detection and 3-D scene mapping; atmospheric and environmental remote sensing (aerosol/cloud profiling, pollutant/greenhouse-gas concentration measurement, wind-shear detection at airports); forestry/vegetation canopy mapping; military range-finding and target designation; archaeological/geological surface mapping (e.g. revealing terrain features hidden beneath forest canopy). <strong>Advantages over conventional (microwave) RADAR:</strong> much shorter wavelength gives far higher spatial resolution and the ability to detect very small particles (aerosols, individual molecules via Raman/resonance-fluorescence LIDAR) that are essentially invisible to radar. <strong>Limitations:</strong> unlike microwave radar, LIDAR performance is significantly degraded by heavy cloud, fog, or rain (strong optical scattering/attenuation along the beam path); eye-safety considerations constrain the usable transmitted laser power for many applications.</p>
+<h4 id="comparative-summary-laser-materials-processing-operations">5.10 Comparative Summary — Laser Materials-Processing Operations</h4><table class="ext-table">
+<colgroup>
+<col style="width: 21%"/>
+<col style="width: 14%"/>
+<col style="width: 25%"/>
+<col style="width: 11%"/>
+<col style="width: 26%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th>Power-density Regime</th>
+<th>Physical Mechanism</th>
+<th>Typical Laser(s)</th>
+<th>Key Applications</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Drilling</td>
+<td>Very high, pulsed</td>
+<td>Vaporisation/ablation</td>
+<td>Nd:YAG, fibre</td>
+<td>Aerospace cooling holes, PCB vias</td>
+</tr>
+<tr class="even">
+<td>Cutting</td>
+<td>High, CW/pulsed + assist gas</td>
+<td>Melting/vaporisation, gas-assisted expulsion</td>
+<td>CO₂, fibre, Nd:YAG</td>
+<td>Sheet-metal fabrication</td>
+</tr>
+<tr class="odd">
+<td>Welding</td>
+<td>Moderate–high, CW/pulsed</td>
+<td>Melting (conduction or keyhole)</td>
+<td>CO₂, Nd:YAG, fibre</td>
+<td>Automotive/aerospace assembly</td>
+</tr>
+<tr class="even">
+<td>Alloying/Cladding</td>
+<td>Moderate–high</td>
+<td>Surface melting + material addition</td>
+<td>CO₂, Nd:YAG, fibre</td>
+<td>Wear/corrosion-resistant coatings</td>
+</tr>
+<tr class="odd">
+<td>Hardening</td>
+<td>Moderate (no melting)</td>
+<td>Austenitising + rapid self-quench</td>
+<td>CO₂, diode</td>
+<td>Gear/camshaft surface hardening</td>
+</tr>
+<tr class="even">
+<td>Annealing</td>
+<td>Low–moderate, short pulse</td>
+<td>Defect removal/dopant activation, no bulk heating</td>
+<td>Excimer, pulsed Nd:YAG</td>
+<td>Semiconductor processing</td>
+</tr>
+</tbody>
+</table>
+<h4 id="a-worked-examples-1">5.10A Worked Examples</h4><p><strong>Example 5.1.</strong> <em>A pulsed Nd:YAG laser delivers 5 J of energy per pulse, of pulse duration 10 ns, focused to a spot of diameter 100 μm. Calculate (a) the peak power and (b) the peak power density (intensity) at the focal spot.</em></p><ol type="a">
+<li><p>Peak power:</p></li>
+</ol><p><span class="math display">\[P_{peak} = \frac{E}{\tau} = \frac{5}{10 \times 10^{- 9}} = 5 \times 10^{8}\ \text{W} = 500\ \text{MW}\]</span></p><ol start="2" type="a">
+<li><p>Focal spot area:</p></li>
+</ol><p><span class="math display">\[A = \pi r^{2} = \pi\left( \frac{100 \times 10^{- 6}}{2} \right)^{2} = \pi \times \left( 50 \times 10^{- 6} \right)^{2} \approx 7.85 \times 10^{- 9}\ \text{m}^{2}\]</span></p><ul>
+<li><p>Intensity:</p></li>
+</ul><p><span class="math display">\[I = \frac{P_{peak}}{A} = \frac{5 \times 10^{8}}{7.85 \times 10^{- 9}} \approx 6.4 \times 10^{16}\ \text{W/m}^{2} = 6.4 \times 10^{12}\ \text{W/cm}^{2}\]</span></p><ul>
+<li><p>Such extreme intensities are far above the vaporisation threshold of virtually any material, illustrating why pulsed, focused solid-state lasers are effective for drilling and precision material removal.</p></li>
+</ul><p><strong>Example 5.2.</strong> <em>A LIDAR pulse is transmitted toward a cloud layer and the backscattered return is detected after a round-trip time of 20 μs. Calculate the range (altitude) of the cloud layer.</em></p><p><span class="math display">\[R = \frac{c\,\Delta t}{2} = \frac{\left( 3 \times 10^{8} \right)\left( 20 \times 10^{- 6} \right)}{2} = \frac{6000}{2} = 3000\ \text{m} = 3\ \text{km}\]</span></p>
+<h4 id="unit-summary-4">5.11 Unit Summary</h4><ul>
+<li>Laser materials processing exploits high, precisely focused power density to achieve localised heating, melting or vaporisation without mechanical contact.</li>
+<li>Drilling and cutting exploit vaporisation/ablation (cutting additionally uses a coaxial assist gas — oxidising for steel, inert for stainless/aluminium).</li>
+<li>Welding exploits controlled surface/deep (keyhole) melting; keyhole welding gives deep, narrow, high-quality joints without a vacuum chamber.</li>
+<li>Laser alloying/cladding modifies or builds up surface composition and properties while preserving bulk material properties.</li>
+<li>LCVD achieves maskless, direct-write, localised chemical vapour deposition by confining decomposition to the laser focal spot.</li>
+<li>Laser hardening exploits rapid self-quenching (via conduction into the cold bulk) to transform a thin surface layer to martensite without an external quench medium.</li>
+<li>Laser annealing achieves ultrafast, spatially confined thermal cycles for defect removal/dopant activation in semiconductor processing, minimising dopant diffusion.</li>
+<li>LIDAR determines range from the round-trip time of flight of a backscattered laser pulse (<span class="math inline">\(R = c\Delta t/2\)</span>) and, through spectral/Doppler analysis, extracts atmospheric composition, wind velocity and high-resolution 3-D topographic/scene data.</li>
+</ul>
+<h4 id="important-formulae-unit-5">5.12 Important Formulae (Unit 5)</h4><table class="ext-table">
+<colgroup>
+<col style="width: 73%"/>
+<col style="width: 26%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Quantity</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Power density (intensity) at focus</td>
+<td><span class="math display">\[I = P/A\]</span></td>
+</tr>
+<tr class="even">
+<td>LIDAR range</td>
+<td><span class="math display">\[R = c\,\Delta t/2\]</span></td>
+</tr>
+</tbody>
+</table>
+<h4 id="review-questions-4">5.13 Review Questions</h4><ol type="1">
+<li>Explain the physical basis of laser materials processing. What are the three principal thermal regimes exploited? (CO1, CO6)</li>
+<li>Describe the process of laser drilling and mention its advantages and limitations. (CO6)</li>
+<li>Explain laser cutting with the role of the assist gas; distinguish oxygen-assisted and nitrogen-assisted cutting. (CO6)</li>
+<li>Distinguish conduction-mode and keyhole-mode laser welding. (CO6)</li>
+<li>What is laser cladding? How does it differ from laser alloying? (CO6)</li>
+<li>Explain Laser Chemical Vapour Deposition (LCVD) and its advantages over conventional CVD. (CO1, CO6)</li>
+<li>Describe the mechanism of laser transformation hardening. Why does the surface self-quench? (CO6)</li>
+<li>Explain the principle and working of LIDAR. Derive the range equation. (CO1, CO5)</li>
+<li>Compare the applications of CO₂, Nd:YAG and fibre lasers in industrial materials processing. (CO1)</li>
+</ol>
+</div></div></div>
 <footer>
   <div class="wrap">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">

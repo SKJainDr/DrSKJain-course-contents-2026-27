@@ -10,7 +10,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VOI001 — Introduction of MS Office</title>
+<title>Lecture Plan — VOI001</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -148,6 +148,28 @@ footer a{color:#f2d9a6;}
 .exam-header td,.exam-header th{border:none;padding:2px 6px;font-size:.9rem;}
 .qno{font-weight:700;color:var(--rust);}
 .game-frame{border:2px solid var(--line);border-radius:10px;overflow:hidden;background:#0b1e2c;}
+
+.dl-bar{max-width:1080px;margin:14px auto 0;padding:0 24px;display:flex;gap:10px;flex-wrap:wrap;}
+.dl-bar button{font:inherit;font-weight:700;font-size:.85rem;letter-spacing:.02em;cursor:pointer;
+  background:var(--navy);color:#fbead0;border:1px solid var(--gold);border-radius:8px;padding:9px 16px;
+  display:inline-flex;align-items:center;gap:8px;}
+.dl-bar button:hover{background:var(--gold);color:#0e2a3d;}
+.lp-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 18px;margin:14px 0 20px;
+  background:var(--tint);border:1px solid var(--line);border-radius:10px;padding:14px 18px;}
+.ip-row{font-size:.92rem;}
+.ip-k{font-weight:700;color:var(--muted);margin-right:6px;}
+.lp-table{width:100%;border-collapse:collapse;font-size:.88rem;margin:10px 0 6px;}
+.lp-table th{background:var(--navy);color:#fbead0;padding:8px 10px;text-align:left;}
+.lp-table td{border:1px solid var(--line);padding:6px 10px;vertical-align:top;}
+.lp-table tr.lp-module td{background:var(--gold);color:#0e2a3d;font-weight:800;text-align:center;
+  letter-spacing:.02em;text-transform:uppercase;font-size:.8rem;}
+.lp-num{text-align:center;width:52px;}
+.lp-ref{text-align:center;width:60px;}
+.lp-tm{width:110px;font-size:.82rem;color:var(--muted);}
+.lp-legend{font-size:.8rem;color:var(--muted);margin-top:10px;}
+@media print{.topbar,.dl-bar,footer,#themeToggleBtn{display:none !important;}
+  body{background:#fff !important;} a{color:#000 !important;text-decoration:none !important;}
+  .lp-table tr.lp-module td{background:#ddd !important;color:#000 !important;}}
 </style>
 </head>
 <body>
@@ -179,80 +201,27 @@ footer a{color:#f2d9a6;}
 <div class="topbar">
   <div class="wrap">
     <a class="brand" href="../../index.html"><img src="../../assets/invertis-logo.png" alt="Invertis University logo" style="height:28px;width:auto;"> Faculty Course Portal &middot; 2026&ndash;27</a>
-    <div class="crumbs"><a href="../../index.html">Home</a> › <a href="../../courses/voi001/index.html">VOI001</a></div>
+    <div class="crumbs"><a href="../../index.html">Home</a> › <a href="../../courses/voi001/index.html">VOI001</a> › Lecture Plan</div>
   </div>
 </div>
 
 <div class="hero"><div class="wrap">
-  <span class="tag">B.Sc. ZBC (Zoology, Botany, Chemistry) — Semester I (Vocational/Skill Enhancement Course)</span>
-  <h1><span class="code-badge">VOI001</span>Introduction of MS Office</h1>
-  <p class="sub">A practical, hands-on introduction to word processing, spreadsheets and presentations using Microsoft Word, Excel and PowerPoint, for everyday academic and office productivity.</p>
+  <span class="tag">Lecture Plan</span>
+  <h1><span class="code-badge">VOI001</span>Introduction of MS-Office — Lecture Plan (Theory)</h1>
+  <p class="sub">B.Sc. (Vocational), Semester I &middot; 20 theory lectures (+20 lab sessions)</p>
 </div></div>
+<div class="dl-bar"><button onclick="dlPrintPage()">🖨️ Download / Print this page (PDF)</button><a href="downloads/VOI001_Lecture_Plan.docx" download style="text-decoration:none;"><button>📘 Download Lecture Plan (DOCX)</button></a></div>
 <div class="section"><div class="wrap">
-  <div class="resource-grid"><a class="res-card" href="syllabus.html">
-  <div class="icon">📜</div>
-  <div class="label">Syllabus</div>
-  <div class="desc">Official unit-wise syllabus from Invertis University.</div>
-  <div class="dl">Open / Download &rarr;</div>
-</a><a class="res-card" href="books.html">
-  <div class="icon">📚</div>
-  <div class="label">Recommended & Reference Books</div>
-  <div class="desc">Author and publisher details for every prescribed book.</div>
-  <div class="dl">Open / Download &rarr;</div>
-</a><a class="res-card" href="content.html">
-  <div class="icon">🧭</div>
-  <div class="label">Course Content</div>
-  <div class="desc">Overview, learning outcomes and study approach.</div>
-  <div class="dl">Open / Download &rarr;</div>
-</a><a class="res-card" href="notes.html">
-  <div class="icon">📝</div>
-  <div class="label">Lecture Notes</div>
-  <div class="desc">Detailed unit-wise notes for every topic in the syllabus.</div>
-  <div class="dl">Open / Download &rarr;</div>
-</a><a class="res-card" href="lecture-plan.html">
-  <div class="icon">🗓️</div>
-  <div class="label">Lecture Plan</div>
-  <div class="desc">Session-wise teaching plan: lecture-by-lecture topics, references and teaching methods.</div>
-  <div class="dl">Open / Download &rarr;</div>
-</a><a class="res-card" href="quiz.html">
-  <div class="icon">❓</div>
-  <div class="label">50-MCQ Quiz</div>
-  <div class="desc">Self-graded quiz covering the full syllabus.</div>
-  <div class="dl">Open / Download &rarr;</div>
-</a><a class="res-card" href="exam1.html">
-  <div class="icon">🧾</div>
-  <div class="label">Sample Exam Paper I</div>
-  <div class="desc">Full-length practice paper with marking scheme.</div>
-  <div class="dl">Open / Download &rarr;</div>
-</a><a class="res-card" href="exam2.html">
-  <div class="icon">🧾</div>
-  <div class="label">Sample Exam Paper II</div>
-  <div class="desc">A second, differently-structured practice paper.</div>
-  <div class="dl">Open / Download &rarr;</div>
-</a><a class="res-card" href="resources.html">
-  <div class="icon">🔗</div>
-  <div class="label">External Learning Resources</div>
-  <div class="desc">Curated videos, simulations and reference sites.</div>
-  <div class="dl">Open / Download &rarr;</div>
-</a><a class="res-card" href="game.html">
-  <div class="icon">🎮</div>
-  <div class="label">Interactive Learning Game</div>
-  <div class="desc">Office Skills Sprint — a timed matching/quiz game pairing Office features, shortcuts and functions with what they do.</div>
-  <div class="dl">Play now &rarr;</div>
-</a><a class="res-card" href="game2.html">
-  <div class="icon">📊</div>
-  <div class="label">Excel Formula Challenge</div>
-  <div class="desc">Write real Excel formulas — SUM, AVERAGE, IF and more — evaluated live against a worksheet.</div>
-  <div class="dl">Play now &rarr;</div>
-</a></div>
+  <div class="card">
+<p><i>Reproduced from the instructor's official session-wise Lecture Plan for the 2026–27 academic session.</i></p>
+<p class="sub" style="margin-top:-6px;">Note: the remaining 20 lectures of this 40-lecture course are conducted as Lab Practice sessions in the MS Office Lab.</p><div class="lp-info"><div class="ip-row"><span class="ip-k">Program Name</span><span class="ip-v">B.Sc. (Vocational)</span></div><div class="ip-row"><span class="ip-k">AY</span><span class="ip-v">2026-27</span></div><div class="ip-row"><span class="ip-k">Course Name</span><span class="ip-v">VOI001 – Introduction of MS-Office</span></div><div class="ip-row"><span class="ip-k">Class / Sem</span><span class="ip-v">As per Programme Structure</span></div><div class="ip-row"><span class="ip-k">Faculty Name</span><span class="ip-v">Dr. S. K. Jain</span></div><div class="ip-row"><span class="ip-k">Contact</span><span class="ip-v">8755169830</span></div></div>
+<h3>Session-wise Plan</h3>
+<table class="lp-table"><thead><tr><th>Lect.</th><th>Topic</th><th>Ref.</th><th>Method</th></tr></thead><tbody><tr><td class="lp-num">1</td><td>L1: Introduction to MS-Word: screen layout &amp; Ribbon; Text basics – typing, alignment; Editing text (Cut/Copy/Paste, Select All, Find &amp; Replace)</td><td class="lp-ref">T1, T3</td><td class="lp-tm">C&amp;T, S/P, DEMO</td></tr><tr><td class="lp-num">2</td><td>L2: File operations (New, Open, Close, Save, Save As); Formatting text &amp; paragraphs – font, line/paragraph spacing, tabs &amp; indents</td><td class="lp-ref">T1, T3</td><td class="lp-tm">C&amp;T, S/P, DEMO</td></tr><tr><td class="lp-num">3</td><td>L3: Styles &amp; Content – built-in/custom styles, list styles; Table of Contents &amp; references; Footnotes and Endnotes</td><td class="lp-ref">T1, T3</td><td class="lp-tm">C&amp;T, S/P, DEMO</td></tr><tr><td class="lp-num">4</td><td>L4: Bullets &amp; Multilevel Numbered Lists; Working with Objects – Shapes, Pictures, WordArt, SmartArt, Columns, Text Boxes, Symbols</td><td class="lp-ref">T1, T3</td><td class="lp-tm">C&amp;T, S/P, DEMO</td></tr><tr><td class="lp-num">5</td><td>L5: Working with Tables (creating, formatting, merge/split); Borders &amp; Shading; Header &amp; Footer with Section Breaks</td><td class="lp-ref">T1, T3</td><td class="lp-tm">C&amp;T, S/P, DEMO</td></tr><tr><td class="lp-num">6</td><td>L6: Mail Merge – recipients, merge fields, rules, finish &amp; merge; Proofing the document; Page Setup and Printing</td><td class="lp-ref">T1, T3</td><td class="lp-tm">C&amp;T, S/P, DEMO</td></tr><tr><td class="lp-num">7</td><td>L7: Introduction to the MS-Excel environment – Workbook &amp; Worksheet, Rows/Columns/Cells, navigating &amp; entering data</td><td class="lp-ref">T2, T3</td><td class="lp-tm">DEMO, LAB</td></tr><tr><td class="lp-num">8</td><td>L8: Formatting cells &amp; data – number formats, wrap/merge, conditional formatting; Worksheet management, freezing panes</td><td class="lp-ref">T2, T3</td><td class="lp-tm">DEMO, LAB</td></tr><tr><td class="lp-num">9</td><td>L9: Creating simple formulas; Relative, Absolute &amp; Mixed cell referencing</td><td class="lp-ref">T2, T3</td><td class="lp-tm">DEMO, LAB</td></tr><tr><td class="lp-num">10</td><td>L10: In-built functions I – SUMIF, COUNTIF, COUNTA, logical function IF, Lookup functions VLOOKUP/HLOOKUP</td><td class="lp-ref">T2, T3</td><td class="lp-tm">DEMO, LAB</td></tr><tr><td class="lp-num">11</td><td>L11: In-built functions II – Financial, Statistical, Mathematical, Text, Database and Date &amp; Time functions</td><td class="lp-ref">T2, T3</td><td class="lp-tm">DEMO, LAB</td></tr><tr><td class="lp-num">12</td><td>L12: Sorting &amp; Filtering data – number/text/custom filters; Creating Sub-totals</td><td class="lp-ref">T2, T3</td><td class="lp-tm">DEMO, LAB</td></tr><tr><td class="lp-num">13</td><td>L13: Pivot Tables; Creating and formatting Charts (Column, Line, Pie) and Excel Tables</td><td class="lp-ref">T2, T3</td><td class="lp-tm">DEMO, LAB</td></tr><tr><td class="lp-num">14</td><td>L14: Advanced list management – INDEX &amp; MATCH; Forms and Form Controls; Drawing &amp; Picture objects in Excel</td><td class="lp-ref">T2, T3</td><td class="lp-tm">DEMO, LAB</td></tr><tr><td class="lp-num">15</td><td>L15: Proofing &amp; Printing a spreadsheet – Print Area, Print Titles, Page Setup, background error checking</td><td class="lp-ref">T2, T3</td><td class="lp-tm">DEMO, LAB</td></tr><tr><td class="lp-num">16</td><td>L16: Setting up the PowerPoint environment; Creating slides &amp; applying Themes; Formatting text</td><td class="lp-ref">T1, T3</td><td class="lp-tm">S/P, DEMO, LAB</td></tr><tr><td class="lp-num">17</td><td>L17: Bullets &amp; Numbering in PPT; Working with Objects – Shapes, Pictures, WordArt, SmartArt, Slide Header/Footer</td><td class="lp-ref">T1, T3</td><td class="lp-tm">S/P, DEMO, LAB</td></tr><tr><td class="lp-num">18</td><td>L18: Hyperlinks &amp; Action Buttons; Working with Movies and Sound (audio/video playback options)</td><td class="lp-ref">T1, T3</td><td class="lp-tm">S/P, DEMO, LAB</td></tr><tr><td class="lp-num">19</td><td>L19: Tables &amp; SmartArt in PowerPoint; Animation and Slide Transition</td><td class="lp-ref">T1, T3</td><td class="lp-tm">S/P, DEMO, LAB</td></tr><tr><td class="lp-num">20</td><td>L20: Slide Show options (Rehearse Timings, Custom Slide Show); Proofing &amp; Printing; Save as Video/JPEG/Show file</td><td class="lp-ref">T1, T3</td><td class="lp-tm">S/P, DEMO, LAB</td></tr></tbody></table>
+<p class="lp-legend">Teaching Methods: C&amp;T: Chalk &amp; Talk; S/P: Slides/PPT &amp; Videos; SEM: Seminar; DEMO: Demonstration; CHART; ET/GL: Expert Talk/Guest Lecture; QUIZ; GD: Group Discussion; RTCS: Real Time Case Studies; JAR: Journal Article Review; PD: Poster Design; LAB: Laboratory demonstration.</p>
+<h3>Text &amp; Reference Books</h3>
+<ul><li>T1 — Sanjay Saxena, MS-Office 2019 Made Simple, BPB Publications, New Delhi.</li><li>T2 — Faithe Wempen, Microsoft Office 2019 For Dummies, John Wiley &amp; Sons.</li><li>T3 — Department Practical/Lab Manual for VOI001: Introduction of MS-Office (Institution-issued).</li></ul>
+</div>
 </div></div>
-<div class="section"><div class="wrap">
-  <h2 style="margin-top:0;">Teacher's Notes &amp; Suggested Links</h2>
-  <p class="sub" style="margin:0 0 14px;">Additional reading material, links and shared files posted by the instructor for this course. Maintained independently of the rest of the site &mdash; see <code>/teacher-notes/voi001/</code> in the repository (<code>links.txt</code> for links, <code>files/</code> for shared documents).</p>
-  <div id="teacherNotesMount">Loading&hellip;</div>
-</div></div>
-<script src="../../assets/teacher-notes.js"></script>
-<script>renderTeacherNotes('voi001', 'teacherNotesMount', '../../');</script>
 <footer>
   <div class="wrap">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
@@ -265,9 +234,11 @@ footer a{color:#f2d9a6;}
     <hr style="border:none;border-top:1px solid rgba(255,255,255,.12);margin:14px 0;">
     Prepared &amp; maintained by <strong style="color:#f2d9a6;">Dr. S. K. Jain</strong>, Associate Professor in Physics, Department of Applied Sciences and Humanities, Invertis University, Bareilly, India &middot; <a href="mailto:sanjeev.j@invertis.org">sanjeev.j@invertis.org</a> &middot; &copy; 2026 Author.
     <div style="margin-top:10px;text-align:center;">
-      <img src="https://visitor-badge.laobi.icu/badge?page_id=drskjain-voi001-index" alt="Visitor count for this page" style="height:20px;vertical-align:middle;border-radius:4px;opacity:.9;">
+      <img src="https://visitor-badge.laobi.icu/badge?page_id=drskjain-voi001-lectureplan" alt="Visitor count for this page" style="height:20px;vertical-align:middle;border-radius:4px;opacity:.9;">
     </div>
   </div>
 </footer>
+
+<script>function dlPrintPage(){ window.print(); }</script>
 </body>
 </html>
