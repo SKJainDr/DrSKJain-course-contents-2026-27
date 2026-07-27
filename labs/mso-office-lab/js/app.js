@@ -1,0 +1,498 @@
+/* =========================================================================
+   MS OFFICE LAB QUEST — App Engine
+   Invertis University Bareilly | MS Office Lab
+   ========================================================================= */
+
+/* ---------- Safe storage wrapper (works even if localStorage is blocked) ---------- */
+const Store = (() => {
+  let memory = {};
+  let ok = true;
+  try {
+    const t = "__mso_test__";
+    localStorage.setItem(t, "1");
+    localStorage.removeItem(t);
+  } catch (e) { ok = false; }
+  return {
+    get(key, fallback) {
+      try {
+        if (ok) {
+          const v = localStorage.getItem(key);
+          return v ? JSON.parse(v) : fallback;
+        }
+      } catch (e) {}
+      return memory[key] !== undefined ? memory[key] : fallback;
+    },
+    set(key, value) {
+      memory[key] = value;
+      try { if (ok) localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+    }
+  };
+})();
+
+/* ---------- State ---------- */
+const State = {
+  theme: Store.get("mso_theme", "light"),
+  points: Store.get("mso_points", 0),
+  completed: Store.get("mso_completed", {}),     // { subId: true }
+  attempts: Store.get("mso_attempts", {}),        // { subId: count }
+  certNumbers: Store.get("mso_certnumbers", {}),  // { sectionId: "MSO/26/07" }
+  profile: Store.get("mso_profile", null),        // { name, father, sid, cls }
+  certSeq: Store.get("mso_certseq", 0),
+  familyFilter: "all",
+  currentSectionId: null
+};
+
+function persist() {
+  Store.set("mso_points", State.points);
+  Store.set("mso_completed", State.completed);
+  Store.set("mso_attempts", State.attempts);
+  Store.set("mso_certnumbers", State.certNumbers);
+  Store.set("mso_profile", State.profile);
+  Store.set("mso_certseq", State.certSeq);
+  updateHeaderStats();
+}
+
+/* ---------- Theme ---------- */
+function applyTheme() {
+  document.documentElement.setAttribute("data-theme", State.theme);
+  const btn = document.getElementById("theme-toggle");
+  if (btn) btn.textContent = State.theme === "dark" ? "☀️" : "🌙";
+}
+function toggleTheme() {
+  State.theme = State.theme === "dark" ? "light" : "dark";
+  Store.set("mso_theme", State.theme);
+  applyTheme();
+}
+
+/* ---------- Helpers ---------- */
+function sectionProgress(section) {
+  const done = section.subs.filter(s => State.completed[s.id]).length;
+  return { done, total: section.subs.length, pct: Math.round((done / section.subs.length) * 100) };
+}
+function totalProgress() {
+  let done = 0, total = 0;
+  SECTIONS.forEach(s => { done += sectionProgress(s).done; total += s.subs.length; });
+  return { done, total };
+}
+function sectionsCompletedCount() {
+  return SECTIONS.filter(s => sectionProgress(s).pct === 100).length;
+}
+
+/* ---------- Rendering: Home ---------- */
+function renderHome() {
+  State.currentSectionId = null;
+  const root = document.getElementById("view-root");
+  const tp = totalProgress();
+  const doneSections = sectionsCompletedCount();
+
+  const families = [
+    { key: "all", label: "All Sections" },
+    { key: "word", label: "MS Word" },
+    { key: "excel", label: "MS Excel" },
+    { key: "ppt", label: "MS PowerPoint" }
+  ];
+
+  const visibleSections = SECTIONS.filter(s => State.familyFilter === "all" || s.app === State.familyFilter);
+
+  root.innerHTML = `
+    <div class="hero">
+      <h2>Master MS&nbsp;Office — one section at a time.</h2>
+      <p>Play through 14 lab sections covering Word, Excel &amp; PowerPoint from your VOI001 syllabus — including four advanced Challenge &amp; Graphs sections with realistic simulated software tasks. Answer tasks correctly, earn points, and unlock a printable certificate for every section you finish at 100%.</p>
+      <div class="hero-progress">
+        <div class="hp-item"><div class="num">${State.points}</div><div class="lbl">Points earned</div></div>
+        <div class="hp-item"><div class="num">${tp.done}/${tp.total}</div><div class="lbl">Tasks completed</div></div>
+        <div class="hp-item"><div class="num">${doneSections}/${SECTIONS.length}</div><div class="lbl">Certificates unlocked</div></div>
+      </div>
+    </div>
+
+    <div class="family-filter">
+      ${families.map(f => `
+        <button class="chip ${State.familyFilter === f.key ? "active" : ""}" data-fam="${f.key}">
+          <span class="sw" style="background:${f.key === "all" ? "var(--ink-soft)" : `var(--${f.key})`}"></span>${f.label}
+        </button>`).join("")}
+    </div>
+
+    <div class="grid">
+      ${visibleSections.map(cartHTML).join("")}
+    </div>
+
+    <div class="site-footer">
+      MS Office Lab Quest &middot; Invertis University Bareilly &middot; Built for VOI001 — Introduction of MS-Office<br/>
+      Complete every subsection of a section at 100% to unlock its printable certificate, countersigned by Dr. S. K. Jain, Lab Professor.
+    </div>
+  `;
+
+  document.querySelectorAll(".chip").forEach(btn => {
+    btn.addEventListener("click", () => { State.familyFilter = btn.dataset.fam; renderHome(); });
+  });
+  document.querySelectorAll("[data-open-section]").forEach(el => {
+    el.addEventListener("click", () => openSection(el.dataset.openSection));
+  });
+}
+
+function cartHTML(section) {
+  const prog = sectionProgress(section);
+  const r = 20, circ = 2 * Math.PI * r;
+  const offset = circ - (prog.pct / 100) * circ;
+  const complete = prog.pct === 100;
+  return `
+    <div class="cart" style="--fam-color:var(--${section.app})" data-open-section="${section.id}">
+      <div class="cart-head">
+        <div>
+          <div class="cart-tag">${APP_META[section.app].label}</div>
+        </div>
+        <div class="cart-glyph">${APP_META[section.app].glyph}</div>
+      </div>
+      <div>
+        <h3>${section.title}</h3>
+        <p class="tagline">${section.tagline}</p>
+      </div>
+      <div class="cart-foot">
+        <div class="ring" style="--fam-color:var(--${section.app})">
+          <svg viewBox="0 0 50 50">
+            <circle class="track" cx="25" cy="25" r="${r}"></circle>
+            <circle class="fill" cx="25" cy="25" r="${r}" stroke-dasharray="${circ}" stroke-dashoffset="${offset}"></circle>
+          </svg>
+          <div class="pct">${prog.pct}%</div>
+        </div>
+        ${complete
+          ? `<span class="badge-done">🏅 Certificate ready</span>`
+          : `<button class="cart-cta" style="background:var(--${section.app})">${prog.done ? "Continue" : "Start"} (${prog.done}/${prog.total})</button>`}
+      </div>
+    </div>
+  `;
+}
+
+/* ---------- Rendering: Section detail ---------- */
+function openSection(sectionId) {
+  State.currentSectionId = sectionId;
+  const section = SECTION_MAP[sectionId];
+  const prog = sectionProgress(section);
+  const root = document.getElementById("view-root");
+
+  root.innerHTML = `
+    <div class="section-header">
+      <button class="back-btn" id="back-home">← All sections</button>
+      <div class="glyph-lg" style="background:var(--${section.app})">${APP_META[section.app].glyph}</div>
+      <div>
+        <h2>${section.title}</h2>
+        <p class="sub">${APP_META[section.app].label} &middot; ${section.tagline}</p>
+      </div>
+    </div>
+    <div class="section-progress-bar">
+      <div style="width:${prog.pct}%; background:var(--${section.app})"></div>
+    </div>
+    <div class="sub-list">
+      ${section.subs.map((sub, i) => subRowHTML(sub, i, section)).join("")}
+    </div>
+    ${prog.pct === 100 ? certBannerHTML(section) : ""}
+  `;
+
+  document.getElementById("back-home").addEventListener("click", renderHome);
+  section.subs.forEach(sub => {
+    const el = document.getElementById(`row-${sub.id}`);
+    if (el) el.addEventListener("click", () => openQuiz(section, sub));
+  });
+  const certBtn = document.getElementById("open-cert-btn");
+  if (certBtn) certBtn.addEventListener("click", () => openCertificateFlow(section));
+}
+
+function subRowHTML(sub, i, section) {
+  const done = !!State.completed[sub.id];
+  const typeLabel = { mcq: "Choose one", truefalse: "True / False", fill: "Type answer", click: "Click the tab", sim: "Simulate it" }[sub.type];
+  return `
+    <div class="sub-row ${done ? "done" : ""}" id="row-${sub.id}">
+      <div class="sub-num">${String(i + 1).padStart(2, "0")}</div>
+      <div class="sub-check">${done ? "✓" : ""}</div>
+      <div class="sub-info">
+        <h4>${sub.title}</h4>
+        <span>${done ? "Completed" : "Not started"}</span>
+      </div>
+      <div class="sub-type-tag" style="color:var(--${section.app})">${typeLabel}</div>
+      <button class="sub-go" style="${done ? `background:var(--${section.app})` : ""}">${done ? "Review" : "Begin"}</button>
+    </div>
+  `;
+}
+
+function certBannerHTML(section) {
+  const already = State.certNumbers[section.id];
+  return `
+    <div class="cert-banner" style="--fam-color:var(--${section.app})">
+      <h4>🏆 100% Complete — Certificate Unlocked!</h4>
+      <p>You've mastered every task in "${section.title}". Generate your certificate, then print it and bring it to Dr. S. K. Jain, Lab Professor, for signature.</p>
+      <button id="open-cert-btn">${already ? "View / Print Certificate" : "Generate Certificate"}</button>
+    </div>
+  `;
+}
+
+/* ---------- Quiz Modal ---------- */
+let activeQuiz = null;
+
+function openQuiz(section, sub) {
+  activeQuiz = { section, sub, resolved: false };
+  const overlay = document.getElementById("modal-overlay");
+  overlay.innerHTML = quizModalHTML(section, sub);
+  overlay.classList.remove("hidden");
+  wireQuizEvents(section, sub);
+}
+
+function quizModalHTML(section, sub) {
+  const color = `var(--${section.app})`;
+  let bodyHTML = "";
+
+  if (sub.type === "mcq" || sub.type === "click") {
+    const letters = ["A", "B", "C", "D"];
+    bodyHTML = `
+      <div class="opt-list">
+        ${sub.options.map((opt, i) => `
+          <button class="opt-btn ${sub.type === "click" ? "ribbon-style" : ""}" data-idx="${i}">
+            <span class="letter">${letters[i]}</span>${opt}
+          </button>`).join("")}
+      </div>`;
+  } else if (sub.type === "sim") {
+    const letters = ["A", "B", "C", "D"];
+    bodyHTML = `
+      <div id="mock-canvas">${sub.setup}</div>
+      <div class="opt-list">
+        ${sub.options.map((opt, i) => `
+          <button class="opt-btn ribbon-style" data-idx="${i}">
+            <span class="letter">${letters[i]}</span>${opt}
+          </button>`).join("")}
+      </div>`;
+  } else if (sub.type === "truefalse") {
+    bodyHTML = `
+      <div class="opt-list">
+        <button class="opt-btn" data-bool="true"><span class="letter">T</span>True</button>
+        <button class="opt-btn" data-bool="false"><span class="letter">F</span>False</button>
+      </div>`;
+  } else if (sub.type === "fill") {
+    bodyHTML = `
+      <div class="fill-row">
+        <input type="text" id="fill-input" placeholder="Type your answer…" autocomplete="off" />
+        <button id="fill-submit">Check</button>
+      </div>
+      <p class="hint">💡 ${sub.hint || ""}</p>`;
+  }
+
+  return `
+    <div class="modal ${sub.type === "sim" ? "sim-modal" : ""}" style="--fam-color:${color}">
+      <button class="modal-close" id="modal-close">✕</button>
+      <div class="eyebrow" style="color:${color}">${APP_META[section.app].label} &middot; ${section.title}${sub.ribbon ? " &middot; " + sub.ribbon : ""}</div>
+      <h3>${sub.title}</h3>
+      <p class="q-prompt">${sub.prompt}</p>
+      ${bodyHTML}
+      <div class="feedback" id="quiz-feedback"></div>
+      <div class="modal-actions" id="quiz-actions"></div>
+    </div>
+  `;
+}
+
+function wireQuizEvents(section, sub) {
+  document.getElementById("modal-close").addEventListener("click", closeQuiz);
+  document.getElementById("modal-overlay").addEventListener("click", (e) => {
+    if (e.target.id === "modal-overlay") closeQuiz();
+  });
+
+  if (sub.type === "mcq" || sub.type === "click" || sub.type === "sim") {
+    document.querySelectorAll(".opt-btn[data-bool]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const val = btn.dataset.bool === "true";
+        gradeAnswer(section, sub, val === sub.correct, btn);
+      });
+    });
+  } else if (sub.type === "fill") {
+    const submit = () => {
+      const input = document.getElementById("fill-input");
+      const val = input.value.trim().toLowerCase().replace(/\s+/g, " ");
+      const isCorrect = sub.accepted.some(a => val === a || val.replace(/\s/g, "") === a.replace(/\s/g, ""));
+      gradeAnswer(section, sub, isCorrect, input);
+    };
+    document.getElementById("fill-submit").addEventListener("click", submit);
+    document.getElementById("fill-input").addEventListener("keydown", (e) => { if (e.key === "Enter") submit(); });
+  }
+}
+
+function gradeAnswer(section, sub, isCorrect, el) {
+  if (activeQuiz.resolved) return;
+  const fb = document.getElementById("quiz-feedback");
+  const actions = document.getElementById("quiz-actions");
+  State.attempts[sub.id] = (State.attempts[sub.id] || 0) + 1;
+
+  if (isCorrect) {
+    activeQuiz.resolved = true;
+    if (el.classList) el.classList.add("correct");
+    const firstTry = State.attempts[sub.id] === 1;
+    const earned = firstTry ? 10 : 5;
+    if (!State.completed[sub.id]) {
+      State.points += earned;
+      State.completed[sub.id] = true;
+      persist();
+      showPointsToast(`+${earned} points — Correct!`);
+    }
+    fb.className = "feedback show good";
+    fb.innerHTML = `<strong>✅ Correct!</strong>${sub.explain}`;
+    actions.innerHTML = `<button class="btn-primary" id="quiz-next">Continue</button>`;
+    document.getElementById("quiz-next").addEventListener("click", () => {
+      closeQuiz();
+      openSection(section.id);
+    });
+    if (sub.type === "sim") {
+      const canvas = document.querySelector("#mock-canvas .mock-live-region");
+      if (canvas && sub.afterHTML) {
+        canvas.classList.add("mock-fading");
+        setTimeout(() => {
+          canvas.innerHTML = sub.afterHTML;
+          canvas.classList.remove("mock-fading");
+        }, 220);
+      }
+    }
+    if (sub.type === "mcq" || sub.type === "click" || sub.type === "truefalse" || sub.type === "sim") {
+      document.querySelectorAll(".opt-btn").forEach(b => b.disabled = true);
+    }
+  } else {
+    if (el.classList) el.classList.add("wrong");
+    fb.className = "feedback show bad";
+    fb.innerHTML = `<strong>❌ Not quite.</strong>Give it another try — think it through and try again.`;
+  }
+}
+
+function showPointsToast(msg) {
+  const toast = document.getElementById("points-toast");
+  toast.textContent = msg;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 1800);
+}
+
+function closeQuiz() {
+  document.getElementById("modal-overlay").classList.add("hidden");
+  document.getElementById("modal-overlay").innerHTML = "";
+  activeQuiz = null;
+}
+
+/* ---------- Certificate flow ---------- */
+function openCertificateFlow(section) {
+  const overlay = document.getElementById("modal-overlay");
+  const p = State.profile || { name: "", father: "", sid: "", cls: "" };
+
+  overlay.innerHTML = `
+    <div class="modal cert-modal">
+      <button class="modal-close" id="modal-close">✕</button>
+      <div class="eyebrow" style="color:var(--${section.app})">Certificate of Achievement</div>
+      <h3>${section.title}</h3>
+      <p class="q-prompt">Enter the student details exactly as they should appear on the certificate.</p>
+      <div class="profile-form">
+        <div><label>Student Name</label><input id="cf-name" value="${escapeHTML(p.name)}" placeholder="e.g. Ananya Sharma" /></div>
+        <div><label>Father's Name</label><input id="cf-father" value="${escapeHTML(p.father)}" placeholder="e.g. Rajesh Sharma" /></div>
+        <div><label>Student ID</label><input id="cf-sid" value="${escapeHTML(p.sid)}" placeholder="e.g. IU2024BSC0142" /></div>
+        <div><label>Class / Semester</label><input id="cf-cls" value="${escapeHTML(p.cls)}" placeholder="e.g. B.Sc. III Sem" /></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" id="modal-close-2">Cancel</button>
+        <button class="btn-primary" id="cf-generate">Generate Certificate</button>
+      </div>
+    </div>
+  `;
+  overlay.classList.remove("hidden");
+  document.getElementById("modal-close").addEventListener("click", closeQuiz);
+  document.getElementById("modal-close-2").addEventListener("click", closeQuiz);
+  document.getElementById("cf-generate").addEventListener("click", () => {
+    const name = document.getElementById("cf-name").value.trim();
+    const father = document.getElementById("cf-father").value.trim();
+    const sid = document.getElementById("cf-sid").value.trim();
+    const cls = document.getElementById("cf-cls").value.trim();
+    if (!name || !father || !sid || !cls) {
+      alert("Please fill in all four fields to generate the certificate.");
+      return;
+    }
+    State.profile = { name, father, sid, cls };
+    if (!State.certNumbers[section.id]) {
+      State.certSeq += 1;
+      State.certNumbers[section.id] = `MSO/26/${String(State.certSeq).padStart(2, "0")}`;
+    }
+    persist();
+    renderCertificate(section);
+  });
+}
+
+function renderCertificate(section) {
+  const overlay = document.getElementById("modal-overlay");
+  const p = State.profile;
+  const regNo = State.certNumbers[section.id];
+  const dateStr = new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" });
+
+  overlay.innerHTML = `
+    <div class="modal cert-modal">
+      <button class="modal-close" id="modal-close">✕</button>
+      <div id="certificate-wrap">
+        <div class="certificate">
+          <div class="cwatermark"><img src="assets/brand-orb.jpg" alt=""/></div>
+          <div class="border-frame"></div>
+          <div class="corner tl"></div><div class="corner tr"></div>
+          <div class="corner bl"></div><div class="corner br"></div>
+          <div class="cert-inner">
+            <div class="cert-top">
+              <img class="uni-logo" src="assets/university-logo.png" alt="Invertis University Bareilly logo" />
+              <div class="cert-orb"><img src="assets/brand-orb.jpg" alt=""/></div>
+            </div>
+            <div class="cert-inst">INVERTIS UNIVERSITY, BAREILLY</div>
+            <div class="cert-lab">MS Office Lab</div>
+            <div class="cert-title">Certificate of Achievement</div>
+            <div class="cert-rule"></div>
+            <p class="cert-body-txt">This certificate is proudly presented to</p>
+            <div class="cert-name">${escapeHTML(p.name)}</div>
+            <div class="cert-meta">
+              <div><strong>${escapeHTML(p.father)}</strong>Father's Name</div>
+              <div><strong>${escapeHTML(p.sid)}</strong>Student ID</div>
+              <div><strong>${escapeHTML(p.cls)}</strong>Class / Semester</div>
+            </div>
+            <p class="cert-body-txt">for successfully completing all tasks with a perfect score in</p>
+            <div class="cert-skill">${section.title} — ${APP_META[section.app].label}</div>
+            <div class="cert-bottom">
+              <div class="cert-regno">Certificate No.<br/>${regNo}</div>
+              <div class="cert-sign">
+                <div class="line"></div>
+                Dr. S. K. Jain<br/>Lab Professor
+              </div>
+              <div class="cert-date">Date of Issue<br/>${dateStr}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cert-actions">
+        <button class="btn-ghost" id="cert-edit">Edit Details</button>
+        <button class="btn-primary" id="cert-print">🖨️ Print Certificate</button>
+      </div>
+    </div>
+  `;
+  document.getElementById("modal-close").addEventListener("click", closeQuiz);
+  document.getElementById("cert-edit").addEventListener("click", () => openCertificateFlow(section));
+  document.getElementById("cert-print").addEventListener("click", () => window.print());
+}
+
+function escapeHTML(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+/* ---------- Reset progress ---------- */
+function resetProgress() {
+  if (!confirm("This will erase all points, completed tasks and certificates on this device. Continue?")) return;
+  State.points = 0; State.completed = {}; State.attempts = {}; State.certNumbers = {}; State.certSeq = 0;
+  persist();
+  renderHome();
+}
+
+/* ---------- Init ---------- */
+function updateHeaderStats() {
+  const pts = document.getElementById("header-points");
+  if (pts) pts.textContent = `${State.points} pts`;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  applyTheme();
+  document.getElementById("theme-toggle").addEventListener("click", toggleTheme);
+  document.getElementById("reset-btn").addEventListener("click", resetProgress);
+  updateHeaderStats();
+  renderHome();
+});
