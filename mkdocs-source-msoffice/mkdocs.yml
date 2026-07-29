@@ -1,0 +1,75 @@
+site_name: MS Office Lab Quest — User Guide
+site_description: Complete user guide and lecture notes for the MS Office Lab Quest — MS Word, Excel, PowerPoint, Internet & Email and MS Access
+site_author: Dr. S. K. Jain
+site_url: https://skjaindr.github.io/DrSKJain-course-contents-2026-27/labs/mso-office-lab/guide/
+copyright: >
+  © 2026 Author. Prepared &amp; maintained by
+  <strong>Dr. S. K. Jain</strong>, Associate Professor in Physics, Department of Applied Sciences and Humanities, Invertis University, Bareilly, India —
+  <a href="mailto:sanjeev.j@invertis.org">sanjeev.j@invertis.org</a>
+site_dir: ../labs/mso-office-lab/guide
+
+# The site links out to ../../index.html (the interactive lab app), which
+# lives outside docs_dir. Those links are correct and intentional, but
+# MkDocs' own link-checker only knows about files under docs_dir, so this
+# keeps --strict useful for genuine internal errors while allowing that one
+# known category of external, out-of-tree links.
+validation:
+  links:
+    not_found: ignore
+
+theme:
+  name: material
+  custom_dir: overrides
+  logo: assets/icon.svg
+  favicon: assets/favicon.png
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark theme
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light theme
+  font: false
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - toc.integrate
+    - content.code.copy
+    - search.highlight
+extra_css:
+  - stylesheets/extra.css
+hooks:
+  - hooks.py
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.superfences
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started: chapters/fundamentals.md
+  - MS Word: chapters/word.md
+  - MS Excel: chapters/excel.md
+  - MS PowerPoint: chapters/powerpoint.md
+  - Internet, WWW & Email: chapters/internet-email.md
+  - MS Access: chapters/ms-access.md
+  - Integration & Careers: chapters/integration-career.md
+  - Keyboard Shortcuts: chapters/shortcuts.md
+  - Glossary: chapters/glossary.md
+  - Troubleshooting: chapters/troubleshooting.md
+  - Practice Questions: chapters/practice-questions.md

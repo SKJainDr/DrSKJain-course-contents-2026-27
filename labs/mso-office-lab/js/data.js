@@ -413,7 +413,7 @@ const SECTIONS = [
         [{label:"Start Mail Merge", icons:["✉️","▤"]},{label:"Write & Insert Fields", icons:["«»","¶"]},{label:"Finish", icons:["✔"]}],
         "Mailings",
         "<h5>Annual Alumni Meet</h5><p>Dear ___________,</p><p>We are delighted to invite you to this year's alumni gathering on 12 October.</p>"),
-      options:["Mailings > Insert Merge Field > First_Name","Insert > Quick Parts > Field","References > Cross-reference","Review > New Comment"],
+      options:["Mailings > Insert Merge Field > First_Name","Insert > Quick Parts > Field","Mailings > Highlight Merge Fields","Insert > Cross-reference"],
       correct:0,
       afterHTML: "<div class='mock-page'><h5>Annual Alumni Meet</h5><p>Dear «First_Name»,</p><p>We are delighted to invite you to this year's alumni gathering on 12 October.</p></div>" + MOCK.callout("Merge field inserted — will pull a name per recipient row."),
       explain:"Mailings > Insert Merge Field places a placeholder («First_Name») that Word fills in individually for every row of the connected data source when you Finish & Merge." },
@@ -424,8 +424,8 @@ const SECTIONS = [
         [{label:"Table of Contents", icons:["≡"]},{label:"Captions", icons:["🏷️"]},{label:"Index", icons:["🔎"]}],
         "References",
         "<h5>Chapter 1 — Introduction</h5><p style='color:#888'>(cursor here, blank page for ToC)</p>"),
-      options:["References > Table of Contents > Automatic Table","Insert > Table (draw manually)","Home > Bullets","Design > Watermark"],
-      correct:0,
+      options:["Insert > Object > Text from File","References > Table of Contents > Automatic Table","References > Table of Figures","Home > Multilevel List"],
+      correct:1,
       afterHTML: "<div class='mock-page'><h5>Contents</h5>" +
         ["1. Introduction .......... 1","2. Literature Review .......... 4","3. Methodology .......... 12","4. Results & Discussion .......... 21"]
           .map((t,i)=>`<p style='margin:0 0 6px;animation:rowIn .4s ease both;animation-delay:${i*120}ms;'>${t}</p>`).join("") +
@@ -438,8 +438,8 @@ const SECTIONS = [
         [{label:"Tracking", icons:["✏️"]},{label:"Changes", icons:["✔","✘"]},{label:"Compare", icons:["⇄"]}],
         "Review",
         "<h5>Executive Summary</h5><p>The <span class='mock-hl'>quarterly results</span> show <span style='color:#c0392b;text-decoration:underline;'>strong</span> growth across all regions.</p>"),
-      options:["Review > Accept > Accept All Changes","Review > Track Changes (turn off)","Home > Clear Formatting","File > Protect Document"],
-      correct:0,
+      options:["Review > Compare","Review > Track Changes > Lock Tracking","Review > Accept > Accept All Changes","Review > Simple Markup (display mode)"],
+      correct:2,
       afterHTML: "<div class='mock-page'><h5>Executive Summary</h5><p>The quarterly results show strong growth across all regions.</p></div>" + MOCK.callout("All 6 tracked edits accepted — document is now clean."),
       explain:"Accept All Changes (Review > Changes) permanently applies every tracked insertion/deletion. Simply turning Track Changes off would stop recording new edits but leave the old markup in place." },
 
@@ -449,8 +449,8 @@ const SECTIONS = [
         [{label:"Page Setup", icons:["▤"]},{label:"Breaks", icons:["⏎"]},{label:"Section", icons:["§"]}],
         "Layout",
         "<p style='color:#888;font-size:11px;'>Header: DRAFT</p><h5>Chapter 1 — Overview</h5><p>...end of chapter text.<span class='mock-cursorline'></span></p>"),
-      options:["Layout > Breaks > Section Break (Next Page)","Insert > Page Break","Home > Line and Paragraph Spacing","View > Draft view"],
-      correct:0,
+      options:["Insert > Page Break","Layout > Breaks > Continuous","Layout > Margins > Custom Margins","Layout > Breaks > Section Break (Next Page)"],
+      correct:3,
       afterHTML: "<div class='mock-page'><p style='color:#888;font-size:11px;'>Header: DRAFT</p><h5>Chapter 1 — Overview</h5><p>...end of chapter text.</p><hr style='border:none;border-top:2px dotted #999;margin:14px 0;'/><p style='font-size:10.5px;color:#999;'>Section Break (Next Page)</p><h5>Chapter 2 — Details</h5><p style='color:#888;font-size:11px;'>Header: (none — unlinked from previous)</p></div>" + MOCK.callout("Section break inserted — headers can now differ per section."),
       explain:"A Section Break (Next Page) creates an independent header/footer zone. After breaking the section, click 'Link to Previous' off in the Header & Footer tools so Chapter 2's header can be set independently." },
 
@@ -460,7 +460,7 @@ const SECTIONS = [
         [{label:"Links", icons:["🔗"]},{label:"Captions", icons:["🏷️"]}],
         "Insert",
         "<p>Regional performance improved steadily, as shown in ___________.</p><p style='font-size:11px;color:#555;'>Figure 3: Revenue Trend</p>"),
-      options:["Insert > Cross-reference > Figure","References > Footnote","Review > New Comment","Insert > Bookmark (text only)"],
+      options:["Insert > Cross-reference > Figure","Insert > Caption","References > Mark Citation","Insert > Bookmark, then hyperlink to it manually"],
       correct:0,
       afterHTML: "<div class='mock-page'><p>Regional performance improved steadily, as shown in <span style='color:#185abc;text-decoration:underline;'>Figure 3</span>.</p><p style='font-size:11px;color:#555;'>Figure 3: Revenue Trend</p></div>" + MOCK.callout("Cross-reference inserted — updates automatically if Figure 3 becomes Figure 2."),
       explain:"Insert > Cross-reference links directly to the caption's auto-number, so renumbering after inserting/deleting figures updates every reference with a single Update Fields (Ctrl+A, F9)." },
@@ -471,8 +471,8 @@ const SECTIONS = [
         [{label:"Styles", icons:["Aa","Aa"]},{label:"Font", icons:["B","I"]}],
         "Home",
         "<p style='font-weight:700;font-size:15px;'>1. introduction</p><p style='font-weight:700;font-size:14px;'>2. Method</p><p>Body text continues normally here…</p>"),
-      options:["Select each title and apply the Heading 1 style from the Styles gallery","Keep manual Bold + font size, just match them exactly","Use Format Painter only, no styles","Convert titles into a text box"],
-      correct:0,
+      options:["Use Format Painter to copy formatting between titles","Select each title and apply the Heading 1 style from the Styles gallery","Increase font size and bold manually to match","Use Text Effects > WordArt for consistency"],
+      correct:1,
       afterHTML: "<div class='mock-page'><p style='font-weight:800;font-size:17px;color:#185abc;border-bottom:1px solid #185abc;'>1. Introduction</p><p style='font-weight:800;font-size:17px;color:#185abc;border-bottom:1px solid #185abc;'>2. Method</p><p>Body text continues normally here…</p></div>" + MOCK.callout("Heading 1 style applied — titles are now consistent and ToC-ready."),
       explain:"Built-in Heading styles guarantee identical formatting everywhere and — unlike manual bold/size — are what Table of Contents, Navigation Pane and cross-references all scan for." },
 
@@ -482,8 +482,8 @@ const SECTIONS = [
         [{label:"Code", icons:["{ }"]},{label:"Macros", icons:["⏺"]}],
         "View",
         "<p style='color:#888;'>Blank document — ready to record a formatting routine.</p>"),
-      options:["View > Macros > Record Macro","Insert > Object","Review > Restrict Editing","File > Options > Trust Center"],
-      correct:0,
+      options:["Insert > Object > Package","Review > Restrict Editing > Formatting Restrictions","View > Macros > Record Macro","File > Options > Add-ins"],
+      correct:2,
       afterHTML: "<div class='mock-page'><p><span style='background:#c0392b;color:#fff;border-radius:10px;padding:2px 8px;font-size:11px;'>⏺ Recording: Macro1</span></p><p style='margin-top:10px;color:#555;'>Every click and keystroke is now being captured…</p></div>" + MOCK.callout("Macro recording started — stop recording, then run it anytime with Ctrl+Shift+K."),
       explain:"View > Macros > Record Macro captures your exact steps as reusable VBA code — perfect for repetitive, multi-step formatting you do on every document." }
   ]
@@ -500,8 +500,8 @@ const SECTIONS = [
         "View",
         "<div class='s-title'>Q3 Roadmap</div><div class='s-body'><div class='s-bullet'>Old font: Calibri</div><div class='s-bullet'>Old logo placeholder</div></div>",
         "<div class='mock-thumbstrip'><div class='th active'></div><div class='th'></div><div class='th'></div><div class='th'></div></div>"),
-      options:["View > Slide Master (edit once, applies to all slides)","Edit each slide's title font one by one","Insert > Header & Footer only","Design > Themes (random theme)"],
-      correct:0,
+      options:["Design > Themes (pick a different random theme)","Insert > Header & Footer, then update text on each slide","Format Background > Apply to All","View > Slide Master (edit once, applies to all slides)"],
+      correct:3,
       afterHTML: "<div class='mock-slide enter'><div class='s-title' style='font-family:Georgia,serif;'>Q3 Roadmap</div><div class='s-body'><div class='s-bullet'>New font: Georgia — applied deck-wide</div><div class='s-bullet'>New logo now on every slide</div></div><div class='s-img'></div></div>" + MOCK.callout("Slide Master updated — all 40 slides now match."),
       explain:"The Slide Master defines fonts, colours, logo placeholders and layouts for the whole deck. Edit it once under View > Master Views > Slide Master, and every linked layout updates instantly." },
 
@@ -511,7 +511,7 @@ const SECTIONS = [
         [{label:"Advanced Animation", icons:["▤"]},{label:"Timing", icons:["⏱️"]}],
         "Animations",
         "<div class='s-title'>Why Choose Us</div><div class='s-body'><div class='s-bullet'>③ Proven track record</div><div class='s-bullet'>① 24/7 support</div><div class='s-bullet'>② Lowest total cost</div></div>"),
-      options:["Animations > Animation Pane (drag to reorder, set timing)","Slide Sorter View","Design > Variants","Insert > Header & Footer"],
+      options:["Animations > Animation Pane (drag to reorder, set timing)","Animations > Add Animation again in the order you want","Slide Show > Set Up Slide Show","Transitions > Effect Options"],
       correct:0,
       afterHTML: "<div class='mock-slide enter'><div class='s-title'>Why Choose Us</div><div class='s-body'><div class='s-bullet'>① 24/7 support</div><div class='s-bullet'>② Lowest total cost</div><div class='s-bullet'>③ Proven track record</div></div></div>" + MOCK.callout("Animation order corrected in the Animation Pane: 1 → 2 → 3."),
       explain:"The Animation Pane (Animations > Animation Pane) lists every animated object in firing order — drag entries up/down and adjust Start/Duration/Delay without touching the slide layout." },
@@ -522,8 +522,8 @@ const SECTIONS = [
         [{label:"Transition to This Slide", icons:["🎬"]},{label:"Timing", icons:["⏱️"]}],
         "Transitions",
         "<div class='s-title'>Slide 5</div><div class='s-img' style='left:26px;bottom:auto;top:70px;right:auto;'></div>"),
-      options:["Transitions > Morph","Transitions > Cut","Animations > Fly In","Design > Themes"],
-      correct:0,
+      options:["Animations > Morph","Transitions > Morph","Transitions > Reveal","Animations > Motion Paths > Custom Path"],
+      correct:1,
       afterHTML: "<div class='mock-slide enter'><div class='s-title'>Slide 5</div><div class='s-img' style='animation:slideEnter .8s ease both;'></div></div>" + MOCK.callout("Morph applied — the shape now glides smoothly between its Slide 4 and Slide 5 positions."),
       explain:"Morph (Transitions tab) compares matching objects on the two slides and automatically animates position, size and rotation changes between them — ideal for smooth zoom/move effects without manual animation paths." },
 
@@ -533,8 +533,8 @@ const SECTIONS = [
         [{label:"Text", icons:["Aa"]},{label:"Illustrations", icons:["📊"]},{label:"Media", icons:["▶"]}],
         "Insert",
         "<div class='s-title'>Weekly Sales</div><div class='s-body'><div class='s-bullet'>(chart goes here)</div></div>"),
-      options:["Insert > Object > Paste Special > Microsoft Excel Chart Object (Link)","Insert > Picture > This Device (screenshot)","Copy chart, Paste as plain values","Insert > SmartArt"],
-      correct:0,
+      options:["Insert > Picture > This Device (screenshot of the chart)","Copy the chart, Paste with source formatting embedded","Insert > Object > Paste Special > Microsoft Excel Chart Object (Link)","Insert > Chart (rebuild a brand-new native chart from scratch)"],
+      correct:2,
       afterHTML: MOCK.barsChart("Weekly Sales", ["W1","W2","W3","W4"], [82,95,101,118]) + MOCK.callout("🔗 Linked to Sales.xlsx — updates automatically when the workbook changes."),
       explain:"Paste Special > Paste Link (or Insert > Object with 'Link') keeps a live connection to the source workbook, so the slide chart refreshes instead of staying a frozen picture." },
 
@@ -544,10 +544,10 @@ const SECTIONS = [
         [{label:"Start Slide Show", icons:["▶"]},{label:"Set Up", icons:["⚙️"]}],
         "Slide Show",
         "<div class='s-title'>20-slide master deck</div>",
-        "<div class='mock-thumbstrip'><div class='th active'></div><div class='th'></div><div class='th active'></div><div class='th'></div><div class='th'></div><div class='th'></div><div class='th active'></div></div>"),
-      options:["Slide Show > Custom Slide Show > Custom Shows","Hide every appendix slide permanently","Delete the appendix slides before the meeting","Slide Show > Rehearse Timings"],
-      correct:0,
-      afterHTML: "<div class='mock-slide enter'><div class='s-title'>Custom Show: \"Client Version\"</div><div class='s-body'><div class='s-bullet'>Slide 1 → Slide 3 → Slide 7</div></div></div>" + MOCK.callout("Custom Slide Show \"Client Version\" created — the full 20-slide file is untouched."),
+        "<div class='mock-thumbstrip'><div class='th'></div><div class='th'></div><div class='th'></div><div class='th'></div><div class='th'></div><div class='th'></div><div class='th'></div></div>"),
+      options:["Slide Show > Rehearse Timings","Hide each appendix slide individually via Hide Slide","Insert > Section, group the appendix slides into a new section","Slide Show > Custom Slide Show > Custom Shows"],
+      correct:3,
+      afterHTML: "<div class='mock-slide enter'><div class='s-title'>Custom Show: \"Client Version\"</div><div class='s-body'><div class='s-bullet'>Slide 1 → Slide 3 → Slide 7</div></div></div><div class='mock-thumbstrip'><div class='th active'></div><div class='th'></div><div class='th active'></div><div class='th'></div><div class='th'></div><div class='th'></div><div class='th active'></div></div>" + MOCK.callout("Custom Slide Show \"Client Version\" created — the full 20-slide file is untouched."),
       explain:"Custom Slide Show lets you name and present a chosen subset of slides in any order, while the original file keeps every slide intact for other audiences." },
 
     { id:"pc-6", title:"Action Buttons for Non-Linear Navigation", type:"sim",
@@ -556,7 +556,7 @@ const SECTIONS = [
         [{label:"Illustrations", icons:["⬛"]},{label:"Links", icons:["🔗"]}],
         "Insert",
         "<div class='s-title'>Agenda</div><div class='s-body'><div class='s-bullet'>Introduction</div><div class='s-bullet'>Budget</div><div class='s-bullet'>Next Steps</div></div>"),
-      options:["Insert > Shapes > Action Buttons, then Hyperlink to Slide \"Budget\"","Insert > Text Box only","Animations > Fly In on the word Budget","Design > Slide Size"],
+      options:["Insert > Shapes > Action Buttons, then Hyperlink to Slide \"Budget\"","Insert > Hyperlink on the word \"Budget\" only, no shape","Animations > Trigger > On Click of (Budget text)","Slide Show > Custom Slide Show"],
       correct:0,
       afterHTML: "<div class='mock-slide enter'><div class='s-title'>Agenda</div><div class='s-body'><div class='s-bullet'>Introduction</div><div class='s-bullet'>Budget <span style='background:#0e6b3a;color:#fff;border-radius:6px;padding:1px 8px;font-size:10px;'>▶ Go to slide</span></div><div class='s-bullet'>Next Steps</div></div></div>" + MOCK.callout("Action button added — jumps directly to the Budget slide during the show."),
       explain:"Insert > Shapes > Action Buttons (or any shape + Insert > Link) lets you wire up on-click navigation to any slide, external file or URL — essential for non-linear, audience-driven presentations." },
@@ -567,8 +567,8 @@ const SECTIONS = [
         [{label:"Set Up", icons:["⚙️"]},{label:"Rehearse", icons:["⏱️"]}],
         "Slide Show",
         "<div class='s-title'>Welcome</div><div class='s-body'><div class='s-bullet'>Kiosk mode — needs auto-advance timings</div></div>"),
-      options:["Slide Show > Rehearse Timings (record, then save)","Transitions > set every slide's duration to 3s manually","Animations > Fly In","Insert > Header & Footer"],
-      correct:0,
+      options:["Transitions > Advance Slide > After (set seconds manually, slide by slide)","Slide Show > Rehearse Timings (record, then save)","Slide Show > Set Up Show > Loop Continuously","Animations > Timing > Delay"],
+      correct:1,
       afterHTML: "<div class='mock-slide enter'><div class='s-title'>Welcome</div><div class='s-body'><div class='s-bullet'>Slide 1: 0:08 &nbsp; Slide 2: 0:12 &nbsp; Slide 3: 0:07</div></div></div>" + MOCK.callout("Timings recorded and saved — the show now advances itself at your rehearsed pace."),
       explain:"Slide Show > Rehearse Timings lets you click through at your natural pace while PowerPoint records the exact duration of each slide, ready for 'Set Up Show > Use Timings'." }
   ]
@@ -588,8 +588,8 @@ const SECTIONS = [
         MOCK.sheetRow(3, ["Feb","150"], {activeIdx:[0,1]}) +
         MOCK.sheetRow(4, ["Mar","170"], {activeIdx:[0,1]}) +
         MOCK.sheetRow(5, ["Apr","210"], {activeIdx:[0,1]}) + "</tbody>"),
-      options:["Insert > Recommended Charts (or Insert Column Chart)","Data > Sort A to Z","Review > Spelling","Page Layout > Margins"],
-      correct:0,
+      options:["Data > Sort & Filter > Sort A to Z","Insert > Table","Insert > Recommended Charts (or Insert Column Chart)","Insert > Sparklines > Column"],
+      correct:2,
       afterHTML: MOCK.barsChart("Monthly Sales", ["Jan","Feb","Mar","Apr"], [120,150,170,210]) + MOCK.callout("Column chart built directly from the selected range."),
       explain:"With the range selected, Insert > Charts > Recommended Charts (or a specific chart type like Column) builds the chart instantly, already linked to that data." },
 
@@ -601,9 +601,9 @@ const SECTIONS = [
         MOCK.sheetRow(1, ["Spend (₹k)","Sales (₹k)"]) +
         MOCK.sheetRow(2, ["10","38"]) + MOCK.sheetRow(3, ["18","52"]) + MOCK.sheetRow(4, ["25","66"]) +
         MOCK.sheetRow(5, ["30","78"]) + MOCK.sheetRow(6, ["40","98"]) + "</tbody>",
-        MOCK.trendlineChart("Spend vs Sales (scatter)", [38,52,66,78,98])),
-      options:["Chart Elements (+) > Trendline > Linear, then check 'Display Equation' & 'Display R-squared'","Format Cells > Number","Data > Data Validation","Insert > Table"],
-      correct:0,
+        MOCK.trendlineChart("Spend vs Sales (scatter)", [38,52,66,78,98], 460, 110, false)),
+      options:["Insert > Charts > Combo Chart","Format Trendline > Moving Average","Data > Data Analysis > Regression","Chart Elements (+) > Trendline > Linear, then check 'Display Equation' & 'Display R-squared'"],
+      correct:3,
       afterHTML: MOCK.trendlineChart("Spend vs Sales — Trendline", [38,52,66,78,98]) + "<p style='text-align:center;font-size:11px;color:#333;margin-top:6px;'><b>y = 2.05x + 18.4</b> &nbsp; R² = 0.97</p>" + MOCK.callout("Linear trendline fitted with equation and R² displayed."),
       explain:"The Chart Elements (+) button > Trendline > More Options lets you fit Linear/Exponential/Polynomial curves and tick 'Display Equation on chart' and 'Display R-squared value' to quantify the fit." },
 
@@ -614,7 +614,7 @@ const SECTIONS = [
         MOCK.sheetHead(["A","B"]) + "<tbody>" + MOCK.sheetRow(1,["Quarter","Revenue"]) +
         MOCK.sheetRow(2,["Q1","210"]) + MOCK.sheetRow(3,["Q2","245"]) + MOCK.sheetRow(4,["Q3","238"]) + MOCK.sheetRow(5,["Q4","290"]) + "</tbody>",
         MOCK.barsChart("Revenue by Quarter (Column)", ["Q1","Q2","Q3","Q4"], [210,245,238,290])),
-      options:["Chart Design > Change Chart Type > Line","Delete the chart and re-select the range","Insert > SmartArt","Data > Text to Columns"],
+      options:["Chart Design > Change Chart Type > Line","Insert a brand-new Line chart alongside the old one","Format Data Series > Line (recolour only)","Design > Switch Row/Column"],
       correct:0,
       afterHTML: MOCK.trendlineChart("Revenue by Quarter (Line)", [210,245,238,290]) + MOCK.callout("Chart type switched to Line — same data, same formatting, new shape."),
       explain:"Chart Design > Change Chart Type opens a gallery to switch the visual type instantly, without touching the underlying data range or losing your titles/formatting." },
@@ -626,8 +626,8 @@ const SECTIONS = [
         MOCK.sheetHead(["A","B"]) + "<tbody>" + MOCK.sheetRow(1,["Quarter","Revenue"]) +
         MOCK.sheetRow(2,["Q1","210"]) + MOCK.sheetRow(3,["Q2","245"]) + MOCK.sheetRow(4,["Q3","238"]) + MOCK.sheetRow(5,["Q4","290"]) + "</tbody>",
         MOCK.barsChart("Misleading axis (starts at 180)", ["Q1","Q2","Q3","Q4"], [30,65,58,110], 115)),
-      options:["Right-click Y-axis > Format Axis > set Minimum to 0","Right-click chart > Delete","Home > Increase Decimal","Data > Remove Duplicates"],
-      correct:0,
+      options:["Home > Increase Decimal","Right-click Y-axis > Format Axis > set Minimum to 0","Chart Design > Change Chart Type","Insert > Chart > Recommended Charts (rebuild from scratch)"],
+      correct:1,
       afterHTML: MOCK.barsChart("Corrected axis (starts at 0)", ["Q1","Q2","Q3","Q4"], [210,245,238,290]) + MOCK.callout("Axis minimum reset to 0 — the true proportions are now visible."),
       explain:"Format Axis (double-click the axis) lets you fix Minimum/Maximum/Units. Truncated axes exaggerate differences — best practice for column charts is starting the value axis at zero." },
 
@@ -638,8 +638,8 @@ const SECTIONS = [
         MOCK.sheetHead(["A","B","C"]) + "<tbody>" +
         MOCK.sheetRow(1,["Quarter","Revenue","Margin %"]) +
         MOCK.sheetRow(2,["Q1","210","18"]) + MOCK.sheetRow(3,["Q2","245","21"]) + MOCK.sheetRow(4,["Q3","238","19"]) + "</tbody>"),
-      options:["Insert > Charts > Combo Chart, plot Margin % on a Secondary Axis","Put both series on the primary axis and hope for the best","Delete the Margin % column","Use two totally separate, unlinked charts"],
-      correct:0,
+      options:["Format Data Series > Fill > Solid Fill","Insert two completely separate, unlinked charts","Insert > Charts > Combo Chart, plot Margin % on a Secondary Axis","Change the Margin % cells to Percentage number format only"],
+      correct:2,
       afterHTML: MOCK.barsChart("Revenue (₹k, primary axis)", ["Q1","Q2","Q3"], [210,245,238]) + MOCK.trendlineChart("Margin % (secondary axis)", [18,21,19]) + MOCK.callout("Combo chart built — bars on the primary axis, margin line on a readable secondary axis."),
       explain:"Insert > Combo Chart lets each series pick its own chart type and axis. Routing the small-scale series (percentage) to a Secondary Axis keeps both series readable at their natural scale." },
 
@@ -649,8 +649,8 @@ const SECTIONS = [
         [{label:"Chart Elements", icons:["＋"]},{label:"Labels", icons:["🏷️"]}], "Design", "", "",
         MOCK.sheetHead(["A","B"]) + "<tbody>" + MOCK.sheetRow(1,["Region","Share"]) +
         MOCK.sheetRow(2,["North","34"]) + MOCK.sheetRow(3,["South","21"]) + MOCK.sheetRow(4,["East","19"]) + MOCK.sheetRow(5,["West","26"]) + "</tbody>"),
-      options:["Chart Elements (+) > Data Labels > More Options > Percentage","Format Cells > Percentage on the raw numbers only","Delete labels entirely","Insert > Table"],
-      correct:0,
+      options:["Format Cells > Percentage on the raw numbers","Chart Elements (+) > Legend > Right","Insert > Charts > Doughnut instead of Pie","Chart Elements (+) > Data Labels > More Options > Percentage"],
+      correct:3,
       afterHTML: MOCK.barsChart("Market Share (Region)", ["North (34%)","South (21%)","East (19%)","West (26%)"], [34,21,19,26]) + MOCK.callout("Data labels now show each slice's percentage share."),
       explain:"Chart Elements (+) > Data Labels > More Data Label Options gives checkboxes for Value, Percentage and Category Name — tick Percentage so each slice self-labels its share." },
 
@@ -661,7 +661,7 @@ const SECTIONS = [
         MOCK.sheetHead(["A","B","C","D","E","F"]) + "<tbody>" +
         MOCK.sheetRow(1,["Product","Jan","Feb","Mar","Apr","Trend"]) +
         MOCK.sheetRow(2,["Widget A","40","55","50","70",""], {activeIdx:[5]}) + "</tbody>"),
-      options:["Insert > Sparklines > Line","Insert > Chart, then shrink it to fit the cell","Home > Conditional Formatting > Icon Sets","Data > Data Bars"],
+      options:["Insert > Sparklines > Line","Insert > Chart > Line, then resize it to fit inside the cell","Home > Conditional Formatting > Data Bars","Home > Conditional Formatting > Icon Sets"],
       correct:0,
       afterHTML: MOCK.sheetHead(["A","B","C","D","E","F"]) + "<tbody>" +
         MOCK.sheetRow(1,["Product","Jan","Feb","Mar","Apr","Trend"]) +
@@ -675,8 +675,8 @@ const SECTIONS = [
         [{label:"Forecast", icons:["🔮"]}], "Data", "", "",
         MOCK.sheetHead(["A","B"]) + "<tbody>" + MOCK.sheetRow(1,["Month","Sales"]) +
         MOCK.sheetRow(2,["Jan","120"]) + MOCK.sheetRow(3,["Feb","150"]) + MOCK.sheetRow(4,["Mar","170"]) + MOCK.sheetRow(5,["...","..."]) + "</tbody>"),
-      options:["Data > Forecast > Forecast Sheet","Manually type guessed numbers for future months","Insert > Recommended Charts","Review > Compare Documents"],
-      correct:0,
+      options:["Data > What-If Analysis > Scenario Manager","Data > Forecast > Forecast Sheet","Insert > Recommended Charts, then extend the axis manually","Formulas > More Functions > Statistical > TREND (typed manually)"],
+      correct:1,
       afterHTML: MOCK.trendlineChart("Sales — Actual + Forecast", [120,150,170,190,205,222,238]) + MOCK.callout("Forecast Sheet generated — dashed portion is Excel's projected trend with confidence bounds."),
       explain:"Data > Forecast Sheet uses exponential smoothing on your historical series to project future periods automatically, adding a shaded confidence interval — no manual formulas required." },
 
@@ -687,8 +687,8 @@ const SECTIONS = [
         MOCK.sheetHead(["A","B"]) + "<tbody>" + MOCK.sheetRow(1,["Item","Amount (₹k)"]) +
         MOCK.sheetRow(2,["Starting Budget","500"]) + MOCK.sheetRow(3,["Marketing +","120"]) +
         MOCK.sheetRow(4,["Ops Cut −","-80"]) + MOCK.sheetRow(5,["Final Budget","540"]) + "</tbody>"),
-      options:["Insert > Charts > Waterfall","Insert > Charts > Pie","A plain Column chart with no special formatting","Insert > SmartArt > Process"],
-      correct:0,
+      options:["Insert > Charts > Stock","Insert > Charts > Pie","Insert > Charts > Waterfall","A plain Column chart with manually coloured bars"],
+      correct:2,
       afterHTML: MOCK.barsChart("Budget Waterfall (simplified view)", ["Start","+Mktg","−Ops","Final"], [500,120,80,540]) + MOCK.callout("Waterfall chart inserted — visually shows how each change bridges Start to Final."),
       explain:"Insert > Charts > Waterfall (2016+) is purpose-built for bridge/variance data — each bar floats from the previous running total, making increases and decreases immediately readable." }
   ]
@@ -705,8 +705,8 @@ const SECTIONS = [
         MOCK.sheetHead(["A","B","C"]) + "<tbody>" +
         MOCK.sheetRow(1,["ProductID","Qty","Price"]) +
         MOCK.sheetRow(2,["SKU-104","3","?"], {activeIdx:[2]}) + MOCK.sheetRow(3,["SKU-118","1","?"]) + "</tbody>"),
-      options:["=XLOOKUP(A2, Price!A:A, Price!C:C)","=A2+B2","=SUM(A2:B2)","Manually retype each price by eye"],
-      correct:0,
+      options:["=VLOOKUP(A2, Price!A:C, 3, FALSE)","=LOOKUP(A2, Price!A:A, Price!C:C)","=SUMIF(Price!A:A, A2, Price!C:C)","=XLOOKUP(A2, Price!A:A, Price!C:C)"],
+      correct:3,
       afterHTML: MOCK.sheetHead(["A","B","C"]) + "<tbody>" +
         MOCK.sheetRow(1,["ProductID","Qty","Price"]) +
         MOCK.sheetRow(2,["SKU-104","3","249"], {fillIdx:[2], fillColor:"#eef7f0"}) +
@@ -722,7 +722,7 @@ const SECTIONS = [
         MOCK.sheetRow(1,["Region","Product","Amount"]) +
         MOCK.sheetRow(2,["North","Widget","1200"]) + MOCK.sheetRow(3,["South","Widget","900"]) +
         MOCK.sheetRow(4,["North","Gadget","1500"]) + MOCK.sheetRow(5,["...2000 rows...","",""]) + "</tbody>"),
-      options:["Insert > PivotTable, drag Region to Rows and Amount to Values","Manually build SUMIF formulas for every region","Sort the data and eyeball the totals","Insert > Chart directly on raw data"],
+      options:["Insert > PivotTable, drag Region to Rows and Amount to Values","Data > Subtotal, grouped by Region","Data > Consolidate","Type SUMIF formulas manually for every region"],
       correct:0,
       afterHTML: MOCK.sheetHead(["A","B"]) + "<tbody>" +
         MOCK.sheetRow(1,["Region","Sum of Amount"], {rowIn:true}) +
@@ -741,8 +741,8 @@ const SECTIONS = [
         MOCK.sheetRow(1,["Student","Score"]) +
         MOCK.sheetRow(2,["Aarav","92"]) + MOCK.sheetRow(3,["Diya","54"]) +
         MOCK.sheetRow(4,["Kabir","78"]) + MOCK.sheetRow(5,["Meera","33"]) + "</tbody>"),
-      options:["Home > Conditional Formatting > Colour Scales","Sort the scores, then manually colour each cell","Home > Merge & Centre","Data > Remove Duplicates"],
-      correct:0,
+      options:["Home > Conditional Formatting > Data Bars","Home > Conditional Formatting > Colour Scales","Home > Conditional Formatting > Icon Sets","Home > Cell Styles > Good/Bad/Neutral (applied manually)"],
+      correct:1,
       afterHTML: MOCK.sheetHead(["A","B"]) + "<tbody>" +
         MOCK.sheetRow(1,["Student","Score"]) +
         MOCK.sheetRow(2,["Aarav","92"], {fillIdx:[1], fillColor:"#8fd99a"}) +
@@ -759,8 +759,8 @@ const SECTIONS = [
         MOCK.sheetHead(["A","B"]) + "<tbody>" +
         MOCK.sheetRow(1,["Name","Department"]) +
         MOCK.sheetRow(2,["Rohan","(type anything)"], {activeIdx:[1]}) + "</tbody>"),
-      options:["Data > Data Validation > List (Sales, IT, HR, Finance)","Home > Conditional Formatting","Format Cells > Text","Insert > Table with no restriction"],
-      correct:0,
+      options:["Home > Conditional Formatting > Highlight Cell Rules","Insert > Table (adds filter arrows only)","Data > Data Validation > List (Sales, IT, HR, Finance)","Review > Protect Sheet"],
+      correct:2,
       afterHTML: MOCK.sheetHead(["A","B"]) + "<tbody>" +
         MOCK.sheetRow(1,["Name","Department"]) +
         MOCK.sheetRow(2,["Rohan","Sales ▾"], {fillIdx:[1], fillColor:"#eef7f0"}) + "</tbody>" +
@@ -774,8 +774,8 @@ const SECTIONS = [
         MOCK.sheetHead(["A","B"]) + "<tbody>" +
         MOCK.sheetRow(1,["Units Sold","350"]) + MOCK.sheetRow(2,["Price/Unit","300"]) +
         MOCK.sheetRow(3,["Profit","42,000"], {activeIdx:[1]}) + "</tbody>"),
-      options:["Data > What-If Analysis > Goal Seek (set Profit to 60,000 by changing Units Sold)","Manually try different unit numbers by trial and error","Insert > Chart to visualise it","Format Cells > Currency"],
-      correct:0,
+      options:["Data > What-If Analysis > Scenario Manager","Data > Solver","Formulas > Trace Precedents","Data > What-If Analysis > Goal Seek (set Profit to 60,000 by changing Units Sold)"],
+      correct:3,
       afterHTML: MOCK.sheetHead(["A","B"]) + "<tbody>" +
         MOCK.sheetRow(1,["Units Sold","470"], {fillIdx:[1], fillColor:"#eef7f0"}) + MOCK.sheetRow(2,["Price/Unit","300"]) +
         MOCK.sheetRow(3,["Profit","60,000"], {fillIdx:[1], fillColor:"#eef7f0"}) + "</tbody>" +
@@ -788,7 +788,7 @@ const SECTIONS = [
         [{label:"Defined Names", icons:["🏷️"]},{label:"Name Manager", icons:["📛"]}], "Formulas", "D1", "=SUM(B2:B13)",
         MOCK.sheetHead(["A","B"]) + "<tbody>" + MOCK.sheetRow(1,["Month","Sales"]) +
         MOCK.sheetRow(2,["Jan","120"]) + MOCK.sheetRow(3,["…","…"]) + "</tbody>"),
-      options:["Formulas > Define Name (e.g. 'TotalSales' for B2:B13), then use =SUM(TotalSales)","Keep typing =SUM(B2:B13) everywhere","Merge B2:B13 into a single cell","Convert the range to a picture"],
+      options:["Formulas > Define Name (e.g. 'TotalSales' for B2:B13), then use =SUM(TotalSales)","Format the range as an Excel Table and reference its column header","Copy the formula into all five locations by hand each time it changes","Use absolute references ($B$2:$B$13) only, with no name"],
       correct:0,
       afterHTML: MOCK.sheetHead(["A","B"]) + "<tbody>" + MOCK.sheetRow(1,["Month","Sales"]) +
         MOCK.sheetRow(2,["Jan","120"]) + MOCK.sheetRow(3,["…","…"]) + "</tbody>" +
@@ -804,8 +804,8 @@ const SECTIONS = [
         MOCK.sheetRow(1,["Region","Product","Amount"]) +
         MOCK.sheetRow(2,["North","Widget","1200"]) + MOCK.sheetRow(3,["South","Gadget","800"]) +
         MOCK.sheetRow(4,["…500 rows…","",""]) + "</tbody>"),
-      options:["View > Freeze Panes (top row) + Data > Filter (dropdown arrows)","Just scroll carefully and remember the columns","Print the whole table and read it on paper","Delete rows you don't currently need"],
-      correct:0,
+      options:["Insert > Table (adds banding and filter arrows, but no freeze)","View > Freeze Panes (top row) + Data > Filter (dropdown arrows)","View > Split (splits the window instead of freezing)","Home > Format > Hide Rows for irrelevant regions"],
+      correct:1,
       afterHTML: MOCK.sheetHead(["A","B","C"]) + "<tbody>" +
         MOCK.sheetRow(1,["Region ▾","Product ▾","Amount ▾"], {rowIn:true}) +
         MOCK.sheetRow(2,["North","Widget","1200"], {rowIn:true}) +

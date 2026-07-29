@@ -79,24 +79,28 @@ const MOCK = (() => {
     return `<div class="mock-chartbox"><div class="mock-chart-title">${title}</div><div class="mock-bars">${bars}</div></div>`;
   }
 
-  function trendlineChart(title, points, w, h) {
+  function trendlineChart(title, points, w, h, showTrend) {
+    if (showTrend === undefined) showTrend = true;
     w = w || 460; h = h || 110;
     const xs = points.map((_, i) => (i / (points.length - 1)) * (w - 20) + 10);
     const maxY = Math.max(...points), minY = Math.min(...points);
     const ys = points.map(p => h - 10 - ((p - minY) / (maxY - minY || 1)) * (h - 30));
     const path = xs.map((x, i) => `${i === 0 ? "M" : "L"}${x.toFixed(1)},${ys[i].toFixed(1)}`).join(" ");
-    // simple linear regression for the trend line
-    const n = points.length;
-    const sumX = xs.reduce((a, b) => a + b, 0), sumY = ys.reduce((a, b) => a + b, 0);
-    const sumXY = xs.reduce((a, x, i) => a + x * ys[i], 0), sumXX = xs.reduce((a, x) => a + x * x, 0);
-    const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX || 1);
-    const intercept = (sumY - slope * sumX) / n;
-    const trendPath = `M${xs[0].toFixed(1)},${(slope * xs[0] + intercept).toFixed(1)} L${xs[n - 1].toFixed(1)},${(slope * xs[n - 1] + intercept).toFixed(1)}`;
+    let trendPathSVG = "";
+    if (showTrend) {
+      const n = points.length;
+      const sumX = xs.reduce((a, b) => a + b, 0), sumY = ys.reduce((a, b) => a + b, 0);
+      const sumXY = xs.reduce((a, x, i) => a + x * ys[i], 0), sumXX = xs.reduce((a, x) => a + x * x, 0);
+      const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX || 1);
+      const intercept = (sumY - slope * sumX) / n;
+      const trendPath = `M${xs[0].toFixed(1)},${(slope * xs[0] + intercept).toFixed(1)} L${xs[n - 1].toFixed(1)},${(slope * xs[n - 1] + intercept).toFixed(1)}`;
+      trendPathSVG = `<path class="mock-trend-path" d="${trendPath}" style="animation-delay:.3s"></path>`;
+    }
     const dots = xs.map((x, i) => `<circle class="mock-data-pt" cx="${x.toFixed(1)}" cy="${ys[i].toFixed(1)}" r="3" style="animation-delay:${i * 60}ms"></circle>`).join("");
     return `<div class="mock-chartbox"><div class="mock-chart-title">${title}</div>
       <svg class="mock-trend-svg" viewBox="0 0 ${w} ${h}">
-        <path class="mock-trend-path" d="${path}" style="stroke:#9aa6b2; stroke-width:1.6;"></path>
-        <path class="mock-trend-path" d="${trendPath}" style="animation-delay:.3s"></path>
+        <path class="mock-trend-path" d="${path}" style="stroke:#9aa6b2; stroke-width:1.6; ${showTrend ? "" : "stroke-dasharray:none;stroke-dashoffset:0;animation:none;"}"></path>
+        ${trendPathSVG}
         ${dots}
       </svg></div>`;
   }

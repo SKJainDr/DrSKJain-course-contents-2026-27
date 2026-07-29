@@ -35,6 +35,7 @@ const State = {
   points: Store.get("mso_points", 0),
   completed: Store.get("mso_completed", {}),     // { subId: true }
   attempts: Store.get("mso_attempts", {}),        // { subId: count }
+  locked: Store.get("mso_locked", {}),            // { subId: true } — both attempts used, wrong
   certNumbers: Store.get("mso_certnumbers", {}),  // { sectionId: "MSO/26/07" }
   profile: Store.get("mso_profile", null),        // { name, father, sid, cls }
   certSeq: Store.get("mso_certseq", 0),
@@ -46,6 +47,7 @@ function persist() {
   Store.set("mso_points", State.points);
   Store.set("mso_completed", State.completed);
   Store.set("mso_attempts", State.attempts);
+  Store.set("mso_locked", State.locked);
   Store.set("mso_certnumbers", State.certNumbers);
   Store.set("mso_profile", State.profile);
   Store.set("mso_certseq", State.certSeq);
@@ -103,6 +105,7 @@ function renderHome() {
         <div class="hp-item"><div class="num">${tp.done}/${tp.total}</div><div class="lbl">Tasks completed</div></div>
         <div class="hp-item"><div class="num">${doneSections}/${SECTIONS.length}</div><div class="lbl">Certificates unlocked</div></div>
       </div>
+      <a class="hero-guide-link" href="guide/index.html" target="_blank" rel="noopener">📖 Read the Full User Guide &amp; Lab Manual &rarr;</a>
     </div>
 
     <div class="family-filter">
@@ -164,11 +167,29 @@ function cartHTML(section) {
 }
 
 /* ---------- Rendering: Section detail ---------- */
+const GUIDE_LINKS = {
+  "word-basics": { url: "guide/chapters/word/#sec-1-1", label: "1.1 Introduction to Word and Screen Layout" },
+  "word-formatting": { url: "guide/chapters/word/#sec-1-5", label: "1.5 Formatting Text and Paragraphs" },
+  "word-lists-objects": { url: "guide/chapters/word/#sec-1-7", label: "1.7 Bullets and Numbered Lists" },
+  "word-advanced": { url: "guide/chapters/word/#sec-1-11", label: "1.11 Header and Footer" },
+  "word-challenge": { url: "guide/chapters/word/#sec-1-12", label: "1.12 Mail Merge (full Word chapter)" },
+  "excel-basics": { url: "guide/chapters/excel/#sec-2-1", label: "2.1 Introduction to the Excel Environment" },
+  "excel-formulas": { url: "guide/chapters/excel/#sec-2-4", label: "2.4 Formulas and Functions" },
+  "excel-data-tools": { url: "guide/chapters/excel/#sec-2-5", label: "2.5 Sorting and Filtering Data" },
+  "excel-graphs": { url: "guide/chapters/excel/#sec-2-6", label: "2.6 Creating and Formatting Charts" },
+  "excel-challenge": { url: "guide/chapters/excel/#sec-2-7", label: "2.7 Advanced List Management (full Excel chapter)" },
+  "ppt-basics": { url: "guide/chapters/powerpoint/#sec-3-1", label: "3.1 Setting up the PowerPoint Environment" },
+  "ppt-objects-media": { url: "guide/chapters/powerpoint/#sec-3-5", label: "3.5 Working with Objects" },
+  "ppt-animation-delivery": { url: "guide/chapters/powerpoint/#sec-3-9", label: "3.9 Animation and Slide Transition" },
+  "ppt-challenge": { url: "guide/chapters/powerpoint/#sec-3-6", label: "3.6 Hyperlinks and Action Buttons (full PPT chapter)" }
+};
+
 function openSection(sectionId) {
   State.currentSectionId = sectionId;
   const section = SECTION_MAP[sectionId];
   const prog = sectionProgress(section);
   const root = document.getElementById("view-root");
+  const guideLink = GUIDE_LINKS[sectionId];
 
   root.innerHTML = `
     <div class="section-header">
@@ -179,6 +200,7 @@ function openSection(sectionId) {
         <p class="sub">${APP_META[section.app].label} &middot; ${section.tagline}</p>
       </div>
     </div>
+    ${guideLink ? `<a class="guide-link" style="--fam-color:var(--${section.app})" href="${guideLink.url}" target="_blank" rel="noopener">📖 Read the related guide chapter — <span>${guideLink.label}</span></a>` : ""}
     <div class="section-progress-bar">
       <div style="width:${prog.pct}%; background:var(--${section.app})"></div>
     </div>
@@ -199,17 +221,19 @@ function openSection(sectionId) {
 
 function subRowHTML(sub, i, section) {
   const done = !!State.completed[sub.id];
+  const locked = !done && !!State.locked[sub.id];
   const typeLabel = { mcq: "Choose one", truefalse: "True / False", fill: "Type answer", click: "Click the tab", sim: "Simulate it" }[sub.type];
+  const statusText = done ? "Completed" : (locked ? "Locked — both attempts used" : "Not started");
   return `
-    <div class="sub-row ${done ? "done" : ""}" id="row-${sub.id}">
+    <div class="sub-row ${done ? "done" : ""} ${locked ? "locked" : ""}" id="row-${sub.id}">
       <div class="sub-num">${String(i + 1).padStart(2, "0")}</div>
-      <div class="sub-check">${done ? "✓" : ""}</div>
+      <div class="sub-check">${done ? "✓" : (locked ? "🔒" : "")}</div>
       <div class="sub-info">
         <h4>${sub.title}</h4>
-        <span>${done ? "Completed" : "Not started"}</span>
+        <span>${statusText}</span>
       </div>
       <div class="sub-type-tag" style="color:var(--${section.app})">${typeLabel}</div>
-      <button class="sub-go" style="${done ? `background:var(--${section.app})` : ""}">${done ? "Review" : "Begin"}</button>
+      <button class="sub-go" style="${done ? `background:var(--${section.app})` : ""}">${done ? "Review" : (locked ? "Locked" : "Begin")}</button>
     </div>
   `;
 }
@@ -239,9 +263,23 @@ function openQuiz(section, sub) {
 function quizModalHTML(section, sub) {
   const color = `var(--${section.app})`;
   let bodyHTML = "";
+  const already = State.attempts[sub.id] || 0;
+  const isLocked = !State.completed[sub.id] && !!State.locked[sub.id];
+  const letters = ["A", "B", "C", "D"];
 
-  if (sub.type === "mcq" || sub.type === "click") {
-    const letters = ["A", "B", "C", "D"];
+  if (isLocked) {
+    // Both attempts used and still wrong — reveal the answer, no further input.
+    const correctLabel = (sub.type === "mcq" || sub.type === "click" || sub.type === "sim")
+      ? sub.options[sub.correct]
+      : (sub.type === "truefalse" ? (sub.correct ? "True" : "False") : (sub.accepted ? sub.accepted[0] : ""));
+    bodyHTML = `
+      ${sub.type === "sim" ? `<div id="mock-canvas"><div class="mock-live-region">${sub.afterHTML || sub.setup}</div></div>` : ""}
+      <div class="locked-box">
+        <p><strong>🔒 Both attempts used.</strong> The correct answer was: <b>${correctLabel}</b></p>
+        <p>${sub.explain || ""}</p>
+        <p class="locked-note">To try this problem again, use the <b>↺ Reset</b> button in the header — that clears your entire score and lets you start fresh.</p>
+      </div>`;
+  } else if (sub.type === "mcq" || sub.type === "click") {
     bodyHTML = `
       <div class="opt-list">
         ${sub.options.map((opt, i) => `
@@ -250,7 +288,6 @@ function quizModalHTML(section, sub) {
           </button>`).join("")}
       </div>`;
   } else if (sub.type === "sim") {
-    const letters = ["A", "B", "C", "D"];
     bodyHTML = `
       <div id="mock-canvas">${sub.setup}</div>
       <div class="opt-list">
@@ -274,12 +311,18 @@ function quizModalHTML(section, sub) {
       <p class="hint">💡 ${sub.hint || ""}</p>`;
   }
 
+  const attemptNote = isLocked ? "" :
+    (already >= 1
+      ? `<div class="attempt-note attempt-final">⚠️ Final attempt — correct now scores 5 pts, incorrect locks this problem.</div>`
+      : `<div class="attempt-note">Attempt 1 of 2 &middot; first-try correct = 10 pts, second-try correct = 5 pts.</div>`);
+
   return `
     <div class="modal ${sub.type === "sim" ? "sim-modal" : ""}" style="--fam-color:${color}">
       <button class="modal-close" id="modal-close">✕</button>
       <div class="eyebrow" style="color:${color}">${APP_META[section.app].label} &middot; ${section.title}${sub.ribbon ? " &middot; " + sub.ribbon : ""}</div>
       <h3>${sub.title}</h3>
       <p class="q-prompt">${sub.prompt}</p>
+      ${attemptNote}
       ${bodyHTML}
       <div class="feedback" id="quiz-feedback"></div>
       <div class="modal-actions" id="quiz-actions"></div>
@@ -293,7 +336,19 @@ function wireQuizEvents(section, sub) {
     if (e.target.id === "modal-overlay") closeQuiz();
   });
 
+  const isLocked = !State.completed[sub.id] && !!State.locked[sub.id];
+  if (isLocked) {
+    return;
+  }
+
   if (sub.type === "mcq" || sub.type === "click" || sub.type === "sim") {
+    document.querySelectorAll(".opt-btn[data-idx]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const idx = parseInt(btn.dataset.idx, 10);
+        gradeAnswer(section, sub, idx === sub.correct, btn);
+      });
+    });
+  } else if (sub.type === "truefalse") {
     document.querySelectorAll(".opt-btn[data-bool]").forEach(btn => {
       btn.addEventListener("click", () => {
         const val = btn.dataset.bool === "true";
@@ -317,15 +372,16 @@ function gradeAnswer(section, sub, isCorrect, el) {
   const fb = document.getElementById("quiz-feedback");
   const actions = document.getElementById("quiz-actions");
   State.attempts[sub.id] = (State.attempts[sub.id] || 0) + 1;
+  const attemptNum = State.attempts[sub.id];
 
   if (isCorrect) {
     activeQuiz.resolved = true;
     if (el.classList) el.classList.add("correct");
-    const firstTry = State.attempts[sub.id] === 1;
-    const earned = firstTry ? 10 : 5;
+    const earned = attemptNum === 1 ? 10 : 5;
     if (!State.completed[sub.id]) {
       State.points += earned;
       State.completed[sub.id] = true;
+      delete State.locked[sub.id];
       persist();
       showPointsToast(`+${earned} points — Correct!`);
     }
@@ -349,10 +405,36 @@ function gradeAnswer(section, sub, isCorrect, el) {
     if (sub.type === "mcq" || sub.type === "click" || sub.type === "truefalse" || sub.type === "sim") {
       document.querySelectorAll(".opt-btn").forEach(b => b.disabled = true);
     }
+  } else if (attemptNum >= 2) {
+    // Both attempts used — lock the problem until an explicit reset.
+    activeQuiz.resolved = true;
+    State.locked[sub.id] = true;
+    persist();
+    if (el.classList) el.classList.add("wrong");
+    document.querySelectorAll(".opt-btn").forEach(b => b.disabled = true);
+    const correctLabel = (sub.type === "mcq" || sub.type === "click" || sub.type === "sim")
+      ? sub.options[sub.correct]
+      : (sub.type === "truefalse" ? (sub.correct ? "True" : "False") : (sub.accepted ? sub.accepted[0] : ""));
+    fb.className = "feedback show bad";
+    fb.innerHTML = `<strong>🔒 Both attempts used.</strong> The correct answer was: <b>${correctLabel}</b>.<br>${sub.explain || ""}`;
+    if (sub.type === "sim") {
+      const canvas = document.querySelector("#mock-canvas .mock-live-region");
+      if (canvas && sub.afterHTML) {
+        canvas.classList.add("mock-fading");
+        setTimeout(() => {
+          canvas.innerHTML = sub.afterHTML;
+          canvas.classList.remove("mock-fading");
+        }, 220);
+      }
+    }
+    actions.innerHTML = `<button class="btn-primary" id="quiz-close-locked">Close</button>`;
+    fb.innerHTML += `<p class="locked-note">To try this problem again, use the <b>↺ Reset</b> button in the header — that clears your entire score and lets you start fresh.</p>`;
+    document.getElementById("quiz-close-locked").addEventListener("click", closeQuiz);
   } else {
     if (el.classList) el.classList.add("wrong");
+    if (el.disabled !== undefined) el.disabled = true;
     fb.className = "feedback show bad";
-    fb.innerHTML = `<strong>❌ Not quite.</strong>Give it another try — think it through and try again.`;
+    fb.innerHTML = `<strong>❌ Not quite.</strong> One attempt left — think it through and try again.`;
   }
 }
 
@@ -478,7 +560,7 @@ function escapeHTML(str) {
 /* ---------- Reset progress ---------- */
 function resetProgress() {
   if (!confirm("This will erase all points, completed tasks and certificates on this device. Continue?")) return;
-  State.points = 0; State.completed = {}; State.attempts = {}; State.certNumbers = {}; State.certSeq = 0;
+  State.points = 0; State.completed = {}; State.attempts = {}; State.locked = {}; State.certNumbers = {}; State.certSeq = 0;
   persist();
   renderHome();
 }
