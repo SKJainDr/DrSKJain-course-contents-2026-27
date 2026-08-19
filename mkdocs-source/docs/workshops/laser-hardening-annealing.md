@@ -34,7 +34,7 @@ The process window is narrow: the surface temperature must exceed the austenitiz
 1. Record the precision score at the default power, scan speed and spot size.
 2. Vary laser power alone and record the precision score at each value, noting the qualitative verdict (surface melted / case too shallow / acceptable).
 3. Repeat, varying scan speed alone, then spot size alone.
-4. Identify the parameter combination that achieves the ~0.8 mm case depth without surface melting, reaching a 90%+ precision score.
+4. Identify the parameter combination that achieves the ~0.8 mm case depth without surface melting, reaching a 100% precision score.
 
 ## Observation Table
 

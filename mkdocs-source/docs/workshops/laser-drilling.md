@@ -34,8 +34,8 @@ Process parameters must therefore be tuned jointly: pulse energy and duration se
 1. Start with the default pulse energy, duration and pulse count and note the precision score and verdict shown by the simulator.
 2. Systematically vary pulse energy alone (holding duration and pulse count fixed) and record the precision score at each setting.
 3. Repeat, varying pulse duration alone, then the number of pulses alone.
-4. From the three sweeps, identify the combination of parameters that maximizes the precision score (target: 90%+ for certification).
-5. Record the final certified parameter set once the 90%+ precision threshold is reached.
+4. From the three sweeps, identify the combination of parameters that maximizes the precision score (target: 100% for certification).
+5. Record the final certified parameter set once the 100% precision threshold is reached.
 
 ## Observation Table
 
@@ -65,7 +65,7 @@ Expected trend: a peak at an intermediate pulse energy, falling off both at very
 ## Calculation
 
 1. Tabulate precision score against each swept parameter and identify the optimum region for each.
-2. State the final parameter combination used to reach the 90%+ certification threshold.
+2. State the final parameter combination used to reach the 100% certification threshold.
 
 ## Result
 

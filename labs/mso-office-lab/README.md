@@ -1,5 +1,5 @@
-# MS Office Lab Quest 🎮
-### Invertis University, Bareilly — MS Office Lab (Course VOI001)
+# Advanced MS Office Lab 🎮
+### Invertis University, Bareilly — Advanced MS Office Lab (Course VOI001)
 
 An interactive, game-style learning app that teaches and tests **MS Word, MS Excel & MS PowerPoint** — built directly from the VOI001 *Introduction of MS-Office* syllabus. Students play through 14 sections (100 tasks total), earn points, and unlock a printable, signable certificate for every section they finish with a perfect score.
 
@@ -16,7 +16,7 @@ No build tools, no installs, no server required — it's a plain static site (HT
 - **Printable Certificate of Achievement**, unlocked once a student completes *every* subsection in a section at 100%. Each certificate carries:
   - A unique registration number (format `MSO/26/01`, `MSO/26/02`, …)
   - Invertis University's logo + the app's circular brand mark as a decorative seal
-  - Institute name, lab name ("MS Office Lab"), and the specific section/skill qualified
+  - Institute name, lab name ("Advanced MS Office Lab"), and the specific section/skill qualified
   - Student name, father's name, student ID, class/semester, and date of issue
   - A signature line reserved for **Dr. S. K. Jain, Lab Professor**
   - An ornate double-border, corner flourishes, and a subtle watermark seal

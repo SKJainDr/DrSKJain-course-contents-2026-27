@@ -13,11 +13,14 @@
   --surface: #FFFFFF;
   --surface-2: #ECEBF8;
   --ink: #1F1B3A;
+  --ink-solid: #1F1B3A; /* theme-invariant dark navy — for solid buttons/chips that always pair with white text, regardless of light/dark theme */
   --ink-soft: #55507A;
   --line: #DCDAF0;
   --word: #2B6CB0;
   --excel: #1E9E63;
   --ppt: #E2532B;
+  --netmail: #5C3D99;
+  --access: #A4373A;
   --orange: #FF5A1F;
   --blue: #0084FF;
   --gold: #E9A400;
@@ -41,6 +44,8 @@ html[data-theme="dark"]{
   --word: #6FA8E8;
   --excel: #4FD397;
   --ppt: #FF8A5C;
+  --netmail: #A78BDA;
+  --access: #E28A8C;
   --orange: #FF7A45;
   --blue: #4FA6FF;
   --gold: #FFC94D;
@@ -134,7 +139,7 @@ html[data-theme="dark"] .hero{ background:linear-gradient(135deg,#0D0C1C 0%, #24
   display:flex; align-items:center; gap:8px; box-shadow:var(--shadow-soft);
 }
 .chip .sw{ width:10px; height:10px; border-radius:50%; }
-.chip.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
+.chip.active{ background:var(--ink-solid); color:#fff; border-color:var(--ink-solid); }
 html[data-theme="dark"] .chip.active{ background:var(--surface-2); }
 
 /* ---------- Section grid (cartridges) ---------- */
@@ -313,7 +318,7 @@ html[data-theme="dark"] .chip.active{ background:var(--surface-2); }
 .opt-btn:disabled.wrong{ opacity:1; }
 .modal-actions{ display:flex; justify-content:flex-end; gap:10px; margin-top:18px; }
 .btn-primary{
-  border:none; background:var(--ink); color:#fff; font-weight:700; padding:10px 20px; border-radius:12px;
+  border:none; background:var(--ink-solid); color:#fff; font-weight:700; padding:10px 20px; border-radius:12px;
 }
 .btn-ghost{
   border:1px solid var(--line); background:transparent; color:var(--ink); font-weight:700;
@@ -321,7 +326,7 @@ html[data-theme="dark"] .chip.active{ background:var(--surface-2); }
 }
 .points-toast{
   position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-20px);
-  background:var(--ink); color:#fff; padding:10px 22px; border-radius:100px; font-weight:700;
+  background:var(--ink-solid); color:#fff; padding:10px 22px; border-radius:100px; font-weight:700;
   font-size:13px; box-shadow:var(--shadow); opacity:0; transition:all .35s ease; z-index:80;
   display:flex; align-items:center; gap:8px;
 }

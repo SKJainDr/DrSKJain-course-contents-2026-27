@@ -12,7 +12,7 @@ This guide provides, for each of the **18 experiments**: the theoretical backgro
 schematic, a step-by-step procedure, a blank observation table and graph grid for your own readings, a maximum
 permissible error calculator, precautions, and viva-voce questions — followed by **7 hands-on industrial
 workshops** that let you apply the same physics to realistic engineering scenarios, each scored against an optimal
-target with a printable completion certificate above 90%.
+target with a printable completion certificate at 100%.
 
 ## Topics Covered
 

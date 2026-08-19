@@ -1,6 +1,6 @@
 /* ============================================================================
-   3-D Apparatus Viewer — Advanced Laser & Optics Learning Lab
-   A lightweight, reusable Three.js "optical bench" schematic renderer.
+   3-D Apparatus Viewer — Advanced Electricity & Magnetism Learning Lab
+   A lightweight, reusable Three.js "lab bench" schematic renderer.
    Renders a simplified 3-D layout of the apparatus for each experiment so
    students can see how the components are physically arranged in space,
    complementing the 2-D graphs/animations in the interactive simulator.
@@ -12,18 +12,19 @@
     bench: 0x0b173a,
     benchTop: 0x142b66,
     grid: 0x33529e,
-    source: 0xa8452f,
-    beam: 0xff5a3c,
-    beamDim: 0xc9a227,
-    lens: 0xbfe3ff,
-    lensRim: 0x1f3a93,
-    plate: 0x334155,
-    screen: 0xf4f1e9,
-    screenGlow: 0xfff6da,
-    mirror: 0xd7e6ff,
-    beamsplitter: 0x9fc6ff,
+    positive: 0xa8452f,
+    negative: 0x2e6ea8,
+    neutral: 0x8a94a6,
+    coil: 0xc9a227,
+    coilCore: 0x334155,
+    plateMetal: 0x9fb0c4,
+    magnetN: 0xa8452f,
+    magnetS: 0x2e6ea8,
+    wire: 0xc9a227,
+    dielectric: 0xbfe3ff,
+    screen: 0x1a2e26,
+    trace: 0x5ae68c,
     gold: 0xc9a227,
-    prism: 0xdfeeff,
     label: 0x0b173a
   };
 
@@ -37,7 +38,6 @@
     canvas.width = Math.ceil(metrics.width) + padX * 2;
     canvas.height = fontSize + padY * 2;
     ctx.font = "bold " + fontSize + "px Inter, Helvetica, sans-serif";
-    // background chip
     ctx.fillStyle = "rgba(11,23,58,0.92)";
     roundRect(ctx, 0, 0, canvas.width, canvas.height, 12);
     ctx.fill();
@@ -82,320 +82,435 @@
   }
 
   /* ---- component builders ---- */
-  function buildSource(x, label, colorHex) {
-    var g = group(x);
-    var body = new THREE.Mesh(
-      new THREE.BoxGeometry(0.9, 0.7, 0.7),
-      new THREE.MeshStandardMaterial({ color: colorHex || COLORS.source, metalness: 0.3, roughness: 0.5 })
-    );
-    body.position.y = 0.45;
-    g.add(body);
-    var nozzle = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.09, 0.09, 0.3, 16),
-      new THREE.MeshStandardMaterial({ color: COLORS.gold, metalness: 0.6, roughness: 0.3 })
-    );
-    nozzle.rotation.z = Math.PI / 2;
-    nozzle.position.set(0.6, 0.45, 0);
-    g.add(nozzle);
-    addLabel(g, label, 1.35);
+  /* Each builder takes an item {x, z, label, ...props} and returns a THREE.Group */
+
+  function buildSphereCharge(item) {
+    var g = group(item.x);
+    var sign = item.charge >= 0 ? 1 : -1;
+    var mat = new THREE.MeshStandardMaterial({ color: sign > 0 ? COLORS.positive : COLORS.negative, metalness: 0.35, roughness: 0.4 });
+    var sphere = new THREE.Mesh(new THREE.SphereGeometry(item.radius || 0.32, 24, 18), mat);
+    sphere.position.y = 0.85;
+    g.add(sphere);
+    var stand = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.85, 8), new THREE.MeshStandardMaterial({ color: COLORS.neutral }));
+    stand.position.y = 0.42;
+    g.add(stand);
+    var base = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.06, 16), new THREE.MeshStandardMaterial({ color: COLORS.bench }));
+    base.position.y = 0.03;
+    g.add(base);
+    addLabel(g, item.label + (item.charge ? (item.charge > 0 ? " (+)" : " (\u2212)") : ""), 1.5);
     return g;
   }
 
-  function buildLens(x, label, wide) {
-    var g = group(x);
-    var geo = new THREE.SphereGeometry(0.62, 24, 24);
-    var mat = new THREE.MeshPhysicalMaterial({
-      color: COLORS.lens, transparent: true, opacity: 0.45, roughness: 0.05
+  function buildPlate(item) {
+    var g = group(item.x);
+    var mat = new THREE.MeshStandardMaterial({
+      color: item.charge > 0 ? COLORS.positive : (item.charge < 0 ? COLORS.negative : COLORS.plateMetal),
+      metalness: 0.4, roughness: 0.4
     });
-    var lens = new THREE.Mesh(geo, mat);
-    lens.scale.set(wide ? 0.34 : 0.22, 0.62, 0.62);
-    lens.position.y = 0.55;
-    g.add(lens);
-    var rim = new THREE.Mesh(
-      new THREE.TorusGeometry(0.6, 0.035, 8, 32),
-      new THREE.MeshStandardMaterial({ color: COLORS.lensRim, metalness: 0.5, roughness: 0.4 })
-    );
-    rim.rotation.y = Math.PI / 2;
-    rim.position.y = 0.55;
-    g.add(rim);
-    addLabel(g, label, 1.35);
-    return g;
-  }
-
-  function buildSlitPlate(x, label, nSlits) {
-    var g = group(x);
-    var plateW = 1.3, plateH = 1.1;
-    var n = nSlits || 1;
-    var mat = new THREE.MeshStandardMaterial({ color: COLORS.plate, metalness: 0.4, roughness: 0.6 });
-    var totalGaps = n * 0.14;
-    var barW = (plateW - totalGaps) / (n + 1);
-    var cursor = -plateW / 2;
-    for (var j = 0; j <= n; j++) {
-      var barMesh = new THREE.Mesh(new THREE.BoxGeometry(0.06, plateH, barW), mat);
-      barMesh.position.set(0, 0.55, cursor + barW / 2);
-      g.add(barMesh);
-      cursor += barW + 0.14;
-    }
-    addLabel(g, label, 1.35);
-    return g;
-  }
-
-  function buildScreen(x, label, glow) {
-    var g = group(x);
-    var screen = new THREE.Mesh(
-      new THREE.PlaneGeometry(1.6, 1.3),
-      new THREE.MeshStandardMaterial({
-        color: glow ? COLORS.screenGlow : COLORS.screen, side: THREE.DoubleSide,
-        emissive: glow ? 0x8a6a10 : 0x000000, emissiveIntensity: glow ? 0.25 : 0
-      })
-    );
-    screen.rotation.y = Math.PI / 2;
-    screen.position.y = 0.65;
-    g.add(screen);
-    var frame = new THREE.Mesh(
-      new THREE.BoxGeometry(0.06, 1.36, 1.66),
-      new THREE.MeshStandardMaterial({ color: COLORS.lensRim, metalness: 0.5, roughness: 0.4 })
-    );
-    frame.position.y = 0.65;
-    g.add(frame);
-    addLabel(g, label, 1.5);
-    return g;
-  }
-
-  function buildMirror(x, label, angleDeg) {
-    var g = group(x);
-    var mirror = new THREE.Mesh(
-      new THREE.BoxGeometry(0.05, 1.0, 1.0),
-      new THREE.MeshStandardMaterial({ color: COLORS.mirror, metalness: 0.9, roughness: 0.15 })
-    );
-    mirror.position.y = 0.6;
-    mirror.rotation.y = ((angleDeg || 45) * Math.PI) / 180;
-    g.add(mirror);
-    addLabel(g, label, 1.3);
-    return g;
-  }
-
-  function buildBeamsplitter(x, label) {
-    var g = group(x);
-    var bs = new THREE.Mesh(
-      new THREE.BoxGeometry(0.04, 0.95, 0.95),
-      new THREE.MeshPhysicalMaterial({ color: COLORS.beamsplitter, transparent: true, opacity: 0.55, metalness: 0.3, roughness: 0.2 })
-    );
-    bs.position.y = 0.6;
-    bs.rotation.y = Math.PI / 4;
-    g.add(bs);
-    addLabel(g, label, 1.3);
-    return g;
-  }
-
-  function buildPrism(x, label) {
-    var g = group(x);
-    var shape = new THREE.Shape();
-    shape.moveTo(-0.5, 0);
-    shape.lineTo(0.5, 0);
-    shape.lineTo(0, 0.8);
-    shape.lineTo(-0.5, 0);
-    var geo = new THREE.ExtrudeGeometry(shape, { depth: 0.8, bevelEnabled: false });
-    geo.center();
-    var mat = new THREE.MeshPhysicalMaterial({ color: COLORS.prism, transparent: true, opacity: 0.55, roughness: 0.05 });
-    var mesh = new THREE.Mesh(geo, mat);
-    mesh.rotation.x = -Math.PI / 2;
-    mesh.position.y = 0.4;
-    g.add(mesh);
-    addLabel(g, label, 1.3);
-    return g;
-  }
-
-  function buildPolarizer(x, label) {
-    var g = group(x);
-    var disc = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.62, 0.62, 0.05, 32),
-      new THREE.MeshStandardMaterial({ color: COLORS.beamsplitter, transparent: true, opacity: 0.4, metalness: 0.2, roughness: 0.3 })
-    );
-    disc.rotation.z = Math.PI / 2;
-    disc.position.y = 0.55;
-    g.add(disc);
-    var rim = new THREE.Mesh(
-      new THREE.TorusGeometry(0.62, 0.04, 8, 32),
-      new THREE.MeshStandardMaterial({ color: COLORS.gold, metalness: 0.6, roughness: 0.3 })
-    );
-    rim.rotation.y = Math.PI / 2;
-    rim.position.y = 0.55;
-    g.add(rim);
-    // axis tick
-    var tick = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.7, 0.04), new THREE.MeshStandardMaterial({ color: COLORS.gold }));
-    tick.position.set(0, 0.55, 0);
-    g.add(tick);
-    addLabel(g, label, 1.35);
-    return g;
-  }
-
-  function buildVacuumTube(x, label) {
-    var g = group(x);
-    var tube = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.5, 0.5, 1.4, 24, 1, true),
-      new THREE.MeshPhysicalMaterial({ color: 0xbfe3ff, transparent: true, opacity: 0.25, side: THREE.DoubleSide, roughness: 0.1 })
-    );
-    tube.rotation.z = Math.PI / 2;
-    tube.position.y = 0.55;
-    g.add(tube);
-    var cathode = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.7, 0.7),
-      new THREE.MeshStandardMaterial({ color: COLORS.source, metalness: 0.5 }));
-    cathode.position.set(-0.55, 0.55, 0);
-    g.add(cathode);
-    var anode = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.7, 0.7),
-      new THREE.MeshStandardMaterial({ color: COLORS.lensRim, metalness: 0.5 }));
-    anode.position.set(0.55, 0.55, 0);
-    g.add(anode);
-    addLabel(g, label, 1.35);
-    return g;
-  }
-
-  function buildAtomTarget(x, label) {
-    var g = group(x);
-    var nucleus = new THREE.Mesh(new THREE.SphereGeometry(0.18, 16, 16),
-      new THREE.MeshStandardMaterial({ color: COLORS.source, metalness: 0.4, roughness: 0.4 }));
-    nucleus.position.y = 0.6;
-    g.add(nucleus);
-    var orbitR = 0.45;
-    var electron = new THREE.Mesh(new THREE.SphereGeometry(0.07, 12, 12),
-      new THREE.MeshStandardMaterial({ color: COLORS.gold, emissive: 0x6b5410, emissiveIntensity: 0.4 }));
-    electron.position.set(orbitR, 0.6, 0);
-    g.add(electron);
-    var ring = new THREE.Mesh(new THREE.TorusGeometry(orbitR, 0.008, 6, 40),
-      new THREE.MeshBasicMaterial({ color: COLORS.gold, transparent: true, opacity: 0.5 }));
-    ring.rotation.x = Math.PI / 2.3;
-    ring.position.y = 0.6;
-    g.add(ring);
-    addLabel(g, label, 1.35);
-    return g;
-  }
-
-  function buildPhotoPlate(x, label) {
-    var g = group(x);
-    var plate = new THREE.Mesh(new THREE.BoxGeometry(0.06, 1.2, 1.2),
-      new THREE.MeshStandardMaterial({ color: 0x5b4a12, metalness: 0.3, roughness: 0.6 }));
-    plate.position.y = 0.6;
+    var plate = new THREE.Mesh(new THREE.BoxGeometry(0.08, 1.4, 1.4), mat);
+    plate.position.y = 0.85;
     g.add(plate);
-    var sheen = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 1.1),
-      new THREE.MeshStandardMaterial({ color: COLORS.gold, transparent: true, opacity: 0.25, side: THREE.DoubleSide }));
-    sheen.rotation.y = Math.PI / 2;
-    sheen.position.set(0.04, 0.6, 0);
-    g.add(sheen);
-    addLabel(g, label, 1.35);
+    var stand = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.85, 8), new THREE.MeshStandardMaterial({ color: COLORS.neutral }));
+    stand.position.y = 0.42;
+    g.add(stand);
+    addLabel(g, item.label, 1.9);
     return g;
   }
 
-  function buildBeam(fromX, toX, opts) {
-    opts = opts || {};
-    var len = toX - fromX;
-    if (Math.abs(len) < 0.05) return null;
-    var geo = new THREE.CylinderGeometry(opts.r || 0.025, opts.r || 0.025, Math.abs(len), 8);
-    var mat = new THREE.MeshBasicMaterial({ color: opts.color || COLORS.beam, transparent: true, opacity: opts.opacity || 0.85 });
-    var mesh = new THREE.Mesh(geo, mat);
-    mesh.rotation.z = Math.PI / 2;
-    mesh.position.set(fromX + len / 2, opts.y || 0.55, opts.z || 0);
-    return mesh;
+  function buildDielectricSlab(item) {
+    var g = group(item.x);
+    var mat = new THREE.MeshStandardMaterial({ color: COLORS.dielectric, transparent: true, opacity: 0.55, metalness: 0.1, roughness: 0.2 });
+    var slab = new THREE.Mesh(new THREE.BoxGeometry(0.7, 1.1, 1.1), mat);
+    slab.position.y = 0.85;
+    g.add(slab);
+    addLabel(g, item.label, 1.65);
+    return g;
+  }
+
+  function buildCoil(item) {
+    var g = group(item.x);
+    var turns = item.turns || 10;
+    var radius = item.radius || 0.55;
+    var length = item.length || 1.4;
+    var core = new THREE.Mesh(
+      new THREE.CylinderGeometry(item.coreRadius || radius * 0.55, item.coreRadius || radius * 0.55, length, 20),
+      new THREE.MeshStandardMaterial({ color: COLORS.coilCore, roughness: 0.6 })
+    );
+    core.rotation.z = Math.PI / 2;
+    core.position.y = 0.85;
+    g.add(core);
+    var windMat = new THREE.MeshStandardMaterial({ color: COLORS.coil, metalness: 0.6, roughness: 0.3 });
+    for (var i = 0; i < turns; i++) {
+      var ring = new THREE.Mesh(new THREE.TorusGeometry(radius, 0.035, 8, 24), windMat);
+      ring.rotation.y = Math.PI / 2;
+      ring.position.set(-length / 2 + (i + 0.5) * (length / turns), 0.85, 0);
+      g.add(ring);
+    }
+    addLabel(g, item.label, 1.85);
+    return g;
+  }
+
+  function buildToroid(item) {
+    var g = group(item.x);
+    var R = item.R || 0.65, r = item.r || 0.22;
+    var core = new THREE.Mesh(new THREE.TorusGeometry(R, r, 14, 30), new THREE.MeshStandardMaterial({ color: COLORS.coilCore, roughness: 0.6 }));
+    core.position.y = 0.9;
+    g.add(core);
+    var windMat = new THREE.MeshStandardMaterial({ color: COLORS.coil, metalness: 0.6, roughness: 0.3 });
+    var n = 16;
+    for (var i = 0; i < n; i++) {
+      var ang = (i / n) * Math.PI * 2;
+      var ring = new THREE.Mesh(new THREE.TorusGeometry(r * 1.35, 0.025, 6, 14), windMat);
+      ring.position.set(Math.cos(ang) * R, 0.9 + Math.sin(ang) * R * 0, 0);
+      ring.position.x = Math.cos(ang) * R;
+      ring.position.z = Math.sin(ang) * R;
+      ring.position.y = 0.9;
+      ring.rotation.y = ang;
+      ring.rotation.x = Math.PI / 2;
+      g.add(ring);
+    }
+    addLabel(g, item.label, 1.75);
+    return g;
+  }
+
+  function buildWireStraight(item) {
+    var g = group(item.x);
+    var h = item.height || 1.9;
+    var wire = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, h, 12), new THREE.MeshStandardMaterial({ color: COLORS.wire, metalness: 0.7, roughness: 0.25 }));
+    wire.position.y = h / 2 + 0.05;
+    g.add(wire);
+    if (item.arrow !== false) {
+      var arrow = new THREE.Mesh(new THREE.ConeGeometry(0.09, 0.22, 10), new THREE.MeshStandardMaterial({ color: COLORS.wire }));
+      arrow.position.y = h * 0.78;
+      g.add(arrow);
+    }
+    if (item.rings) {
+      var ringMat = new THREE.MeshBasicMaterial({ color: 0x88a2d6, transparent: true, opacity: 0.55 });
+      [0.5, 0.85, 1.2].forEach(function (rr) {
+        var ring = new THREE.Mesh(new THREE.TorusGeometry(rr, 0.012, 6, 32), ringMat);
+        ring.rotation.x = Math.PI / 2;
+        ring.position.y = h * 0.55;
+        g.add(ring);
+      });
+    }
+    addLabel(g, item.label, h + 0.35);
+    return g;
+  }
+
+  function buildBattery(item) {
+    var g = group(item.x);
+    var body = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.55, 0.75), new THREE.MeshStandardMaterial({ color: 0x2b3550, metalness: 0.3, roughness: 0.5 }));
+    body.position.y = 0.5;
+    g.add(body);
+    var cap = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.18, 12), new THREE.MeshStandardMaterial({ color: COLORS.gold, metalness: 0.7 }));
+    cap.position.set(0, 0.86, 0);
+    g.add(cap);
+    addLabel(g, item.label, 1.3);
+    return g;
+  }
+
+  function buildResistor(item) {
+    var g = group(item.x);
+    var body = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, 0.7, 14), new THREE.MeshStandardMaterial({ color: 0xd9c08a, roughness: 0.5 }));
+    body.rotation.z = Math.PI / 2;
+    body.position.y = 0.85;
+    g.add(body);
+    [-0.18, 0, 0.18].forEach(function (off) {
+      var band = new THREE.Mesh(new THREE.CylinderGeometry(0.145, 0.145, 0.05, 14), new THREE.MeshStandardMaterial({ color: 0x334155 }));
+      band.rotation.z = Math.PI / 2;
+      band.position.set(off, 0.85, 0);
+      g.add(band);
+    });
+    addLabel(g, item.label, 1.3);
+    return g;
+  }
+
+  function buildMeter(item) {
+    var g = group(item.x);
+    var dial = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.14, 28), new THREE.MeshStandardMaterial({ color: 0xf4f1e9, roughness: 0.4 }));
+    dial.rotation.x = Math.PI / 2;
+    dial.position.y = 0.95;
+    g.add(dial);
+    var rim = new THREE.Mesh(new THREE.TorusGeometry(0.42, 0.035, 10, 28), new THREE.MeshStandardMaterial({ color: COLORS.bench }));
+    rim.position.y = 0.95;
+    g.add(rim);
+    var needleSprite = makeLabelSprite(item.symbol || "M");
+    needleSprite.position.set(0, 0.95, 0.08);
+    needleSprite.scale.multiplyScalar(0.55);
+    g.add(needleSprite);
+    var stand = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 0.3), new THREE.MeshStandardMaterial({ color: COLORS.bench }));
+    stand.position.y = 0.45;
+    g.add(stand);
+    addLabel(g, item.label, 1.55);
+    return g;
+  }
+
+  function buildBarMagnet(item) {
+    var g = group(item.x);
+    var n = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.35, 0.35), new THREE.MeshStandardMaterial({ color: COLORS.magnetN, roughness: 0.4 }));
+    n.position.set(-0.28, 0.7, 0);
+    g.add(n);
+    var s = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.35, 0.35), new THREE.MeshStandardMaterial({ color: COLORS.magnetS, roughness: 0.4 }));
+    s.position.set(0.28, 0.7, 0);
+    g.add(s);
+    addLabel(g, item.label, 1.25);
+    return g;
+  }
+
+  function buildRailsRod(item) {
+    var g = group(item.x);
+    var railMat = new THREE.MeshStandardMaterial({ color: COLORS.neutral, metalness: 0.6, roughness: 0.35 });
+    var len = item.length || 3.2, gap = item.gap || 1.2;
+    [gap / 2, -gap / 2].forEach(function (zz) {
+      var rail = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, len, 10), railMat);
+      rail.rotation.z = Math.PI / 2;
+      rail.position.set(0, 0.5, zz);
+      g.add(rail);
+    });
+    var rod = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, gap, 10), new THREE.MeshStandardMaterial({ color: COLORS.gold, metalness: 0.7, roughness: 0.25 }));
+    rod.rotation.x = Math.PI / 2;
+    rod.position.set(item.rodOffset || 0, 0.5, 0);
+    g.add(rod);
+    addLabel(g, item.label, 1.05);
+    return g;
+  }
+
+  function buildCRO(item) {
+    var g = group(item.x);
+    var box = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.9, 0.9), new THREE.MeshStandardMaterial({ color: 0x2b3550, roughness: 0.5 }));
+    box.position.y = 0.7;
+    g.add(box);
+    var scr = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 0.6), new THREE.MeshBasicMaterial({ color: COLORS.screen }));
+    scr.position.set(0.56, 0.72, 0);
+    scr.rotation.y = Math.PI / 2;
+    g.add(scr);
+    var traceMat = new THREE.LineBasicMaterial({ color: COLORS.trace });
+    var pts = [];
+    for (var i = 0; i <= 40; i++) {
+      var t = i / 40;
+      pts.push(new THREE.Vector3(0.565, 0.72 + 0.22 * Math.sin(t * Math.PI * 4), -0.35 + t * 0.7));
+    }
+    var traceGeo = new THREE.BufferGeometry().setFromPoints(pts);
+    g.add(new THREE.Line(traceGeo, traceMat));
+    addLabel(g, item.label, 1.3);
+    return g;
+  }
+
+  function buildAntenna(item) {
+    var g = group(item.x);
+    var rod = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 1.6, 10), new THREE.MeshStandardMaterial({ color: COLORS.wire, metalness: 0.6 }));
+    rod.position.y = 0.9;
+    g.add(rod);
+    var mat = new THREE.LineBasicMaterial({ color: COLORS.positive });
+    var pts = [];
+    for (var i = 0; i <= 60; i++) {
+      var t = i / 60;
+      pts.push(new THREE.Vector3(0.4 + t * 2.6, 0.9 + 0.35 * Math.sin(t * Math.PI * 5), 0));
+    }
+    g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), mat));
+    var mat2 = new THREE.LineBasicMaterial({ color: COLORS.negative });
+    var pts2 = [];
+    for (var j = 0; j <= 60; j++) {
+      var t2 = j / 60;
+      pts2.push(new THREE.Vector3(0.4 + t2 * 2.6, 0.9, 0.35 * Math.sin(t2 * Math.PI * 5)));
+    }
+    g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts2), mat2));
+    addLabel(g, item.label, 1.55);
+    return g;
+  }
+
+  function buildProbe(item) {
+    var g = group(item.x);
+    var tip = new THREE.Mesh(new THREE.ConeGeometry(0.1, 0.3, 12), new THREE.MeshStandardMaterial({ color: COLORS.gold, metalness: 0.6 }));
+    tip.rotation.x = Math.PI;
+    tip.position.y = 0.85;
+    g.add(tip);
+    var stick = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.7, 8), new THREE.MeshStandardMaterial({ color: COLORS.neutral }));
+    stick.position.y = 0.4;
+    g.add(stick);
+    addLabel(g, item.label, 1.35);
+    return g;
+  }
+
+  function buildSwitch(item) {
+    var g = group(item.x);
+    var base = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.12, 0.3), new THREE.MeshStandardMaterial({ color: COLORS.bench }));
+    base.position.y = 0.45;
+    g.add(base);
+    var lever = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.4, 8), new THREE.MeshStandardMaterial({ color: COLORS.wire, metalness: 0.6 }));
+    lever.position.set(0, 0.7, 0);
+    lever.rotation.z = Math.PI / 6;
+    g.add(lever);
+    addLabel(g, item.label, 1.05);
+    return g;
   }
 
   var BUILDERS = {
-    source: function (item) { return buildSource(item.x, item.label, item.color); },
-    lens: function (item) { return buildLens(item.x, item.label, item.wide); },
-    slit: function (item) { return buildSlitPlate(item.x, item.label, item.n || 1); },
-    screen: function (item) { return buildScreen(item.x, item.label, item.glow); },
-    mirror: function (item) { return buildMirror(item.x, item.label, item.angle); },
-    beamsplitter: function (item) { return buildBeamsplitter(item.x, item.label); },
-    prism: function (item) { return buildPrism(item.x, item.label); },
-    polarizer: function (item) { return buildPolarizer(item.x, item.label); },
-    tube: function (item) { return buildVacuumTube(item.x, item.label); },
-    atom: function (item) { return buildAtomTarget(item.x, item.label); },
-    plate: function (item) { return buildPhotoPlate(item.x, item.label); }
+    sphereCharge: buildSphereCharge,
+    plate: buildPlate,
+    dielectricSlab: buildDielectricSlab,
+    coil: buildCoil,
+    toroid: buildToroid,
+    wireStraight: buildWireStraight,
+    battery: buildBattery,
+    resistor: buildResistor,
+    meter: buildMeter,
+    barMagnet: buildBarMagnet,
+    railsRod: buildRailsRod,
+    cro: buildCRO,
+    antenna: buildAntenna,
+    probe: buildProbe,
+    switch: buildSwitch
   };
 
-  /* ---- experiment configurations ---- */
+  /* ---- per-experiment layouts ---- */
   var CONFIGS = {
-    "youngs-double-slit": [
-      { type: "source", x: -5.2, label: "Laser" },
-      { type: "lens", x: -3, label: "Collimator" },
-      { type: "slit", x: -0.6, n: 2, label: "Double Slit" },
-      { type: "screen", x: 4.4, label: "Screen", glow: true }
+    "coulombs-law": [
+      { type: "sphereCharge", x: -1.6, label: "Ball A (fixed)", charge: 1 },
+      { type: "sphereCharge", x: 1.6, label: "Ball B (movable)", charge: -1 }
     ],
-    "slit-diffraction": [
-      { type: "source", x: -5.2, label: "Laser" },
-      { type: "slit", x: -1, n: 3, label: "N-Slit Grating" },
-      { type: "screen", x: 4.4, label: "Screen", glow: true }
+    "gauss-law-flux": [
+      { type: "sphereCharge", x: 0, label: "Enclosed charge q", charge: 1, radius: 0.24 },
+      { type: "probe", x: 2.3, label: "Flux probe on surface" }
     ],
-    "polarization-malus": [
-      { type: "source", x: -5.2, label: "Unpolarized Source" },
-      { type: "polarizer", x: -1.8, label: "Polarizer" },
-      { type: "polarizer", x: 1.4, label: "Analyzer" },
-      { type: "screen", x: 4.6, label: "Detector" }
+    "dipole-field-potential": [
+      { type: "sphereCharge", x: -0.45, label: "+q", charge: 1, radius: 0.22 },
+      { type: "sphereCharge", x: 0.45, label: "\u2212q", charge: -1, radius: 0.22 },
+      { type: "probe", x: 2.4, label: "Field / potential probe P" }
     ],
-    "prism-dispersion": [
-      { type: "source", x: -5, label: "White Light" },
-      { type: "slit", x: -2.6, n: 1, label: "Slit" },
-      { type: "prism", x: 0, label: "Prism" },
-      { type: "screen", x: 4.2, label: "Spectrum Screen", glow: true }
+    "conductors-charge-distribution": [
+      { type: "sphereCharge", x: -1.8, label: "Charged conductor", charge: 1, radius: 0.55 },
+      { type: "probe", x: 0.2, label: "Proof-plane probe" },
+      { type: "battery", x: 2.2, label: "Van de Graaff drive belt" }
     ],
-    "michelson-interferometer": [
-      { type: "source", x: -5, label: "Laser" },
-      { type: "beamsplitter", x: -1, label: "Beamsplitter" },
-      { type: "mirror", x: -1, z: 3, label: "Fixed Mirror M2", angle: 0 },
-      { type: "mirror", x: 2.6, label: "Movable Mirror M1", angle: 90 },
-      { type: "screen", x: -1, z: -3.2, label: "Detector", glow: true }
+    "parallel-plate-capacitor": [
+      { type: "battery", x: -2.7, label: "Supply V" },
+      { type: "plate", x: -0.6, label: "Plate +Q", charge: 1 },
+      { type: "dielectricSlab", x: 0.35, label: "Dielectric slab" },
+      { type: "plate", x: 1.2, label: "Plate \u2212Q", charge: -1 }
     ],
-    "convex-lens-focusing": [
-      { type: "source", x: -5, label: "Collimated Beam" },
-      { type: "lens", x: -0.5, wide: true, label: "Convex Lens" },
-      { type: "screen", x: 3, label: "Focal Screen", glow: true }
+    "dielectric-polarization-clausius-mossotti": [
+      { type: "plate", x: -1, label: "Plate +", charge: 1 },
+      { type: "dielectricSlab", x: 0, label: "Dielectric (polarised)" },
+      { type: "plate", x: 1, label: "Plate \u2212", charge: -1 }
     ],
-    "compound-lens-system": [
-      { type: "source", x: -5.4, label: "Object" },
-      { type: "lens", x: -2.4, label: "Lens 1" },
-      { type: "lens", x: 1.2, label: "Lens 2" },
-      { type: "screen", x: 4.6, label: "Final Image", glow: true }
+    "biot-savart-wire": [
+      { type: "wireStraight", x: 0, label: "Current-carrying wire, I", height: 2.3, rings: true },
+      { type: "probe", x: 1.7, label: "B-field probe at r" }
     ],
-    "photoelectric-effect": [
-      { type: "source", x: -4.6, label: "Light Source" },
-      { type: "tube", x: -0.6, label: "Vacuum Photocell" },
-      { type: "screen", x: 3.4, label: "Ammeter / Voltmeter" }
+    "ampere-law-solenoid-toroid": [
+      { type: "coil", x: -1.7, label: "Solenoid", turns: 12, radius: 0.5, length: 1.9 },
+      { type: "toroid", x: 1.7, label: "Toroid", R: 0.62, r: 0.22 }
     ],
-    "compton-scattering": [
-      { type: "source", x: -5, label: "X-ray Source" },
-      { type: "atom", x: -0.6, label: "Target Electron" },
-      { type: "screen", x: 3.2, z: 2.2, label: "Detector (angle θ)", glow: true }
+    "circular-coil-helmholtz": [
+      { type: "coil", x: -1.1, label: "Coil 1", turns: 8, radius: 0.55, length: 0.22 },
+      { type: "coil", x: 1.1, label: "Coil 2 (Helmholtz pair)", turns: 8, radius: 0.55, length: 0.22 },
+      { type: "probe", x: 0, label: "Axial field probe" }
     ],
-    "single-photon-double-slit": [
-      { type: "source", x: -5.2, label: "Attenuated Source\n(1 photon at a time)" },
-      { type: "slit", x: -0.6, n: 2, label: "Double Slit" },
-      { type: "screen", x: 4.4, label: "Photon-Counting Screen", glow: true }
+    "force-parallel-conductors": [
+      { type: "wireStraight", x: -0.85, label: "Wire 1, I\u2081", height: 2.2 },
+      { type: "wireStraight", x: 0.85, label: "Wire 2, I\u2082", height: 2.2 }
     ],
-    "coherence": [
-      { type: "source", x: -5, label: "Source" },
-      { type: "beamsplitter", x: -1, label: "Beamsplitter" },
-      { type: "mirror", x: -1, z: 3, label: "Mirror (fixed path)", angle: 0 },
-      { type: "mirror", x: 2.6, label: "Mirror (variable path)", angle: 90 },
-      { type: "screen", x: -1, z: -3.2, label: "Fringe Detector", glow: true }
+    "magnetic-hysteresis-bh-curve": [
+      { type: "toroid", x: -1.4, label: "Ferromagnetic core", R: 0.6, r: 0.26 },
+      { type: "cro", x: 1.7, label: "CRO \u2014 B\u2013H plotter" }
     ],
-    "directionality-beam-quality": [
-      { type: "source", x: -5, label: "Laser" },
-      { type: "screen", x: 4.6, label: "Distant Screen" }
+    "faraday-induction": [
+      { type: "barMagnet", x: -1.9, label: "Bar magnet (moved by hand)" },
+      { type: "coil", x: 0.3, label: "Coil (N turns)", turns: 10, radius: 0.5, length: 1.2 },
+      { type: "meter", x: 2.3, label: "Galvanometer", symbol: "G" }
     ],
-    "monochromaticity-purity": [
-      { type: "source", x: -5, label: "Light Source" },
-      { type: "prism", x: -0.8, label: "Grating / Prism" },
-      { type: "screen", x: 4, label: "Spectrum Analyzer", glow: true }
+    "motional-emf-lenz": [
+      { type: "meter", x: -2.3, label: "Galvanometer", symbol: "G" },
+      { type: "railsRod", x: 0.1, label: "Rails & sliding rod", length: 3.4, gap: 1.3 }
     ],
-    "holography": [
-      { type: "source", x: -5.4, label: "Laser" },
-      { type: "beamsplitter", x: -2.4, label: "Beamsplitter" },
-      { type: "atom", x: 1.2, z: 2.4, label: "Object" },
-      { type: "plate", x: 3.6, label: "Holographic Plate" }
+    "rc-rl-transients": [
+      { type: "battery", x: -2.7, label: "DC supply V" },
+      { type: "switch", x: -1.8, label: "Switch" },
+      { type: "resistor", x: -0.9, label: "Resistor R" },
+      { type: "plate", x: 0.1, label: "C+", charge: 1 },
+      { type: "plate", x: 0.4, label: "C\u2212", charge: -1 },
+      { type: "coil", x: 1.7, label: "Inductor L (RL circuit)", turns: 8, radius: 0.4, length: 1 }
     ],
-    "wavelength-explorer": [
-      { type: "source", x: -4, label: "Tunable Source" },
-      { type: "prism", x: 0, label: "Dispersing Element" },
-      { type: "screen", x: 3.6, label: "Spectrum Bar", glow: true }
+    "lcr-resonance": [
+      { type: "battery", x: -2.6, label: "AC signal source" },
+      { type: "resistor", x: -1.3, label: "R" },
+      { type: "coil", x: -0.1, label: "L", turns: 8, radius: 0.4, length: 0.9 },
+      { type: "plate", x: 0.9, label: "C+", charge: 1 },
+      { type: "plate", x: 1.2, label: "C\u2212", charge: -1 },
+      { type: "meter", x: 2.5, label: "Ammeter", symbol: "A" }
+    ],
+    "maxwell-plane-waves": [
+      { type: "antenna", x: -1.2, label: "Oscillating dipole antenna" },
+      { type: "probe", x: 2.3, label: "Field probe (E, B)" }
+    ],
+    "reflection-refraction-brewster": [
+      { type: "antenna", x: -2.2, label: "EM wave source" },
+      { type: "dielectricSlab", x: 0.6, label: "Dielectric medium n\u2082" },
+      { type: "probe", x: 2.5, label: "Reflected/refracted detector" }
+    ],
+    "wave-propagation-media-skindepth": [
+      { type: "antenna", x: -2.2, label: "EM wave source" },
+      { type: "dielectricSlab", x: 0.8, label: "Conducting medium (skin depth \u03b4)" },
+      { type: "probe", x: 2.7, label: "Amplitude probe" }
+    ],
+    "image-charge-grounded-plane": [
+      { type: "sphereCharge", x: -0.5, label: "Real charge +q", charge: 1 },
+      { type: "plate", x: 1.3, label: "Grounded conducting plane", charge: 0 }
+    ],
+    "multipole-expansion-quadrupole": [
+      { type: "sphereCharge", x: -1.3, label: "+q", charge: 1, radius: 0.2 },
+      { type: "sphereCharge", x: 0, label: "\u22122q", charge: -1, radius: 0.28 },
+      { type: "sphereCharge", x: 1.3, label: "+q", charge: 1, radius: 0.2 },
+      { type: "probe", x: 3, label: "Field point P (on axis)" }
+    ],
+    "magnetic-vector-potential-dipole": [
+      { type: "coil", x: 0, label: "Current loop, I", turns: 10, radius: 0.55, length: 0.18 },
+      { type: "probe", x: 2.6, label: "Field point (r, \u03b8)" }
+    ],
+    "cyclotron-velocity-selector": [
+      { type: "plate", x: -1.6, label: "+ deflection plate", charge: 1 },
+      { type: "plate", x: -0.7, label: "\u2212 deflection plate", charge: -1 },
+      { type: "probe", x: 1.8, label: "Selected beam \u2192 cyclotron orbit" }
+    ],
+    "hall-effect-carrier-density": [
+      { type: "battery", x: -2.4, label: "Current source" },
+      { type: "plate", x: -0.4, label: "Sample slab", charge: 0 },
+      { type: "meter", x: 1.5, label: "Hall voltmeter", symbol: "V" }
+    ],
+    "meissner-effect-flux-expulsion": [
+      { type: "barMagnet", x: -2.1, label: "Applied field source" },
+      { type: "dielectricSlab", x: 0.3, label: "Superconductor (T < T_c)" }
+    ],
+    "eddy-current-damping": [
+      { type: "plate", x: -0.3, label: "Conducting plate (moving)", charge: 0 },
+      { type: "barMagnet", x: 1.5, label: "Localised field magnet" }
+    ],
+    "rlc-filter-response": [
+      { type: "battery", x: -2.6, label: "AC source" },
+      { type: "resistor", x: -1.3, label: "R" },
+      { type: "coil", x: -0.1, label: "L", turns: 8, radius: 0.4, length: 0.9 },
+      { type: "plate", x: 0.9, label: "C+", charge: 1 },
+      { type: "plate", x: 1.2, label: "C\u2212", charge: -1 },
+      { type: "meter", x: 2.5, label: "V_out", symbol: "V" }
+    ],
+    "poynting-vector-coaxial-cable": [
+      { type: "wireStraight", x: 0, label: "Inner conductor", height: 1.9, rings: true },
+      { type: "probe", x: 1.9, label: "S = E \u00d7 H probe" }
+    ],
+    "waveguide-cutoff-frequency": [
+      { type: "antenna", x: -2.2, label: "Source" },
+      { type: "dielectricSlab", x: 0.2, label: "Waveguide interior (a)" },
+      { type: "probe", x: 2.2, label: "Propagating / evanescent probe" }
+    ],
+    "transmission-line-impedance-vswr": [
+      { type: "railsRod", x: -0.2, label: "Transmission line, Z\u2080", length: 3, gap: 0.45 },
+      { type: "plate", x: 1.7, label: "Load Z_L", charge: 0 }
+    ],
+    "faraday-cage-shielding-effectiveness": [
+      { type: "antenna", x: -2.4, label: "External field source" },
+      { type: "dielectricSlab", x: 0.2, label: "Conducting enclosure wall" },
+      { type: "probe", x: 0.9, label: "Interior probe (\u2248 0)" }
     ]
   };
 
@@ -447,22 +562,13 @@
     var xs = config.map(function (c) { return c.x; });
     buildBench(scene, Math.min.apply(null, xs), Math.max.apply(null, xs));
 
-    var built = [];
     config.forEach(function (item) {
       var builder = BUILDERS[item.type];
       if (!builder) return;
       var mesh = builder(item);
       mesh.position.z = item.z || 0;
       scene.add(mesh);
-      built.push(item);
     });
-
-    // connect consecutive same-row (z ~ 0) components with a beam
-    var mainRow = built.filter(function (b) { return !b.z; }).sort(function (a, b) { return a.x - b.x; });
-    for (var i = 0; i < mainRow.length - 1; i++) {
-      var b = buildBeam(mainRow[i].x + 0.55, mainRow[i + 1].x - 0.55, { y: 0.55 });
-      if (b) scene.add(b);
-    }
 
     var controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -470,7 +576,7 @@
     controls.minDistance = 4;
     controls.maxDistance = 20;
     controls.maxPolarAngle = Math.PI / 2.05;
-    controls.target.set((Math.min.apply(null, xs) + Math.max.apply(null, xs)) / 2, 0.5, 0);
+    controls.target.set((Math.min.apply(null, xs) + Math.max.apply(null, xs)) / 2, 0.6, 0);
     controls.update();
 
     var frameId;
@@ -504,12 +610,13 @@
     });
   }
 
+  window.__EM_APPARATUS_CONFIGS__ = CONFIGS;
+
   if (document.readyState === "complete" || document.readyState === "interactive") {
     setTimeout(initAll, 30);
   } else {
     document.addEventListener("DOMContentLoaded", function () { setTimeout(initAll, 30); });
   }
-  // mkdocs-material instant-navigation hook (harmless no-op if absent)
   if (window.document$ && window.document$.subscribe) {
     window.document$.subscribe(function () { setTimeout(initAll, 30); });
   }

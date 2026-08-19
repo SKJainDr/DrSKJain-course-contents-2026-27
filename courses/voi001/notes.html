@@ -377,7 +377,32 @@ consistently makes documents easier to update and to convert into a table of con
 Layout/Insert tabs; Section Breaks allow different layouts (e.g. portrait vs landscape) within one document.</p>
 <p><b>Mail merge</b> combines a main document (e.g. a letter) with a data source (e.g. an Excel list of
 names/addresses) to generate personalized copies automatically — a key productivity skill for bulk
-correspondence.</p>
+correspondence.</p><p><div style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;padding:10px;background:#FFFDF3;overflow:hidden;"><svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .mm-letter{ animation:mm-out 3s ease-in-out infinite; opacity:0; }
+  @keyframes mm-out{ 0%{ transform:translate(0,0); opacity:0;} 15%{opacity:1;} 90%{opacity:1;} 100%{ transform:translate(240px,0); opacity:0;} }
+</style>
+<rect width="700" height="220" fill="#FFFDF3"/>
+<rect x="50" y="40" width="90" height="110" fill="#FFF6DA" stroke="#0B173A" stroke-width="2"/>
+<text x="60" y="100" font-size="11" fill="#0B173A">Letter{{Name}}</text>
+<text x="55" y="30" font-size="12" font-weight="700" fill="#0B173A">Template (.docx)</text>
+<rect x="50" y="165" width="90" height="45" fill="#e7f0e3" stroke="#0B173A" stroke-width="2"/>
+<text x="58" y="192" font-size="10" fill="#0B173A">Data source (.xlsx)</text>
+<text x="180" y="115" font-size="22" fill="#0B173A">+ →</text>
+<g class="mm-letter" style="animation-delay:0s">
+  <rect x="260" y="60" width="70" height="90" fill="#FFF6DA" stroke="#0B173A" stroke-width="1.6"/>
+  <text x="266" y="100" font-size="9" fill="#0B173A">Dear Amit,</text>
+</g>
+<g class="mm-letter" style="animation-delay:-1s">
+  <rect x="260" y="100" width="70" height="90" fill="#FFF6DA" stroke="#0B173A" stroke-width="1.6"/>
+  <text x="266" y="140" font-size="9" fill="#0B173A">Dear Priya,</text>
+</g>
+<g class="mm-letter" style="animation-delay:-2s">
+  <rect x="260" y="40" width="70" height="90" fill="#FFF6DA" stroke="#0B173A" stroke-width="1.6"/>
+  <text x="266" y="80" font-size="9" fill="#0B173A">Dear Rohit,</text>
+</g>
+<text x="500" y="30" font-size="12" font-weight="700" fill="#0B173A">Personalised letters, one per row</text>
+</svg></div></p><p><em>Fig. 2.9 (Animated) — Mail Merge combines one Word template with each row of an Excel/Access data source in turn, generating a separate, personalised letter for every recipient — shown here as individual letters streaming out, each addressed to a different name from the data source.</em></p>
 <p><b>Reviewing tools:</b> Track Changes records edits with author attribution for collaborative review;
 Comments allow feedback without altering the text directly; both are essential for collaborative report
 writing.</p>
@@ -1114,7 +1139,25 @@ via browsers over the internet; basic services include email, file transfer, and
 safe browsing (checking for HTTPS, avoiding suspicious downloads).</p>
 <p><b>Email:</b> creating an account, composing messages, attaching files and managing an inbox are core
 digital-literacy skills; understanding CC/BCC and email etiquette matters for academic and professional
-correspondence.</p>
+correspondence.</p><p><div style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;padding:10px;background:#FFFDF3;overflow:hidden;"><svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .em-envelope{ offset-path: path("M110,110 C250,60 300,60 350,110 C400,160 450,160 590,110"); animation:em-fly 3s linear infinite; }
+  @keyframes em-fly{ 0%{ offset-distance:0%; } 100%{ offset-distance:100%; } }
+</style>
+<rect width="700" height="220" fill="#FFFDF3"/>
+<rect x="60" y="80" width="60" height="46" rx="4" fill="#DCDAF0" stroke="#0B173A" stroke-width="2"/>
+<text x="55" y="145" font-size="11" font-weight="700" fill="#0B173A">Sender</text>
+<circle cx="350" cy="90" r="34" fill="#F3EEFC" stroke="#5C3D99" stroke-width="2"/>
+<text x="320" y="95" font-size="11" font-weight="700" fill="#5C3D99">SMTP</text>
+<text x="315" y="55" font-size="12" font-weight="700" fill="#0B173A">Mail Server</text>
+<rect x="580" y="80" width="60" height="46" rx="4" fill="#e7f0e3" stroke="#0B173A" stroke-width="2"/>
+<text x="570" y="145" font-size="11" font-weight="700" fill="#0B173A">Recipient</text>
+<path d="M110,110 C250,60 300,60 350,110 C400,160 450,160 590,110" fill="none" stroke="#DCDAF0" stroke-width="1.4"/>
+<g class="em-envelope">
+  <rect x="-14" y="-10" width="28" height="20" fill="#C9A227" stroke="#0B173A" stroke-width="1.4"/>
+  <polyline points="-14,-10 0,3 14,-10" fill="none" stroke="#0B173A" stroke-width="1.2"/>
+</g>
+</svg></div></p><p><em>Fig. 5.10 (Animated) — When you click Send, your message travels from your device to your provider's outgoing (SMTP) mail server, which relays it — possibly via further servers — to the recipient's mail server, where it waits until their device retrieves it.</em></p>
 <p><b>MS Access basics:</b> a simple relational database consists of Tables (structured data), Queries
 (questions asked of the data), Forms (data-entry interfaces) and Reports (formatted output) — introducing the
 idea of structured data storage beyond a single spreadsheet.</p>

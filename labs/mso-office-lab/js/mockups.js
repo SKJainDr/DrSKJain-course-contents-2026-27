@@ -23,8 +23,8 @@ const MOCK = (() => {
   }
 
   function windowShell(kind, filename, ribbonHTML, bodyHTML) {
-    const cls = { word: "word-mock", excel: "excel-mock", ppt: "ppt-mock" }[kind];
-    const appLabel = { word: "Word", excel: "Excel", ppt: "PowerPoint" }[kind];
+    const cls = { word: "word-mock", excel: "excel-mock", ppt: "ppt-mock", netmail: "netmail-mock", access: "access-mock" }[kind];
+    const appLabel = { word: "Word", excel: "Excel", ppt: "PowerPoint", netmail: "Mail / Browser", access: "Access" }[kind];
     return `
       <div class="office-mock ${cls}">
         <div class="mock-titlebar">
@@ -51,6 +51,35 @@ const MOCK = (() => {
   function pptSlide(filename, ribbonGroups, activeTab, slideInnerHTML, extraHTML) {
     const rb = ribbon(["File", "Home", "Insert", "Design", "Transitions", "Animations", "Slide Show", "Review", "View"], activeTab || "Home", ribbonGroups);
     return windowShell("ppt", filename, rb, `<div class="mock-slidewrap"><div class="mock-slide">${slideInnerHTML}</div>${extraHTML || ""}</div>`);
+  }
+
+  function netmailWindow(filename, ribbonGroups, activeTab, bodyHTML, tabs) {
+    const rb = ribbon(tabs || ["File", "Home", "Send / Receive", "Folder", "View"], activeTab || "Home", ribbonGroups);
+    return windowShell("netmail", filename, rb, bodyHTML);
+  }
+
+  function browserWindow(url, bodyHTML) {
+    return `
+      <div class="office-mock netmail-mock">
+        <div class="mock-titlebar">
+          <span class="mock-dot r"></span><span class="mock-dot y"></span><span class="mock-dot g"></span>
+          <span class="mock-filename">${url} — Browser</span>
+        </div>
+        <div class="mock-browser-bar"><span class="mock-browser-lock">&#128274;</span><span class="mock-browser-url">${url}</span></div>
+        <div class="mock-body"><div class="mock-live-region">${bodyHTML}</div></div>
+      </div>`;
+  }
+
+  function inboxList(items) {
+    return `<div class="mock-inbox-list">${items.map(it => `
+      <div class="mock-inbox-item${it.active ? " active" : ""}${it.unread ? " unread" : ""}">
+        <span class="mi-from">${it.from}</span><span class="mi-subject">${it.subject}</span><span class="mi-time">${it.time}</span>
+      </div>`).join("")}</div>`;
+  }
+
+  function accessWindow(filename, ribbonGroups, activeTab, bodyHTML, tabs) {
+    const rb = ribbon(tabs || ["File", "Home", "Create", "External Data", "Database Tools"], activeTab || "Home", ribbonGroups);
+    return windowShell("access", filename, rb, `<div class="mock-access-body">${bodyHTML}</div>`);
   }
 
   // ---- small table helpers for excel ----
@@ -109,5 +138,5 @@ const MOCK = (() => {
     return `<div class="mock-callout">✅ ${text}</div>`;
   }
 
-  return { ribbon, wordDoc, excelSheet, pptSlide, sheetHead, sheetRow, barsChart, trendlineChart, callout };
+  return { ribbon, wordDoc, excelSheet, pptSlide, netmailWindow, browserWindow, inboxList, accessWindow, sheetHead, sheetRow, barsChart, trendlineChart, callout };
 })();

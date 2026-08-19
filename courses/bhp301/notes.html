@@ -290,6 +290,25 @@ experiences zero net force but a torque τ = p × E, tending to align it with th
 <li><p>Inside the sphere (r ≤ R): only the charge within radius r contributes, Qenc = Q(r³/R³), giving E(4πr²) = Q r³ / (ε₀ R³), so E = Qr / (4πε₀R³).</p></li>
 </ul><p>Thus E grows linearly with r inside the sphere (E ∝ r), reaches its maximum value E = Q/(4πε₀R²) at the surface, and then falls off as 1/r² outside. This piecewise behaviour — linear growth inside, 1/r² decay outside, continuous at the boundary — is characteristic of any uniformly charged solid sphere and is frequently tested in examinations.</p><p><strong><u>Example: Field inside and outside a uniformly charged solid sphere</u></strong></p><p>A solid sphere of radius R = 10 cm carries a total charge Q = 2 μC uniformly distributed in its volume. Find E at r = 5 cm and at r = 20 cm.</p><p>At r = 5 cm (inside, r &lt; R): E = Qr/(4πε₀R³) = (9×10⁹ × 2×10⁻⁶ × 0.05)/(0.1)³ = 9×10⁵ N/C.</p><p>At r = 20 cm (outside, r &gt; R): E = Q/(4πε₀r²) = (9×10⁹ × 2×10⁻⁶)/(0.2)² = 4.5×10⁵ N/C.</p><p><img loading="lazy" src="notes-media/image4.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p><p><em>Fig. 1.4 — Field magnitude versus distance r for a uniformly charged solid sphere (left, E∝r inside) and a spherical shell (right, E=0 inside).</em></p>
 <h4 id="electrostatic-energy">1.7 Electrostatic Energy</h4><p>Electrostatic (potential) energy is the work required to assemble a system of charges, or equivalently, the energy stored in the electric field created by the charges. Two complementary viewpoints are used.</p><h5 id="energy-of-a-system-of-point-charges">Energy of a System of Point Charges</h5><p>The work done in assembling n point charges, bringing them one at a time from infinity, is:</p><p><em>W = (1/4πε₀) Σi&lt;j (qi qj / rij)</em></p><p>For two charges q1 and q2 separated by r, this reduces to W = q1q2/4πε₀r.</p><h5 id="energy-stored-in-the-field">Energy Stored in the Field</h5><p>Alternatively, the energy can be regarded as stored throughout space wherever an electric field exists, with an energy density (energy per unit volume):</p><p><em>u = (1/2) ε₀ E²</em></p><p>The total electrostatic energy of a configuration is then found by integrating this energy density over all space:</p><p><em>U = (ε₀/2) ∫ E² dV</em></p><p>This field-based expression is completely general and applies equally to continuous charge distributions; for a uniformly charged sphere, for instance, it correctly reproduces the self-energy U = 3Q²/(20πε₀R). The field viewpoint is conceptually important because it locates the energy in the field itself, rather than in the charges, a perspective consistent with the full theory of electromagnetism where energy can be radiated away from its source as light.</p><p><strong><u>Example: Field of an infinite line charge</u></strong></p><p>An infinite line carries a uniform linear charge density λ = 2 μC/m. Find the electric field at a perpendicular distance of 10 cm.</p><p>E = λ/(2πε0r) = (2×10⁻⁶)/(2π × 8.854×10⁻¹² × 0.1) = 3.6×10⁵ N/C, directed radially outward from the line.</p><p><strong><u>Example: Field due to an infinite charged sheet</u></strong></p><p>A large plane sheet carries a uniform surface charge density σ = 5 μC/m². Find E close to the sheet, and the potential difference between two points 2 cm apart on either side of it (ignore fringing).</p><p>E = σ/2ε0 = (5×10⁻⁶)/(2×8.854×10⁻¹²) = 2.82×10⁵ N/C on each side, directed away from the sheet.</p><p>Since E is uniform close to the sheet, ΔV = E×d = 2.82×10⁵ × 0.02 = 5.64×10³ V between the two points, with the positively charged side at higher potential.</p><p><strong><u>Example: Field inside and outside a charged spherical shell</u></strong></p><p>A thin spherical shell of radius 15 cm carries a total charge of 3 μC spread uniformly over its surface. Find E at r = 10 cm and at r = 30 cm.</p><p>At r = 10 cm (inside the shell, r &lt; R): Qenc = 0, so E = 0.</p><p>At r = 30 cm (outside the shell, r &gt; R): E = Q/4πε0r² = (9×10⁹ × 3×10⁻⁶)/(0.3)² = 3×10⁵ N/C, directed radially outward.</p>
+<h5 id="derivation-self-energy-of-a-uniformly-charged-solid-sphere">Derivation: Self-Energy of a Uniformly Charged Solid Sphere</h5>
+<p>Consider assembling a uniformly charged solid sphere of final radius R and total charge Q by bringing successive thin spherical shells of charge in from infinity, one at a time. At the stage when a partially assembled sphere of radius r (0 ≤ r ≤ R) already carries charge q(r), uniformity of the charge density ρ = Q / [(4/3)πR³] gives:</p>
+<p><em>q(r) = Q (r/R)³</em></p>
+<p>Bringing up the next shell, of thickness dr and charge dq = ρ·4πr² dr = 3Qr²dr/R³, from infinity to the surface of this partially built sphere requires work equal to the potential energy of dq in the field of the already-assembled charge q(r) (which, from outside, acts exactly like a point charge at the centre):</p>
+<p><em>dW = (1/4πε₀) · q(r) dq / r</em></p>
+<p>Substituting q(r) and dq, and integrating over the whole assembly process from r = 0 to r = R, gives the total self-energy:</p>
+<p><em>U = ∫₀ᴿ (1/4πε₀)(Qr³/R³)(3Qr²/R³) dr / r = 3Q²/(4πε₀R⁶) ∫₀ᴿ r⁴ dr = 3Q²/(20πε₀R)</em></p>
+<p>This exactly reproduces the value quoted above, confirming that the two viewpoints of electrostatic energy — as the work done in assembling the charges, and as energy stored throughout the field via u = ½ε₀E² — are entirely equivalent, as consistency demands.</p>
+<p><strong><u>Example: Field of an infinite line charge</u></strong></p>
+<p>An infinite line carries a uniform linear charge density λ = 2 μC/m. Find the electric field at a perpendicular distance of 10 cm.</p>
+<p>E = λ/(2πε0r) = (2×10⁻⁶)/(2π × 8.854×10⁻¹² × 0.1) = 3.6×10⁵ N/C, directed radially outward from the line.</p>
+<p><strong><u>Example: Field due to an infinite charged sheet</u></strong></p>
+<p>A large plane sheet carries a uniform surface charge density σ = 5 μC/m². Find E close to the sheet, and the potential difference between two points 2 cm apart on either side of it (ignore fringing).</p>
+<p>E = σ/2ε0 = (5×10⁻⁶)/(2×8.854×10⁻¹²) = 2.82×10⁵ N/C on each side, directed away from the sheet.</p>
+<p>Since E is uniform close to the sheet, ΔV = E×d = 2.82×10⁵ × 0.02 = 5.64×10³ V between the two points, with the positively charged side at higher potential.</p>
+<p><strong><u>Example: Field inside and outside a charged spherical shell</u></strong></p>
+<p>A thin spherical shell of radius 15 cm carries a total charge of 3 μC spread uniformly over its surface. Find E at r = 10 cm and at r = 30 cm.</p>
+<p>At r = 10 cm (inside the shell, r &lt; R): Qenc = 0, so E = 0.</p>
+<p>At r = 30 cm (outside the shell, r &gt; R): E = Q/4πε0r² = (9×10⁹ × 3×10⁻⁶)/(0.3)² = 3×10⁵ N/C, directed radially outward.</p>
 <h4 id="review-questions-unit-1">Review Questions — Unit 1</h4><h5 id="short-answer-questions">Short Answer Questions</h5><ul>
 <li><p>Define electric field and electric field lines. State any three properties of field lines.</p></li>
 <li><p>Distinguish clearly between electric field and electric force, giving their respective SI units.</p></li>
@@ -319,7 +338,43 @@ experiences zero net force but a torque τ = p × E, tending to align it with th
 <li><p>4. The field due to an infinite charged sheet is independent of: (a) σ (b) ε0 (c) distance from the sheet (d) none of these — Answer: (c)</p></li>
 <li><p>5. Inside a uniformly charged spherical shell, the electric field is: (a) maximum (b) zero (c) equal to that at the surface (d) infinite — Answer: (b)</p></li>
 </ul>
-<h4 id="the-electric-dipole-supplementary-topic">1.8 The Electric Dipole (Supplementary Topic)</h4><p>An electric dipole consists of two equal and opposite charges +q and −q separated by a small distance d; its strength is characterised by the electric dipole moment p = qd, a vector directed from the negative to the positive charge. The dipole is a useful idealisation for neutral molecules with a separated centre of positive and negative charge (e.g., water).</p><p>The electric field on the axial line, at distance r from the centre of the dipole (r ≫ d), is obtained by superposing the fields of the two charges:</p><p><em>Eaxial = (1/4πε₀) · 2p / r³</em></p><p>while on the equatorial line (perpendicular bisector), the field is:</p><p><em>Eequatorial = − (1/4πε₀) · p / r³</em></p><p>directed opposite to p. In both cases the field falls off as 1/r³, faster than the 1/r² fall-off of a single point charge, because the fields of the two closely spaced opposite charges nearly cancel at large distances. When placed in an external uniform field E, a dipole experiences zero net force but a torque τ = p × E that tends to align p with E, and possesses potential energy U = −p·E, which is minimum (most stable) when p is parallel to E.</p>
+<h4 id="the-electric-dipole-supplementary-topic">1.8 The Electric Dipole (Supplementary Topic)</h4>
+<p>An electric dipole consists of two equal and opposite charges +q and −q separated by a small distance d; its strength is characterised by the electric dipole moment p = qd, a vector directed from the negative to the positive charge. The dipole is a useful idealisation for neutral molecules with a separated centre of positive and negative charge (e.g., water).</p>
+<p>Take the dipole along the x-axis, with +q at x = +d/2 and −q at x = −d/2. For a field point P on the axial line at distance r from the centre (r ≫ d), the distances to the positive and negative charges are (r − d/2) and (r + d/2) respectively, so superposition of the two individual (1/4πε₀)(q/r²) fields, both directed along the axis, gives:</p>
+<p><em>Eaxial = (q/4πε₀)[ 1/(r−d/2)² − 1/(r+d/2)² ]</em></p>
+<p>Expanding each bracket using the binomial approximation (1 ∓ d/2r)⁻² ≈ 1 ± d/r, valid since d ≪ r:</p>
+<p><em>Eaxial ≈ (q/4πε₀r²)[(1 + d/r) − (1 − d/r)] = (q/4πε₀r²)(2d/r) = 2qd/(4πε₀r³)</em></p>
+<p>Since p = qd, this is:</p>
+<p><em>Eaxial = (1/4πε₀) · 2p / r³</em></p>
+<p>For a field point P on the equatorial line (the perpendicular bisector of the dipole) at distance r from the centre, both charges are equidistant from P, at distance √(r² + d²/4) ≈ r for d ≪ r, so the two fields have equal magnitude (1/4πε₀)q/r². Their components perpendicular to the dipole axis cancel by symmetry, while their components antiparallel to p add, each contributing a factor (d/2)/r to the resultant:</p>
+<p><em>Eequatorial = 2 × (1/4πε₀)(q/r²) × (d/2r) = (1/4πε₀)(qd/r³) = (1/4πε₀)(p/r³)</em></p>
+<p>directed antiparallel to p (from the + charge side toward the − charge side), so that on the equatorial line:</p>
+<p><img loading="lazy" src="notes-media/image14.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p>
+<p><em>Fig. 1.5 — Electric field lines of a dipole: lines emerge from +q and curve around to terminate on −q, falling off as 1/r³ far from the dipole.</em></p>
+<p><em>Eequatorial = − (1/4πε₀) · p / r³</em></p>
+<p>directed opposite to p. In both cases the field falls off as 1/r³, faster than the 1/r² fall-off of a single point charge, because the fields of the two closely spaced opposite charges nearly cancel at large distances. When placed in an external uniform field E, a dipole experiences zero net force but a torque τ = p × E that tends to align p with E, and possesses potential energy U = −p·E, which is minimum (most stable) when p is parallel to E.</p>
+<h4 id="additional-solved-problems-unit-1">Additional Solved Problems — Unit 1</h4>
+<p><strong><u>Solved Problem 1: Vector addition of fields from two point charges</u></strong></p>
+<p>A charge q1 = +4 μC sits at the origin and q2 = −4 μC sits at (0, 3 cm). Find the electric field (magnitude and direction) at the point P = (4 cm, 0), which forms a 3–4–5 right triangle with the two charges.</p>
+<p>The distance from q1 to P is r1 = 4 cm = 0.04 m, and from q2 to P, r2 = √(3²+4²) = 5 cm = 0.05 m.</p>
+<p>Field due to q1 (points away from q1, along +x): E1 = kq1/r1² = (9×10⁹×4×10⁻⁶)/(0.04)² = 2.25×10⁷ N/C, direction (1, 0).</p>
+<p>Field due to q2 (points toward q2, since q2 is negative): magnitude E2 = kq2/r2² = (9×10⁹×4×10⁻⁶)/(0.05)² = 1.44×10⁷ N/C, along the unit vector from P to q2, namely (−0.8, 0.6).</p>
+<p>Resolving into components: E1 = (2.25×10⁷, 0); E2 = 1.44×10⁷×(−0.8, 0.6) = (−1.152×10⁷, 0.864×10⁷).</p>
+<p>Adding: Ex = 2.25×10⁷ − 1.152×10⁷ = 1.098×10⁷ N/C; Ey = 0.864×10⁷ N/C.</p>
+<p>Resultant magnitude E = √(Ex²+Ey²) ≈ 1.40×10⁷ N/C, at angle θ = tan⁻¹(Ey/Ex) ≈ 38.2° above the x-axis.</p>
+<p><strong><u>Solved Problem 2: Field at the centre of a spherical cavity</u></strong></p>
+<p>A sphere of radius R = 10 cm carries uniform volume charge density ρ = 6×10⁻⁶ C/m³. A spherical cavity of radius R/2 is hollowed out of it, with the cavity’s centre at a distance R/2 from the sphere’s centre (so the cavity surface passes through the centre of the original sphere). Find E at the centre of the cavity.</p>
+<p>This is solved by superposition: the sphere-with-a-cavity is equivalent to (a) a complete uniform sphere of density +ρ and radius R, plus (b) a smaller sphere of density −ρ and radius R/2 occupying the cavity, since the two −ρ and +ρ contributions cancel exactly within the cavity.</p>
+<p>Inside a uniformly charged sphere, the field at a distance s from its own centre is E = ρs/(3ε₀), directed radially from that sphere’s own centre.</p>
+<p>For distribution (a), the cavity centre lies at distance d = R/2 = 0.05 m from the big sphere’s centre, so it contributes E(a) = ρd/(3ε₀), directed away from the big sphere’s centre.</p>
+<p>For distribution (b), the cavity centre IS that small sphere’s own centre (s = 0), so it contributes zero field.</p>
+<p>Hence the total field at the cavity centre is simply E = ρd/(3ε₀) = (6×10⁻⁶ × 0.05)/(3×8.854×10⁻¹²) ≈ 1.13×10⁴ N/C, directed radially outward along the line joining the two centres — remarkably, this field is uniform in direction, independent of exactly where within the cavity one looks (a classical result used later for cavities in polarised dielectrics).</p>
+<p><strong><u>Solved Problem 3: Energy stored between two concentric charged shells</u></strong></p>
+<p>A spherical capacitor consists of an inner shell of radius a = 5 cm carrying charge +Q = 2 μC, and a concentric outer shell of radius b = 10 cm carrying −Q. Find the electrostatic energy stored in the field between the shells.</p>
+<p>Between the shells (a &lt; r &lt; b), Gauss’s law gives E = Q/(4πε₀r²); outside b and inside a, E = 0 (as for the spherical-shell case of Section 1.6).</p>
+<p>The stored energy is U = (ε₀/2)∫E² dV, integrated only over the region a &lt; r &lt; b, using dV = 4πr² dr:</p>
+<p><em>U = (ε₀/2) ∫ₐᵇ [Q/(4πε₀r²)]² 4πr² dr = [Q²/(8πε₀)] (1/a − 1/b)</em></p>
+<p>Substituting a = 0.05 m, b = 0.10 m, Q = 2×10⁻⁶ C: Q²/(8πε₀) = (4×10⁻¹²)/(8π×8.854×10⁻¹²) ≈ 1.80×10⁻² (SI), and (1/a − 1/b) = 20 − 10 = 10 m⁻¹, giving U ≈ 0.18 J. This is exactly the energy Q²/2C of the equivalent spherical capacitor, confirming that the two ways of computing electrostatic energy (Section 1.7) agree.</p>
 <h4 id="unit-1-summary">Unit 1 Summary</h4><table class="ext-table">
 <colgroup>
 <col style="width: 33%"/>
@@ -428,6 +483,25 @@ practical capacitor design.</p>
 <li><p>Equipotential surfaces are more closely spaced where the field is stronger, since |E| = −dV/dn (n being the direction normal to the surfaces), so a rapid change in V over a short distance implies closely packed surfaces.</p></li>
 </ul>
 <h4 id="potential-due-to-an-electric-dipole">2.9 Potential Due to an Electric Dipole</h4><p>For an electric dipole of moment p, the potential at a point P at distance r from the centre of the dipole, where the line OP makes angle θ with the dipole axis (r ≫ separation of charges), is obtained by superposing the potentials of the two charges and expanding to leading order in d/r:</p><p><em>V(r, θ) = (1/4πε₀) · (p cosθ) / r²</em></p><p>Notice that the dipole potential falls off as 1/r², one power of r faster than the point-charge potential (1/r), consistent with the field of a dipole falling off as 1/r³ (one power faster than the point-charge field 1/r²) as noted in Unit 1. Differentiating V with respect to r and θ (using E = −∇V in spherical coordinates) reproduces the axial and equatorial field expressions of Section 1.8 as special cases θ = 0 and θ = π/2 respectively.</p>
+<h4 id="additional-solved-problems-unit-2">Additional Solved Problems — Unit 2</h4>
+<p><strong><u>Solved Problem 1: Potential at the centre of a charged ring</u></strong></p>
+<p>A ring of radius a = 10 cm carries a uniformly distributed charge Q = 5 μC. Find the electric potential at the centre of the ring.</p>
+<p>Unlike the axial-point case (Section 2.6/2.7), every element of charge dq on the ring is at exactly the same distance a from the centre, so the potential is a simple scalar sum (no angle or component considerations needed, unlike for the field):</p>
+<p><em>V = ∫ dq/(4πε₀a) = Q/(4πε₀a)</em></p>
+<p>Substituting: V = (9×10⁹ × 5×10⁻⁶)/0.10 = 4.5×10⁵ V. Note how much simpler this scalar superposition is compared to the corresponding vector-field calculation, illustrating why potential is often the more convenient route to a final field calculation via E = −∇V.</p>
+<p><strong><u>Solved Problem 2: Finding E from a given potential function</u></strong></p>
+<p>The electric potential in a certain region is V(x, y, z) = 2x²y − 3yz volts (with x, y, z in metres). Find the electric field vector at the point (1, 2, −1).</p>
+<p>Using E = −∇V = −(∂V/∂x, ∂V/∂y, ∂V/∂z):</p>
+<p>∂V/∂x = 4xy ⟹ at (1,2,−1): 4(1)(2) = 8.</p>
+<p>∂V/∂y = 2x² − 3z ⟹ at (1,2,−1): 2(1) − 3(−1) = 5.</p>
+<p>∂V/∂z = −3y ⟹ at (1,2,−1): −3(2) = −6.</p>
+<p>Hence E = −(8, 5, −6) = (−8, −5, 6) V/m, with magnitude |E| = √(64+25+36) = √125 ≈ 11.18 V/m.</p>
+<p><strong><u>Solved Problem 3: Path-independence of work in a point-charge field</u></strong></p>
+<p>A point charge Q = 5 μC is fixed at the origin. A test charge q0 = 2 μC is moved from a point A at distance 20 cm from Q to a point B at distance 50 cm from Q. Find the work done by the electric field, and comment on why the specific path taken is irrelevant.</p>
+<p>Since the electrostatic field is conservative (Section 2.3), the work done depends only on the potentials at the endpoints, VA and VB, not on the path connecting them:</p>
+<p>VA = kQ/rA = (9×10⁹×5×10⁻⁶)/0.20 = 2.25×10⁵ V; VB = kQ/rB = (9×10⁹×5×10⁻⁶)/0.50 = 9.0×10⁴ V.</p>
+<p>Work done BY the field: Wfield = q0(VA − VB) = 2×10⁻⁶ × (2.25×10⁵ − 9.0×10⁴) = 2×10⁻⁶ × 1.35×10⁵ = 0.27 J.</p>
+<p>This value would be identical whether the charge were moved in a straight line, a zig-zag, or any other path from A to B, since ∮E·dl = 0 around any closed loop (Section 2.3) — only the endpoints matter.</p>
 <h4 id="unit-2-summary">Unit 2 Summary</h4><table class="ext-table">
 <colgroup>
 <col style="width: 40%"/>
@@ -500,7 +574,9 @@ field; paramagnetic materials (χ<sub>m</sub> small and positive) are weakly att
 <p><em>Note: A toroid can be thought of as an 'endless' solenoid: bending a solenoid into a closed loop eliminates the end effects and confines the field entirely to the core, at the price of the field no longer being perfectly uniform in magnitude (it varies as 1/r across the cross-section).</em></p>
 </blockquote>
 <h4 id="a-motion-of-a-charged-particle-in-a-uniform-magnetic-field-supplementary-topic">3.5A Motion of a Charged Particle in a Uniform Magnetic Field (Supplementary Topic)</h4><p>When a charged particle of mass m and charge q moves with velocity v perpendicular to a uniform magnetic field B, the magnetic force F = qv×B is always perpendicular to v, and hence perpendicular to the particle's motion at every instant. Since the force has no component along the velocity, it does no work and cannot change the particle's speed — it only continuously changes the direction of v, producing uniform circular motion.</p><p>The magnetic force provides exactly the centripetal force needed for this circular motion:</p><p><em>qvB = m v² / r ⇒ r = mv / (qB)</em></p><p>The angular frequency of this circular motion, called the cyclotron frequency, is:</p><p><em>ω = qB/m, with period T = 2πm/(qB)</em></p><p>Remarkably, both ω and T are independent of the particle's speed v (and hence of its kinetic energy) — a faster particle simply moves in a proportionally larger circle, completing each revolution in the same time. This property is the operating principle of the cyclotron, a device used to accelerate charged particles to high energies using a fixed-frequency alternating voltage synchronised with this constant cyclotron frequency. If the particle also has a velocity component parallel to B, that component is unaffected by the magnetic force (since v×B = 0 along B), and the resulting motion is a helix — uniform circular motion perpendicular to B combined with uniform straight-line motion parallel to B.</p>
-<h4 id="force-on-a-current-carrying-conductor-and-torque-on-a-current-loop">3.6 Force on a Current-Carrying Conductor and Torque on a Current Loop</h4><p>A straight conductor of length l carrying current I, placed in a uniform field B, experiences a net force (integrating dF = I dl×B over its length):</p><p><em>F = I l × B, magnitude F = BIl sinθ</em></p><p>where θ is the angle between the conductor and B. When a planar current loop of area A (carrying current I) is placed in a uniform field B, the net force on the loop is zero, but a net torque acts on it, tending to align its magnetic moment m = IA n̂ with B:</p><p><em>τ = m × B, magnitude τ = BIA sinθ</em></p><p>where θ is the angle between the normal to the loop and B. This torque is the operating principle of DC motors and moving-coil galvanometers.</p><p><strong><u>Example: Force between two parallel current-carrying wires</u></strong></p><p>Two long straight parallel wires, 5 cm apart, carry currents of 3 A and 4 A in the same direction. Find the force per unit length between them.</p><p>F/l = μ0I1I2/2πd = (4π×10⁻⁷ × 3 × 4)/(2π × 0.05) = 4.8×10⁻⁵ N/m, attractive (parallel currents attract).</p><p><strong><u>Example: Field at the centre of a current loop</u></strong></p><p>A circular coil of 50 turns and radius 4 cm carries a current of 2 A. Find the field at the centre.</p><p>B = μ0NI/2a = (4π×10⁻⁷ × 50 × 2)/(2 × 0.04) = 1.57×10⁻³ T.</p><p><strong><u>Example: Solenoid field</u></strong></p><p>A solenoid 50 cm long has 1000 turns and carries a current of 5 A. Find the field inside (away from the ends).</p><p>n = N/l = 1000/0.5 = 2000 turns/m. B = μ0nI = 4π×10⁻⁷ × 2000 × 5 = 1.26×10⁻² T.</p>
+<h4 id="force-on-a-current-carrying-conductor-and-torque-on-a-current-loop">3.6 Force on a Current-Carrying Conductor and Torque on a Current Loop</h4><p>A straight conductor of length l carrying current I, placed in a uniform field B, experiences a net force (integrating dF = I dl×B over its length):</p><p><em>F = I l × B, magnitude F = BIl sinθ</em></p><p>where θ is the angle between the conductor and B. When a planar current loop of area A (carrying current I) is placed in a uniform field B, the net force on the loop is zero, but a net torque acts on it, tending to align its magnetic moment m = IA n̂ with B:</p><p><em>τ = m × B, magnitude τ = BIA sinθ</em></p><p>where θ is the angle between the normal to the loop and B. This torque is the operating principle of DC motors and moving-coil galvanometers.</p><p><strong><u>Example: Force between two parallel current-carrying wires</u></strong></p><p>Two long straight parallel wires, 5 cm apart, carry currents of 3 A and 4 A in the same direction. Find the force per unit length between them.</p><p>F/l = μ0I1I2/2πd = (4π×10⁻⁷ × 3 × 4)/(2π × 0.05) = 4.8×10⁻⁵ N/m, attractive (parallel currents attract).</p><p><strong><u>Example: Field at the centre of a current loop</u></strong></p><p>A circular coil of 50 turns and radius 4 cm carries a current of 2 A. Find the field at the centre.</p><p>B = μ0NI/2a = (4π×10⁻⁷ × 50 × 2)/(2 × 0.04) = 1.57×10⁻³ T.</p><p><strong><u>Example: Solenoid field</u></strong></p><p>A solenoid 50 cm long has 1000 turns and carries a current of 5 A. Find the field inside (away from the ends).</p><p>n = N/l = 1000/0.5 = 2000 turns/m. B = μ0nI = 4π×10⁻⁷ × 2000 × 5 = 1.26×10⁻² T.</p><p><strong><u>Example: Field inside a toroid</u></strong></p>
+<p>A toroid has 800 turns, mean radius 20 cm, and carries a current of 3 A. Find the magnetic field within its core.</p>
+<p>B = μ0NI/(2πr) = (4π×10⁻⁷ × 800 × 3)/(2π × 0.20) = 2.4×10⁻³ T.</p>
 <h4 id="review-questions-unit-3">Review Questions — Unit 3</h4><h5 id="short-answer-questions-2">Short Answer Questions</h5><ul>
 <li><p>Define magnetic field B in terms of the force on a moving charge. Write its SI unit.</p></li>
 <li><p>State the Biot–Savart law and explain each term in the expression.</p></li>
@@ -526,6 +602,26 @@ field; paramagnetic materials (χ<sub>m</sub> small and positive) are weakly att
 <li><p>4. Inside an ideal long solenoid, the magnetic field is: (a) zero (b) uniform (c) varies as 1/r (d) varies as r — Answer: (b)</p></li>
 <li><p>5. Two parallel wires carrying current in the same direction: (a) repel (b) attract (c) exert no force (d) rotate — Answer: (b)</p></li>
 </ul>
+<h4 id="additional-solved-problems-unit-3">Additional Solved Problems — Unit 3</h4>
+<p><strong><u>Solved Problem 1: Field on the axis of a current loop, away from the centre</u></strong></p>
+<p>A circular loop of radius a = 5 cm carries current I = 10 A. Find the magnetic field at a point on its axis, 12 cm from the centre.</p>
+<p>The general on-axis formula (derived in Section 3.4(ii) by integrating the Biot–Savart law around the loop) is:</p>
+<p><em>B = μ₀ I a² / [2(a² + x²)^(3/2)]</em></p>
+<p>With a = 0.05 m, x = 0.12 m: a² = 0.0025, x² = 0.0144, so a²+x² = 0.0169 and (0.0169)^(3/2) ≈ 0.002197.</p>
+<p>B = (4π×10⁻⁷ × 10 × 0.0025) / (2 × 0.002197) = (3.1416×10⁻⁸)/(4.394×10⁻³) ≈ 7.15×10⁻⁶ T. As expected, this is much smaller than the centre value B = μ₀I/2a = 1.26×10⁻⁴ T, since the field falls off rapidly away from the plane of the loop.</p>
+<p><strong><u>Solved Problem 2: Field midway between two coaxial current loops (Helmholtz pair)</u></strong></p>
+<p>Two identical coaxial loops, each of radius a = 10 cm, are separated by a distance equal to their radius (d = 10 cm) and carry the same current I = 5 A in the same sense. Find the field at the midpoint of the common axis.</p>
+<p>By symmetry, the midpoint is at distance x = d/2 = 5 cm from each loop’s own centre, and by superposition the two loops’ contributions (each given by the on-axis formula above) simply add:</p>
+<p>For each loop: a² = 0.01, x² = 0.0025, a²+x² = 0.0125, (0.0125)^(3/2) ≈ 0.001398.</p>
+<p>B(each) = (4π×10⁻⁷ × 5 × 0.01)/(2 × 0.001398) ≈ 2.25×10⁻⁵ T.</p>
+<p>Total field: B = 2 × B(each) ≈ 4.49×10⁻⁵ T. This particular separation (equal to the radius) is the Helmholtz condition, chosen in practice because it makes the field in the central region unusually uniform — the basis of Helmholtz coils used to create controlled, near-uniform fields in laboratories.</p>
+<p><strong><u>Solved Problem 3: Field inside and outside a current-carrying wire of finite radius</u></strong></p>
+<p>A long straight wire of radius R = 2 mm carries a current I = 10 A distributed uniformly over its circular cross-section. Find B at r = 1 mm (inside the wire) and at r = 4 mm (outside the wire), using Ampere’s law.</p>
+<p>Inside the wire (r &lt; R), only the fraction of current within radius r is enclosed, Ienc = I(r²/R²), so:</p>
+<p><em>B(2πr) = μ₀ I r²/R² ⟹ B = μ₀ I r / (2πR²)</em></p>
+<p>At r = 1 mm = 0.001 m: B = (4π×10⁻⁷ × 10 × 0.001)/(2π × (0.002)²) = 5.0×10⁻⁴ T.</p>
+<p>Outside the wire (r &gt; R), the entire current I is enclosed, so B = μ₀I/(2πr). At r = 4 mm = 0.004 m: B = (4π×10⁻⁷ × 10)/(2π × 0.004) = 5.0×10⁻⁴ T.</p>
+<p>Both points happen to give the same magnitude here because r = 1 mm is exactly R/2 (where B is half the surface value, since B ∝ r inside) and r = 4 mm is exactly 2R (where B is also half the surface value, since B ∝ 1/r outside) — a useful check that the field is continuous and maximum exactly at the wire’s surface, r = R.</p>
 <h4 id="unit-3-summary">Unit 3 Summary</h4><table class="ext-table">
 <colgroup>
 <col style="width: 35%"/>
@@ -568,13 +664,55 @@ field; paramagnetic materials (χ<sub>m</sub> small and positive) are weakly att
 </div></div><div class="note-block" id="u3"><h3>Unit 4 — Electromagnetic Induction & AC Circuits</h3>
 <p><b>Faraday's law:</b> EMF = −dΦ<sub>B</sub>/dt — a changing magnetic flux through a circuit induces an EMF;
 <b>Lenz's law</b> fixes the sign, stating the induced current opposes the change that produced it (energy
-conservation).</p>
+conservation).</p><p><div style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;padding:10px;background:#FFFDF3;overflow:hidden;"><svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .ei-magnet{ animation:ei-slide 4s ease-in-out infinite; }
+  @keyframes ei-slide{ 0%,100%{ transform:translateX(0); } 50%{ transform:translateX(160px); } }
+  .ei-needle{ transform-origin:600px 150px; animation:ei-deflect 4s ease-in-out infinite; }
+  @keyframes ei-deflect{ 0%,100%{ transform:rotate(0deg); } 25%{ transform:rotate(35deg); } 50%{ transform:rotate(0deg); } 75%{ transform:rotate(-35deg); } }
+</style>
+<rect width="700" height="220" fill="#FFFDF3"/>
+<g class="ei-magnet">
+<rect x="40" y="90" width="55" height="34" fill="#A8452F"/><text x="50" y="112" fill="#fff" font-size="14" font-weight="700">N</text>
+<rect x="95" y="90" width="55" height="34" fill="#2E6EA8"/><text x="120" y="112" fill="#fff" font-size="14" font-weight="700">S</text>
+</g>
+<g>
+  <ellipse cx="330" cy="107" rx="18" ry="45" fill="none" stroke="#C9A227" stroke-width="5"/>
+  <ellipse cx="355" cy="107" rx="18" ry="45" fill="none" stroke="#C9A227" stroke-width="5"/>
+  <ellipse cx="380" cy="107" rx="18" ry="45" fill="none" stroke="#C9A227" stroke-width="5"/>
+</g>
+<line x1="398" y1="80" x2="560" y2="80" stroke="#0B173A" stroke-width="2"/>
+<line x1="398" y1="134" x2="560" y2="150" stroke="#0B173A" stroke-width="2"/>
+<circle cx="600" cy="150" r="34" fill="#FFF6DA" stroke="#0B173A" stroke-width="3"/>
+<line class="ei-needle" x1="600" y1="150" x2="600" y2="122" stroke="#A8452F" stroke-width="3"/>
+<text x="565" y="200" font-size="12" font-weight="700" fill="#0B173A">Galvanometer</text>
+<text x="290" y="45" font-size="12" font-weight="700" fill="#0B173A">Coil, N turns</text>
+</svg></div></p><p><em>Fig. 4.1 (Animated) — As the bar magnet slides in and out of the coil, the changing flux linkage induces an EMF whose sign reverses with the direction of motion — seen here as the galvanometer needle deflecting one way as the magnet approaches and the other way as it withdraws, exactly as predicted by Faraday's and Lenz's laws.</em></p>
 <p><b>Self-inductance</b> L relates flux linkage to current in the same circuit (Φ = LI); <b>mutual
 inductance</b> M relates flux linkage in one circuit to current in a neighbouring circuit. Energy stored in an
 inductor: U = ½LI².</p>
 <p><b>AC fundamentals:</b> a sinusoidal source v(t) = V₀ sin(ωt) has RMS value V₀/√2; phasor representation
 converts differential equations for R, L, C elements into simple algebraic ones using complex impedance
-Z<sub>R</sub>=R, Z<sub>L</sub>=jωL, Z<sub>C</sub>=1/jωC.</p>
+Z<sub>R</sub>=R, Z<sub>L</sub>=jωL, Z<sub>C</sub>=1/jωC.</p><p><div style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;padding:10px;background:#FFFDF3;overflow:hidden;"><svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .ph-arm{ transform-origin:110px 110px; animation:ph-spin 4s linear infinite; }
+  @keyframes ph-spin{ 0%{ transform:rotate(0deg);} 100%{ transform:rotate(-360deg);} }
+  .ph-trace{ stroke-dasharray:900; stroke-dashoffset:900; animation:ph-draw 4s linear infinite; }
+  @keyframes ph-draw{ 0%{ stroke-dashoffset:900; } 100%{ stroke-dashoffset:0; } }
+</style>
+<rect width="700" height="220" fill="#FFFDF3"/>
+<circle cx="110" cy="110" r="70" fill="none" stroke="#DCDAF0" stroke-width="1.5"/>
+<line x1="30" y1="110" x2="620" y2="110" stroke="#8a94a6" stroke-width="1"/>
+<line class="ph-arm" x1="110" y1="110" x2="180" y2="110" stroke="#A8452F" stroke-width="3"/>
+<circle class="ph-arm" cx="180" cy="110" r="0" fill="none"/>
+<path class="ph-trace" d="M180,110
+  C 220,40 260,40 300,110
+  S 380,180 420,110
+  S 460,40 500,110
+  S 580,180 620,110" fill="none" stroke="#3C5283" stroke-width="2.6"/>
+<text x="30" y="30" font-size="12" font-weight="700" fill="#0B173A">Rotating phasor</text>
+<text x="480" y="30" font-size="12" font-weight="700" fill="#0B173A">v(t) = V₀ sinωt</text>
+</svg></div></p><p><em>Fig. 4.5 (Animated) — A phasor of constant length V₀ rotating at angular frequency ω has a vertical projection that traces out exactly the sinusoidal AC waveform v(t) = V₀ sinωt — the geometric origin of every AC voltage/current expression used in this unit.</em></p>
 <p><b>Series RLC resonance</b> occurs when ωL = 1/ωC, i.e. ω₀=1/√(LC), where impedance is purely resistive and
 current is maximum (series) or minimum (parallel/anti-resonance).</p>
 <p><b>Power in AC circuits:</b> real power P = VI cosφ (does actual work); reactive power Q = VI sinφ
@@ -659,7 +797,9 @@ how effectively power is being used.</p>
 <li><p>To reduce B to zero, a reversed field of magnitude Hc, called the coercivity or coercive force, must be applied.</p></li>
 <li><p>Continuing to increase the reversed field drives the material to saturation in the opposite direction (−Bsat); reducing and reversing H again traces out a similar path back to +Bsat.</p></li>
 <li><p>The complete closed curve traced out over one full cycle of H is called the hysteresis loop.</p></li>
-</ul><h5 id="energy-loss-in-hysteresis">Energy Loss in Hysteresis</h5><p>Each time a ferromagnetic sample is taken around a complete hysteresis cycle, energy is dissipated as heat within the material, due to the work done in reorienting magnetic domains against internal friction-like resistance. It can be shown that the energy dissipated per unit volume per cycle exactly equals the area enclosed by the B–H hysteresis loop:</p><p><em>Wh = ∮ H dB (area of the loop, per unit volume, per cycle)</em></p><p>This hysteresis loss is a significant source of energy dissipation in AC devices such as transformers and motors, and is minimised in their design by using 'soft' magnetic materials (e.g., silicon steel) which have narrow hysteresis loops (low Hc, low loop area). Conversely, 'hard' magnetic materials, with wide hysteresis loops and high retentivity and coercivity, are chosen for permanent magnets, where retaining magnetisation is desirable rather than a drawback.</p><p><strong><u>Example: Comparing soft and hard magnetic materials</u></strong></p><p>Soft iron: narrow hysteresis loop, low coercivity, used in transformer cores and electromagnets, where the field must be reversed rapidly (e.g., 50 Hz) with minimal energy loss.</p><p>Steel/Alnico: wide hysteresis loop, high coercivity and retentivity, used for permanent magnets, where resistance to demagnetisation is essential.</p><h5 id="applications-of-the-hysteresis-loop">Applications of the Hysteresis Loop</h5><ul>
+</ul><h5 id="energy-loss-in-hysteresis">Energy Loss in Hysteresis</h5><p>Each time a ferromagnetic sample is taken around a complete hysteresis cycle, energy is dissipated as heat within the material, due to the work done in reorienting magnetic domains against internal friction-like resistance. It can be shown that the energy dissipated per unit volume per cycle exactly equals the area enclosed by the B–H hysteresis loop:</p><p><em>Wh = ∮ H dB (area of the loop, per unit volume, per cycle)</em></p><p>This hysteresis loss is a significant source of energy dissipation in AC devices such as transformers and motors, and is minimised in their design by using 'soft' magnetic materials (e.g., silicon steel) which have narrow hysteresis loops (low Hc, low loop area). Conversely, 'hard' magnetic materials, with wide hysteresis loops and high retentivity and coercivity, are chosen for permanent magnets, where retaining magnetisation is desirable rather than a drawback.</p><p><strong><u>Example: Comparing soft and hard magnetic materials</u></strong></p><p>Soft iron: narrow hysteresis loop, low coercivity, used in transformer cores and electromagnets, where the field must be reversed rapidly (e.g., 50 Hz) with minimal energy loss.</p><p>Steel/Alnico: wide hysteresis loop, high coercivity and retentivity, used for permanent magnets, where resistance to demagnetisation is essential.</p><p><strong><u>Example: Hysteresis power loss in a transformer core</u></strong></p>
+<p>A transformer core of volume 500 cm³ operates at 50 Hz. Its B–H hysteresis loop encloses an area corresponding to an energy dissipation of 250 J/m³ per cycle. Find the hysteresis power loss in the core.</p>
+<p>Energy dissipated per cycle for the whole core: Wh = 250 × (500×10⁻⁶ m³) = 0.125 J. Power loss: Ph = Wh × f = 0.125 × 50 = 6.25 W.</p><h5 id="applications-of-the-hysteresis-loop">Applications of the Hysteresis Loop</h5><ul>
 <li><p>Selecting soft magnetic materials (narrow loop) for transformer and motor cores to minimise hysteresis loss and heating.</p></li>
 <li><p>Selecting hard magnetic materials (wide loop, high Br and Hc) for permanent magnets, magnetic recording media, and magnetic memory devices.</p></li>
 <li><p>Estimating hysteresis power loss in AC machinery from the measured loop area and operating frequency, an important part of electrical machine design.</p></li>
@@ -671,7 +811,8 @@ how effectively power is being used.</p>
 <li><p>The normal component of B is continuous across the interface: B1⊥ = B2⊥ (a direct consequence of ∇·B = 0, applied to a thin pillbox).</p></li>
 <li><p>The tangential component of H is continuous across the interface, provided there is no free surface current: H1∥ = H2∥ (a consequence of Ampere's law, ∮H·dl = Ifree,enc, applied to a thin rectangular loop straddling the boundary).</p></li>
 </ul><p>Since B = μH, the continuity of H∥ but not of B∥ (unless μ1 = μ2) means that field lines bend at the interface between two magnetic media of different permeability, in a manner analogous to the refraction of light — a high-permeability material such as iron tends to concentrate and channel B field lines within itself, which is the physical basis for using ferromagnetic cores to guide flux in transformers and electromagnets (Section 4.7).</p>
-<h4 id="domain-theory-of-ferromagnetism-qualitative">4.9 Domain Theory of Ferromagnetism (Qualitative)</h4><p>The strong, non-linear response of ferromagnetic materials is explained by the existence of magnetic domains — microscopic regions (typically 10⁻⁶ to 10⁻⁴ m across) within which the atomic magnetic moments are already spontaneously aligned parallel to one another, due to strong quantum-mechanical exchange interactions between neighbouring atoms. In an unmagnetised sample, however, different domains point in different, randomly oriented directions, so the net macroscopic magnetisation is zero.</p><p>When an external field is applied, magnetisation proceeds by two mechanisms: (i) domains favourably oriented with respect to the field grow at the expense of unfavourably oriented neighbours, through the motion of domain walls, and (ii) at higher fields, the magnetisation direction within domains rotates to align more closely with the field. Saturation is reached when the sample effectively becomes a single domain aligned with the applied field. The domain-wall motion is not perfectly reversible — walls get pinned at crystal defects and impurities — which is the microscopic origin of hysteresis and coercivity discussed in Section 4.8.</p><p>Above a critical temperature called the Curie temperature (Tc), thermal agitation overcomes the exchange interaction, domains disappear, and the material becomes merely paramagnetic; for iron, Tc ≈ 1043 K (770°C).</p><p><strong><u>Example: Magnetisation and relative permeability</u></strong></p><p>A sample of paramagnetic material has H = 1000 A/m and acquires a magnetisation M = 2 A/m. Find its susceptibility χm and relative permeability μr.</p><p>χm = M/H = 2/1000 = 2×10⁻³. μr = 1 + χm = 1.002 (typical of a weak paramagnet).</p><p><strong><u>Example: Reluctance of a magnetic circuit</u></strong></p><p>An iron ring of mean circumference 40 cm and cross-sectional area 5 cm² has relative permeability 800. Find its reluctance, and the flux produced by a coil of 200 turns carrying 2 A wound on it.</p><p>R = l/(μ0μrA) = 0.4 / (4π×10⁻⁷ × 800 × 5×10⁻⁴) = 7.96×10⁵ A/Wb.</p><p>Φ = NI/R = (200×2)/7.96×10⁵ = 5.03×10⁻⁴ Wb.</p>
+<h4 id="domain-theory-of-ferromagnetism-qualitative">4.9 Domain Theory of Ferromagnetism (Qualitative)</h4><p>The strong, non-linear response of ferromagnetic materials is explained by the existence of magnetic domains — microscopic regions (typically 10⁻⁶ to 10⁻⁴ m across) within which the atomic magnetic moments are already spontaneously aligned parallel to one another, due to strong quantum-mechanical exchange interactions between neighbouring atoms. In an unmagnetised sample, however, different domains point in different, randomly oriented directions, so the net macroscopic magnetisation is zero.</p><p>When an external field is applied, magnetisation proceeds by two mechanisms: (i) domains favourably oriented with respect to the field grow at the expense of unfavourably oriented neighbours, through the motion of domain walls, and (ii) at higher fields, the magnetisation direction within domains rotates to align more closely with the field. Saturation is reached when the sample effectively becomes a single domain aligned with the applied field. The domain-wall motion is not perfectly reversible — walls get pinned at crystal defects and impurities — which is the microscopic origin of hysteresis and coercivity discussed in Section 4.8.</p><p>Above a critical temperature called the Curie temperature (Tc), thermal agitation overcomes the exchange interaction, domains disappear, and the material becomes merely paramagnetic; for iron, Tc ≈ 1043 K (770°C).</p><p><img loading="lazy" src="notes-media/image15.png" style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;"/></p>
+<p><em>Fig. 4.3 — Magnetic domains: randomly oriented in an unmagnetised sample (left) versus aligned with an applied field H (right).</em></p><p><strong><u>Example: Magnetisation and relative permeability</u></strong></p><p>A sample of paramagnetic material has H = 1000 A/m and acquires a magnetisation M = 2 A/m. Find its susceptibility χm and relative permeability μr.</p><p>χm = M/H = 2/1000 = 2×10⁻³. μr = 1 + χm = 1.002 (typical of a weak paramagnet).</p><p><strong><u>Example: Reluctance of a magnetic circuit</u></strong></p><p>An iron ring of mean circumference 40 cm and cross-sectional area 5 cm² has relative permeability 800. Find its reluctance, and the flux produced by a coil of 200 turns carrying 2 A wound on it.</p><p>R = l/(μ0μrA) = 0.4 / (4π×10⁻⁷ × 800 × 5×10⁻⁴) = 7.96×10⁵ A/Wb.</p><p>Φ = NI/R = (200×2)/7.96×10⁵ = 5.03×10⁻⁴ Wb.</p>
 <h4 id="review-questions-unit-4">Review Questions — Unit 4</h4><h5 id="short-answer-questions-3">Short Answer Questions</h5><ul>
 <li><p>State Gauss's law of magnetism in integral and differential form, and explain its physical significance.</p></li>
 <li><p>Define magnetisation vector M and magnetic intensity H.</p></li>
@@ -698,6 +839,25 @@ how effectively power is being used.</p>
 <li><p>4. Reluctance in a magnetic circuit is analogous to which quantity in an electric circuit? (a) EMF (b) current (c) resistance (d) capacitance — Answer: (c)</p></li>
 <li><p>5. Above the Curie temperature, a ferromagnetic material becomes: (a) diamagnetic (b) paramagnetic (c) superconducting (d) perfectly ferromagnetic — Answer: (b)</p></li>
 </ul>
+<h4 id="additional-solved-problems-unit-4">Additional Solved Problems — Unit 4</h4>
+<p><strong><u>Solved Problem 1: Magnetisation of a strongly magnetic (ferromagnetic-type) sample</u></strong></p>
+<p>A magnetic material develops B = 1.2 T when subjected to a field H = 800 A/m. Find its magnetisation M, susceptibility χm, and relative permeability μr.</p>
+<p>From B = μ₀(H + M):</p>
+<p>M = B/μ₀ − H = 1.2/(4π×10⁻⁷) − 800 ≈ 9.549×10⁵ − 800 ≈ 9.54×10⁵ A/m.</p>
+<p>χm = M/H = (9.54×10⁵)/800 ≈ 1193.</p>
+<p>μr = 1 + χm ≈ 1194 (equivalently, μr = B/(μ₀H) = 1.2/(4π×10⁻⁷×800) ≈ 1194). Such a large susceptibility, orders of magnitude greater than the χm ≈ 10⁻³ typical of a weak paramagnet (compare the earlier example in this unit), is characteristic of a ferromagnetic material.</p>
+<p><strong><u>Solved Problem 2: Magnetic circuit with an air gap</u></strong></p>
+<p>An iron ring of mean circumference 30 cm and cross-sectional area 4 cm² (relative permeability μr = 1000) has a narrow air gap of length 1 mm cut into it. A coil of 500 turns carrying 2 A is wound on the ring. Find the total flux in the circuit.</p>
+<p>The iron path and the air gap act as two reluctances in series (Section 4.7):</p>
+<p>Reluctance of iron: Riron = liron/(μ₀μrA) = 0.30/(4π×10⁻⁷ × 1000 × 4×10⁻⁴) ≈ 5.97×10⁵ A/Wb.</p>
+<p>Reluctance of air gap: Rgap = lgap/(μ₀A) = 0.001/(4π×10⁻⁷ × 4×10⁻⁴) ≈ 1.99×10⁶ A/Wb.</p>
+<p>Total reluctance: Rtotal = Riron + Rgap ≈ 2.59×10⁶ A/Wb.</p>
+<p>Flux: Φ = NI/Rtotal = (500×2)/(2.59×10⁶) ≈ 3.87×10⁻⁴ Wb. Notice that although the air gap is a thousand times shorter than the iron path, its much lower permeability (μr = 1 versus 1000) makes it contribute more than three-quarters of the total reluctance — the reason even a small air gap drastically reduces the flux in a magnetic circuit, a point of great practical importance in transformer and motor design.</p>
+<p><strong><u>Solved Problem 3: Daily energy loss due to hysteresis</u></strong></p>
+<p>A ferromagnetic ring of volume 250 cm³ has a hysteresis loop enclosing an energy of 300 J/m³ per cycle, and is operated continuously on a 60 Hz supply. Find the hysteresis power loss, and the total heat energy dissipated over 24 hours of continuous operation.</p>
+<p>Energy dissipated per cycle for the whole sample: Wh = 300 × (250×10⁻⁶ m³) = 0.075 J.</p>
+<p>Power loss: Ph = Wh × f = 0.075 × 60 = 4.5 W.</p>
+<p>Energy dissipated in 24 hours: E = Ph × t = 4.5 × (24×3600 s) = 4.5 × 86400 ≈ 3.89×10⁵ J ≈ 0.108 kWh — a small but continuous drain that, summed over many transformers operating around the clock, is a significant factor in the design push toward low-hysteresis-loss (soft) core materials.</p>
 <h4 id="classification-of-magnetic-materials">Classification of Magnetic Materials</h4><table class="ext-table">
 <colgroup>
 <col style="width: 20%"/>
@@ -814,6 +974,23 @@ waves travelling at c = 1/√(μ₀ε₀), with energy flux given by the <b>Poyn
 <li><p>4. Energy stored in an inductor carrying current I is: (a) LI (b) LI² (c) (1/2)LI² (d) (1/2)L²I — Answer: (c)</p></li>
 <li><p>5. In an AC generator, the induced EMF varies as: (a) cos(ωt) only (b) a constant (c) sin(ωt) (d) linearly with time — Answer: (c)</p></li>
 </ul>
+<h4 id="additional-solved-problems-unit-5">Additional Solved Problems — Unit 5</h4>
+<p><strong><u>Solved Problem 1: Motional EMF — a rod sliding on rails</u></strong></p>
+<p>A conducting rod of length L = 0.5 m slides with constant velocity v = 4 m/s along two parallel rails, perpendicular to a uniform field B = 0.2 T. The rails are connected through a resistor R = 2 Ω. Find the induced emf, the current, the retarding force on the rod, and the electrical power delivered to the resistor.</p>
+<p>Motional emf: ε = BLv = 0.2 × 0.5 × 4 = 0.4 V.</p>
+<p>Induced current: I = ε/R = 0.4/2 = 0.2 A.</p>
+<p>Force needed to keep the rod moving at constant velocity (equal and opposite to the magnetic braking force F = BIL): F = 0.2 × 0.2 × 0.5 = 0.02 N.</p>
+<p>Electrical power delivered: P = I²R = (0.2)² × 2 = 0.08 W. As a check, this equals the mechanical power supplied by whatever pulls the rod, P = Fv = 0.02 × 4 = 0.08 W — energy conservation, with mechanical work converted entirely into electrical (and ultimately heat) energy.</p>
+<p><strong><u>Solved Problem 2: Energy stored in two magnetically coupled coils</u></strong></p>
+<p>Two coils have self-inductances L1 = 2 H and L2 = 3 H and mutual inductance M = 1 H. At a certain instant they carry currents I1 = 2 A and I2 = 1 A, with fluxes linking constructively. Find the total magnetic energy stored in the coupled system.</p>
+<p>For two coupled inductors, the total stored energy generalises the single-inductor result U = ½LI² by adding a mutual term:</p>
+<p><em>U = (1/2)L1 I1² + (1/2)L2 I2² + M I1 I2</em></p>
+<p>Substituting: U = 0.5×2×(2)² + 0.5×3×(1)² + 1×2×1 = 4 + 1.5 + 2 = 7.5 J. The mutual term (2 J here) can be positive or negative depending on the relative sense of winding and current direction, reflecting whether the coupling stores extra energy or partially cancels it.</p>
+<p><strong><u>Solved Problem 3: EMF induced by a loop of changing area</u></strong></p>
+<p>A circular conducting loop lies in a uniform magnetic field B0 = 0.3 T, perpendicular to its plane. The loop’s radius grows with time as r(t) = r0 + kt, with r0 = 5 cm and k = 2 cm/s. Find the induced emf as a function of time, and evaluate it at t = 2 s.</p>
+<p>The flux linked is Φ(t) = B0 π r(t)² = B0 π (r0 + kt)². By Faraday’s law:</p>
+<p><em>ε = −dΦ/dt = −2π B0 k (r0 + kt)</em></p>
+<p>At t = 2 s: r = 0.05 + 0.02×2 = 0.09 m, so |ε| = 2π × 0.3 × 0.02 × 0.09 ≈ 3.39×10⁻³ V ≈ 3.39 mV. Unlike the earlier example of an emf induced by a changing field in a fixed loop, here B is constant but the loop’s area — and hence the flux through it — changes with time; both are equally valid ways for dΦ/dt to be non-zero.</p>
 <h4 id="unit-5-summary">Unit 5 Summary</h4><table class="ext-table">
 <colgroup>
 <col style="width: 40%"/>

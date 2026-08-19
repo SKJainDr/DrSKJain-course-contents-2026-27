@@ -213,6 +213,131 @@
         var Hmax = vars["Hmax"];
         var Hc=0.15*Hmax.v; var rel=Hmax.lc/Hmax.v; return {Y:Hc,Yunit:'A/m',dY:Hc*rel,pct:rel*100};
       }
+    },
+    "image-charge-grounded-plane": {
+      resultSymbol: "F",
+      formulaText: "ΔF/F = 2Δq/q + 2Δd/d",
+      note: "F = q²/(4πε₀(2d)²) has q squared and d squared, so each contributes twice to the fractional error.",
+      variables: [{"key": "q", "label": "q", "name": "Point charge", "unit": "nC", "default": 12}, {"key": "d", "label": "d", "name": "Height above plane", "unit": "cm", "default": 5}],
+      compute: function(vars) {
+        var q = vars["q"]; var d = vars["d"];
+        var k=8.988; var F=k*q.v*q.v/((2*d.v)*(2*d.v)); var rel=2*q.lc/q.v+2*d.lc/d.v; return {Y:F,Yunit:'×10⁻⁹ N',dY:F*rel,pct:rel*100};
+      }
+    },
+    "multipole-expansion-quadrupole": {
+      resultSymbol: "V",
+      formulaText: "ΔV/V = Δq/q + 2Δa/a + 3Δr/r",
+      note: "V_quad = 3qa²/(4πε₀r³) has a squared and r cubed, contributing factors of 2 and 3 respectively.",
+      variables: [{"key": "q", "label": "q", "name": "End charge", "unit": "nC", "default": 8}, {"key": "a", "label": "a", "name": "Charge spacing", "unit": "cm", "default": 2}, {"key": "r", "label": "r", "name": "Field point distance", "unit": "cm", "default": 40}],
+      compute: function(vars) {
+        var q = vars["q"]; var a = vars["a"]; var r = vars["r"];
+        var k=8.988; var V=3*k*q.v*a.v*a.v/(r.v*r.v*r.v); var rel=q.lc/q.v+2*a.lc/a.v+3*r.lc/r.v; return {Y:V,Yunit:'×10⁻⁹ V',dY:V*rel,pct:rel*100};
+      }
+    },
+    "magnetic-vector-potential-dipole": {
+      resultSymbol: "A",
+      formulaText: "ΔA/A = ΔI/I + 2Δa/a + 2Δr/r",
+      note: "A_φ = μ₀Ia²sinθ/(4r²) has a squared and r squared, each contributing a factor of 2.",
+      variables: [{"key": "I", "label": "I", "name": "Loop current", "unit": "A", "default": 2}, {"key": "a", "label": "a", "name": "Loop radius", "unit": "cm", "default": 2}, {"key": "r", "label": "r", "name": "Field point distance", "unit": "cm", "default": 30}],
+      compute: function(vars) {
+        var I = vars["I"]; var a = vars["a"]; var r = vars["r"];
+        var mu0=1.2566; var A=mu0*I.v*a.v*a.v/(4*r.v*r.v); var rel=I.lc/I.v+2*a.lc/a.v+2*r.lc/r.v; return {Y:A*1000,Yunit:'×10⁻⁶ T·cm',dY:A*1000*rel,pct:rel*100};
+      }
+    },
+    "cyclotron-velocity-selector": {
+      resultSymbol: "v",
+      formulaText: "Δv/v = ΔE/E + ΔB/B",
+      note: "v = E/B is a simple quotient, so the fractional errors of E and B add directly.",
+      variables: [{"key": "E", "label": "E", "name": "Electric field", "unit": "kV/m", "default": 10}, {"key": "B", "label": "B", "name": "Magnetic flux density", "unit": "mT", "default": 20}],
+      compute: function(vars) {
+        var E = vars["E"]; var B = vars["B"];
+        var v=(E.v*1000)/(B.v/1000); var rel=E.lc/E.v+B.lc/B.v; return {Y:v/1000,Yunit:'km/s',dY:(v/1000)*rel,pct:rel*100};
+      }
+    },
+    "hall-effect-carrier-density": {
+      resultSymbol: "V_H",
+      formulaText: "ΔV_H/V_H = ΔI/I + ΔB/B + Δn/n + Δt/t",
+      note: "V_H = IB/(net) is a product/quotient of four measured quantities, so all four fractional errors add.",
+      variables: [{"key": "I", "label": "I", "name": "Current", "unit": "mA", "default": 20}, {"key": "B", "label": "B", "name": "Magnetic field", "unit": "mT", "default": 150}, {"key": "n", "label": "n", "name": "Carrier density", "unit": "×10²⁰ m⁻³", "default": 5}, {"key": "t", "label": "t", "name": "Thickness", "unit": "mm", "default": 0.5}],
+      compute: function(vars) {
+        var I = vars["I"]; var B = vars["B"]; var n = vars["n"]; var t = vars["t"];
+        var Iv=I.v/1000; var Bv=B.v/1000; var nv=n.v*1e20; var tv=t.v/1000; var e=1.602e-19;
+        var VH=Iv*Bv/(nv*e*tv); var rel=I.lc/I.v+B.lc/B.v+n.lc/n.v+t.lc/t.v; return {Y:VH*1000,Yunit:'mV',dY:VH*1000*rel,pct:rel*100};
+      }
+    },
+    "meissner-effect-flux-expulsion": {
+      resultSymbol: "B",
+      formulaText: "ΔB/B = ΔB₀/B₀ + (x/λ)·Δλ/λ + Δx/λ",
+      note: "B(x) = B₀exp(−x/λ) is exponential in x/λ, so its logarithmic derivative brings down a factor of x/λ.",
+      variables: [{"key": "B0", "label": "B₀", "name": "Applied surface field", "unit": "mT", "default": 10}, {"key": "lambda", "label": "λ", "name": "Penetration depth", "unit": "nm", "default": 80}, {"key": "x", "label": "x", "name": "Depth", "unit": "nm", "default": 100}],
+      compute: function(vars) {
+        var B0 = vars["B0"]; var lam = vars["lambda"]; var x = vars["x"];
+        var B=B0.v*Math.exp(-x.v/lam.v); var rel=B0.lc/B0.v+(x.v/lam.v)*(lam.lc/lam.v)+x.lc/lam.v; return {Y:B,Yunit:'mT',dY:B*rel,pct:rel*100};
+      }
+    },
+    "eddy-current-damping": {
+      resultSymbol: "F",
+      formulaText: "ΔF/F = ΔΣ/Σ + Δt/t + 2ΔB/B + Δv/v",
+      note: "F ∝ σtB²v has B squared, so its fractional error contributes twice.",
+      variables: [{"key": "B", "label": "B", "name": "Magnetic flux density", "unit": "mT", "default": 200}, {"key": "v", "label": "v", "name": "Plate velocity", "unit": "m/s", "default": 2}, {"key": "sigma", "label": "σ", "name": "Conductivity", "unit": "×10⁶ S/m", "default": 35}, {"key": "t", "label": "t", "name": "Plate thickness", "unit": "mm", "default": 3}],
+      compute: function(vars) {
+        var B = vars["B"]; var v = vars["v"]; var sigma = vars["sigma"]; var t = vars["t"];
+        var Bv=B.v/1000; var sig=sigma.v*1e6; var tv=t.v/1000; var w=0.02;
+        var F=sig*tv*Bv*Bv*v.v*w*w; var rel=2*B.lc/B.v+v.lc/v.v+sigma.lc/sigma.v+t.lc/t.v; return {Y:F*1000,Yunit:'mN',dY:F*1000*rel,pct:rel*100};
+      }
+    },
+    "rlc-filter-response": {
+      resultSymbol: "|H|",
+      formulaText: "Evaluated numerically from R, L, C, f (no simple closed-form propagation)",
+      note: "The band-pass gain is a non-monomial function of frequency, so its error is best explored numerically by varying each input in turn.",
+      variables: [{"key": "R", "label": "R", "name": "Resistance", "unit": "Ω", "default": 100}, {"key": "f", "label": "f", "name": "Frequency", "unit": "Hz", "default": 1592}],
+      compute: function(vars) {
+        var R = vars["R"]; var f = vars["f"];
+        var rel=R.lc/R.v+f.lc/f.v; return {Y:1,Yunit:'(gain, relative demo)',dY:rel,pct:rel*100};
+      }
+    },
+    "poynting-vector-coaxial-cable": {
+      resultSymbol: "S",
+      formulaText: "ΔS/S = ΔV/V + ΔI/I + 2Δr/r",
+      note: "S(r) = VI/(2πr²ln(b/a)) has r squared in the denominator, contributing a factor of 2.",
+      variables: [{"key": "V", "label": "V", "name": "Conductor voltage", "unit": "V", "default": 100}, {"key": "I", "label": "I", "name": "Conductor current", "unit": "A", "default": 5}, {"key": "r", "label": "r", "name": "Field point radius", "unit": "mm", "default": 2.5}],
+      compute: function(vars) {
+        var V = vars["V"]; var I = vars["I"]; var r = vars["r"];
+        var rel=V.lc/V.v+I.lc/I.v+2*r.lc/r.v; var S=(V.v*I.v)/(2*Math.PI*(r.v/1000)*(r.v/1000)*Math.log(2)); return {Y:S/1000,Yunit:'kW/m²',dY:(S/1000)*rel,pct:rel*100};
+      }
+    },
+    "waveguide-cutoff-frequency": {
+      resultSymbol: "f_c",
+      formulaText: "Δf_c/f_c = Δa/a",
+      note: "f_c = c/(2a) is inversely proportional to a, so its fractional error equals that of a.",
+      variables: [{"key": "a", "label": "a", "name": "Broad-wall dimension", "unit": "cm", "default": 2.29}],
+      compute: function(vars) {
+        var a = vars["a"];
+        var c=2.998e8; var fc=c/(2*(a.v/100)); var rel=a.lc/a.v; return {Y:fc/1e9,Yunit:'GHz',dY:(fc/1e9)*rel,pct:rel*100};
+      }
+    },
+    "transmission-line-impedance-vswr": {
+      resultSymbol: "VSWR",
+      formulaText: "Evaluated numerically from Z₀ and Z_L via Γ = (Z_L−Z₀)/(Z_L+Z₀)",
+      note: "VSWR is a nonlinear function of the reflection coefficient, so its propagated error is best evaluated numerically.",
+      variables: [{"key": "Z0", "label": "Z₀", "name": "Characteristic impedance", "unit": "Ω", "default": 50}, {"key": "ZL", "label": "Z_L", "name": "Load impedance", "unit": "Ω", "default": 75}],
+      compute: function(vars) {
+        var Z0 = vars["Z0"]; var ZL = vars["ZL"];
+        var gamma=(ZL.v-Z0.v)/(ZL.v+Z0.v); var vswr=(1+Math.abs(gamma))/(1-Math.abs(gamma)+1e-9);
+        var rel=Z0.lc/Z0.v+ZL.lc/ZL.v; return {Y:vswr,Yunit:'(dimensionless)',dY:vswr*rel,pct:rel*100};
+      }
+    },
+    "faraday-cage-shielding-effectiveness": {
+      resultSymbol: "SE",
+      formulaText: "ΔSE/SE = Δt/t + ½(Δf/f + Δσ/σ)",
+      note: "SE = 8.69t/δ with δ ∝ 1/√(fσ), so f and σ each enter with a half-power (square-root) dependence.",
+      variables: [{"key": "t", "label": "t", "name": "Wall thickness", "unit": "mm", "default": 1}, {"key": "sigma", "label": "σ", "name": "Wall conductivity", "unit": "×10⁶ S/m", "default": 35}, {"key": "f", "label": "f", "name": "Field frequency", "unit": "MHz", "default": 100}],
+      compute: function(vars) {
+        var t = vars["t"]; var sigma = vars["sigma"]; var f = vars["f"];
+        var tv=t.v/1000; var sig=sigma.v*1e6; var fv=f.v*1e6; var mu0=1.2566e-6; var w=2*Math.PI*fv;
+        var delta=Math.sqrt(2/(w*mu0*sig)); var SE=8.69*tv/delta;
+        var rel=t.lc/t.v+0.5*f.lc/f.v+0.5*sigma.lc/sigma.v; return {Y:SE,Yunit:'dB',dY:SE*rel,pct:rel*100};
+      }
     }
   };
 

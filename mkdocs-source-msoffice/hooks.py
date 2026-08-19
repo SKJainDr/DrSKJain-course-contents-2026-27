@@ -1,7 +1,7 @@
 """
-mkdocs build hook for the MS Office Lab Quest — User Guide.
+mkdocs build hook for the Advanced MS Office Lab — User Guide.
 
-1. Prepends a "Back to MS Office Lab Quest" banner (with a direct "Launch
+1. Prepends a "Back to Advanced MS Office Lab" banner (with a direct "Launch
    the Lab" link) to the top of every documentation page.
 2. Appends a consistent author / contact block to the bottom of every
    page's rendered content.
@@ -34,7 +34,7 @@ def on_page_markdown(markdown, page, config, files):
 
     header_md = (
         '<div class="back-to-course-banner" markdown="1">'
-        f'&larr; [Back to MS Office Lab Quest]({prefix}labs/mso-office-lab/index.html) '
+        f'&larr; [Back to Advanced MS Office Lab]({prefix}labs/mso-office-lab/index.html) '
         f'&middot; [Launch the Lab]({prefix}labs/mso-office-lab/index.html){{target=_blank}}'
         "</div>\n\n"
     )

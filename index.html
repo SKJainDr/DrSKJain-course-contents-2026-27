@@ -117,10 +117,142 @@ footer a{color:#f2d9a6;}
 })();
 </script>
 
+<style>
+#visitorGateOverlay{
+  position:fixed; inset:0; z-index:9998; background:rgba(8,26,38,.82); backdrop-filter:blur(3px);
+  display:flex; align-items:center; justify-content:center; padding:20px;
+}
+#visitorGateOverlay.vg-hidden{ display:none; }
+.vg-card{
+  background:var(--paper2); color:var(--ink); border-radius:16px; max-width:440px; width:100%;
+  padding:30px 32px 26px; box-shadow:0 20px 60px rgba(0,0,0,.4); border:1px solid var(--line);
+  font-family:'Source Sans 3',sans-serif; max-height:92vh; overflow-y:auto;
+}
+.vg-card h2{ margin:0 0 4px; font-size:1.35rem; }
+.vg-card .vg-sub{ color:var(--muted); font-size:.92rem; margin:0 0 20px; line-height:1.5; }
+.vg-field{ margin-bottom:14px; }
+.vg-field label{ display:block; font-size:.8rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.03em; margin-bottom:5px; }
+.vg-field input{
+  width:100%; padding:10px 12px; border-radius:9px; border:1px solid var(--line); background:var(--tint);
+  color:var(--ink); font-family:'Source Sans 3',sans-serif; font-size:.95rem; box-sizing:border-box;
+}
+.vg-field input:focus{ outline:2px solid var(--teal); outline-offset:1px; }
+.vg-error{ color:var(--rust); font-size:.82rem; margin:-6px 0 12px; display:none; }
+.vg-submit{
+  width:100%; padding:12px; border:none; border-radius:100px; background:var(--navy-deep); color:var(--gold);
+  font-weight:700; font-size:.98rem; cursor:pointer; margin-top:4px;
+}
+.vg-submit:hover{ background:var(--navy); }
+.vg-submit:disabled{ opacity:.6; cursor:default; }
+.vg-privacy{ font-size:.74rem; color:var(--muted); margin-top:14px; line-height:1.5; }
+body.vg-locked{ overflow:hidden; }
+</style>
+
+<div id="visitorGateOverlay" class="vg-hidden">
+  <div class="vg-card">
+    <h2>Welcome — Please Sign In</h2>
+    <p class="vg-sub">This portal is maintained for Invertis University students and faculty. Please enter your details once each day to continue — this helps us keep an access record for the course labs and materials.</p>
+    <form id="visitorGateForm" autocomplete="off">
+      <div class="vg-field">
+        <label for="vgName">Full Name</label>
+        <input type="text" id="vgName" name="vgName" required>
+      </div>
+      <div class="vg-field">
+        <label for="vgRole">Class / Designation</label>
+        <input type="text" id="vgRole" name="vgRole" placeholder="e.g. B.Sc. (Vocational) 2nd Year, or Associate Professor" required>
+      </div>
+      <div class="vg-field">
+        <label for="vgContact">ID No. / Mobile / Email</label>
+        <input type="text" id="vgContact" name="vgContact" placeholder="Roll No., mobile number, or email" required>
+      </div>
+      <div class="vg-error" id="vgError">Please fill in all three fields before continuing.</div>
+      <button type="submit" class="vg-submit" id="vgSubmitBtn">Continue to Portal</button>
+      <div class="vg-privacy">Your name, class/designation, contact detail, IP address and the date/time of this visit are recorded to Invertis University's access log for this course portal. No other browsing activity is tracked.</div>
+    </form>
+  </div>
+</div>
+
+<script>
+(function(){
+  var DATE_KEY = 'drskjain-visitor-gate-date';
+  var GFORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdnKEwMFWSMw2LtJKwD0ll7g8Wh60gxah9nqDhOxy6JPfqfYQ/formResponse';
+  var ENTRY = { name: 'entry.666594197', role: 'entry.1787436751', contact: 'entry.820663975', ip: 'entry.303254511' };
+
+  function todayStr(){
+    var d = new Date();
+    return d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
+  }
+
+  var lastDate = null;
+  try { lastDate = localStorage.getItem(DATE_KEY); } catch(e) {}
+  if (lastDate === todayStr()) { return; } // already signed in today — skip the gate entirely
+
+  var overlay = document.getElementById('visitorGateOverlay');
+  var form = document.getElementById('visitorGateForm');
+  var errorEl = document.getElementById('vgError');
+  var submitBtn = document.getElementById('vgSubmitBtn');
+
+  overlay.classList.remove('vg-hidden');
+  document.body.classList.add('vg-locked');
+
+  function fetchIP(){
+    return fetch('https://api.ipify.org?format=json', { cache: 'no-store' })
+      .then(function(r){ return r.json(); })
+      .then(function(d){ return d.ip; })
+      .catch(function(){ return 'Unknown'; });
+  }
+
+  function withTimeout(promise, ms){
+    return Promise.race([
+      promise,
+      new Promise(function(resolve){ setTimeout(function(){ resolve('Unknown'); }, ms); })
+    ]);
+  }
+
+  function submitToGoogleForm(name, role, contact, ip){
+    var data = new URLSearchParams();
+    data.append(ENTRY.name, name);
+    data.append(ENTRY.role, role);
+    data.append(ENTRY.contact, contact);
+    data.append(ENTRY.ip, ip);
+    return fetch(GFORM_URL, { method: 'POST', mode: 'no-cors', body: data })
+      .catch(function(){ /* no-cors: errors are expected/ignorable if offline */ });
+  }
+
+  form.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var name = document.getElementById('vgName').value.trim();
+    var role = document.getElementById('vgRole').value.trim();
+    var contact = document.getElementById('vgContact').value.trim();
+
+    if (!name || !role || !contact) {
+      errorEl.style.display = 'block';
+      return;
+    }
+    errorEl.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Signing in…';
+
+    withTimeout(fetchIP(), 4000).then(function(ip){
+      return submitToGoogleForm(name, role, contact, ip);
+    }).then(function(){
+      try { localStorage.setItem(DATE_KEY, todayStr()); } catch(e) {}
+      overlay.classList.add('vg-hidden');
+      document.body.classList.remove('vg-locked');
+    }).catch(function(){
+      // Even on unexpected failure, don't trap the visitor outside the site.
+      try { localStorage.setItem(DATE_KEY, todayStr()); } catch(e) {}
+      overlay.classList.add('vg-hidden');
+      document.body.classList.remove('vg-locked');
+    });
+  });
+})();
+</script>
+
 <div class="topbar">
   <div class="wrap">
     <div class="brand"><img src="assets/invertis-logo.png" alt="Invertis University logo" style="height:32px;width:auto;"> Faculty Course Portal</div>
-    <div style="font-size:.85rem;color:#c9c2a8;">Academic Session 2026&ndash;27 &middot; <a href="labs/advanced-laser-optics-lab.html" style="color:#f2d9a6;">Advanced Laser &amp; Optics Lab</a> &middot; <a href="labs/advanced-mechanics-matter-lab.html" style="color:#b7e0a0;">Advanced Mechanics &amp; Properties of Matter Lab</a> &middot; <a href="labs/advanced-electricity-magnetism-lab.html" style="color:#f2d9a6;">Advanced Electricity &amp; Magnetism Lab</a> &middot; <a href="labs/mso-office-lab/index.html" style="color:#b7e0a0;">MS Office Lab</a></div>
+    <div style="font-size:.85rem;color:#c9c2a8;">Academic Session 2026&ndash;27 &middot; <a href="labs/advanced-laser-optics-lab.html" style="color:#f2d9a6;">Advanced Laser &amp; Optics Lab</a> &middot; <a href="labs/advanced-mechanics-matter-lab.html" style="color:#b7e0a0;">Advanced Mechanics &amp; Properties of Matter Lab</a> &middot; <a href="labs/advanced-electricity-magnetism-lab.html" style="color:#f2d9a6;">Advanced Electricity &amp; Magnetism Lab</a> &middot; <a href="labs/mso-office-lab/index.html" style="color:#b7e0a0;">Advanced MS Office Lab</a></div>
   </div>
 </div>
 
@@ -214,12 +346,13 @@ footer a{color:#f2d9a6;}
       padding:26px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
       <div>
         <div style="color:#a9cdfa;text-transform:uppercase;font-size:.78rem;letter-spacing:.07em;font-weight:700;">New &middot; 4th Advanced Lab</div>
-        <h3 style="color:#f2f6fb;margin:6px 0 6px;font-size:1.4rem;">🖥️ MS Office Lab Quest</h3>
-        <p style="color:#cfd8dc;margin:0;max-width:640px;">14 interactive sections &middot; 100 hands-on tasks covering MS Word, Excel &amp;
-        PowerPoint from the VOI001 syllabus, including four advanced <b>Challenge</b> sections — Word Challenge, PowerPoint Challenge,
-        Excel: Charts &amp; Trendlines, and Excel Challenge — with realistic animated Word/Excel/PowerPoint simulations (ribbon clicks,
-        live-drawing trendlines, growing charts, Track Changes, PivotTables, Goal Seek and more) that respond to your choices like the
-        real applications. Earn points and unlock a printable completion certificate for every section finished at 100%.</p>
+        <h3 style="color:#f2f6fb;margin:6px 0 6px;font-size:1.4rem;">🖥️ Advanced MS Office Lab</h3>
+        <p style="color:#cfd8dc;margin:0;max-width:640px;">20 interactive sections &middot; 142 hands-on tasks covering MS Word, Excel,
+        PowerPoint, Internet &amp; Email and MS Access from the VOI001 syllabus, including five advanced <b>Challenge</b> sections — Word,
+        PowerPoint, Excel, Internet &amp; Email, and MS Access Challenges — with realistic animated application simulations (ribbon clicks,
+        live-drawing trendlines, growing charts, Track Changes, PivotTables, Goal Seek, inbox/browser and database scenarios and more) that
+        respond to your choices like the real applications. Earn points and unlock a printable completion certificate for every section
+        finished at 100%.</p>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;align-items:stretch;">
         <div style="background:#3a7ac9;color:#0e1a2b;padding:12px 22px;border-radius:8px;font-weight:700;white-space:nowrap;text-align:center;">Open the Lab &rarr;</div>

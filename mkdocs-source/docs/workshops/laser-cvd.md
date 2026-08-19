@@ -34,7 +34,7 @@ Scan speed determines the dwell time of the laser at any point on the substrate:
 1. Record the precision score at the default power, gas flow and scan speed.
 2. Vary laser power alone and record the precision score at each value.
 3. Repeat, varying precursor gas flow alone, then scan speed alone.
-4. Identify the parameter combination giving a uniform ~200 nm film with a 90%+ precision score.
+4. Identify the parameter combination giving a uniform ~200 nm film with a 100% precision score.
 
 ## Observation Table
 

@@ -3239,10 +3239,10 @@ function updateWorkshop(id){
   if(cfg.draw) cfg.draw(overall);
 
   const certBox = document.getElementById('certbox_'+id);
-  if(overall>=90){
+  if(overall>=100){
     certBox.classList.add('show');
     if(!certBox.dataset.rendered){
-      certBox.innerHTML = '<b>🎉 90%+ precision achieved — Workshop Certified!</b><br><br>'+
+      certBox.innerHTML = '<b>🎉 100% precision achieved — Workshop Certified!</b><br><br>'+
         'Enter your name for the certificate: '+
         '<input type="text" id="name_'+id+'" placeholder="Your full name">'+
         '<button class="btn gold" onclick="generateCertificate(\''+id+'\',\''+cfg.title+'\', document.getElementById(\'pct_'+id+'\').textContent)">Generate Certificate</button>';

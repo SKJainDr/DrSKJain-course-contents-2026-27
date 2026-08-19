@@ -214,7 +214,21 @@ footer a{color:#f2d9a6;}
 formed between a plano-convex lens and a flat glass plate.</p>
 <p><b>Theory:</b> for the reflected system, the diameter of the n<sup>th</sup> dark ring satisfies
 D<sub>n</sub>² = 4nλR, so a plot of D<sub>n</sub>² against ring number n gives a straight line whose slope
-yields λ once the radius of curvature R of the lens is known (or vice versa).</p>
+yields λ once the radius of curvature R of the lens is known (or vice versa).</p><p><div style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;padding:10px;background:#FFFDF3;overflow:hidden;"><svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .nr-ring{ fill:none; stroke:#334155; opacity:0; animation:nr-grow 4s ease-out infinite; }
+  @keyframes nr-grow{ 0%{ opacity:0; } 8%{ opacity:.85; } 90%{ opacity:.85; } 100%{opacity:0;} }
+</style>
+<rect width="700" height="220" fill="#FFFDF3"/>
+<circle cx="350" cy="110" r="6" fill="#0B173A"/>
+<circle class="nr-ring" cx="350" cy="110" r="18" stroke-width="3" style="animation-delay:0s"/>
+<circle class="nr-ring" cx="350" cy="110" r="34" stroke-width="2.6" style="animation-delay:.3s"/>
+<circle class="nr-ring" cx="350" cy="110" r="50" stroke-width="2.2" style="animation-delay:.6s"/>
+<circle class="nr-ring" cx="350" cy="110" r="66" stroke-width="1.8" style="animation-delay:.9s"/>
+<circle class="nr-ring" cx="350" cy="110" r="82" stroke-width="1.4" style="animation-delay:1.2s"/>
+<circle class="nr-ring" cx="350" cy="110" r="98" stroke-width="1.1" style="animation-delay:1.5s"/>
+<text x="260" y="205" font-size="12" font-weight="700" fill="#0B173A">Dₙ² ∝ n · λ · R (dark rings, reflected system)</text>
+</svg></div></p><p><em>Fig. L1.1 (Animated) — Newton's rings form as concentric dark and bright circles around the point of contact between the plano-convex lens and the flat plate; each successive ring (shown here forming outward in sequence) satisfies Dₙ² = 4nλR for the n-th dark ring.</em></p>
 <p><b>Procedure highlights:</b> align the travelling microscope on the ring system illuminated by a sodium
 lamp through a 45° glass plate; measure diameters of several dark rings on both sides of the centre for
 accuracy; plot D<sub>n</sub>² vs n and compute λ from the slope.</p>
@@ -262,7 +276,19 @@ E<sub>g</sub>/2k<sub>B</sub>, from which the band gap is extracted.</p>
 susceptibility, permeability, retentivity and coercivity.</p>
 <p><b>Theory:</b> as the applied magnetic field H is cycled, the induced flux density B lags behind H, tracing
 a closed loop whose area represents the energy dissipated per cycle as hysteresis loss — directly relevant to
-selecting core materials for transformers and inductors.</p>
+selecting core materials for transformers and inductors.</p><p><div style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;padding:10px;background:#FFFDF3;overflow:hidden;"><svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .hy-dot{ offset-path: path("M230,110 C250,55 320,40 350,40 C400,40 460,60 470,110 C460,160 400,180 350,180 C300,180 250,150 230,110 Z"); animation:hy-move 5s linear infinite; }
+  @keyframes hy-move{ 0%{ offset-distance:0%; } 100%{ offset-distance:100%; } }
+</style>
+<rect width="700" height="220" fill="#FFFDF3"/>
+<line x1="120" y1="110" x2="580" y2="110" stroke="#8a94a6" stroke-width="1"/>
+<line x1="350" y1="30" x2="350" y2="195" stroke="#8a94a6" stroke-width="1"/>
+<path d="M230,110 C250,55 320,40 350,40 C400,40 460,60 470,110 C460,160 400,180 350,180 C300,180 250,150 230,110 Z" fill="none" stroke="#3C5283" stroke-width="2.4"/>
+<circle class="hy-dot" r="7" fill="#A8452F"/>
+<text x="590" y="115" font-size="12" fill="#0B173A">H</text>
+<text x="340" y="25" font-size="12" fill="#0B173A">B</text>
+</svg></div></p><p><em>Fig. L1.6 (Animated) — The red point traces one full cycle of the B–H hysteresis loop of the ferromagnetic sample; the loop's area (traced repeatedly here) represents the energy dissipated as heat per unit volume per cycle of magnetisation.</em></p>
 </div><div class="note-block" id="u7"><h3>Viscosity of a Liquid</h3>
 <p><b>Aim:</b> to determine the coefficient of viscosity of a given liquid, typically by Poiseuille's method or
 the terminal-velocity (Stokes') method with a falling sphere.</p>

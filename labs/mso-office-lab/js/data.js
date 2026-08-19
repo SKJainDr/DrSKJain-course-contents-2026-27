@@ -1,13 +1,15 @@
 /* =========================================================================
    MS OFFICE LAB QUEST — Content Data
-   Invertis University Bareilly | MS Office Lab
+   Invertis University Bareilly | Advanced MS Office Lab
    Syllabus: VOI001 — Introduction of MS-Office (B.Sc. Vocational)
    ========================================================================= */
 
 const APP_META = {
   word:  { label: "MS Word",       color: "#2B6CB0", colorDark: "#5B9BE6", glyph: "W" },
   excel: { label: "MS Excel",      color: "#1E9E63", colorDark: "#3FCB8C", glyph: "X" },
-  ppt:   { label: "MS PowerPoint", color: "#E2532B", colorDark: "#FF7B4D", glyph: "P" }
+  ppt:   { label: "MS PowerPoint", color: "#E2532B", colorDark: "#FF7B4D", glyph: "P" },
+  netmail: { label: "Internet & Email", color: "#5C3D99", colorDark: "#A78BDA", glyph: "@" },
+  access:  { label: "MS Access",       color: "#A4373A", colorDark: "#E28A8C", glyph: "A" }
 };
 
 /* Question type reference:
@@ -813,7 +815,308 @@ const SECTIONS = [
         MOCK.callout("Header row frozen and Filter applied — showing only Region = North."),
       explain:"View > Freeze Panes keeps header rows visible while scrolling; Data > Filter adds dropdown arrows to instantly show/hide rows by any column's values — together they make huge tables navigable." }
   ]
-}
+},
+// ============================================================ NETMAIL 1
+{
+  id: "netmail-basics", app: "netmail",
+  title: "Internet Foundations",
+  tagline: "Browsers, URLs & how the web works",
+  subs: [
+    { id:"n1-1", title:"Spotting a Secure Connection", type:"click",
+      prompt:"You want to check whether a website connection is secure (encrypted) before entering a password. What do you look for in the browser?",
+      ribbon:"Browser Elements",
+      options:["The page's word count","A padlock icon next to the address bar","The number of open tabs","The browser's version number"], correct:1,
+      explain:"A padlock icon beside the address bar indicates an HTTPS (encrypted) connection, meaning data sent to that site is protected in transit." },
+    { id:"n1-2", title:"HTTP vs HTTPS", type:"mcq",
+      prompt:"What does 'https://' at the start of a URL indicate, compared to 'http://'?",
+      options:["The site is hosted in the USA","The connection to the site is encrypted","The site is a search engine","The page cannot be printed"], correct:1,
+      explain:"The 's' in HTTPS stands for 'Secure' — data exchanged between your browser and the site is encrypted, protecting it from interception." },
+    { id:"n1-3", title:"Reading a URL", type:"mcq",
+      prompt:"In the address 'https://www.invertis.org/admissions', which part is the domain name?",
+      options:["https://","www.invertis.org","admissions","www"], correct:1,
+      explain:"'www.invertis.org' is the domain name identifying the website itself; '/admissions' is a specific page (path) on that site." },
+    { id:"n1-4", title:"How Search Engines Work", type:"truefalse",
+      prompt:"True or False: A search engine like Google stores a live, permanent copy of every website directly on its own servers, rather than the original site being hosted elsewhere.",
+      correct:false,
+      explain:"Search engines crawl and index the web, storing summaries/cached snapshots for fast searching — the actual live website continues to be hosted on its own server." },
+    { id:"n1-5", title:"Naming the Browser", type:"fill",
+      prompt:"Type the general term for software used to browse and display web pages (e.g., Chrome, Firefox, Edge).",
+      accepted:["browser","web browser"], hint:"Two words, or one — it 'browses' the web.",
+      explain:"A web browser is application software that requests, renders and displays web pages from servers." },
+    { id:"n1-6", title:"Getting Online", type:"mcq",
+      prompt:"Which of these best describes the role of an Internet Service Provider (ISP)?",
+      options:["A company that provides your connection to the internet","A search engine that indexes websites","A type of email attachment","A built-in browser feature for bookmarks"], correct:0,
+      explain:"An ISP (e.g. a telecom or broadband company) provides the physical/wireless connection that links your device to the wider internet." },
+    { id:"n1-7", title:"The Web's Transfer Protocol", type:"mcq",
+      prompt:"Which protocol is primarily used to transfer web pages between a server and your browser?",
+      options:["FTP","HTTP / HTTPS","SMTP","POP3"], correct:1,
+      explain:"HTTP (and its secure form HTTPS) is the protocol browsers and web servers use to request and deliver web pages." }
+  ]
+},
+
+// ============================================================ NETMAIL 2
+{
+  id: "netmail-advanced", app: "netmail",
+  title: "Email Essentials",
+  tagline: "Composing, organising & staying safe",
+  subs: [
+    { id:"n2-1", title:"Hiding Recipients From Each Other", type:"click",
+      prompt:"You want to send the same email to multiple people, but hide each recipient's address from the others. Which compose field do you use?",
+      ribbon:"Email Compose Fields",
+      options:["To","Cc","Bcc","Subject"], correct:2,
+      explain:"Bcc (Blind Carbon Copy) sends a copy without revealing that recipient's address to anyone else on the message." },
+    { id:"n2-2", title:"What Does 'Cc' Mean?", type:"mcq",
+      prompt:"What does 'Cc' stand for in an email header?",
+      options:["Copy Control","Carbon Copy","Confirm Contact","Central Copy"], correct:1,
+      explain:"'Cc' stands for Carbon Copy — a term carried over from the era of literal carbon-paper copies of typed letters." },
+    { id:"n2-3", title:"Recognising Phishing", type:"mcq",
+      prompt:"You receive an email urgently asking you to click a link and 'verify your bank password immediately'. What is this an example of?",
+      options:["Spam only","A phishing attempt","A calendar invite","An auto-reply"], correct:1,
+      explain:"Phishing emails impersonate a trusted source to trick you into revealing passwords or personal data — never click such links; verify independently instead." },
+    { id:"n2-4", title:"Deleted Isn't Always Gone", type:"truefalse",
+      prompt:"True or False: Once an email is moved to the Trash/Bin folder, it is immediately and permanently deleted with no way to recover it.",
+      correct:false,
+      explain:"Most email services keep deleted items in Trash for a set period (often 30 days) before permanent deletion, so recovery is usually possible for a while." },
+    { id:"n2-5", title:"Naming Unwanted Mail", type:"fill",
+      prompt:"Type the term for unwanted, unsolicited bulk email, often filtered automatically into its own folder.",
+      accepted:["spam","junk","junk mail","junk email"], hint:"Also the name of a canned meat brand, famously.",
+      explain:"Spam (or Junk) filters try to automatically catch unsolicited bulk/scam email before it reaches your inbox." },
+    { id:"n2-6", title:"Before You Attach", type:"mcq",
+      prompt:"Before sending a large video file by email, what should you check first?",
+      options:["The recipient's font preferences","Your email service's attachment size limit","The subject line's colour","Whether the ribbon is minimised"], correct:1,
+      explain:"Most email providers cap attachment size (commonly 20–25 MB); oversized files should instead be shared via a cloud-storage link." },
+    { id:"n2-7", title:"Reply vs Reply All", type:"mcq",
+      prompt:"'Reply All' differs from 'Reply' because it...",
+      options:["Sends your reply to the original sender and every other recipient on the email","Permanently deletes the original message","Forwards the email to a brand-new address you type in","Sends the reply as a text message instead of email"], correct:0,
+      explain:"Reply All includes every original recipient (To and Cc) in your response — useful for group discussions, but easy to overuse accidentally." }
+  ]
+},
+
+// ============================================================ ACCESS 1
+{
+  id: "access-basics", app: "access",
+  title: "Access Foundations",
+  tagline: "Tables, fields & data types",
+  subs: [
+    { id:"a1-1", title:"Designing a Table's Structure", type:"click",
+      prompt:"You're designing a new table and need to choose whether a field stores whole numbers, text, or dates. Which view do you switch to?",
+      ribbon:"Table Views",
+      options:["Datasheet View","Design View","Layout View","Print Preview"], correct:1,
+      explain:"Design View lets you define each field's name, data type and properties before you start entering actual data in Datasheet View." },
+    { id:"a1-2", title:"Choosing a Data Type", type:"mcq",
+      prompt:"Which data type would you choose for a 'Date of Birth' field?",
+      options:["Short Text","Number","Date/Time","Yes/No"], correct:2,
+      explain:"Date/Time correctly stores calendar dates, enabling date-based sorting, filtering and calculations (e.g., computing age)." },
+    { id:"a1-3", title:"The Role of a Primary Key", type:"mcq",
+      prompt:"What is the purpose of a Primary Key in an Access table?",
+      options:["It formats the table's font","It uniquely identifies each record in the table","It sorts the table alphabetically","It hides duplicate columns from view"], correct:1,
+      explain:"The Primary Key guarantees every record can be uniquely identified — no two records may share the same Primary Key value." },
+    { id:"a1-4", title:"Primary Key Uniqueness", type:"truefalse",
+      prompt:"True or False: Two different records in the same table are allowed to share the same value in the Primary Key field.",
+      correct:false,
+      explain:"Primary Key values must be unique across all records — Access will reject a duplicate entry in that field." },
+    { id:"a1-5", title:"Naming a Row of Data", type:"fill",
+      prompt:"Type the term for a single row of data in an Access table, representing one complete entry (e.g., one student).",
+      accepted:["record","row"], hint:"Each one is like one index card in a filing box.",
+      explain:"A record is one complete row in a table — e.g., one student's full set of details (name, roll number, marks, etc.)." },
+    { id:"a1-6", title:"Restricting to Two Values", type:"mcq",
+      prompt:"Which data type restricts a field to only two possible values, such as True/False or Yes/No?",
+      options:["Yes/No","Short Text","AutoNumber","OLE Object"], correct:0,
+      explain:"The Yes/No (Boolean) data type stores only two states, ideal for flags like 'Is Active?' or 'Paid?'." },
+    { id:"a1-7", title:"What Is a Database?", type:"mcq",
+      prompt:"A collection of related tables, queries, forms and reports stored together is called a...?",
+      options:["Spreadsheet","Database","Presentation","Document"], correct:1,
+      explain:"A database is an organised collection of related tables and the tools (queries, forms, reports) built around them." }
+  ]
+},
+
+// ============================================================ ACCESS 2
+{
+  id: "access-queries-forms", app: "access",
+  title: "Queries, Forms & Reports",
+  tagline: "Asking questions of your data",
+  subs: [
+    { id:"a2-1", title:"Filtering Records with a Query", type:"click",
+      prompt:"You want to see only the students who scored above 80 marks, instead of browsing the entire table. Which Access object do you create?",
+      ribbon:"Create Tab",
+      options:["Table","Query","Macro","Module"], correct:1,
+      explain:"A Query lets you ask a specific question of your data (e.g., 'marks > 80') and returns only the matching records." },
+    { id:"a2-2", title:"Setting a Condition in Design View", type:"mcq",
+      prompt:"In Query Design View, which row do you use to specify a condition like '>80'?",
+      options:["Field row","Table row","Sort row","Criteria row"], correct:3,
+      explain:"The Criteria row is where you type conditions (like >80, or \"Y\") that filter which records the query returns." },
+    { id:"a2-3", title:"What Forms Are For", type:"mcq",
+      prompt:"What is the main purpose of an Access Form?",
+      options:["To store the raw table structure only","To provide a user-friendly screen for entering and viewing data","To connect the database to the internet","To compress the database file"], correct:1,
+      explain:"Forms present table data through a friendlier, controlled interface — ideal for staff entering or reviewing records without touching the raw table." },
+    { id:"a2-4", title:"Reports vs Forms", type:"truefalse",
+      prompt:"True or False: An Access Report is primarily designed for on-screen data entry, in the same way a Form is.",
+      correct:false,
+      explain:"Reports are designed for formatted, print-ready summaries and presentation of data — not for entering or editing records, which is the Form's job." },
+    { id:"a2-5", title:"Matching Text Patterns", type:"fill",
+      prompt:"Type the keyword typically used in a query's Criteria to match a partial text pattern, e.g. Like \"A*\".",
+      accepted:["like"], hint:"It's the same word used in the example itself.",
+      explain:"The Like operator, combined with wildcards (* or ?), lets a query match partial or pattern-based text, e.g. all names starting with 'A'." },
+    { id:"a2-6", title:"Sorting Query Results", type:"mcq",
+      prompt:"You want a query's results sorted by 'Marks' from highest to lowest. Which sort order do you choose?",
+      options:["Ascending","Descending","Filtered","Grouped"], correct:1,
+      explain:"Descending order arranges values from highest to lowest — Ascending would instead go from lowest to highest." },
+    { id:"a2-7", title:"Choosing the Right Object", type:"mcq",
+      prompt:"Which Access object would best summarise total sales per region, ready for printing to management?",
+      options:["Table","Form","Report","Macro"], correct:2,
+      explain:"Reports are purpose-built for grouped, formatted summaries (e.g., totals per region) intended for printing or sharing, not live editing." }
+  ]
+},
+// ============================================================ NETMAIL CHALLENGE
+{
+  id: "netmail-challenge", app: "netmail",
+  title: "Internet & Email Challenge",
+  tagline: "Real-world browsing & inbox scenarios",
+  subs: [
+    { id:"nc-1", title:"Attaching a File to an Email", type:"sim",
+      prompt:"You need to send your assignment file along with a short email to your professor. What do you click to attach the document before sending?",
+      setup: MOCK.netmailWindow("New Message", [{label:"Attach", icons:["📎","🖼️"]},{label:"Send", icons:["➤"]}], "Home",
+        "<div class=\"mock-page\"><p style='color:#888;'>To: professor@invertis.org</p><p style='color:#888;'>Subject: Assignment Submission — Physics Lab</p><p>Dear Sir,<br>Please find my completed lab assignment.</p><p style='color:#888;'>(no attachment yet)</p></div>"),
+      options:["Insert > Table","Attach (paperclip icon) > choose file","Format > Bullets","Options > Delay Delivery"],
+      correct:1,
+      afterHTML: "<div class='mock-page'><p style='color:#888;'>To: professor@invertis.org</p><p style='color:#888;'>Subject: Assignment Submission — Physics Lab</p><p>Dear Sir,<br>Please find my completed lab assignment.</p><p style='background:#f3f2f1;border-radius:6px;padding:6px 10px;display:inline-block;'>📄 Assignment_PhysicsLab.pdf (1.2 MB)</p></div>" + MOCK.callout("File attached — ready to send."),
+      explain:"The paperclip/Attach control opens a file picker; the chosen file is bundled with the message and uploaded when you hit Send." },
+
+    { id:"nc-2", title:"Spotting a Phishing Email", type:"sim",
+      prompt:"Your inbox shows the message below. Which single detail here is the strongest warning sign that this is a phishing attempt rather than a genuine bank email?",
+      setup: MOCK.netmailWindow("Inbox", [{label:"Delete", icons:["🗑️"]},{label:"Report", icons:["🚩"]}], "Home",
+        MOCK.inboxList([
+          {from:"HDFC-Security", subject:"URGENT: Verify your account in 24 hours or it will be suspended!", time:"09:14", active:true, unread:true},
+          {from:"Mom", subject:"Call me when you're free", time:"08:02"},
+          {from:"Registrar Office", subject:"Semester timetable released", time:"Yesterday"}
+        ]) + "<div class='mock-page' style='margin-top:10px;'><p style='font-size:11px;color:#888;'>From: hdfc.security@secure-verify-accounts.info</p><p>Dear Customer, your account will be suspended. Click here to verify your password immediately: <span style='color:#185abc;'>secure-verify-accounts.info/login</span></p></div>"),
+      options:["The email has a subject line at all","It creates false urgency and the sender's domain isn't the bank's real domain","It was received in the morning","It is addressed to 'Dear Customer' in English"],
+      correct:1,
+      afterHTML: "<div class='mock-page'><p><b>🚩 Red flags identified:</b></p><p>• Sender domain 'secure-verify-accounts.info' does not match the bank's real domain</p><p>• Manufactured urgency ('24 hours or suspended')</p><p>• Generic greeting, and a request to click a link and enter a password</p></div>" + MOCK.callout("Reported as phishing — never click the link or enter a password."),
+      explain:"Genuine banks never ask you to 'verify' your password via an emailed link, and the real giveaway is almost always a sender domain that only looks similar to the genuine one. Urgency and generic greetings are supporting red flags." },
+
+    { id:"nc-3", title:"Searching the Web Effectively", type:"sim",
+      prompt:"You want to find PDF documents (not web pages) about 'renewable energy' published specifically on .edu websites. What should you type into the search box?",
+      setup: MOCK.browserWindow("search-engine.example/search",
+        "<div class='mock-page'><p style='color:#888;'>Search box:</p><p style='border:1px solid #cfcfcf;border-radius:20px;padding:8px 14px;'>renewable energy</p></div>"),
+      options:["renewable energy", "\"renewable energy\" pdf edu", "renewable energy filetype:pdf site:edu", "renewable-energy.com"],
+      correct:2,
+      afterHTML: "<div class='mock-page'><p style='color:#888;'>Search box:</p><p style='border:1px solid #185abc;border-radius:20px;padding:8px 14px;'>renewable energy filetype:pdf site:edu</p><p style='margin-top:10px;font-size:11.5px;color:#555;'>≈ 4,200 results — all .edu domains, PDF format</p></div>" + MOCK.callout("Search operators applied — results narrowed precisely."),
+      explain:"The filetype: and site: search operators let you restrict results to a specific file format and domain, turning a vague search into a precise one." },
+
+    { id:"nc-4", title:"Organising an Overflowing Inbox", type:"sim",
+      prompt:"Your inbox has hundreds of mixed emails: college notices, personal mail, and newsletters, making anything hard to find. What is the best long-term fix?",
+      setup: MOCK.netmailWindow("Inbox (438 unread)", [{label:"New Folder", icons:["📁"]},{label:"Rules", icons:["⚙️"]}], "Folder",
+        MOCK.inboxList([
+          {from:"Registrar Office", subject:"Exam datesheet released", time:"10:02", unread:true},
+          {from:"Newsletter Weekly", subject:"This week's top 10 tech stories", time:"09:40", unread:true},
+          {from:"Amit (friend)", subject:"Movie plan this weekend?", time:"09:12", unread:true},
+          {from:"Registrar Office", subject:"Fee payment reminder", time:"Yesterday", unread:true}
+        ])),
+      options:["Delete every email older than a week","Create labelled folders (e.g. 'College', 'Personal', 'Newsletters') and set rules to auto-sort incoming mail","Change the inbox font size","Turn off notifications entirely"],
+      correct:1,
+      afterHTML: "<div class='mock-page'><p>📁 College (2 new)</p><p>📁 Personal (1 new)</p><p>📁 Newsletters (1 new)</p><p style='margin-top:8px;color:#555;font-size:11.5px;'>Rule created: mail from 'Registrar Office' → auto-move to 'College'</p></div>" + MOCK.callout("Inbox reorganised — future mail sorts itself."),
+      explain:"Folders combined with automatic rules (filters) keep an inbox organised going forward, rather than requiring a one-time manual cleanup that will just pile up again." },
+
+    { id:"nc-5", title:"Cc or Bcc for a Large Announcement?", type:"sim",
+      prompt:"You are emailing 60 unrelated external stakeholders about an event, and want none of them to see each other's email addresses. Which field should hold all 60 addresses?",
+      setup: MOCK.netmailWindow("New Message", [{label:"To/Cc/Bcc", icons:["👥"]}], "Home",
+        "<div class='mock-page'><p style='color:#888;'>To: ___________</p><p style='color:#888;'>Cc: ___________</p><p style='color:#888;'>Bcc: ___________</p><p>Subject: Invitation — Annual Tech Fest</p></div>"),
+      options:["Put all 60 addresses in the To field","Put all 60 addresses in the Cc field","Put your own address in To, and all 60 addresses in Bcc","Send 60 separate emails manually, one at a time"],
+      correct:2,
+      afterHTML: "<div class='mock-page'><p>To: <span style='color:#185abc;'>you@invertis.org</span></p><p>Bcc: <span style='color:#185abc;'>60 recipients (hidden from each other)</span></p><p>Subject: Invitation — Annual Tech Fest</p></div>" + MOCK.callout("Addresses protected — recipients cannot see each other's emails."),
+      explain:"Putting your own address in To and all recipients in Bcc sends one email efficiently while keeping every recipient's address private from the others — good etiquette (and often a privacy requirement) for mass mail." },
+
+    { id:"nc-6", title:"Setting Up a Professional Signature", type:"sim",
+      prompt:"You send emails to faculty regularly and want your name, roll number and course to appear automatically at the bottom of every new email, without retyping it each time. What do you set up?",
+      setup: MOCK.netmailWindow("Settings", [{label:"Compose", icons:["✎"]},{label:"Signature", icons:["🖋️"]}], "Home",
+        "<div class='mock-page'><p><b>Compose settings</b></p><p style='color:#888;'>Signature: (none set)</p></div>"),
+      options:["Type your name manually at the end of every single email","Create a Signature in the mail settings, which is then auto-inserted into new messages","Save your name as a Bcc address","Attach a Word document containing your name to every email"],
+      correct:1,
+      afterHTML: "<div class='mock-page'><p><b>Compose settings</b></p><p style='color:#0e6b3a;'>Signature saved ✓</p><hr style='border:none;border-top:1px solid #eee;margin:8px 0;'/><p style='font-size:11.5px;color:#555;'>Rahul Sharma<br>B.Sc. (Vocational), Roll No. 2026045<br>Invertis University, Bareilly</p></div>" + MOCK.callout("Signature will now appear automatically on every new message."),
+      explain:"A saved Signature is automatically appended to new (and often reply) messages by the email client itself, saving you from retyping the same closing details every time." },
+
+    { id:"nc-7", title:"Checking Before You Enter a Password", type:"sim",
+      prompt:"You're about to log in to your college portal, but the page looks slightly different from usual. What is the single most important check before typing your password?",
+      setup: MOCK.browserWindow("student-portal-invertis.info/login",
+        "<div class='mock-page'><p><b>Student Login</b></p><p>Username: ___________</p><p>Password: ___________</p></div>"),
+      options:["Check the page's font looks the same as usual","Carefully verify the domain in the address bar matches the college's real, known domain","Check whether the page loads quickly","Check whether the login button is blue or green"],
+      correct:1,
+      afterHTML: "<div class='mock-page'><p style='color:#a4373a;'>⚠ Address bar shows 'student-portal-invertis.info' — the real portal domain is 'portal.invertis.org'.</p><p>Do not enter your password here.</p></div>" + MOCK.callout("Domain mismatch caught before any credentials were entered."),
+      explain:"Look-alike domains are a classic phishing technique. Always verify the exact domain in the address bar against the institution's genuine, known web address before entering any credentials." }
+  ]
+},
+
+// ============================================================ ACCESS CHALLENGE
+{
+  id: "access-challenge", app: "access",
+  title: "MS Access Challenge",
+  tagline: "Build, query and report on a real database",
+  subs: [
+    { id:"ac-1", title:"Setting the Right Primary Key", type:"sim",
+      prompt:"You're creating a 'Students' table. Which field should you set as the Primary Key to guarantee every student record is uniquely identifiable?",
+      setup: MOCK.accessWindow("Students : Table", [{label:"Views", icons:["▤"]},{label:"Tools", icons:["🔑"]}], "Home",
+        "<table class='mock-sheet'><thead><tr><th>Field Name</th><th>Data Type</th></tr></thead><tbody><tr><td class='lbl'>StudentName</td><td class='lbl'>Short Text</td></tr><tr><td class='lbl'>RollNo</td><td class='lbl'>Short Text</td></tr><tr><td class='lbl'>Course</td><td class='lbl'>Short Text</td></tr><tr><td class='lbl'>DOB</td><td class='lbl'>Date/Time</td></tr></tbody></table>"),
+      options:["StudentName — names are easy to remember","RollNo — unique to every student and never repeats","Course — groups students together","DOB — dates are always unique"],
+      correct:1,
+      afterHTML: "<table class='mock-sheet'><thead><tr><th>Field Name</th><th>Data Type</th><th>Key</th></tr></thead><tbody><tr><td class='lbl'>StudentName</td><td class='lbl'>Short Text</td><td></td></tr><tr><td class='lbl' style='background:#fff3cd;'>RollNo</td><td class='lbl'>Short Text</td><td>🔑</td></tr><tr><td class='lbl'>Course</td><td class='lbl'>Short Text</td><td></td></tr></tbody></table>" + MOCK.callout("RollNo set as Primary Key — guaranteed unique per student."),
+      explain:"RollNo is guaranteed unique to each student (unlike names, which can repeat, or course/DOB, which many students can share), making it the correct choice for the Primary Key." },
+
+    { id:"ac-2", title:"Building a Criteria Query", type:"sim",
+      prompt:"You need a list of only those students who scored 80 or more marks. In Query Design View, what do you type in the Criteria row under the 'Marks' column?",
+      setup: MOCK.accessWindow("Query1 : Query Design", [{label:"Run", icons:["▶"]},{label:"Show Table", icons:["＋"]}], "Home",
+        "<table class='mock-sheet'><thead><tr><th></th><th>StudentName</th><th>Marks</th></tr></thead><tbody><tr><th>Field</th><td class='lbl'>StudentName</td><td class='lbl'>Marks</td></tr><tr><th>Table</th><td class='lbl'>Students</td><td class='lbl'>Students</td></tr><tr><th>Criteria</th><td></td><td style='color:#888;'>?</td></tr></tbody></table>"),
+      options:["= 80 only","<80","&gt;=80","\"80\""],
+      correct:2,
+      afterHTML: "<table class='mock-sheet'><thead><tr><th></th><th>StudentName</th><th>Marks</th></tr></thead><tbody><tr><th>Field</th><td class='lbl'>StudentName</td><td class='lbl'>Marks</td></tr><tr><th>Table</th><td class='lbl'>Students</td><td class='lbl'>Students</td></tr><tr><th>Criteria</th><td></td><td class='mock-fill' style='--fillc:#fff3cd;'>&gt;=80</td></tr></tbody></table>" + MOCK.callout("Query returns only students scoring 80 or above."),
+      explain:"Entering >=80 in the Criteria row under Marks filters the query to return only records where Marks is 80 or higher." },
+
+    { id:"ac-3", title:"Linking Two Related Tables", type:"sim",
+      prompt:"You have a 'Students' table and a 'Fees' table, each with a 'RollNo' field. You want Access to enforce that every fee record belongs to a real student. What do you set up?",
+      setup: MOCK.accessWindow("Relationships", [{label:"Design", icons:["🔗"]}], "Database Tools",
+        "<div class='mock-access-navpane'><b>Students</b> (RollNo, Name, Course) &nbsp;&nbsp;&nbsp; <b>Fees</b> (RollNo, Amount, Date)</div><p style='color:#888;text-align:center;'>(no relationship drawn yet)</p>"),
+      options:["Copy the Students table into the Fees table","Create a Relationship between the two tables' RollNo fields, with referential integrity enforced","Rename both tables to the same name","Delete the RollNo field from the Fees table"],
+      correct:1,
+      afterHTML: "<div class='mock-access-navpane'><b>Students</b> (RollNo, Name, Course) &nbsp;&nbsp;&mdash;1:∞&mdash;&nbsp;&nbsp; <b>Fees</b> (RollNo, Amount, Date)</div><p style='text-align:center;color:#0e6b3a;'>Relationship created — referential integrity enforced ✓</p>" + MOCK.callout("A Fees record can no longer reference a non-existent student."),
+      explain:"A Relationship (typically one-to-many here — one student, many fee payments) linked on the shared RollNo field, with referential integrity enforced, prevents orphaned Fees records that reference a student who doesn't exist." },
+
+    { id:"ac-4", title:"Creating a Data-Entry Form", type:"sim",
+      prompt:"Office staff need an easy screen to add new students without touching the raw table grid. What is the fastest way to generate one from the Students table?",
+      setup: MOCK.accessWindow("Students : Table", [{label:"Forms", icons:["▤"]}], "Create",
+        "<table class='mock-sheet'><thead><tr><th>RollNo</th><th>Name</th><th>Course</th></tr></thead><tbody><tr><td class='lbl'>2026001</td><td class='lbl'>A. Sharma</td><td class='lbl'>B.Sc. Voc.</td></tr></tbody></table>"),
+      options:["Create > Form (auto-generates a form from the selected table)","Manually redraw the table as an image","Export the table to PDF and print blank copies","Create > Report"],
+      correct:0,
+      afterHTML: "<div class='mock-page'><p><b>Students Form</b></p><p>Roll No: <span style='background:#f3f2f1;padding:2px 8px;border-radius:3px;'>___________</span></p><p>Name: <span style='background:#f3f2f1;padding:2px 8px;border-radius:3px;'>___________</span></p><p>Course: <span style='background:#f3f2f1;padding:2px 8px;border-radius:3px;'>___________</span></p></div>" + MOCK.callout("Form generated — ready for easy, guided data entry."),
+      explain:"Create > Form instantly builds a usable data-entry form from the selected table's fields, which can then be customised further in Layout or Design view." },
+
+    { id:"ac-5", title:"Summarising Data for Management", type:"sim",
+      prompt:"The Principal wants a printed summary of total fees collected, grouped by Course. Which Access object is designed exactly for this?",
+      setup: MOCK.accessWindow("Fees : Table", [{label:"Reports", icons:["🖨️"]}], "Create",
+        "<table class='mock-sheet'><thead><tr><th>Course</th><th>Amount</th></tr></thead><tbody><tr><td class='lbl'>B.Sc. Voc.</td><td>45,000</td></tr><tr><td class='lbl'>B.Sc. Voc.</td><td>45,000</td></tr><tr><td class='lbl'>BCA</td><td>52,000</td></tr></tbody></table>"),
+      options:["A Table","A Form","A Report, grouped by Course with a sum in the group footer","A Macro"],
+      correct:2,
+      afterHTML: "<div class='mock-page'><p><b>Fee Collection Summary</b></p><p style='font-weight:700;'>B.Sc. Voc.</p><p style='padding-left:12px;'>Subtotal: ₹90,000</p><p style='font-weight:700;'>BCA</p><p style='padding-left:12px;'>Subtotal: ₹52,000</p><p style='border-top:1px solid #333;margin-top:6px;padding-top:4px;font-weight:800;'>Grand Total: ₹1,42,000</p></div>" + MOCK.callout("Report generated — grouped and totalled, ready to print."),
+      explain:"Reports are Access's tool for grouped, formatted, print-ready summaries — grouping by Course and adding a Sum in the group footer produces exactly this kind of management summary." },
+
+    { id:"ac-6", title:"Sorting & Filtering the Datasheet", type:"sim",
+      prompt:"While browsing the Students table directly, you want to quickly see only 'BCA' students, ordered by RollNo. Without building a separate query, what is the fastest approach?",
+      setup: MOCK.accessWindow("Students : Table", [{label:"Sort & Filter", icons:["⇅","▼"]}], "Home",
+        "<table class='mock-sheet'><thead><tr><th>RollNo</th><th>Name</th><th>Course</th></tr></thead><tbody><tr><td class='lbl'>2026003</td><td class='lbl'>P. Verma</td><td class='lbl'>BCA</td></tr><tr><td class='lbl'>2026001</td><td class='lbl'>A. Sharma</td><td class='lbl'>B.Sc. Voc.</td></tr><tr><td class='lbl'>2026002</td><td class='lbl'>S. Khan</td><td class='lbl'>BCA</td></tr></tbody></table>"),
+      options:["Delete all non-BCA rows permanently","Use the column header's Filter (funnel) and Sort controls directly in Datasheet View","Export everything to Excel first","Create a new table containing only BCA students"],
+      correct:1,
+      afterHTML: "<table class='mock-sheet'><thead><tr><th>RollNo ↑</th><th>Name</th><th>Course</th></tr></thead><tbody><tr class='mock-rowin'><td class='lbl'>2026002</td><td class='lbl'>S. Khan</td><td class='lbl'>BCA</td></tr><tr class='mock-rowin'><td class='lbl'>2026003</td><td class='lbl'>P. Verma</td><td class='lbl'>BCA</td></tr></tbody></table>" + MOCK.callout("Filtered to BCA only, sorted by RollNo — original data untouched."),
+      explain:"The built-in column header Filter and Sort controls in Datasheet View let you instantly narrow and order what you see, without altering the underlying table or needing a separate saved query." },
+
+    { id:"ac-7", title:"Preventing Bad Data at Entry", type:"sim",
+      prompt:"Staff have occasionally typed marks like '105' or 'ninety' into a Marks field that should only ever hold whole numbers from 0 to 100. What is the best fix at the table-design level?",
+      setup: MOCK.accessWindow("Students : Table (Design View)", [{label:"Field Properties", icons:["⚙️"]}], "Home",
+        "<table class='mock-sheet'><thead><tr><th>Field Name</th><th>Data Type</th></tr></thead><tbody><tr><td class='lbl'>Marks</td><td class='lbl'>Short Text</td></tr></tbody></table><p style='color:#888;font-size:11px;margin-top:6px;'>Validation Rule: (none set)</p>"),
+      options:["Keep Marks as Short Text and just ask staff to be careful","Change Marks to Number, and set a Validation Rule such as Between 0 And 100","Delete the Marks field entirely","Rename the field to 'MarksCorrect'"],
+      correct:1,
+      afterHTML: "<table class='mock-sheet'><thead><tr><th>Field Name</th><th>Data Type</th></tr></thead><tbody><tr><td class='lbl'>Marks</td><td class='lbl'>Number</td></tr></tbody></table><p style='color:#0e6b3a;font-size:11px;margin-top:6px;'>Validation Rule: Between 0 And 100 ✓<br>Validation Text: \"Enter a mark between 0 and 100\"</p>" + MOCK.callout("Invalid entries like 105 or 'ninety' are now rejected automatically."),
+      explain:"Setting the correct Number data type plus a Validation Rule (Between 0 And 100) stops invalid values from ever being saved, catching data-entry mistakes at the source rather than after the fact." }
+  ]
+},
 ];
 
 // Flat lookup helpers

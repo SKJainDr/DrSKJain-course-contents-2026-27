@@ -1,6 +1,6 @@
 /* =========================================================================
    MS OFFICE LAB QUEST — App Engine
-   Invertis University Bareilly | MS Office Lab
+   Invertis University Bareilly | Advanced MS Office Lab
    ========================================================================= */
 
 /* ---------- Safe storage wrapper (works even if localStorage is blocked) ---------- */
@@ -91,7 +91,9 @@ function renderHome() {
     { key: "all", label: "All Sections" },
     { key: "word", label: "MS Word" },
     { key: "excel", label: "MS Excel" },
-    { key: "ppt", label: "MS PowerPoint" }
+    { key: "ppt", label: "MS PowerPoint" },
+    { key: "netmail", label: "Internet & Email" },
+    { key: "access", label: "MS Access" }
   ];
 
   const visibleSections = SECTIONS.filter(s => State.familyFilter === "all" || s.app === State.familyFilter);
@@ -99,13 +101,17 @@ function renderHome() {
   root.innerHTML = `
     <div class="hero">
       <h2>Master MS&nbsp;Office — one section at a time.</h2>
-      <p>Play through 14 lab sections covering Word, Excel &amp; PowerPoint from your VOI001 syllabus — including four advanced Challenge &amp; Graphs sections with realistic simulated software tasks. Answer tasks correctly, earn points, and unlock a printable certificate for every section you finish at 100%.</p>
+      <p>Play through 20 lab sections covering Word, Excel, PowerPoint, Internet &amp; Email and MS Access from your VOI001 syllabus — including five advanced Challenge sections with realistic simulated software tasks. Answer tasks correctly, earn points, and unlock a printable certificate for every section you finish at 100%.</p>
       <div class="hero-progress">
         <div class="hp-item"><div class="num">${State.points}</div><div class="lbl">Points earned</div></div>
         <div class="hp-item"><div class="num">${tp.done}/${tp.total}</div><div class="lbl">Tasks completed</div></div>
         <div class="hp-item"><div class="num">${doneSections}/${SECTIONS.length}</div><div class="lbl">Certificates unlocked</div></div>
       </div>
-      <a class="hero-guide-link" href="guide/index.html" target="_blank" rel="noopener">📖 Read the Full User Guide &amp; Lab Manual &rarr;</a>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <a class="hero-guide-link" href="guide/index.html" target="_blank" rel="noopener">📖 Read the Full User Guide &amp; Lab Manual &rarr;</a>
+        <a class="hero-guide-link" href="guide/chapters/workshop-tasks/index.html" target="_blank" rel="noopener">🛠️ Advanced Workshop — 60 Hands-On Tasks &rarr;</a>
+        <a class="hero-guide-link" href="workshop-booklet.html" target="_blank" rel="noopener">📝 Open the Workshop Booklet &rarr;</a>
+      </div>
     </div>
 
     <div class="family-filter">
@@ -120,7 +126,7 @@ function renderHome() {
     </div>
 
     <div class="site-footer">
-      MS Office Lab Quest &middot; Invertis University Bareilly &middot; Built for VOI001 — Introduction of MS-Office<br/>
+      Advanced MS Office Lab &middot; Invertis University Bareilly &middot; Built for VOI001 — Introduction of MS-Office<br/>
       Complete every subsection of a section at 100% to unlock its printable certificate, countersigned by Dr. S. K. Jain, Lab Professor.
     </div>
   `;
@@ -181,7 +187,13 @@ const GUIDE_LINKS = {
   "ppt-basics": { url: "guide/chapters/powerpoint/#sec-3-1", label: "3.1 Setting up the PowerPoint Environment" },
   "ppt-objects-media": { url: "guide/chapters/powerpoint/#sec-3-5", label: "3.5 Working with Objects" },
   "ppt-animation-delivery": { url: "guide/chapters/powerpoint/#sec-3-9", label: "3.9 Animation and Slide Transition" },
-  "ppt-challenge": { url: "guide/chapters/powerpoint/#sec-3-6", label: "3.6 Hyperlinks and Action Buttons (full PPT chapter)" }
+  "ppt-challenge": { url: "guide/chapters/powerpoint/#sec-3-6", label: "3.6 Hyperlinks and Action Buttons (full PPT chapter)" },
+  "netmail-basics": { url: "guide/chapters/internet-email/#sec-4-2", label: "4.2 The World Wide Web (WWW) and How It Works" },
+  "netmail-advanced": { url: "guide/chapters/internet-email/#sec-4-10", label: "4.10 Creating an Email Account" },
+  "netmail-challenge": { url: "guide/chapters/internet-email/#sec-4-16", label: "4.16 Worked Walkthrough: Setting Up an Account and Sending an Email with Attachment" },
+  "access-basics": { url: "guide/chapters/ms-access/#sec-5-4", label: "5.4 Creating a Table and Choosing Data Types" },
+  "access-queries-forms": { url: "guide/chapters/ms-access/#sec-5-8", label: "5.8 Creating Basic Queries" },
+  "access-challenge": { url: "guide/chapters/ms-access/#sec-5-14", label: "5.14 Worked Walkthrough: Building a Complete Student Database" }
 };
 
 function openSection(sectionId) {
@@ -517,7 +529,7 @@ function renderCertificate(section) {
               <div class="cert-orb"><img src="assets/brand-orb.jpg" alt=""/></div>
             </div>
             <div class="cert-inst">INVERTIS UNIVERSITY, BAREILLY</div>
-            <div class="cert-lab">MS Office Lab</div>
+            <div class="cert-lab">Advanced MS Office Lab</div>
             <div class="cert-title">Certificate of Achievement</div>
             <div class="cert-rule"></div>
             <p class="cert-body-txt">This certificate is proudly presented to</p>

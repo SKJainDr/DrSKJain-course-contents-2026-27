@@ -34,7 +34,7 @@ Powder feed rate must be matched to the melt pool's capacity to dissolve and mix
 1. Record the precision score at the default power density, feed rate and traverse speed.
 2. Vary power density alone and record the precision score at each value.
 3. Repeat, varying powder feed rate alone, then traverse speed alone.
-4. Identify the parameter combination that gives a uniform ~0.5 mm alloyed layer with a 90%+ precision score.
+4. Identify the parameter combination that gives a uniform ~0.5 mm alloyed layer with a 100% precision score.
 
 ## Observation Table
 

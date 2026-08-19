@@ -34,7 +34,7 @@ The focus offset (distance of the beam waist from the material surface) affects 
 1. Record the precision score at the default power, speed and focus offset.
 2. Vary laser power alone and record the precision score at each value.
 3. Repeat, varying welding speed alone, then focus offset alone.
-4. Identify the combination giving full penetration, minimal porosity, and a 90%+ precision score.
+4. Identify the combination giving full penetration, minimal porosity, and a 100% precision score.
 
 ## Observation Table
 

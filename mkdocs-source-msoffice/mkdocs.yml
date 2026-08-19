@@ -1,5 +1,5 @@
-site_name: MS Office Lab Quest — User Guide
-site_description: Complete user guide and lecture notes for the MS Office Lab Quest — MS Word, Excel, PowerPoint, Internet & Email and MS Access
+site_name: Advanced MS Office Lab — User Guide
+site_description: Complete user guide and lecture notes for the Advanced MS Office Lab — MS Word, Excel, PowerPoint, Internet & Email and MS Access
 site_author: Dr. S. K. Jain
 site_url: https://skjaindr.github.io/DrSKJain-course-contents-2026-27/labs/mso-office-lab/guide/
 copyright: >
@@ -68,6 +68,7 @@ nav:
   - MS PowerPoint: chapters/powerpoint.md
   - Internet, WWW & Email: chapters/internet-email.md
   - MS Access: chapters/ms-access.md
+  - Advanced Workshop (60 Tasks): chapters/workshop-tasks.md
   - Integration & Careers: chapters/integration-career.md
   - Keyboard Shortcuts: chapters/shortcuts.md
   - Glossary: chapters/glossary.md

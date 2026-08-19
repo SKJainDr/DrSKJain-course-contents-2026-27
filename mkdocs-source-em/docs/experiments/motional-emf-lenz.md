@@ -1,26 +1,14 @@
 # Motional EMF & Lenz's Law on a Sliding Rod
 
 <div class="apparatus-3d-wrap" markdown="1">
-<svg viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;background:#eef3f7;border-radius:8px;">
-<rect x="30" y="60" width="150" height="90" rx="10" fill="#0e2a3d"/>
-<text x="105" y="100" text-anchor="middle" font-size="14" fill="#f2d9a6" font-family="Inter,Helvetica,sans-serif" font-weight="700">SOURCE /</text>
-<text x="105" y="118" text-anchor="middle" font-size="14" fill="#f2d9a6" font-family="Inter,Helvetica,sans-serif" font-weight="700">CONTROL</text>
-<rect x="245" y="45" width="150" height="120" rx="10" fill="#c8932a"/>
-<text x="320" y="95" text-anchor="middle" font-size="13.5" fill="#0e2a3d" font-family="Inter,Helvetica,sans-serif" font-weight="700">APPARATUS</text>
-<text x="320" y="115" text-anchor="middle" font-size="11.5" fill="#0e2a3d" font-family="Inter,Helvetica,sans-serif">(virtual setup)</text>
-<rect x="460" y="60" width="150" height="90" rx="10" fill="#a8452f"/>
-<text x="535" y="100" text-anchor="middle" font-size="14" fill="#fdf6e7" font-family="Inter,Helvetica,sans-serif" font-weight="700">PROBE /</text>
-<text x="535" y="118" text-anchor="middle" font-size="14" fill="#fdf6e7" font-family="Inter,Helvetica,sans-serif" font-weight="700">DETECTOR</text>
-<line x1="180" y1="105" x2="245" y2="105" stroke="#0B173A" stroke-width="3" marker-end="url(#arrow)"/>
-<line x1="395" y1="105" x2="460" y2="105" stroke="#0B173A" stroke-width="3" marker-end="url(#arrow)"/>
-<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0B173A"/></marker></defs>
-<line x1="70" y1="230" x2="570" y2="230" stroke="#0B173A" stroke-width="1" stroke-dasharray="4,3"/>
-<text x="320" y="330" text-anchor="middle" font-size="12.5" fill="#274" font-family="Inter,Helvetica,sans-serif">A virtual pair of frictionless conducting rails of adjustable</text>
-<text x="320" y="348" text-anchor="middle" font-size="12.5" fill="#274" font-family="Inter,Helvetica,sans-serif">separation L, in a uniform field B, connected to a resistor R,</text>
-<text x="320" y="366" text-anchor="middle" font-size="12.5" fill="#274" font-family="Inter,Helvetica,sans-serif">with a rod that can be pushed at a controlled velocity v and</text>
-<text x="320" y="384" text-anchor="middle" font-size="12.5" fill="#274" font-family="Inter,Helvetica,sans-serif">instrumented for induced EMF, current, and retarding force.</text>
-</svg>
-<div class="apparatus-3d-caption"><b>Apparatus schematic</b> &middot; A virtual pair of frictionless conducting rails of adjustable separation L, in a uniform field B, connected to a resistor R, with a rod that can be pushed at a controlled velocity v and instrumented for induced EMF, current, and retarding force.</div>
+<div class="apparatus-3d" data-setup="motional-emf-lenz"></div>
+
+<div class="apparatus-photo">
+<img src="../../assets/apparatus/motional-emf-lenz.png" alt="Apparatus layout diagram for this experiment">
+<div class="cap">Labelled apparatus layout — original illustration prepared for this guide (not a photograph). See the drag-to-rotate 3-D schematic above for a spatial view of the same setup.</div>
+</div>
+
+<div class="apparatus-3d-caption"><b>3-D apparatus schematic</b> &middot; drag to rotate, scroll to zoom &middot; A virtual pair of frictionless conducting rails of adjustable separation L, in a uniform field B, connected to a resistor R, with a rod that can be pushed at a controlled velocity v and instrumented for induced EMF, current, and retarding force.</div>
 </div>
 
 ## Aim

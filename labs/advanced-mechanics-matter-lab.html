@@ -1864,7 +1864,7 @@ P["panel-safety"] = {
     html += '<div id="verdict-'+id+'"></div>';
     if(cfg.isWorkshop){
       html += '<div class="ws-gauge-row"><canvas id="gauge-'+id+'" width="110" height="110"></canvas>' +
-        '<div><div class="ws-gauge-pct" id="pct-'+id+'">0%</div><div style="font-size:.85rem;color:var(--ink-soft);">Precision score — reach 90% to unlock your certificate</div></div></div>';
+        '<div><div class="ws-gauge-pct" id="pct-'+id+'">0%</div><div style="font-size:.85rem;color:var(--ink-soft);">Precision score — reach 100% to unlock your certificate</div></div></div>';
       html += '<div class="cert-unlock" id="certbox-'+id+'"></div>';
     }
     html += '</div>';
@@ -1931,10 +1931,10 @@ P["panel-safety"] = {
       document.getElementById('pct-'+id).textContent = score.toFixed(0)+'%';
       drawGauge('gauge-'+id, score);
       var certBox = document.getElementById('certbox-'+id);
-      if(score>=90){
+      if(score>=100){
         certBox.classList.add('show');
         if(!certBox.dataset.rendered){
-          certBox.innerHTML = '<b>🎉 90%+ precision achieved — Workshop Certified!</b><br>'+
+          certBox.innerHTML = '<b>🎉 100% precision achieved — Workshop Certified!</b><br>'+
             'Enter your name for the certificate: '+
             '<input type="text" id="name-'+id+'" placeholder="Your full name">'+
             '<button onclick="generateWsCertificate(\''+id+'\',\''+cfg.title.replace(/'/g,"\\'")+'\')">Generate Certificate</button>';

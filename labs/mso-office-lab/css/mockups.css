@@ -18,6 +18,8 @@
 .word-mock .mock-titlebar{ background:#185abc; }
 .excel-mock .mock-titlebar{ background:#0e6b3a; }
 .ppt-mock .mock-titlebar{ background:#b1360e; }
+.netmail-mock .mock-titlebar{ background:#5c3d99; }
+.access-mock .mock-titlebar{ background:#a4373a; }
 .mock-dot{ width:9px; height:9px; border-radius:50%; display:inline-block; }
 .mock-dot.r{ background:#ff5f57; } .mock-dot.y{ background:#febc2e; } .mock-dot.g{ background:#28c840; }
 .mock-filename{ margin-left:8px; opacity:.95; }
@@ -30,6 +32,8 @@
 .word-mock .mock-tabs span.active{ border-top:2px solid #185abc; }
 .excel-mock .mock-tabs span.active{ border-top:2px solid #0e6b3a; }
 .ppt-mock .mock-tabs span.active{ border-top:2px solid #b1360e; }
+.netmail-mock .mock-tabs span.active{ border-top:2px solid #5c3d99; }
+.access-mock .mock-tabs span.active{ border-top:2px solid #a4373a; }
 
 .mock-ribbon-groups{ display:flex; gap:2px; padding:8px 10px 10px; background:#fff; overflow-x:auto; }
 .mock-group{ display:flex; flex-direction:column; align-items:center; gap:6px; padding:4px 12px; border-right:1px solid #e4e4e4; min-width:64px; }
@@ -102,6 +106,25 @@ tr.mock-rowin{ animation:rowIn .45s ease both; }
 .mock-thumbstrip{ display:flex; gap:6px; margin-top:10px; }
 .mock-thumbstrip .th{ width:46px; height:26px; border:2px solid #d7d7d7; border-radius:3px; background:#fff; }
 .mock-thumbstrip .th.active{ border-color:#b1360e; }
+
+/* ---- Netmail (Internet & Email) ---- */
+.mock-browser-bar{ display:flex; align-items:center; gap:8px; background:#fff; border-bottom:1px solid #d7d7d7; padding:7px 12px; font-size:11.5px; color:#333; }
+.mock-browser-lock{ color:#0e6b3a; }
+.mock-browser-url{ flex:1; border:1px solid #cfcfcf; border-radius:14px; padding:4px 12px; background:#f3f2f1; }
+.mock-inbox-list{ background:#fff; width:100%; max-width:520px; border:1px solid #e4e4e4; border-radius:6px; overflow:hidden; }
+.mock-inbox-item{ display:flex; align-items:center; gap:10px; padding:9px 14px; font-size:12px; border-bottom:1px solid #eee; }
+.mock-inbox-item:last-child{ border-bottom:none; }
+.mock-inbox-item .mi-from{ font-weight:700; width:120px; flex-shrink:0; color:#333; }
+.mock-inbox-item.unread .mi-from, .mock-inbox-item.unread .mi-subject{ font-weight:800; color:#111; }
+.mock-inbox-item .mi-subject{ flex:1; color:#555; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.mock-inbox-item .mi-time{ font-size:10.5px; color:#999; flex-shrink:0; }
+.mock-inbox-item.active{ background:#f3eefc; border-left:3px solid #5c3d99; }
+
+/* ---- MS Access ---- */
+.mock-access-body{ width:100%; max-width:540px; }
+.mock-access-body table.mock-sheet thead th{ background:#f3e2e2; }
+.mock-access-navpane{ display:flex; gap:10px; background:#fff; border:1px solid #e4e4e4; border-radius:6px; padding:10px 12px; margin-bottom:10px; font-size:11.5px; color:#555; }
+.mock-access-navpane b{ color:#a4373a; }
 
 /* generic reveal + cursor click ping used across all three apps */
 .mock-live-region{ transition:opacity .2s ease; }

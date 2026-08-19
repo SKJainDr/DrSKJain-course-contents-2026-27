@@ -445,6 +445,114 @@ var EM_PANELS = [
     compute: function(ctl){ var Hmax={v:ctl.Hmax}; var Hc=0.15*Hmax.v; var rel=Hmax.lc/Hmax.v; return {Y:Hc,Yunit:'A/m',dY:Hc*rel,pct:rel*100}; }
   },
   {
+    id:"image-charge-grounded-plane", kind:"experiment", category:"Electrostatics", title:"Method of Images — Charge Near a Grounded Conducting Plane",
+    aim:"To use the method of images to compute the attractive force and induced surface charge on an infinite grounded conducting plane due to a nearby point charge, replacing the plane by an equal and opposite image charge.",
+    formula:"F = q² / (4πε₀ (2d)²)   (attraction towards an image charge −q at depth d)",
+    controls:[{key:"q",label:"q",name:"Point charge",unit:"nC",min:1,max:50,default:12,step:1},{key:"d",label:"d",name:"Height above the grounded plane",unit:"cm",min:1,max:20,default:5,step:0.5}],
+    resultSymbol:"F", resultUnitHint:"",
+    sweepKey:"d",
+    compute: function(ctl){ var q={v:ctl.q}; var d={v:ctl.d}; var k=8.988; var F=k*q.v*q.v/((2*d.v)*(2*d.v)); var rel=2*q.lc/q.v+2*d.lc/d.v; return {Y:F,Yunit:'×10⁻⁹ N (attractive, towards plane)',dY:Math.abs(F)*rel,pct:rel*100}; }
+  },
+  {
+    id:"multipole-expansion-quadrupole", kind:"experiment", category:"Electrostatics", title:"Multipole Expansion — Linear Electric Quadrupole",
+    aim:"To compute the far-field electric potential of a linear quadrupole (charges +q, −2q, +q) and verify its characteristic 1/r³ fall-off, contrasted with the 1/r and 1/r² fall-offs of the monopole and dipole terms.",
+    formula:"V_quad(r) = 3qa² / (4πε₀ r³)   (r ≫ a, on-axis)",
+    controls:[{key:"q",label:"q",name:"End charge magnitude",unit:"nC",min:1,max:30,default:8,step:1},{key:"a",label:"a",name:"Charge spacing",unit:"cm",min:0.5,max:5,default:2,step:0.25},{key:"r",label:"r",name:"Field point distance (on axis)",unit:"cm",min:10,max:100,default:40,step:2}],
+    resultSymbol:"V", resultUnitHint:"",
+    sweepKey:"r",
+    compute: function(ctl){ var q={v:ctl.q}; var a={v:ctl.a}; var r={v:ctl.r}; var k=8.988; var V=3*k*q.v*a.v*a.v/(r.v*r.v*r.v); var rel=q.lc/q.v+2*a.lc/a.v+3*r.lc/r.v; return {Y:V,Yunit:'×10⁻⁹ V (quadrupole term only)',dY:Math.abs(V)*rel,pct:rel*100}; }
+  },
+  {
+    id:"magnetic-vector-potential-dipole", kind:"experiment", category:"Magnetostatics", title:"Magnetic Vector Potential of a Current Loop (Dipole Limit)",
+    aim:"To evaluate the magnetic vector potential A of a small current loop in the far-field (magnetic dipole) approximation, and relate it to the resulting dipole field B = ∇ × A.",
+    formula:"A_φ(r,θ) = μ₀ I a² sinθ / (4r²)   (r ≫ a)",
+    controls:[{key:"I",label:"I",name:"Loop current",unit:"A",min:0.1,max:10,default:2,step:0.1},{key:"a",label:"a",name:"Loop radius",unit:"cm",min:0.5,max:5,default:2,step:0.25},{key:"r",label:"r",name:"Field point distance",unit:"cm",min:10,max:80,default:30,step:2},{key:"theta",label:"θ",name:"Polar angle from loop axis",unit:"deg",min:0,max:180,default:90,step:5}],
+    resultSymbol:"A", resultUnitHint:"",
+    sweepKey:"r",
+    compute: function(ctl){ var I={v:ctl.I}; var a={v:ctl.a}; var r={v:ctl.r}; var th={v:ctl.theta}; var mu0=1.2566; var A=mu0*I.v*a.v*a.v*Math.sin(th.v*Math.PI/180)/(4*r.v*r.v); var rel=I.lc/I.v+2*a.lc/a.v+2*r.lc/r.v; return {Y:A*1000,Yunit:'×10⁻⁶ T·cm (scaled vector potential)',dY:Math.abs(A*1000)*rel,pct:rel*100}; }
+  },
+  {
+    id:"cyclotron-velocity-selector", kind:"experiment", category:"Magnetostatics", title:"Crossed E & B Fields — Velocity Selector & Cyclotron Motion",
+    aim:"To determine the velocity selected (undeflected) by a region of crossed uniform electric and magnetic fields, and to compute the cyclotron radius of the selected charged particle once it enters a pure magnetic field region.",
+    formula:"v = E / B ,    r_c = m v / (q B)",
+    controls:[{key:"E",label:"E",name:"Electric field",unit:"kV/m",min:1,max:50,default:10,step:1},{key:"B",label:"B",name:"Magnetic flux density",unit:"mT",min:1,max:100,default:20,step:1},{key:"m_over_q",label:"m/q",name:"Mass-to-charge ratio (×10⁻⁸ kg/C)",unit:"",min:0.5,max:20,default:5.7,step:0.1}],
+    resultSymbol:"v", resultUnitHint:"",
+    sweepKey:"B",
+    compute: function(ctl){ var E={v:ctl.E}; var B={v:ctl.B}; var moq={v:ctl.m_over_q}; var v=(E.v*1000)/(B.v/1000); var rc=moq.v*1e-8*v/(B.v/1000); var rel=E.lc/E.v+B.lc/B.v; return {Y:v/1000,Yunit:'km/s (selected drift velocity); r_c='+rc.toFixed(3)+' m',dY:Math.abs(v/1000)*rel,pct:rel*100}; }
+  },
+  {
+    id:"hall-effect-carrier-density", kind:"experiment", category:"Electric & Magnetic Materials", title:"Hall Effect — Carrier Density & Sign of Charge Carriers",
+    aim:"To measure the Hall voltage developed across a current-carrying conducting slab in a transverse magnetic field, and use it to determine the density and sign (electron/hole) of the majority charge carriers.",
+    formula:"V_H = I B / (n e t)",
+    controls:[{key:"I",label:"I",name:"Current through sample",unit:"mA",min:1,max:100,default:20,step:1},{key:"B",label:"B",name:"Transverse magnetic field",unit:"mT",min:5,max:500,default:150,step:5},{key:"n",label:"n",name:"Carrier density (doped semiconductor sample)",unit:"×10²⁰ m⁻³",min:0.5,max:50,default:5,step:0.5},{key:"t",label:"t",name:"Sample thickness",unit:"mm",min:0.05,max:2,default:0.5,step:0.05}],
+    resultSymbol:"V_H", resultUnitHint:"",
+    sweepKey:"B",
+    compute: function(ctl){ var I={v:ctl.I/1000}; var B={v:ctl.B/1000}; var n={v:ctl.n*1e20}; var t={v:ctl.t/1000}; var e=1.602e-19; var VH=I.v*B.v/(n.v*e*t.v); var rel=I.lc/(ctl.I)+B.lc/(ctl.B)+n.lc/(ctl.n)+t.lc/(ctl.t); return {Y:VH*1000,Yunit:'mV (Hall voltage)',dY:Math.abs(VH*1000)*rel,pct:rel*100}; }
+  },
+  {
+    id:"meissner-effect-flux-expulsion", kind:"experiment", category:"Electric & Magnetic Materials", title:"Meissner Effect — Flux Expulsion in a Superconductor",
+    aim:"To model the exponential decay of an applied magnetic field with depth inside a superconductor below its critical temperature, characterised by the London penetration depth λ, demonstrating the Meissner effect.",
+    formula:"B(x) = B₀ exp(−x/λ)",
+    controls:[{key:"B0",label:"B₀",name:"Applied surface field",unit:"mT",min:1,max:50,default:10,step:1},{key:"lambda",label:"λ",name:"London penetration depth",unit:"nm",min:20,max:200,default:80,step:5},{key:"x",label:"x",name:"Depth into superconductor",unit:"nm",min:0,max:400,default:100,step:5}],
+    resultSymbol:"B", resultUnitHint:"",
+    sweepKey:"x",
+    compute: function(ctl){ var B0={v:ctl.B0}; var lam={v:ctl.lambda}; var x={v:ctl.x}; var B=B0.v*Math.exp(-x.v/lam.v); var rel=B0.lc/B0.v+(x.v/lam.v)*(lam.lc/lam.v)+x.lc/lam.v; return {Y:B,Yunit:'mT (field remaining at depth x)',dY:Math.abs(B)*rel,pct:rel*100}; }
+  },
+  {
+    id:"eddy-current-damping", kind:"experiment", category:"Electrodynamics", title:"Eddy-Current Damping — Lenz's Law Braking",
+    aim:"To model the retarding force experienced by a conducting plate moving through a non-uniform magnetic field due to induced eddy currents, and its dependence on conductivity, speed and field strength.",
+    formula:"F_eddy ∝ σ t B² v w²   (per unit volume in the field region)",
+    controls:[{key:"B",label:"B",name:"Magnetic flux density",unit:"mT",min:10,max:500,default:200,step:10},{key:"v",label:"v",name:"Plate velocity",unit:"m/s",min:0.1,max:10,default:2,step:0.1},{key:"sigma",label:"σ",name:"Plate conductivity",unit:"×10⁶ S/m",min:1,max:60,default:35,step:1},{key:"t",label:"t",name:"Plate thickness",unit:"mm",min:0.5,max:10,default:3,step:0.5}],
+    resultSymbol:"F", resultUnitHint:"",
+    sweepKey:"v",
+    compute: function(ctl){ var B={v:ctl.B/1000}; var v={v:ctl.v}; var sig={v:ctl.sigma*1e6}; var t={v:ctl.t/1000}; var w=0.02; var F=sig.v*t.v*B.v*B.v*v.v*w*w; var rel=2*B.lc/(ctl.B)+v.lc/v.v+sig.lc/(ctl.sigma)+t.lc/(ctl.t); return {Y:F*1000,Yunit:'mN (retarding eddy-current force)',dY:Math.abs(F*1000)*rel,pct:rel*100}; }
+  },
+  {
+    id:"rlc-filter-response", kind:"experiment", category:"Electrodynamics", title:"RLC Filters — Low-Pass / High-Pass / Band-Pass Frequency Response",
+    aim:"To compute the frequency-dependent voltage-gain response of series RLC low-pass, high-pass and band-pass filter configurations, and locate the −3 dB cutoff/centre frequencies.",
+    formula:"|H(f)|_bandpass = R / √(R² + (ωL − 1/ωC)²)",
+    controls:[{key:"R",label:"R",name:"Resistance",unit:"Ω",min:1,max:1000,default:100,step:10},{key:"L",label:"L",name:"Inductance",unit:"mH",min:0.1,max:100,default:10,step:0.5},{key:"C",label:"C",name:"Capacitance",unit:"µF",min:0.01,max:10,default:1,step:0.05},{key:"f",label:"f",name:"Signal frequency",unit:"Hz",min:10,max:20000,default:1592,step:10}],
+    resultSymbol:"|H|", resultUnitHint:"",
+    sweepKey:"f",
+    compute: function(ctl){ var R={v:ctl.R}; var L={v:ctl.L/1000}; var C={v:ctl.C*1e-6}; var f={v:ctl.f}; var w=2*Math.PI*f.v; var X=w*L.v-1/(w*C.v); var H=R.v/Math.sqrt(R.v*R.v+X*X); var rel=R.lc/R.v+f.lc/f.v; return {Y:H,Yunit:'(band-pass gain, 0\u20131)',dY:Math.abs(H)*rel,pct:rel*100}; }
+  },
+  {
+    id:"poynting-vector-coaxial-cable", kind:"experiment", category:"Electrodynamics", title:"Poynting Vector & Power Flow in a Coaxial Cable",
+    aim:"To compute the Poynting vector S = E × H in the dielectric region between the inner and outer conductors of a coaxial cable carrying DC power, and verify that its integral over the annular cross-section equals the transmitted electrical power VI.",
+    formula:"S(r) = V I / (2π r² ln(b/a))",
+    controls:[{key:"V",label:"V",name:"Conductor voltage",unit:"V",min:1,max:400,default:100,step:5},{key:"I",label:"I",name:"Conductor current",unit:"A",min:0.1,max:20,default:5,step:0.5},{key:"a",label:"a",name:"Inner-conductor radius",unit:"mm",min:0.3,max:5,default:1,step:0.1},{key:"b",label:"b",name:"Outer-conductor (shield) radius",unit:"mm",min:2,max:20,default:5,step:0.5},{key:"r",label:"r",name:"Field point radius (a<r<b)",unit:"mm",min:1,max:19,default:2.5,step:0.1}],
+    resultSymbol:"S", resultUnitHint:"",
+    sweepKey:"r",
+    compute: function(ctl){ var V={v:ctl.V}; var I={v:ctl.I}; var a={v:ctl.a}; var b={v:ctl.b}; var r={v:Math.max(ctl.r,a.v+0.01)}; var S=(V.v*I.v)/(2*Math.PI*(r.v/1000)*(r.v/1000)*Math.log(b.v/a.v)); var rel=V.lc/V.v+I.lc/I.v+2*0.01; return {Y:S/1000,Yunit:'kW/m² (radial Poynting flux at r)',dY:Math.abs(S/1000)*rel,pct:rel*100}; }
+  },
+  {
+    id:"waveguide-cutoff-frequency", kind:"experiment", category:"EM Waves & Propagation", title:"Rectangular Waveguide — TE₁₀ Mode & Cutoff Frequency",
+    aim:"To compute the cutoff frequency of the dominant TE₁₀ mode of a rectangular waveguide from its broad-wall dimension, and determine whether a given signal frequency will propagate or be evanescently attenuated.",
+    formula:"f_c(TE₁₀) = c / (2a)",
+    controls:[{key:"a",label:"a",name:"Waveguide broad-wall dimension",unit:"cm",min:1,max:10,default:2.29,step:0.05},{key:"f",label:"f",name:"Signal frequency",unit:"GHz",min:1,max:20,default:9,step:0.1}],
+    resultSymbol:"f_c", resultUnitHint:"",
+    sweepKey:"a",
+    compute: function(ctl){ var a={v:ctl.a/100}; var f={v:ctl.f}; var c=2.998e8; var fc=c/(2*a.v); var rel=a.lc/(ctl.a); var propagates = (f.v*1e9)>fc; return {Y:fc/1e9,Yunit:'GHz (cutoff); signal '+(propagates?'PROPAGATES':'is EVANESCENT (below cutoff)'),dY:Math.abs(fc/1e9)*rel,pct:rel*100}; }
+  },
+  {
+    id:"transmission-line-impedance-vswr", kind:"experiment", category:"EM Waves & Propagation", title:"Transmission Lines — Characteristic Impedance, Reflection & VSWR",
+    aim:"To compute the reflection coefficient and voltage standing-wave ratio (VSWR) on a transmission line of characteristic impedance Z₀ terminated in a mismatched load impedance Z_L.",
+    formula:"Γ = (Z_L − Z₀)/(Z_L + Z₀) ,   VSWR = (1+|Γ|)/(1−|Γ|)",
+    controls:[{key:"Z0",label:"Z₀",name:"Line characteristic impedance",unit:"Ω",min:25,max:150,default:50,step:1},{key:"ZL",label:"Z_L",name:"Load impedance (resistive)",unit:"Ω",min:5,max:500,default:75,step:1}],
+    resultSymbol:"VSWR", resultUnitHint:"",
+    sweepKey:"ZL",
+    compute: function(ctl){ var Z0={v:ctl.Z0}; var ZL={v:ctl.ZL}; var gamma=(ZL.v-Z0.v)/(ZL.v+Z0.v); var vswr=(1+Math.abs(gamma))/(1-Math.abs(gamma)+1e-9); var rel=Z0.lc/Z0.v+ZL.lc/ZL.v; return {Y:vswr,Yunit:'(VSWR, dimensionless \u2265 1); \u0393='+gamma.toFixed(3),dY:Math.abs(vswr)*rel,pct:rel*100}; }
+  },
+  {
+    id:"faraday-cage-shielding-effectiveness", kind:"experiment", category:"EM Waves & Propagation", title:"Electrostatic & EM Shielding Effectiveness of a Faraday Cage",
+    aim:"To compute the shielding effectiveness of a conducting enclosure (Faraday cage) as a function of wall thickness, conductivity and frequency, via the skin-depth attenuation of the incident field inside the conductor.",
+    formula:"SE (dB) = 8.69 × t / δ ,   δ = √(2 / (ωμσ))",
+    controls:[{key:"t",label:"t",name:"Wall / mesh thickness",unit:"mm",min:0.05,max:5,default:1,step:0.05},{key:"sigma",label:"σ",name:"Wall conductivity",unit:"×10⁶ S/m",min:1,max:60,default:35,step:1},{key:"f",label:"f",name:"Field frequency",unit:"MHz",min:0.1,max:1000,default:100,step:1}],
+    resultSymbol:"SE", resultUnitHint:"",
+    sweepKey:"f",
+    compute: function(ctl){ var t={v:ctl.t/1000}; var sig={v:ctl.sigma*1e6}; var f={v:ctl.f*1e6}; var mu0=1.2566e-6; var w=2*Math.PI*f.v; var delta=Math.sqrt(2/(w*mu0*sig.v)); var SE=8.69*t.v/delta; var rel=t.lc/(ctl.t)+0.5*f.lc/(ctl.f)+0.5*sig.lc/(ctl.sigma); return {Y:SE,Yunit:'dB (shielding effectiveness); \u03b4='+(delta*1e6).toFixed(2)+' \u00b5m',dY:Math.abs(SE)*rel,pct:rel*100}; }
+  },
+  {
     id:"wsEMC", kind:"workshop", category:"Industrial Workshops", title:"WS1: EMI/EMC Compliance Testing",
     scenario:"You are a compliance test engineer at a consumer-electronics company. A new switch-mode power supply must pass radiated-emission limits before it can be sold. Your job is to tune the product's shielding and filtering until the measured emission spectrum stays under the regulatory limit line across the required frequency band.",
     controls:[{key:"shield_effectiveness",label:"Shielding effectiveness",unit:"dB",min:0,max:80,optimal:45,tolerance:15,default:40.0},{key:"filter_cutoff",label:"EMI filter cutoff frequency",unit:"kHz",min:10,max:500,optimal:150,tolerance:60,default:255.0},{key:"ground_quality",label:"Ground-plane quality index",unit:"%",min:0,max:100,optimal:85,tolerance:20,default:50.0}]
@@ -478,6 +586,31 @@ var EM_PANELS = [
     id:"wsVSWR", kind:"workshop", category:"Industrial Workshops", title:"WS7: RF Impedance Matching & VSWR Minimization",
     scenario:"You are commissioning an RF transmitter feeding an antenna through a coaxial cable. Tune a matching network (adjustable reactive elements) so that the load impedance seen by the transmitter is as close as possible to the cable's characteristic impedance, minimizing the voltage standing-wave ratio (VSWR) and reflected power.",
     controls:[{key:"match_reactance_shunt",label:"Shunt matching reactance",unit:"Ω",min:-200,max:200,optimal:0,tolerance:40,default:0.0},{key:"match_reactance_series",label:"Series matching reactance",unit:"Ω",min:-200,max:200,optimal:0,tolerance:40,default:0.0},{key:"load_resistance",label:"Load resistance seen at antenna feed",unit:"Ω",min:10,max:200,optimal:50,tolerance:15,default:105.0}]
+  },
+  {
+    id:"wsPFC", kind:"workshop", category:"Industrial Workshops", title:"WS8: Power-Factor Correction Capacitor Bank Sizing",
+    scenario:"A factory's inductive machine load is dragging its power factor down, incurring utility penalties. You must size a shunt capacitor bank and select its switching stages so that the plant's power factor is corrected close to unity without overcorrecting into leading-VAR territory that would also attract a penalty.",
+    controls:[{key:"capacitor_kvar",label:"Capacitor bank rating",unit:"kVAR",min:50,max:500,optimal:280,tolerance:40,default:150.0},{key:"switching_stages",label:"Number of switched stages",unit:"",min:1,max:8,optimal:4,tolerance:1,default:2.5},{key:"target_pf",label:"Resulting power factor ×100",unit:"",min:70,max:100,optimal:98,tolerance:3,default:85.0}]
+  },
+  {
+    id:"wsSurge", kind:"workshop", category:"Industrial Workshops", title:"WS9: Surge Arrester & Lightning Protection Coordination",
+    scenario:"You are coordinating surge protection for a substation. Select the arrester's protective (clamping) voltage level and lead-length margin so that the protected equipment's insulation is never exposed to a voltage above its withstand rating during a lightning-induced surge, while keeping the arrester from conducting during normal system overvoltages.",
+    controls:[{key:"clamping_voltage",label:"Arrester clamping (protective) voltage",unit:"kV",min:5,max:100,optimal:36,tolerance:8,default:60.0},{key:"lead_length",label:"Arrester lead length",unit:"m",min:0.1,max:3,optimal:0.5,tolerance:0.2,default:1.7},{key:"insulation_margin",label:"Protective margin over withstand rating",unit:"%",min:0,max:60,optimal:20,tolerance:8,default:35.0}]
+  },
+  {
+    id:"wsHallSensor", kind:"workshop", category:"Industrial Workshops", title:"WS10: Hall-Effect Current Sensor Calibration",
+    scenario:"You are calibrating a Hall-effect current sensor for an EV motor-drive inverter. Adjust the sensor's core air-gap, bias current and amplifier gain so that its output tracks the true primary current linearly over the full rated range with minimal offset error.",
+    controls:[{key:"air_gap",label:"Core air-gap",unit:"mm",min:0.2,max:5,optimal:1.5,tolerance:0.5,default:3.2},{key:"bias_current",label:"Hall-element bias current",unit:"mA",min:1,max:20,optimal:8,tolerance:2,default:14.0},{key:"amp_gain",label:"Output amplifier gain",unit:"V/T",min:10,max:200,optimal:100,tolerance:25,default:55.0}]
+  },
+  {
+    id:"wsWaveguideFeed", kind:"workshop", category:"Industrial Workshops", title:"WS11: Waveguide Feed Design for a Radar Front-End",
+    scenario:"You are designing the waveguide feed for a radar transmitter. Choose the waveguide broad-wall dimension and operating frequency margin above cutoff so that only the dominant TE₁₀ mode propagates with low attenuation, avoiding both evanescent cutoff and higher-order mode breakthrough.",
+    controls:[{key:"broad_wall_a",label:"Waveguide broad-wall dimension a",unit:"cm",min:1,max:8,optimal:2.29,tolerance:0.4,default:4.0},{key:"freq_margin",label:"Operating frequency above cutoff",unit:"%",min:0,max:100,optimal:30,tolerance:10,default:60.0},{key:"insertion_loss",label:"Resulting insertion loss",unit:"dB",min:0,max:10,optimal:0.5,tolerance:0.3,default:3.0}]
+  },
+  {
+    id:"wsQuench", kind:"workshop", category:"Industrial Workshops", title:"WS12: Superconducting Magnet Quench-Protection Design",
+    scenario:"You are designing the quench-protection system for a superconducting magnet coil. Set the dump-resistor value and detection threshold so that, if the coil quenches (loses superconductivity), the stored magnetic energy is safely extracted within the coil's thermal and voltage limits without nuisance-tripping during normal ramp-up.",
+    controls:[{key:"dump_resistance",label:"Dump resistor value",unit:"mΩ",min:5,max:200,optimal:80,tolerance:20,default:140.0},{key:"detection_threshold",label:"Quench-voltage detection threshold",unit:"mV",min:10,max:500,optimal:100,tolerance:30,default:250.0},{key:"discharge_time",label:"Resulting energy discharge time constant",unit:"s",min:0.5,max:30,optimal:8,tolerance:3,default:18.0}]
   }
 ];
 
@@ -1709,7 +1842,10 @@ function drawSweepPlot(canvas, cfg, ctl){
 
 function buildExperimentPanel(cfg){
   var html = '<div class="panel active">'+
-    '<div class="panel-head"><div class="kicker">'+cfg.category+'</div><h2>'+cfg.title+'</h2><p>'+cfg.aim+'</p></div>'+
+    '<div class="panel-head"><div class="kicker">'+cfg.category+'</div><h2>'+cfg.title+'</h2><p>'+cfg.aim+'</p>'+
+      '<a class="doclink" href="../docs-em/experiments/'+cfg.id+'/" target="_blank" rel="noopener">📖 Full theory, formulas &amp; procedure for this in the User Guide &rarr;</a>'+
+      '<a class="doclink" href="../docs-em/assets/lab-record-booklet-em.pdf" target="_blank" rel="noopener">📝 Open Lab Record &amp; Viva-Voce Booklet (PDF) &rarr;</a>'+
+    '</div>'+
     '<div class="formula">'+cfg.formula+'</div>'+
     '<div class="card">'+
       '<div class="section-tag">🔬 Animated physical model &mdash; watch it respond as you move the sliders</div>'+
@@ -1732,9 +1868,28 @@ function scoreControl(c, val){
   return 100*Math.exp(-0.5*z*z);
 }
 
+var WORKSHOP_DOC_SLUG = {
+  wsEMC: "emi-emc-testing",
+  wsTransformer: "transformer-design-testing",
+  wsAntenna: "antenna-radiation-pattern",
+  wsEddyNDT: "eddy-current-ndt",
+  wsShielding: "magnetic-shielding-design",
+  wsHV: "hv-insulation-breakdown",
+  wsVSWR: "rf-impedance-matching-vswr",
+  wsPFC: "power-factor-correction",
+  wsSurge: "surge-arrester-lightning-protection",
+  wsHallSensor: "hall-effect-current-sensor-calibration",
+  wsWaveguideFeed: "waveguide-feed-design",
+  wsQuench: "quench-protection-design"
+};
+
 function buildWorkshopPanel(cfg){
+  var docSlug = WORKSHOP_DOC_SLUG[cfg.id] || cfg.id;
   var html = '<div class="panel active">'+
-    '<div class="panel-head"><div class="kicker">Industrial Workshop</div><h2>'+cfg.title+'</h2></div>'+
+    '<div class="panel-head"><div class="kicker">Industrial Workshop</div><h2>'+cfg.title+'</h2>'+
+      '<a class="doclink" href="../docs-em/workshops/'+docSlug+'/" target="_blank" rel="noopener">📖 Full theory, formulas &amp; procedure for this in the User Guide &rarr;</a>'+
+      '<a class="doclink" href="../docs-em/assets/lab-record-booklet-em.pdf" target="_blank" rel="noopener">📝 Open Lab Record &amp; Viva-Voce Booklet (PDF) &rarr;</a>'+
+    '</div>'+
     '<div class="task-box"><div class="role">Scenario</div><p>'+cfg.scenario+'</p></div>'+
     '<div class="card">'+
       '<div class="section-tag">🏭 Animated plant / bench model &mdash; watch it respond as you tune the controls</div>'+
@@ -1749,7 +1904,7 @@ function buildWorkshopPanel(cfg){
         '<div class="gauge-wrap"><canvas class="gauge-canvas" width="120" height="120"></canvas>'+
           '<div class="gauge-num"><span class="pct" data-score>0%</span><span class="lbl">score</span></div></div>'+
         '<div class="score-msg"><div class="verdict" data-verdict>Adjust the controls above.</div>'+
-          '<div class="hint">Score reflects how close each control is to its ideal operating value for this scenario. Reach 90% to unlock a certificate.</div></div>'+
+          '<div class="hint">Score reflects how close each control is to its ideal operating value for this scenario. Reach 100% to unlock a certificate.</div></div>'+
       '</div>'+
       '<div class="cert-unlock" id="certUnlock-'+cfg.id+'"><label>Your name for the certificate: </label>'+
         '<input type="text" id="certNameInput-'+cfg.id+'" placeholder="Full name"> '+
@@ -1836,7 +1991,7 @@ function attachWorkshopBehavior(container, cfg){
     else if(pct>=40) verdict.textContent = "Getting there — keep tuning the controls.";
     else verdict.textContent = "Far from optimal — review the scenario and try again.";
     var unlock = document.getElementById("certUnlock-"+cfg.id);
-    if(unlock) unlock.classList.toggle("show", pct>=90);
+    if(unlock) unlock.classList.toggle("show", pct>=100);
     container.setAttribute("data-last-score", pct);
   }
   container.querySelectorAll(".live-ctrl").forEach(function(el){

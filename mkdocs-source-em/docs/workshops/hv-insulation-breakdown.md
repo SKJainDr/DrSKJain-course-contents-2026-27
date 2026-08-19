@@ -27,7 +27,7 @@ You are testing the insulation of a high-voltage gas-filled switchgear enclosure
 1. Read the scenario carefully and identify which physical principle links each control to the outcome you are trying to achieve.
 2. Start with each control at its mid-range value and observe the live readout/score.
 3. Adjust one control at a time, noting how the score changes, before combining adjustments.
-4. Iterate until your score is consistently above 90% &mdash; the simulator awards a printable completion certificate at this level.
+4. Iterate until your score reaches 100% &mdash; the simulator awards a printable completion certificate at this level.
 5. Once satisfied, note down the final values you converged on and compare them with the underlying formula's prediction of the true optimum.
 
 ## Safety Note

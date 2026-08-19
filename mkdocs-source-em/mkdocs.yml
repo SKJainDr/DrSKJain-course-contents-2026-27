@@ -87,23 +87,35 @@ nav:
       - Gauss's Law — Electric Flux Through Closed Surfaces: experiments/gauss-law-flux.md
       - Capacitance of a Parallel-Plate Capacitor: experiments/parallel-plate-capacitor.md
       - Charge Distribution on Conductors & the Van de Graaff Generator: experiments/conductors-charge-distribution.md
+      - Method of Images — Charge Near a Grounded Conducting Plane: experiments/image-charge-grounded-plane.md
+      - Multipole Expansion — Linear Electric Quadrupole: experiments/multipole-expansion-quadrupole.md
   - Magnetostatics:
       - Biot–Savart Law: experiments/biot-savart-wire.md
       - Circular Coil & Helmholtz Coils: experiments/circular-coil-helmholtz.md
       - Ampere's Circuital Law — Solenoid & Toroid: experiments/ampere-law-solenoid-toroid.md
       - Force Between Parallel Conductors: experiments/force-parallel-conductors.md
+      - Magnetic Vector Potential of a Current Loop (Dipole Limit): experiments/magnetic-vector-potential-dipole.md
+      - Crossed E & B Fields — Velocity Selector & Cyclotron Motion: experiments/cyclotron-velocity-selector.md
   - Electrodynamics:
       - Faraday's Law of Electromagnetic Induction: experiments/faraday-induction.md
       - Motional EMF & Lenz's Law: experiments/motional-emf-lenz.md
       - RC and RL Transient Circuits: experiments/rc-rl-transients.md
       - LCR Series Resonance & Q-factor: experiments/lcr-resonance.md
+      - Eddy-Current Damping — Lenz's Law Braking: experiments/eddy-current-damping.md
+      - RLC Filters — Low-Pass / High-Pass / Band-Pass Response: experiments/rlc-filter-response.md
+      - Poynting Vector & Power Flow in a Coaxial Cable: experiments/poynting-vector-coaxial-cable.md
   - EM Waves & Propagation:
       - Maxwell's Equations & Plane Waves: experiments/maxwell-plane-waves.md
       - Propagation in Dielectric & Conducting Media (Skin Depth): experiments/wave-propagation-media-skindepth.md
       - Reflection, Refraction & Brewster's Angle: experiments/reflection-refraction-brewster.md
+      - Rectangular Waveguide — TE₁₀ Mode & Cutoff Frequency: experiments/waveguide-cutoff-frequency.md
+      - Transmission Lines — Impedance, Reflection & VSWR: experiments/transmission-line-impedance-vswr.md
+      - Faraday Cage Shielding Effectiveness: experiments/faraday-cage-shielding-effectiveness.md
   - Electric & Magnetic Materials:
       - Dielectric Polarization & Clausius–Mossotti Relation: experiments/dielectric-polarization-clausius-mossotti.md
       - Magnetic Hysteresis & the B–H Curve: experiments/magnetic-hysteresis-bh-curve.md
+      - Hall Effect — Carrier Density & Sign of Charge Carriers: experiments/hall-effect-carrier-density.md
+      - Meissner Effect — Flux Expulsion in a Superconductor: experiments/meissner-effect-flux-expulsion.md
   - Safety: safety.md
   - Industrial Workshops:
       - 'WS1: EMI/EMC Compliance Testing': workshops/emi-emc-testing.md
@@ -113,3 +125,8 @@ nav:
       - 'WS5: Magnetic Shielding Enclosure Design': workshops/magnetic-shielding-design.md
       - 'WS6: HV Insulation & Breakdown Testing': workshops/hv-insulation-breakdown.md
       - 'WS7: RF Impedance Matching & VSWR': workshops/rf-impedance-matching-vswr.md
+      - 'WS8: Power-Factor Correction Capacitor Bank Sizing': workshops/power-factor-correction.md
+      - 'WS9: Surge Arrester & Lightning Protection Coordination': workshops/surge-arrester-lightning-protection.md
+      - 'WS10: Hall-Effect Current Sensor Calibration': workshops/hall-effect-current-sensor-calibration.md
+      - 'WS11: Waveguide Feed Design for a Radar Front-End': workshops/waveguide-feed-design.md
+      - 'WS12: Superconducting Magnet Quench-Protection Design': workshops/quench-protection-design.md

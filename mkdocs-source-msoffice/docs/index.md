@@ -1,6 +1,6 @@
-# MS Office Lab Quest — User Guide
+# Advanced MS Office Lab — User Guide
 
-Welcome! This is the full lecture-note companion to **MS Office Lab Quest** — the
+Welcome! This is the full lecture-note companion to the **Advanced MS Office Lab** — the
 14-section, 100-task interactive lab covering MS Word, MS Excel, MS PowerPoint,
 the Internet & Email, and MS Access, built from the VOI001 *Introduction of
 MS-Office* syllabus.

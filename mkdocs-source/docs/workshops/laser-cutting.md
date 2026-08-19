@@ -34,7 +34,7 @@ The assist-gas pressure must be high enough to clear molten material from the ke
 1. Record the precision score at the default power, speed and gas pressure.
 2. Vary laser power alone (holding speed and gas pressure fixed) and record the precision score at each value.
 3. Repeat, varying cutting speed alone, then assist-gas pressure alone.
-4. Determine the parameter combination that achieves a dross-free, full-penetration cut with a 90%+ precision score.
+4. Determine the parameter combination that achieves a dross-free, full-penetration cut with a 100% precision score.
 
 ## Observation Table
 

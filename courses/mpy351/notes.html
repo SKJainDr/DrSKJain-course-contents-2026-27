@@ -247,14 +247,38 @@ receiver, illustrating the basic building blocks of an optical communication lin
 </div><div class="note-block" id="u4"><h3>Clippers, Clampers & 555 Timer Circuits</h3>
 <p><b>Clipper circuits</b> use diodes to remove (clip) part of a waveform above or below a reference level —
 positive clippers remove the positive portion, negative clippers the negative portion, and biased clippers
-clip at an adjustable reference level set by a battery/potential divider.</p>
+clip at an adjustable reference level set by a battery/potential divider.</p><p><div style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;padding:10px;background:#FFFDF3;overflow:hidden;"><svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .rc-trace{ stroke-dasharray:1200; stroke-dashoffset:1200; animation:rc-draw 3s linear infinite; }
+  @keyframes rc-draw{ 0%{stroke-dashoffset:1200;} 100%{stroke-dashoffset:0;} }
+</style>
+<rect width="700" height="220" fill="#FFFDF3"/>
+<text x="40" y="30" font-size="12" font-weight="700" fill="#0B173A">AC input</text>
+<line x1="40" y1="70" x2="330" y2="70" stroke="#DCDAF0" stroke-width="1"/>
+<path class="rc-trace" d="M40,70 C 75,20 105,20 140,70 S 210,120 245,70 S 315,20 330,70" fill="none" stroke="#8a94a6" stroke-width="2.2"/>
+<text x="360" y="130" font-size="18" fill="#0B173A">→ diode →</text>
+<text x="450" y="30" font-size="12" font-weight="700" fill="#0B173A">Rectified output</text>
+<line x1="450" y1="150" x2="660" y2="150" stroke="#DCDAF0" stroke-width="1"/>
+<path class="rc-trace" d="M450,150 C 485,100 515,100 550,150 L 550,150 L 585,150 C 585,150 585,150 585,150 C 620,100 650,100 660,140" fill="none" stroke="#A8452F" stroke-width="2.6"/>
+</svg></div></p><p><em>Fig. 1.1B (Animated) — A half-wave rectifier diode conducts only during the positive half-cycle of the AC input, so the output waveform retains only the positive lobes of the sine wave and is clamped to zero during each negative half-cycle.</em></p>
 <p><b>Clamper circuits</b> shift a waveform up or down without changing its shape, using a diode and capacitor
 to add a DC level — useful for restoring DC levels lost in AC-coupled systems.</p>
 <p><b>Wien-bridge oscillator (IC 741):</b> an RC feedback oscillator producing a sine wave, frequency
 f = 1/(2πRC), widely used as a reference for audio-frequency signal generation with a op-amp providing gain.</p>
 <p><b>555 timer IC:</b> in astable mode it free-runs as a square-wave generator with frequency set by two
 resistors and a capacitor; in monostable mode it produces a single output pulse of duration T = 1.1RC when
-triggered — the building block for countless timing and pulse-generation applications.</p>
+triggered — the building block for countless timing and pulse-generation applications.</p><p><div style="max-width:100%;border-radius:8px;border:1px solid var(--line);margin:10px 0;padding:10px;background:#FFFDF3;overflow:hidden;"><svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .tm-trace{ stroke-dasharray:1400; stroke-dashoffset:1400; animation:tm-draw 3.2s linear infinite; }
+  @keyframes tm-draw{ 0%{stroke-dashoffset:1400;} 100%{stroke-dashoffset:0;} }
+</style>
+<rect width="700" height="220" fill="#FFFDF3"/>
+<text x="40" y="30" font-size="12" font-weight="700" fill="#0B173A">Capacitor voltage Vᴄ (charge/discharge)</text>
+<line x1="40" y1="90" x2="660" y2="90" stroke="#DCDAF0" stroke-width="1"/>
+<path class="tm-trace" d="M40,110 C70,60 100,60 130,110 C160,60 190,60 220,110 C250,60 280,60 310,110 C340,60 370,60 400,110 C430,60 460,60 490,110 C520,60 550,60 580,110 C610,60 640,60 660,110" fill="none" stroke="#3C5283" stroke-width="2.2"/>
+<text x="40" y="150" font-size="12" font-weight="700" fill="#0B173A">Output (square wave)</text>
+<path class="tm-trace" d="M40,190 L40,170 L130,170 L130,190 L220,190 L220,170 L310,170 L310,190 L400,190 L400,170 L490,170 L490,190 L580,190 L580,170 L660,170" fill="none" stroke="#A8452F" stroke-width="2.4"/>
+</svg></div></p><p><em>Fig. L1.7 (Animated) — In the 555 timer's astable mode, the timing capacitor repeatedly charges and discharges between the internal 1/3 Vᴄᴄ and 2/3 Vᴄᴄ thresholds (top trace), while the output (bottom trace) switches high and low each time a threshold is crossed — generating a continuous square wave.</em></p>
 </div></div>
 </div></div>
 <footer>
