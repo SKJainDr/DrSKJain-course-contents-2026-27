@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MPY 301: Laser Physics — Animated Concept Companion</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16x16.png">
+<link rel="icon" href="../../assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../../site.webmanifest">
+<meta name="theme-color" content="#0e2a3d">
+<style>
+  :root{
+    --navy:#1e3a5f;
+    --navy-dark:#132842;
+    --crimson:#b91c1c;
+    --blue:#2563eb;
+    --green:#15803d;
+    --amber:#b45309;
+    --bg:#f4f6fa;
+    --card:#ffffff;
+    --ink:#1f2937;
+    --muted:#5b6472;
+    --border:#e2e6ee;
+    --gold:#c9a227;
+    --navy-deep:#081a26;
+    /* canvases are drawn in fixed light-on-white colours by the JS below,
+       so their surrounding frame is intentionally kept light in both themes
+       to guarantee the diagrams stay legible */
+    --canvas-bg:#fbfbfd;
+    --canvas-border:#e2e6ee;
+  }
+  [data-theme="dark"]{
+    --bg:#0b1f2e;
+    --card:#132a3c;
+    --ink:#dde6ec;
+    --muted:#a9b7c0;
+    --border:#2a4a63;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; font-family:'Segoe UI', Roboto, Arial, sans-serif;
+    background:var(--bg); color:var(--ink);
+  }
+  .wrap{max-width:1280px;margin:0 auto;padding:0 24px;}
+  .topbar{
+    background:var(--navy-deep); color:#efe7d2; padding:14px 0; border-bottom:4px solid var(--gold);
+  }
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  .brand{display:flex;align-items:center;gap:10px;font-family:Georgia,'Fraunces',serif;font-size:1.1rem;color:#fbead0;text-decoration:none;}
+  .topbar .navlinks{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .crumbs{font-size:.85rem;color:#c9c2a8;}
+  .crumbs a{color:#f2d9a6;text-decoration:none;}
+  .companion-link{
+    display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:700;
+    color:var(--navy-deep);background:var(--gold);border:1px solid var(--gold);
+    padding:5px 13px;border-radius:16px;text-decoration:none;letter-spacing:.01em;
+    transition:transform .15s, box-shadow .15s;white-space:nowrap;
+  }
+  .companion-link:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(0,0,0,.25);}
+  #themeToggleBtn{
+    position:fixed;top:14px;right:16px;z-index:999;width:40px;height:40px;border-radius:50%;
+    border:2px solid var(--gold);background:var(--navy-deep);color:var(--gold);font-size:1.1rem;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3);
+  }
+  header.site{
+    background:linear-gradient(135deg,var(--navy-dark),var(--navy) 60%, #24476f);
+    color:#fff; padding:34px 28px 26px;
+  }
+  header.site h1{margin:0 0 6px; font-size:26px; letter-spacing:.3px;}
+  header.site p.sub{margin:0; opacity:.92; font-size:14.5px; max-width:900px; line-height:1.5;}
+  header.site p.sub a{color:#f2d9a6;font-weight:700;}
+  header.site p.note{
+    margin:14px 0 0; font-size:12.8px; background:rgba(255,255,255,.15);
+    display:inline-block; padding:8px 12px; border-radius:8px; line-height:1.5;
+  }
+  nav.tabs{
+    position:sticky; top:0; z-index:20; background:var(--card);
+    display:flex; flex-wrap:wrap; gap:6px; padding:10px 20px;
+    border-bottom:1px solid var(--border); box-shadow:0 2px 6px rgba(20,30,60,.06);
+  }
+  nav.tabs button{
+    border:1px solid var(--border); background:var(--bg); color:var(--navy);
+    padding:9px 16px; border-radius:999px; font-size:13.5px; font-weight:600;
+    cursor:pointer; transition:.15s ease;
+  }
+  [data-theme="dark"] nav.tabs button{color:#dde6ec;}
+  nav.tabs button:hover{background:#eef2fb;}
+  [data-theme="dark"] nav.tabs button:hover{background:#1c3c56;}
+  nav.tabs button.active{background:var(--navy); color:#fff; border-color:var(--navy);}
+  [data-theme="dark"] nav.tabs button.active{background:var(--gold); color:var(--navy-deep); border-color:var(--gold);}
+  nav.tabs .count{
+    font-weight:400; opacity:.75; margin-left:4px; font-size:12px;
+  }
+  main{max-width:1280px; margin:0 auto; padding:26px 22px 70px;}
+  section.unit{display:none;}
+  section.unit.active{display:block; animation:fadein .35s ease;}
+  @keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  h2.unit-title{
+    font-size:20px; color:var(--navy-dark); margin:4px 0 4px;
+    border-left:5px solid var(--crimson); padding-left:12px;
+  }
+  [data-theme="dark"] h2.unit-title{color:#f2d9a6;}
+  p.unit-desc{color:var(--muted); font-size:13.8px; margin:0 0 20px 17px; max-width:900px;}
+  .grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(400px,1fr));
+    gap:20px;
+  }
+  .card{
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:16px 16px 14px; box-shadow:0 1px 3px rgba(20,30,60,.06);
+    display:flex; flex-direction:column;
+  }
+  .card h3{
+    margin:0 0 10px; font-size:15px; color:var(--navy-dark);
+    display:flex; align-items:flex-start; gap:8px;
+  }
+  [data-theme="dark"] .card h3{color:#f2d9a6;}
+  .card h3 .tag{
+    flex:0 0 auto; background:var(--navy); color:#fff; font-size:10.5px;
+    padding:2px 7px; border-radius:5px; font-weight:700; letter-spacing:.4px;
+  }
+  [data-theme="dark"] .card h3 .tag{background:var(--gold); color:var(--navy-deep);}
+  canvas.anim-canvas{
+    width:100%; height:auto; aspect-ratio:480/280; background:var(--canvas-bg);
+    border:1px solid var(--canvas-border); border-radius:8px; display:block;
+  }
+  p.caption{font-size:12.8px; color:var(--muted); line-height:1.5; margin:10px 0 12px;}
+  .controls{display:flex; gap:8px; margin-top:auto;}
+  .controls button{
+    flex:1; font-size:12px; font-weight:600; border-radius:7px; border:1px solid var(--border);
+    background:var(--bg); color:var(--navy); padding:7px 8px; cursor:pointer; transition:.15s;
+  }
+  [data-theme="dark"] .controls button{color:#dde6ec;}
+  .controls button:hover{background:#eef2fb;}
+  [data-theme="dark"] .controls button:hover{background:#1c3c56;}
+  .controls button.playpause.is-paused{background:#fff4e9; border-color:#f1c78e; color:var(--amber);}
+  [data-theme="dark"] .controls button.playpause.is-paused{background:#3a2a12; border-color:#b45309; color:#f2b96a;}
+  footer{
+    text-align:center; color:var(--muted); font-size:12.3px; padding:26px 20px 40px;
+    background:var(--bg);
+  }
+  footer a{color:var(--navy);}
+  [data-theme="dark"] footer a{color:#f2d9a6;}
+  @media (max-width:520px){
+    header.site h1{font-size:21px;}
+    .grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<button id="themeToggleBtn" aria-label="Toggle dark/light theme" title="Toggle dark/light theme">🌙</button>
+<script>
+(function(){
+  var KEY='drskjain-theme';
+  var btn=document.getElementById('themeToggleBtn');
+  function apply(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+    if(btn) btn.textContent = theme==='dark' ? '☀' : '🌙';
+  }
+  var saved = localStorage.getItem(KEY);
+  if(!saved){ saved = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+  apply(saved);
+  if(btn){
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+      localStorage.setItem(KEY, cur);
+      apply(cur);
+    });
+  }
+})();
+</script>
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="brand" href="../../index.html"><img src="../../assets/invertis-logo.png" alt="Invertis University logo" style="height:28px;width:auto;"> Faculty Course Portal &middot; 2026&ndash;27</a>
+    <div class="navlinks">
+      <div class="crumbs"><a href="../../index.html">Home</a> › <a href="../../courses/mpy301/index.html">MPY301</a> › Animated Concept Companion</div>
+      <a class="companion-link" href="notes.html">📘 Back to Lecture Notes</a>
+    </div>
+  </div>
+</div>
+
+<header class="site">
+  <h1>MPY 301 — Laser Physics: Animated Concept Companion</h1>
+  <p class="sub">An interactive, animated companion to the <a href="notes.html">MPY 301 Laser Physics lecture notes</a>. Each card below is a self-contained, looping animation illustrating one key concept from the corresponding unit — built to accompany (not replace) the full written notes, since Word documents cannot play animations.</p>
+  <p class="note">▶ Animations auto-play when scrolled into view and pause when off-screen to save battery. Use Pause / Replay on any card to control it individually.</p>
+</header>
+
+<nav class="tabs" id="tabs"></nav>
+
+<main id="main"></main>
+
+<footer>
+  Companion resource for <strong>MPY 301: Laser Physics</strong> — Invertis University, Bareilly · M.Sc. (Physics)<br>
+  Pairs with the full <a href="notes.html">lecture notes</a> (MPY301_Laser_Physics_Lecture_Notes.docx) and lecture plan.
+</footer>
+
+<script>
+/* =========================================================================
+   GENERIC DRAWING HELPERS
+   ========================================================================= */
+function clamp01(x){return Math.max(0, Math.min(1, x));}
+function lerp(a,b,t){return a + (b - a) * t;}
+function easeInOut(t){return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2;}
+function easeOut(t){return 1 - Math.pow(1 - t, 3);}
+function sawtooth(t, period){ return (t % period) / period; }
+function pulseWindow(t, start, end){ // 0..1 ramp within [start,end], else 0
+  if(t < start || t > end) return 0;
+  return (t - start) / (end - start);
+}
+
+function setStroke(ctx, color, lw){ ctx.strokeStyle = color; ctx.lineWidth = lw || 2; }
+function setFill(ctx, color){ ctx.fillStyle = color; }
+
+function drawLevel(ctx, x1, x2, y, color, lw){
+  setStroke(ctx, color || '#1f2d3d', lw || 2.4);
+  ctx.beginPath(); ctx.moveTo(x1, y); ctx.lineTo(x2, y); ctx.stroke();
+}
+
+function drawDot(ctx, x, y, r, color){
+  setFill(ctx, color || '#b91c1c');
+  ctx.beginPath(); ctx.arc(x, y, r || 5, 0, Math.PI*2); ctx.fill();
+}
+
+function drawRing(ctx, x, y, r, color, lw){
+  setStroke(ctx, color || '#b91c1c', lw || 1.6);
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2); ctx.stroke();
+}
+
+function drawArrow(ctx, x1, y1, x2, y2, color, lw){
+  setStroke(ctx, color || '#2563eb', lw || 2);
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+  const ang = Math.atan2(y2 - y1, x2 - x1), ah = 7;
+  setFill(ctx, color || '#2563eb');
+  ctx.beginPath();
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - ah*Math.cos(ang - 0.4), y2 - ah*Math.sin(ang - 0.4));
+  ctx.lineTo(x2 - ah*Math.cos(ang + 0.4), y2 - ah*Math.sin(ang + 0.4));
+  ctx.closePath(); ctx.fill();
+}
+
+function drawDashedArrow(ctx, x1, y1, x2, y2, color, lw){
+  ctx.save();
+  ctx.setLineDash([4,4]);
+  drawArrow(ctx, x1, y1, x2, y2, color, lw);
+  ctx.restore();
+}
+
+// wavy "photon" glyph, drawn along local +x axis then rotated to `angle`
+function drawPhoton(ctx, x, y, angle, len, color){
+  len = len || 20;
+  ctx.save();
+  ctx.translate(x, y); ctx.rotate(angle);
+  setStroke(ctx, color || '#dc2626', 2);
+  ctx.beginPath();
+  for(let i=0;i<=len;i++){
+    const yy = Math.sin(i/2.4) * 3;
+    if(i===0) ctx.moveTo(i, yy); else ctx.lineTo(i, yy);
+  }
+  ctx.stroke();
+  setFill(ctx, color || '#dc2626');
+  ctx.beginPath();
+  ctx.moveTo(len+6, 0); ctx.lineTo(len-3, -4.2); ctx.lineTo(len-3, 4.2);
+  ctx.closePath(); ctx.fill();
+  ctx.restore();
+}
+
+function txt(ctx, s, x, y, opts){
+  opts = opts || {};
+  ctx.fillStyle = opts.color || '#1f2937';
+  ctx.font = opts.font || '12px Segoe UI, Arial';
+  ctx.textAlign = opts.align || 'left';
+  ctx.textBaseline = opts.baseline || 'alphabetic';
+  ctx.fillText(s, x, y);
+}
+
+function drawMirror(ctx, x, y1, y2, color, hatch){
+  setStroke(ctx, color || '#4b5563', 4);
+  ctx.beginPath(); ctx.moveTo(x, y1); ctx.lineTo(x, y2); ctx.stroke();
+  if(hatch !== false){
+    setStroke(ctx, color || '#4b5563', 1);
+    for(let yy = y1; yy <= y2; yy += 8){
+      ctx.beginPath(); ctx.moveTo(x, yy); ctx.lineTo(x-6, yy+7); ctx.stroke();
+    }
+  }
+}
+
+function roundedRect(ctx, x, y, w, h, r, fill, stroke){
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.arcTo(x+w, y, x+w, y+h, r);
+  ctx.arcTo(x+w, y+h, x, y+h, r);
+  ctx.arcTo(x, y+h, x, y, r);
+  ctx.arcTo(x, y, x+w, y, r);
+  ctx.closePath();
+  if(fill){ ctx.fillStyle = fill; ctx.fill(); }
+  if(stroke){ ctx.strokeStyle = stroke; ctx.lineWidth = 1.3; ctx.stroke(); }
+}
+</script>
+<script>
+const ANIMS = [];
+</script>
+<script>
+/* ===================== UNIT 1 : PROPERTIES OF LASERS ===================== */
+
+// 1) Absorption / Spontaneous / Stimulated emission — three mini panels
+function draw_u1_transitions(ctx, w, h, t){
+  const panelW = w/3;
+  const titles = ['(a) Absorption','(b) Spontaneous','(c) Stimulated'];
+  for(let i=0;i<3;i++){
+    const x0 = i*panelW;
+    txt(ctx, titles[i], x0+panelW/2, 18, {align:'center', color:'#374151', font:'bold 12px Segoe UI'});
+    const xL = x0+26, xR = x0+panelW-26;
+    const yE2 = 60, yE1 = h-45;
+    drawLevel(ctx, xL, xR, yE2, '#1f2d3d');
+    drawLevel(ctx, xL, xR, yE1, '#1f2d3d');
+    txt(ctx, 'E2', xL-6, yE2+4, {align:'right', font:'bold 12px Segoe UI'});
+    txt(ctx, 'E1', xL-6, yE1+4, {align:'right', font:'bold 12px Segoe UI'});
+    const cx = (xL+xR)/2;
+
+    if(i===0){ // Absorption
+      const pStart = pulseWindow(t,0.05,0.32);
+      if(pStart>0 && pStart<1){
+        const px = lerp(xL-14, cx, pStart);
+        drawPhoton(ctx, px, yE1, 0, 16, '#dc2626');
+      }
+      let ey = yE1;
+      if(t>0.32){ const jp = clamp01((t-0.32)/0.18); ey = lerp(yE1,yE2,easeOut(jp)); }
+      if(t>0.85){ const dn = clamp01((t-0.85)/0.15); ey = lerp(yE2,yE1,dn); }
+      drawDot(ctx, cx, ey, 6, '#2563eb');
+    }
+    if(i===1){ // Spontaneous
+      let ey = yE2;
+      const decay = pulseWindow(t,0.40,0.58);
+      if(decay>0) ey = lerp(yE2, yE1, easeOut(decay));
+      if(t>=0.58) ey = yE1;
+      if(t<0.40 || t>0.95) ey = yE2;
+      drawDot(ctx, cx, ey, 6, '#2563eb');
+      if(t>0.40 && t<0.9){
+        const travel = clamp01((t-0.40)/0.5);
+        const px = lerp(cx+8, xR+6, travel);
+        const py = lerp(yE2+10, yE1-6, travel);
+        ctx.globalAlpha = 1-travel*0.15;
+        drawPhoton(ctx, px, py, -0.55, 15, '#f59e0b');
+        ctx.globalAlpha = 1;
+      }
+    }
+    if(i===2){ // Stimulated
+      const inc = pulseWindow(t,0.05,0.32);
+      if(inc>0 && inc<1){
+        const px = lerp(xL-16, cx-10, inc);
+        drawPhoton(ctx, px, (yE1+yE2)/2+18, 0, 15, '#16a34a');
+      }
+      let ey = yE2;
+      const jp = pulseWindow(t,0.32,0.42);
+      if(jp>0) ey = lerp(yE2,yE1,easeOut(jp));
+      if(t>=0.42) ey = yE1;
+      if(t<0.05) ey = yE2;
+      drawDot(ctx, cx, ey, 6, '#2563eb');
+      if(t>0.42 && t<0.95){
+        const travel = clamp01((t-0.42)/0.5);
+        const px = lerp(cx+6, xR+14, travel);
+        drawPhoton(ctx, px, (yE1+yE2)/2-10, 0, 15, '#16a34a');
+        drawPhoton(ctx, px, (yE1+yE2)/2+10, 0, 15, '#16a34a');
+      }
+    }
+  }
+}
+
+// 2) Population inversion build-up during pumping
+function draw_u1_population_inversion(ctx, w, h, t){
+  const x0=60, x1=w-30, yTop=30, yBase=h-30;
+  txt(ctx,'Population', x0-8, yTop-12, {align:'left', color:'#6b7280', font:'11px Segoe UI'});
+  drawArrow(ctx, x0, yBase, x0, yTop, '#9ca3af', 1.4);
+  drawArrow(ctx, x0, yBase, x1, yBase, '#9ca3af', 1.4);
+  txt(ctx,'time', x1-10, yBase+16, {align:'right', color:'#6b7280', font:'11px Segoe UI'});
+
+  const thresholdY = lerp(yBase, yTop, 0.55);
+  ctx.save(); ctx.setLineDash([5,4]);
+  drawLevel(ctx, x0, x1, thresholdY, '#15803d', 1.6);
+  ctx.restore();
+  txt(ctx,'\u0394N threshold', x1, thresholdY-6, {align:'right', color:'#15803d', font:'11px Segoe UI'});
+
+  const N = 160;
+  ctx.beginPath();
+  for(let i=0;i<=N;i++){
+    const xt = i/N * clamp01(t/0.9);
+    if(xt> t/0.9 +0.001) break;
+    const val = 1-Math.exp(-xt*6);
+    const px = lerp(x0, x1, xt);
+    const py = lerp(yBase, yTop, val);
+    if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+  }
+  setStroke(ctx,'#b91c1c',2.6); ctx.stroke();
+
+  ctx.beginPath();
+  for(let i=0;i<=N;i++){
+    const xt = i/N * clamp01(t/0.9);
+    if(xt> t/0.9+0.001) break;
+    const val = 0.12*(1-Math.exp(-xt*10));
+    const px = lerp(x0, x1, xt);
+    const py = lerp(yBase, yTop, val);
+    if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+  }
+  setStroke(ctx,'#2563eb',2); ctx.stroke();
+
+  const curT = clamp01(t/0.9);
+  const curVal = 1-Math.exp(-curT*6);
+  if(curVal >= 0.55 && t<0.95){
+    txt(ctx,'LASING BEGINS', (x0+x1)/2, yTop+16, {align:'center', color:'#b91c1c', font:'bold 12px Segoe UI'});
+  }
+  txt(ctx,'N\u2082(t) — upper level', x0+8, yTop+10, {color:'#b91c1c', font:'11px Segoe UI'});
+  txt(ctx,'N\u2081(t) — lower level', x0+8, yBase-46, {color:'#2563eb', font:'11px Segoe UI'});
+}
+
+// 3) Three-level vs four-level pumping cycle (side-by-side)
+function draw_u1_three_four_level(ctx, w, h, t){
+  const halves = [{x0:0, w:w/2, kind:3},{x0:w/2, w:w/2, kind:4}];
+  halves.forEach(H=>{
+    const cx0 = H.x0+40, cx1 = H.x0+H.w-20;
+    txt(ctx, H.kind===3? 'Three-level (e.g. Ruby)':'Four-level (e.g. Nd:YAG)', H.x0+H.w/2, 16, {align:'center', font:'bold 11.5px Segoe UI', color:'#374151'});
+    let levels;
+    if(H.kind===3){
+      levels = [ {y:h-30,label:'E0'}, {y:h-95,label:'E1 (metastable)'}, {y:38,label:'E2 (pump band)'} ];
+    } else {
+      levels = [ {y:h-30,label:'E0'}, {y:h-95,label:'E1'}, {y:96,label:'E2 (metastable)'}, {y:38,label:'E3 (pump band)'} ];
+    }
+    levels.forEach(L=>{ drawLevel(ctx, cx0, cx1, L.y, '#1f2d3d', 2); txt(ctx, L.label, cx1+4, L.y+4, {font:'10px Segoe UI'}); });
+    const cx = (cx0+cx1)/2 - 10;
+    const top = levels[levels.length-1].y;
+    const bottom = levels[0].y;
+    const meta = H.kind===3? levels[1] : levels[2];
+    const lower = H.kind===3? levels[0] : levels[1];
+
+    const pumpP = pulseWindow(t,0.02,0.22);
+    const decayP = pulseWindow(t,0.22,0.34);
+    const lasingP = pulseWindow(t,0.55,0.7);
+    const relaxP = pulseWindow(t,0.85,0.97);
+
+    let ey = bottom;
+    if(t<0.22) ey = lerp(bottom, top, easeOut(clamp01(t/0.22)));
+    else if(t<0.34) ey = lerp(top, meta.y, easeOut(clamp01((t-0.22)/0.12)));
+    else if(t<0.55) ey = meta.y;
+    else if(t<0.7) ey = lerp(meta.y, lower.y, easeOut(clamp01((t-0.55)/0.15)));
+    else if(t<0.85) ey = lower.y;
+    else if(H.kind===4 && t<0.97) ey = lerp(lower.y, bottom, clamp01((t-0.85)/0.12));
+    else ey = (H.kind===4)? bottom : lower.y;
+
+    if(pumpP>0 && pumpP<1) drawArrow(ctx, cx-14, bottom, cx-14, top, '#2563eb', 2);
+    if(decayP>0) drawDashedArrow(ctx, cx+4, top, cx+4, meta.y, '#9ca3af', 1.6);
+    if(t>=0.55 && t<0.72){ drawArrow(ctx, cx+16, meta.y, cx+16, lower.y, '#b91c1c', 2.2); }
+    if(H.kind===4 && t>=0.85 && t<0.98){ drawDashedArrow(ctx, cx-4, lower.y, cx-4, bottom, '#9ca3af', 1.6); }
+
+    drawDot(ctx, cx, ey, 6, '#f59e0b');
+
+    if(t>=0.55 && t<0.85){
+      const travel = clamp01((t-0.55)/0.3);
+      drawPhoton(ctx, cx+26, lerp(meta.y, lower.y,0.5), 0, 14, '#b91c1c');
+    }
+  });
+}
+
+// 4) Photon avalanche inside the resonator (round trips multiply photons)
+function draw_u1_avalanche(ctx, w, h, t){
+  const xL=40, xR=w-40, yT=30, yB=h-24;
+  drawMirror(ctx, xL, yT, yB, '#6b7280');
+  drawMirror(ctx, xR, yT, yB, '#93c5fd');
+  txt(ctx,'HR mirror', xL, yB+16, {align:'center', font:'10px Segoe UI', color:'#6b7280'});
+  txt(ctx,'Output coupler', xR, yB+16, {align:'center', font:'10px Segoe UI', color:'#6b7280'});
+  roundedRect(ctx, xL+4, yT, xR-xL-8, yB-yT, 4, 'rgba(255,229,143,0.18)');
+
+  const nPasses = 5;
+  const passLen = 1/nPasses;
+  const passIdx = Math.min(nPasses-1, Math.floor(t/passLen));
+  const localT = (t - passIdx*passLen)/passLen;
+  const dotsThisPass = passIdx+1;
+
+  const seeds = [0.2,0.5,0.8,0.35,0.65,0.15,0.9,0.45,0.7,0.25,0.55,0.05];
+  for(let p=0; p<dotsThisPass; p++){
+    for(let k=0;k<=p;k++){
+      const seed = seeds[(p*3+k)%seeds.length];
+      const yy = lerp(yT+14, yB-14, seed);
+      let xx;
+      const goingRight = (p+k)%2===0;
+      if(p < passIdx){
+        xx = goingRight ? xR-16 : xL+16;
+      } else {
+        xx = goingRight ? lerp(xL+16, xR-16, localT) : lerp(xR-16, xL+16, localT);
+      }
+      drawDot(ctx, xx, yy, 4.3, '#dc2626');
+    }
+  }
+  txt(ctx, 'Pass '+(passIdx+1)+' of '+nPasses, xL, 18, {font:'bold 11.5px Segoe UI', color:'#374151'});
+}
+
+// 5) Standing wave (longitudinal mode) inside the cavity
+function draw_u1_standing_wave(ctx, w, h, t){
+  const xL=50, xR=w-50, yc=h/2;
+  drawMirror(ctx, xL, yc-70, yc+70, '#6b7280');
+  drawMirror(ctx, xR, yc-70, yc+70, '#6b7280');
+  drawLevel(ctx, xL, xR, yc, '#d1d5db', 1);
+  const N=200, k = 4*Math.PI/(xR-xL);
+  ctx.beginPath();
+  for(let i=0;i<=N;i++){
+    const x = lerp(xL,xR,i/N);
+    const envelope = Math.sin(k*(x-xL));
+    const y = yc - envelope*46*Math.cos(t*2*Math.PI*2);
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  setStroke(ctx,'#b91c1c',2.4); ctx.stroke();
+  txt(ctx,'Mirror M1', xL, yc+90, {align:'center', font:'10.5px Segoe UI', color:'#6b7280'});
+  txt(ctx,'Mirror M2', xR, yc+90, {align:'center', font:'10.5px Segoe UI', color:'#6b7280'});
+  drawArrow(ctx, xL, yc-92, xR, yc-92, '#374151', 1.2);
+  drawArrow(ctx, xR, yc-92, xL, yc-92, '#374151', 1.2);
+  txt(ctx,'L = q\u03bb/2', (xL+xR)/2, yc-98, {align:'center', font:'11px Segoe UI', color:'#374151'});
+}
+
+// 6) CW vs Pulsed output
+function draw_u1_cw_pulsed(ctx, w, h, t){
+  const halves=[{y0:20,y1:h/2-6,label:'CW output'},{y0:h/2+10,y1:h-24,label:'Pulsed output'}];
+  const xL=54, xR=w-16;
+  halves.forEach((H,idx)=>{
+    txt(ctx, H.label, xL, H.y0-6, {font:'bold 11.5px Segoe UI', color:'#374151'});
+    const yBase = H.y1;
+    drawArrow(ctx, xL, yBase, xL, H.y0-14, '#9ca3af', 1.2);
+    drawArrow(ctx, xL, yBase, xR, yBase, '#9ca3af', 1.2);
+    const sweepX = lerp(xL, xR, clamp01(t));
+    ctx.save();
+    ctx.beginPath(); ctx.rect(xL, H.y0-16, sweepX-xL, (yBase-(H.y0-16)));
+    ctx.clip();
+    ctx.beginPath();
+    const N=200;
+    for(let i=0;i<=N;i++){
+      const xx = lerp(xL, xR, i/N);
+      let yy;
+      if(idx===0){ yy = yBase-30; }
+      else {
+        const period = (xR-xL)/5;
+        const ph = ((xx-xL) % period)/period;
+        const spike = Math.exp(-Math.pow((ph-0.15)*7,2))*32;
+        yy = yBase-4-spike;
+      }
+      if(i===0) ctx.moveTo(xx,yy); else ctx.lineTo(xx,yy);
+    }
+    setStroke(ctx, idx===0? '#b91c1c':'#2563eb', 2.4); ctx.stroke();
+    ctx.restore();
+    setStroke(ctx,'#111827',1.4);
+    ctx.beginPath(); ctx.moveTo(sweepX,H.y0-16); ctx.lineTo(sweepX,yBase); ctx.stroke();
+  });
+}
+
+
+/* ===================== UNIT 2 : TYPES OF LASERS ===================== */
+
+// 7) He-Ne energy transfer and 632.8 nm emission
+function draw_u2_hene(ctx, w, h, t){
+  const heX=110, neX=w-110;
+  const gy=h-30, exHeY=70, ex1NeY=95, ex2NeY=150;
+  txt(ctx,'He', heX, 24, {align:'center', font:'bold 13px Segoe UI', color:'#374151'});
+  txt(ctx,'Ne', neX, 24, {align:'center', font:'bold 13px Segoe UI', color:'#374151'});
+  drawLevel(ctx, heX-55, heX+55, gy, '#1f2d3d');
+  drawLevel(ctx, heX-55, heX+55, exHeY, '#1f2d3d');
+  drawLevel(ctx, neX-55, neX+55, gy, '#1f2d3d');
+  drawLevel(ctx, neX-55, neX+55, ex1NeY, '#1f2d3d');
+  drawLevel(ctx, neX-55, neX+55, ex2NeY, '#1f2d3d');
+  txt(ctx,'2\u00b9S,2\u00b3S', heX+58, exHeY+4, {font:'9px Segoe UI', color:'#6b7280'});
+  txt(ctx,'5S,4S', neX+40, ex1NeY+4, {font:'9px Segoe UI', color:'#6b7280'});
+  txt(ctx,'3P,4P', neX+40, ex2NeY+4, {font:'9px Segoe UI', color:'#6b7280'});
+
+  const pumpP = pulseWindow(t,0.02,0.22);
+  let heY = gy;
+  if(t<0.22) heY = lerp(gy, exHeY, easeOut(clamp01(t/0.22)));
+  else heY = exHeY;
+  if(pumpP>0) drawArrow(ctx, heX-70, gy, heX-70, exHeY, '#2563eb', 2);
+  drawDot(ctx, heX, heY, 6, '#f59e0b');
+
+  const transferP = pulseWindow(t,0.28,0.46);
+  if(transferP>0 && transferP<1){
+    const px = lerp(heX+8, neX-14, transferP);
+    ctx.save(); ctx.setLineDash([3,3]);
+    setStroke(ctx,'#16a34a',2);
+    ctx.beginPath(); ctx.moveTo(heX+8,exHeY); ctx.lineTo(px, lerp(exHeY,ex1NeY,transferP)); ctx.stroke();
+    ctx.restore();
+  }
+  if(t>=0.46) heY = gy;
+  if(t>=0.22 && t<0.46){} // hold shown above already computed heY=exHeY
+
+  let neY = gy;
+  if(t>=0.46) neY = ex1NeY;
+  const decay1 = pulseWindow(t,0.62,0.75);
+  if(decay1>0) neY = lerp(ex1NeY, ex2NeY, easeOut(decay1));
+  if(t>=0.75) neY = ex2NeY;
+  const decay2 = pulseWindow(t,0.82,0.94);
+  if(decay2>0) neY = lerp(ex2NeY, gy, easeOut(decay2));
+  if(t>=0.94) neY = gy;
+  if(t<0.46) neY = gy;
+  drawDot(ctx, neX, neY, 6, '#f59e0b');
+
+  if(t>=0.62 && t<0.8){
+    const trav = clamp01((t-0.62)/0.18);
+    drawPhoton(ctx, neX+22, lerp(ex1NeY,ex2NeY,0.5), 0, 16, '#dc2626');
+    if(trav>0.6) txt(ctx,'632.8 nm', neX+30, lerp(ex1NeY,ex2NeY,0.5)-8, {font:'bold 10px Segoe UI', color:'#dc2626'});
+  }
+}
+
+// 8) CO2 vibrational energy transfer (N2 -> CO2, 10.6 um)
+function draw_u2_co2(ctx, w, h, t){
+  const n2X=110, co2X=w-120;
+  const gy=h-30, exN2Y=80, upCO2Y=100, lowCO2Y=160;
+  txt(ctx,'N\u2082 (vibrating)', n2X, 22, {align:'center', font:'bold 12px Segoe UI', color:'#374151'});
+  txt(ctx,'CO\u2082', co2X, 22, {align:'center', font:'bold 12px Segoe UI', color:'#374151'});
+  drawLevel(ctx, n2X-55, n2X+55, gy, '#1f2d3d');
+  drawLevel(ctx, n2X-55, n2X+55, exN2Y, '#1f2d3d');
+  drawLevel(ctx, co2X-55, co2X+55, gy, '#1f2d3d');
+  drawLevel(ctx, co2X-55, co2X+55, upCO2Y, '#1f2d3d');
+  drawLevel(ctx, co2X-55, co2X+55, lowCO2Y, '#1f2d3d');
+  txt(ctx,'v=1', n2X+40, exN2Y+4, {font:'9px Segoe UI', color:'#6b7280'});
+  txt(ctx,'(00\u00b01)', co2X+40, upCO2Y+4, {font:'9px Segoe UI', color:'#6b7280'});
+  txt(ctx,'(10\u00b00)', co2X+40, lowCO2Y+4, {font:'9px Segoe UI', color:'#6b7280'});
+
+  // N2 molecule bond wiggle (two balls)
+  const wob = Math.sin(t*2*Math.PI*8) * (t<0.22? 0:3.2);
+  drawDot(ctx, n2X-9-wob, gy-38, 6, '#60a5fa');
+  drawDot(ctx, n2X+9+wob, gy-38, 6, '#60a5fa');
+  ctx.beginPath(); setStroke(ctx,'#9ca3af',2);
+  ctx.moveTo(n2X-9-wob, gy-38); ctx.lineTo(n2X+9+wob, gy-38); ctx.stroke();
+
+  let n2Y = gy;
+  if(t<0.22) n2Y = lerp(gy, exN2Y, easeOut(clamp01(t/0.22)));
+  else if(t<0.46) n2Y = exN2Y;
+  else n2Y = gy;
+  if(pulseWindow(t,0.02,0.22)>0) drawArrow(ctx, n2X-70, gy, n2X-70, exN2Y, '#2563eb', 2);
+  drawDot(ctx, n2X, n2Y, 6, '#f59e0b');
+
+  const transferP = pulseWindow(t,0.28,0.46);
+  if(transferP>0){
+    const px = lerp(n2X+8, co2X-14, transferP);
+    ctx.save(); ctx.setLineDash([3,3]); setStroke(ctx,'#16a34a',2);
+    ctx.beginPath(); ctx.moveTo(n2X+8,exN2Y); ctx.lineTo(px, lerp(exN2Y,upCO2Y,transferP)); ctx.stroke();
+    ctx.restore();
+  }
+
+  let co2Y = gy;
+  if(t>=0.46) co2Y = upCO2Y;
+  const lasing = pulseWindow(t,0.6,0.76);
+  if(lasing>0) co2Y = lerp(upCO2Y, lowCO2Y, easeOut(lasing));
+  if(t>=0.76) co2Y = lowCO2Y;
+  const relax = pulseWindow(t,0.85,0.97);
+  if(relax>0) co2Y = lerp(lowCO2Y, gy, relax);
+  if(t>=0.97) co2Y = gy;
+  if(t<0.46) co2Y = gy;
+  drawDot(ctx, co2X, co2Y, 6, '#f59e0b');
+
+  if(t>=0.6 && t<0.8){
+    drawPhoton(ctx, co2X+22, lerp(upCO2Y,lowCO2Y,0.5), 0, 16, '#dc2626');
+    txt(ctx,'10.6 \u00b5m', co2X+30, lerp(upCO2Y,lowCO2Y,0.5)-8, {font:'bold 10px Segoe UI', color:'#dc2626'});
+  }
+}
+
+// 9) Ruby laser: flash-lamp pumping and pulsed emission
+function draw_u2_ruby(ctx, w, h, t){
+  const rodX0=90, rodX1=w-90, rodY0=h/2-26, rodY1=h/2+26;
+  roundedRect(ctx, rodX0, rodY0, rodX1-rodX0, rodY1-rodY0, 10, '#fecaca', '#ef4444');
+  txt(ctx,'Ruby rod (Cr\u00b3\u207a:Al\u2082O\u2083)', (rodX0+rodX1)/2, rodY0-34, {align:'center', font:'bold 11.5px Segoe UI', color:'#374151'});
+
+  const flashP = sawtooth(t, 0.5);
+  const flashOn = flashP < 0.12;
+  if(flashOn){
+    const flashAlpha = 1 - flashP/0.12;
+    ctx.save(); ctx.globalAlpha = 0.55*flashAlpha;
+    for(let i=0;i<10;i++){
+      const ang = i/10*Math.PI*2;
+      const r1=60,r2=105;
+      ctx.beginPath();
+      setStroke(ctx,'#f59e0b',3);
+      ctx.moveTo((rodX0+rodX1)/2 + Math.cos(ang)*r1, h/2+Math.sin(ang)*r1*0.6);
+      ctx.lineTo((rodX0+rodX1)/2 + Math.cos(ang)*r2, h/2+Math.sin(ang)*r2*0.6);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+  drawMirror(ctx, rodX0-8, rodY0-6, rodY1+6, '#6b7280');
+  drawMirror(ctx, rodX1+8, rodY0-6, rodY1+6, '#93c5fd');
+
+  const seeds=[0.15,0.4,0.6,0.8,0.3,0.7,0.5,0.2,0.85,0.65];
+  const nIons=10;
+  for(let i=0;i<nIons;i++){
+    const seed = seeds[i];
+    const ix = lerp(rodX0+14, rodX1-14, seed);
+    let state = 0; // 0 ground,1 excited(short),2 metastable,3 emitting
+    const phase = (t + seed*0.37) % 1;
+    let iy;
+    if(phase < 0.1) iy = rodY1-8;
+    else if(phase < 0.16) iy = lerp(rodY1-8, rodY0+6, easeOut((phase-0.1)/0.06));
+    else if(phase < 0.75) iy = rodY0+6;
+    else if(phase < 0.82) iy = lerp(rodY0+6, rodY1-8, easeOut((phase-0.75)/0.07));
+    else iy = rodY1-8;
+    drawDot(ctx, ix, iy, 4, phase<0.16? '#2563eb' : (phase<0.75? '#f59e0b':'#dc2626'));
+    if(phase>=0.75 && phase<0.83){
+      drawPhoton(ctx, ix+10, iy, 0, 12, '#dc2626');
+    }
+  }
+  if(sawtooth(t,0.5) > 0.72 && sawtooth(t,0.5) < 0.9){
+    drawPhoton(ctx, rodX1+16, h/2, 0, 18, '#dc2626');
+    txt(ctx,'694.3 nm pulse', rodX1+20, h/2-16, {font:'bold 10.5px Segoe UI', color:'#dc2626'});
+  }
+}
+
+// 10) Semiconductor diode laser: carrier injection & recombination
+function draw_u2_diode(ctx, w, h, t){
+  const midX=w/2, y0=40, y1=h-30;
+  roundedRect(ctx, 40, y0, midX-40-6, y1-y0, 6, '#dbeafe', '#93c5fd');
+  roundedRect(ctx, midX+6, y0, w-40-midX-6, y1-y0, 6, '#fee2e2', '#fca5a5');
+  roundedRect(ctx, midX-14, y0, 28, y1-y0, 4, '#fde68a', '#f59e0b');
+  txt(ctx,'n-AlGaAs', midX-46, y0-8, {align:'center', font:'10.5px Segoe UI', color:'#374151'});
+  txt(ctx,'p-AlGaAs', midX+46, y0-8, {align:'center', font:'10.5px Segoe UI', color:'#374151'});
+  txt(ctx,'active region', midX, y1+16, {align:'center', font:'10px Segoe UI', color:'#374151'});
+
+  const nParticles=7;
+  for(let i=0;i<nParticles;i++){
+    const seed=(i+0.3)/nParticles;
+    const phase=(t+seed)%1;
+    if(phase<0.5){
+      const ex = lerp(45, midX-8, phase/0.5*2>1?1:phase/0.5);
+      const yy = lerp(y0+14,y1-14,seed);
+      if(phase<0.5) drawDot(ctx, lerp(45,midX-4,phase*2), yy, 4.4, '#2563eb');
+    } else {
+      const yy = lerp(y0+14,y1-14,seed);
+      const burstT = clamp01((phase-0.5)/0.12);
+      if(burstT<1){
+        drawDot(ctx, midX, yy, 4.4*(1-burstT*0.4), '#2563eb');
+      } else {
+        drawPhoton(ctx, midX+14+ (phase-0.62)*70, yy, 0.05, 14, '#ef4444');
+      }
+    }
+  }
+  for(let i=0;i<nParticles;i++){
+    const seed=(i+0.7)/nParticles;
+    const phase=(t+seed)%1;
+    if(phase<0.5){
+      const yy = lerp(y0+14,y1-14,seed);
+      drawRing(ctx, lerp(w-45, midX+4, phase*2), yy, 4.2, '#dc2626', 1.6);
+    }
+  }
+  txt(ctx,'electrons', 60, y0-8, {font:'10px Segoe UI', color:'#2563eb'});
+  txt(ctx,'holes', w-70, y0-8, {font:'10px Segoe UI', color:'#dc2626'});
+}
+
+// 11) Fibre laser: pump absorption along doped fibre & output build-up
+function draw_u2_fibrelaser(ctx, w, h, t){
+  const xL=40, xR=w-40, yc=h/2;
+  roundedRect(ctx, xL, yc-22, xR-xL, 44, 8, '#f1f5f9', '#94a3b8');
+  roundedRect(ctx, xL, yc-10, xR-xL, 20, 5, '#bbf7d0', '#22c55e');
+  txt(ctx,'Rare-earth-doped active core', (xL+xR)/2, yc-30, {align:'center', font:'10.5px Segoe UI', color:'#374151'});
+  drawMirror(ctx, xL-4, yc-26, yc+26, '#6b7280');
+  drawMirror(ctx, xR+4, yc-26, yc+26, '#93c5fd');
+
+  const nPump=6;
+  for(let i=0;i<nPump;i++){
+    const seed=(i+0.2)/nPump;
+    const phase=(t+seed)%1;
+    if(phase<0.55){
+      const px = lerp(xL+6, xR-6, phase/0.55);
+      const absorbed = phase/0.55;
+      ctx.save(); ctx.globalAlpha = 1-absorbed*0.85;
+      drawDot(ctx, px, yc-16, 3.6, '#3b82f6');
+      ctx.restore();
+    }
+  }
+  const glow = clamp01(t*1.3);
+  ctx.save();
+  ctx.globalAlpha = 0.25+0.5*glow;
+  roundedRect(ctx, xL, yc-10, (xR-xL)*glow, 20, 5, '#22c55e');
+  ctx.restore();
+
+  if(t>0.55){
+    const outT = clamp01((t-0.55)/0.4);
+    drawPhoton(ctx, xR+14, yc, 0, 16+10*outT, '#dc2626');
+    txt(ctx,'laser output', xR+16, yc-16, {font:'bold 10px Segoe UI', color:'#dc2626'});
+  }
+  txt(ctx,'diode pump', xL-2, yc-34, {font:'10px Segoe UI', color:'#2563eb'});
+}
+
+// 12) Excimer formation and dissociation (bound-excited / repulsive ground state)
+function draw_u2_excimer(ctx, w, h, t){
+  const cy = h/2+10;
+  const phase = t;
+  let sep;
+  if(phase<0.3) sep = lerp(90, 18, easeOut(phase/0.3));
+  else if(phase<0.55) sep = 18 + Math.sin((phase-0.3)/0.25*Math.PI*3)*2;
+  else if(phase<0.7) sep = lerp(18, 18, 0);
+  else sep = lerp(18, 130, easeOut(clamp01((phase-0.7)/0.3)));
+
+  const cx = w/2;
+  const bound = phase>=0.3 && phase<0.7;
+  if(bound){
+    ctx.save();
+    const glowR = 30+Math.sin(phase*40)*2;
+    ctx.globalAlpha=0.35;
+    ctx.fillStyle='#a78bfa';
+    ctx.beginPath(); ctx.arc(cx, cy, glowR, 0, Math.PI*2); ctx.fill();
+    ctx.restore();
+  }
+  drawDot(ctx, cx-sep/2, cy, 11, '#60a5fa');
+  drawDot(ctx, cx+sep/2, cy, 11, '#fca5a5');
+  txt(ctx, 'Noble gas', cx-sep/2, cy+30, {align:'center', font:'10px Segoe UI', color:'#374151'});
+  txt(ctx, 'Halogen', cx+sep/2, cy+30, {align:'center', font:'10px Segoe UI', color:'#374151'});
+
+  if(bound){
+    txt(ctx,'ArF*  (bound excited dimer)', cx, cy-46, {align:'center', font:'bold 11px Segoe UI', color:'#7c3aed'});
+  }
+  if(phase>=0.55 && phase<0.72){
+    drawPhoton(ctx, cx+40, cy-30, -0.3, 16, '#a855f7');
+    txt(ctx,'193 nm UV', cx+70, cy-46, {align:'center', font:'bold 10px Segoe UI', color:'#7c3aed'});
+  }
+  if(phase>=0.7){
+    txt(ctx,'ground state repulsive \u2014 atoms fly apart', cx, cy-46, {align:'center', font:'10.5px Segoe UI', color:'#6b7280'});
+  }
+}
+
+
+/* ===================== UNIT 3 : HOLOGRAPHY AND FIBRE OPTICS ===================== */
+
+// 13) Hologram recording: object + reference beams interfere, fringes build up
+function draw_u3_hologram_record(ctx, w, h, t){
+  const plateX = w-70, plateY0=30, plateY1=h-24;
+  txt(ctx,'Laser', 50, 40, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
+  drawDot(ctx, 50, 55, 8, '#ef4444');
+  // reference beam (straight lines)
+  for(let i=0;i<5;i++){
+    const yy = lerp(plateY0+6, plateY0+46, i/4);
+    drawArrow(ctx, 66, 55+ i*2, plateX-6, yy, '#f59e0b', 1.4);
+  }
+  txt(ctx,'reference beam', 130, 40, {font:'10px Segoe UI', color:'#b45309'});
+  // object (small triangle) + scattered object beam
+  const objX=90, objY=h-60;
+  ctx.save(); setFill(ctx,'#16a34a');
+  ctx.beginPath(); ctx.moveTo(objX,objY-14); ctx.lineTo(objX+12,objY+10); ctx.lineTo(objX-12,objY+10); ctx.closePath(); ctx.fill();
+  ctx.restore();
+  txt(ctx,'object', objX, objY+26, {align:'center', font:'10px Segoe UI', color:'#166534'});
+  for(let i=0;i<5;i++){
+    const yy = lerp(plateY0+60, plateY1-10, i/4);
+    drawArrow(ctx, objX+10, objY-4, plateX-6, yy, '#16a34a', 1.2);
+  }
+  // plate
+  roundedRect(ctx, plateX, plateY0, 16, plateY1-plateY0, 2, '#e5e7eb', '#9ca3af');
+  txt(ctx,'plate', plateX+8, plateY0-10, {align:'center', font:'10px Segoe UI', color:'#374151'});
+  // fringe build-up proportional to t
+  const nFringes=26;
+  const exposure = clamp01(t);
+  ctx.save();
+  ctx.beginPath(); ctx.rect(plateX,plateY0,16,(plateY1-plateY0)*exposure);
+  ctx.clip();
+  for(let i=0;i<nFringes;i++){
+    const yy = plateY0 + i*(plateY1-plateY0)/nFringes;
+    if(i%2===0){ ctx.fillStyle='rgba(30,41,59,0.65)'; ctx.fillRect(plateX,yy,16,(plateY1-plateY0)/nFringes); }
+  }
+  ctx.restore();
+  txt(ctx, 'exposure: '+Math.round(exposure*100)+'%', plateX-4, plateY1+16, {align:'right', font:'10px Segoe UI', color:'#374151'});
+}
+
+// 14) Hologram reconstruction: reference beam reconstructs virtual image
+function draw_u3_hologram_reconstruct(ctx, w, h, t){
+  const plateX=140, plateY0=30, plateY1=h-24;
+  drawDot(ctx, 40, h/2, 8, '#ef4444');
+  txt(ctx,'Laser', 40, h/2-16, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
+  const beamT = pulseWindow(t,0,0.35);
+  if(t<0.4){
+    for(let i=0;i<5;i++){
+      const yy = lerp(plateY0+8, plateY1-8, i/4);
+      drawArrow(ctx, 54, h/2, lerp(54, plateX-4, clamp01(t/0.3)), yy, '#f59e0b', 1.4);
+    }
+  } else {
+    for(let i=0;i<5;i++){
+      const yy = lerp(plateY0+8, plateY1-8, i/4);
+      drawArrow(ctx, 54, h/2, plateX-4, yy, '#f59e0b', 1.4);
+    }
+  }
+  roundedRect(ctx, plateX, plateY0, 14, plateY1-plateY0, 2, '#e5e7eb', '#9ca3af');
+  const nFringes=26;
+  for(let i=0;i<nFringes;i++){
+    const yy = plateY0 + i*(plateY1-plateY0)/nFringes;
+    if(i%2===0){ ctx.fillStyle='rgba(30,41,59,0.65)'; ctx.fillRect(plateX,yy,14,(plateY1-plateY0)/nFringes); }
+  }
+  txt(ctx,'hologram', plateX+7, plateY0-10, {align:'center', font:'10px Segoe UI', color:'#374151'});
+
+  if(t>0.4){
+    const imgT = clamp01((t-0.4)/0.5);
+    const imgX = w-110, imgY=h/2;
+    for(let i=0;i<5;i++){
+      const yy = lerp(plateY0+8, plateY1-8, i/4);
+      ctx.save(); ctx.globalAlpha = 0.55;
+      drawDashedArrow(ctx, plateX+14, yy, lerp(plateX+14,imgX,imgT), lerp(yy, imgY,imgT*0.5), '#16a34a', 1.3);
+      ctx.restore();
+    }
+    ctx.save(); ctx.globalAlpha = easeOut(imgT);
+    setFill(ctx,'#16a34a');
+    ctx.beginPath(); ctx.moveTo(imgX,imgY-16); ctx.lineTo(imgX+14,imgY+12); ctx.lineTo(imgX-14,imgY+12); ctx.closePath(); ctx.fill();
+    ctx.restore();
+    txt(ctx,'virtual image', imgX, imgY+30, {align:'center', font:'10.5px Segoe UI', color:'#166534'});
+  }
+}
+
+// 15) Total internal reflection ray path along an optical fibre
+function draw_u3_TIR(ctx, w, h, t){
+  const xL=20, xR=w-20, yc=h/2, halfCore=22, halfClad=40;
+  roundedRect(ctx, xL, yc-halfClad, xR-xL, halfClad*2, 6, '#dbeafe');
+  roundedRect(ctx, xL, yc-halfCore, xR-xL, halfCore*2, 4, '#fef3c7');
+  txt(ctx,'cladding', xL+6, yc-halfClad-8, {font:'10px Segoe UI', color:'#374151'});
+  txt(ctx,'core', xL+6, yc-halfCore-6, {font:'10px Segoe UI', color:'#b45309'});
+
+  const period = 90;
+  const speed = (xR-xL-40)/1; // full length per loop
+  const travel = (t*(xR-xL-40));
+  const nBounce = Math.floor(travel/period);
+  ctx.beginPath();
+  let started=false;
+  for(let x=0; x<=travel; x+=2){
+    const seg = Math.floor(x/period);
+    const local = (x % period)/period;
+    const yy = (seg%2===0) ? lerp(yc-halfCore+4, yc+halfCore-4, local) : lerp(yc+halfCore-4, yc-halfCore+4, local);
+    const xx = xL+20+x;
+    if(!started){ ctx.moveTo(xx,yy); started=true; } else ctx.lineTo(xx,yy);
+  }
+  setStroke(ctx,'#dc2626',2.2); ctx.stroke();
+  const segEnd = Math.floor(travel/period);
+  const localEnd = (travel%period)/period;
+  const yEnd = (segEnd%2===0)? lerp(yc-halfCore+4, yc+halfCore-4, localEnd) : lerp(yc+halfCore-4, yc-halfCore+4, localEnd);
+  drawDot(ctx, xL+20+travel, yEnd, 4.5, '#dc2626');
+  txt(ctx,'guided ray (angle > \u03b8\u1d04)', xL+10, yc+halfClad+18, {font:'10.5px Segoe UI', color:'#6b7280'});
+}
+
+// 16) Numerical aperture / acceptance cone
+function draw_u3_NA(ctx, w, h, t){
+  const faceX=150, yc=h/2, halfCore=30, halfClad=54;
+  roundedRect(ctx, faceX, yc-halfClad, w-faceX-20, halfClad*2, 6, '#dbeafe');
+  roundedRect(ctx, faceX, yc-halfCore, w-faceX-20, halfCore*2, 4, '#fef3c7');
+  txt(ctx,'core', faceX+10, yc-halfCore-8, {font:'10px Segoe UI', color:'#b45309'});
+
+  const maxAngle = 0.42;
+  const cyc = t*3 % 1;
+  const angle = lerp(-maxAngle*1.4, maxAngle*1.4, cyc);
+  const accepted = Math.abs(angle) <= maxAngle;
+  const srcX=40, srcY=yc;
+  const hitX = faceX;
+  const hitY = yc + Math.tan(angle)*(faceX-srcX)*0.6;
+  drawArrow(ctx, srcX, srcY, hitX, hitY, accepted? '#16a34a':'#dc2626', 2);
+  if(accepted){
+    const refAngle = angle*0.5;
+    let x=hitX, y=hitY, dir=1, seg=0;
+    const period=70;
+    while(x < w-40 && seg<6){
+      const nx = Math.min(x+period, w-40);
+      const ny = (dir>0)? yc+halfCore-6 : yc-halfCore+6;
+      drawArrow(ctx, x, y, nx, ny, '#16a34a', 1.8);
+      x=nx; y=ny; dir*=-1; seg++;
+    }
+  } else {
+    drawArrow(ctx, hitX, hitY, hitX+50, hitY + (angle>0? 40:-40), '#dc2626', 1.8);
+    txt(ctx,'lost (exceeds \u03b8max)', hitX+54, hitY+(angle>0?52:-46), {font:'9.5px Segoe UI', color:'#dc2626'});
+  }
+  ctx.save(); ctx.setLineDash([4,3]); setStroke(ctx,'#6b7280',1.3);
+  ctx.beginPath(); ctx.moveTo(srcX,yc); ctx.lineTo(faceX,yc); ctx.stroke();
+  ctx.restore();
+  drawArrow(ctx, srcX, yc+2, srcX+ (faceX-srcX)*0.35, yc+2+Math.tan(maxAngle)*(faceX-srcX)*0.35*0.6, '#9ca3af', 1);
+  drawArrow(ctx, srcX, yc-2, srcX+ (faceX-srcX)*0.35, yc-2-Math.tan(maxAngle)*(faceX-srcX)*0.35*0.6, '#9ca3af', 1);
+  txt(ctx,'acceptance cone \u03b8max', srcX, yc-halfClad-14, {font:'10.5px Segoe UI', color:'#6b7280'});
+}
+
+// 17) Fibre-optic communication link
+function draw_u3_fibrelink(ctx, w, h, t){
+  const stages = ['e- signal','LD/LED','optical fibre','photodetector','e- output'];
+  const n=stages.length;
+  const boxW=(w-40)/n - 10;
+  const y0=h/2-24, y1=h/2+24;
+  const colors=['#e2e8f0','#fde68a','#bae6fd','#fecaca','#e2e8f0'];
+  for(let i=0;i<n;i++){
+    const x0 = 20 + i*(boxW+10);
+    roundedRect(ctx, x0, y0, boxW, y1-y0, 6, colors[i], '#94a3b8');
+    txt(ctx, stages[i], x0+boxW/2, y1+16, {align:'center', font:'10px Segoe UI', color:'#374151'});
+  }
+  const totalTravel = t*(n-1);
+  const idx = Math.min(n-2, Math.floor(totalTravel));
+  const local = totalTravel-idx;
+  const x0 = 20 + idx*(boxW+10) + boxW;
+  const x1 = 20 + (idx+1)*(boxW+10);
+  const px = lerp(x0, x1, local);
+  const isOptical = (idx===1 || idx===2);
+  if(isOptical){
+    drawPhoton(ctx, px-10, h/2, 0, 14, '#dc2626');
+  } else {
+    drawDot(ctx, px, h/2, 5, '#2563eb');
+  }
+}
+
+// 18) Erbium-doped fibre amplifier (EDFA): weak signal amplified
+function draw_u3_edfa(ctx, w, h, t){
+  const xL=30, xR=w-30, yc=h/2+20;
+  const gainX0=w*0.32, gainX1=w*0.68;
+  roundedRect(ctx, gainX0, yc-30, gainX1-gainX0, 60, 6, '#dcfce7', '#22c55e');
+  txt(ctx,'Er\u00b3\u207a-doped fibre (gain region)', (gainX0+gainX1)/2, yc-40, {align:'center', font:'10.5px Segoe UI', color:'#166534'});
+  drawArrow(ctx, (gainX0+gainX1)/2, yc-70, (gainX0+gainX1)/2, yc-34, '#7c3aed', 2);
+  txt(ctx,'980/1480 nm pump', (gainX0+gainX1)/2, yc-76, {align:'center', font:'10px Segoe UI', color:'#7c3aed'});
+
+  drawArrow(ctx, xL, yc+50, xR, yc+50, '#9ca3af', 1);
+  const px = lerp(xL, xR, t);
+  let amp;
+  if(px < gainX0) amp = 6;
+  else if(px > gainX1) amp = 26;
+  else amp = lerp(6, 26, (px-gainX0)/(gainX1-gainX0));
+  const N=120;
+  ctx.beginPath();
+  for(let i=0;i<=N;i++){
+    const xx = lerp(xL, Math.min(px,xR), i/N);
+    if(xx>px) break;
+    let a;
+    if(xx < gainX0) a = 6;
+    else if(xx > gainX1) a = 26;
+    else a = lerp(6,26,(xx-gainX0)/(gainX1-gainX0));
+    const yy = yc - Math.sin((xx-xL)/14)*a;
+    if(i===0) ctx.moveTo(xx,yy); else ctx.lineTo(xx,yy);
+  }
+  setStroke(ctx,'#dc2626',2.2); ctx.stroke();
+  txt(ctx,'weak input', xL, yc-42, {font:'10px Segoe UI', color:'#6b7280'});
+  txt(ctx,'amplified output', xR-8, yc-42, {align:'right', font:'10px Segoe UI', color:'#dc2626'});
+}
+
+
+/* ===================== UNIT 4 : LASERS IN SCIENCE ===================== */
+
+// 19) Saturation (Doppler-free) spectroscopy: scanning laser reveals the Lamb dip
+function draw_u4_saturation(ctx, w, h, t){
+  const xL=50, xR=w-30, yBase=h-30, yTop=30;
+  drawArrow(ctx, xL, yBase, xL, yTop, '#9ca3af', 1.2);
+  drawArrow(ctx, xL, yBase, xR, yBase, '#9ca3af', 1.2);
+  txt(ctx,'absorption', xL-10, (yTop+yBase)/2, {align:'right', font:'10px Segoe UI', color:'#6b7280'});
+  txt(ctx,'laser detuning', xR, yBase+16, {align:'right', font:'10px Segoe UI', color:'#6b7280'});
+
+  function curve(xt){
+    const gauss = Math.exp(-Math.pow((xt-0.5)*4.2,2));
+    const dip = Math.exp(-Math.pow((xt-0.5)*40,2))*0.55;
+    return gauss-dip;
+  }
+  const sweepX = clamp01(t);
+  ctx.beginPath();
+  const N=200;
+  for(let i=0;i<=N;i++){
+    const xt=i/N;
+    if(xt>sweepX) break;
+    const val = curve(xt);
+    const px=lerp(xL,xR,xt), py=lerp(yBase,yTop,val);
+    if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+  }
+  setStroke(ctx,'#b91c1c',2.4); ctx.stroke();
+  const curX = lerp(xL,xR,sweepX);
+  const curY = lerp(yBase,yTop,curve(sweepX));
+  drawDot(ctx, curX, curY, 4.5, '#111827');
+  if(sweepX>0.44 && sweepX<0.56){
+    txt(ctx,'Lamb dip', curX, curY-14, {align:'center', font:'bold 10.5px Segoe UI', color:'#166534'});
+  }
+}
+
+// 20) Raman scattering: Rayleigh, Stokes, anti-Stokes
+function draw_u4_raman(ctx, w, h, t){
+  const cx=w/2, g=h-30, v1=h-70, virt=40;
+  drawLevel(ctx, cx-160, cx+160, g, '#1f2d3d');
+  drawLevel(ctx, cx-160, cx+160, v1, '#1f2d3d');
+  ctx.save(); ctx.setLineDash([3,3]);
+  drawLevel(ctx, cx-160, cx+160, virt, '#9ca3af',1.4);
+  ctx.restore();
+  txt(ctx,'v=0', cx-166, g+4, {align:'right', font:'10px Segoe UI'});
+  txt(ctx,'v=1', cx-166, v1+4, {align:'right', font:'10px Segoe UI'});
+  txt(ctx,'virtual state', cx+166, virt+4, {font:'10px Segoe UI', color:'#6b7280'});
+
+  const phase = t*3 % 1;
+  const which = Math.floor(t*3) % 3; // 0 rayleigh,1 stokes,2 anti-stokes
+  const labels=['Rayleigh (elastic)','Stokes','anti-Stokes'];
+  txt(ctx, labels[which], cx, 20, {align:'center', font:'bold 12px Segoe UI', color:'#374151'});
+
+  const upT = pulseWindow(phase,0.05,0.4);
+  const downT = pulseWindow(phase,0.5,0.9);
+  const xIn = cx-40, xOut = cx+40;
+  if(upT>0){
+    const yy = lerp(g, virt, easeOut(upT));
+    drawPhoton(ctx, xIn, lerp(g,virt,upT)+ (g-yy>0?0:0), -1.5708, 16, '#2563eb');
+  }
+  if(downT>0){
+    let startY = (which===2)? v1 : g;
+    let endY = (which===0)? g : (which===1? v1 : g);
+    const yy = lerp(virt, endY, easeOut(downT));
+    const color = which===0? '#16a34a' : (which===1? '#dc2626':'#7c3aed');
+    drawPhoton(ctx, xOut, yy, 1.5708, 16, color);
+  }
+  if(which===2){
+    drawDot(ctx, xIn-6, v1, 4, '#f59e0b');
+  }
+}
+
+// 21) Pump-probe time-domain spectroscopy: delay stage scan
+function draw_u4_pumpprobe(ctx, w, h, t){
+  const railY=60, railX0=60, railX1=w-140;
+  drawLevel(ctx, railX0, railX1, railY, '#9ca3af', 3);
+  const mirrorX = lerp(railX0+10, railX1-10, (Math.sin(t*2*Math.PI-Math.PI/2)+1)/2);
+  drawMirror(ctx, mirrorX, railY-20, railY+20, '#6b7280');
+  txt(ctx,'delay stage (movable mirror)', (railX0+railX1)/2, railY-30, {align:'center', font:'10px Segoe UI', color:'#374151'});
+  drawArrow(ctx, railX0-20, railY, mirrorX, railY, '#dc2626', 1.6);
+  drawArrow(ctx, mirrorX, railY, w-40, railY+60, '#dc2626', 1.4);
+  txt(ctx,'probe', railX0-20, railY-8, {font:'10px Segoe UI', color:'#dc2626'});
+
+  const plotX0=60, plotX1=w-30, plotY0=h-20, plotY1=h-100;
+  drawArrow(ctx, plotX0, plotY0, plotX0, plotY1, '#9ca3af', 1);
+  drawArrow(ctx, plotX0, plotY0, plotX1, plotY0, '#9ca3af', 1);
+  txt(ctx,'\u0394signal', plotX0-8, plotY1+8, {align:'right', font:'10px Segoe UI', color:'#6b7280'});
+  txt(ctx,'delay', plotX1, plotY0+14, {align:'right', font:'10px Segoe UI', color:'#6b7280'});
+
+  const N=160;
+  ctx.beginPath();
+  for(let i=0;i<=N;i++){
+    const xt=i/N;
+    const curPhase = (Math.sin(xt*2*Math.PI-Math.PI/2)+1)/2;
+    const nowPhase = t;
+    if(xt>nowPhase) break;
+    const val = Math.exp(-Math.pow((xt-0.4)*6,2))*0.8 - Math.exp(-((xt-0.4)*3))*0.15*(xt>0.4?1:0);
+    const px=lerp(plotX0,plotX1,xt), py=lerp(plotY0,plotY1,clamp01(val));
+    if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+  }
+  setStroke(ctx,'#2563eb',2.2); ctx.stroke();
+}
+
+// 22) Laser (inertial confinement) fusion: symmetric implosion
+function draw_u4_fusion(ctx, w, h, t){
+  const cx=w/2, cy=h/2+6;
+  const nBeams=8;
+  const implosion = t;
+  const R0=70;
+  const R = lerp(R0, 14, easeOut(clamp01(implosion*1.3)));
+  for(let i=0;i<nBeams;i++){
+    const ang = i/nBeams*Math.PI*2;
+    const x1 = cx+Math.cos(ang)*130, y1=cy+Math.sin(ang)*95;
+    const x2 = cx+Math.cos(ang)*(R+6), y2=cy+Math.sin(ang)*(R+6);
+    drawArrow(ctx, x1, y1, x2, y2, '#dc2626', 1.8);
+  }
+  const heat = clamp01(implosion*1.3);
+  const grad = ctx.createRadialGradient(cx,cy,2,cx,cy,R);
+  grad.addColorStop(0, `rgba(255,${Math.round(220-160*heat)},80,1)`);
+  grad.addColorStop(1, `rgba(180,40,20,0.85)`);
+  ctx.fillStyle=grad;
+  ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.fill();
+  if(implosion>0.05 && implosion<0.6){
+    const nParticles=10;
+    for(let i=0;i<nParticles;i++){
+      const ang=i/nParticles*Math.PI*2+implosion*3;
+      const rr = R0 - (R0-R)*Math.min(1,implosion*1.6);
+      drawDot(ctx, cx+Math.cos(ang)*rr, cy+Math.sin(ang)*rr, 2.4, '#fca5a5');
+    }
+  }
+  if(implosion>0.75){
+    txt(ctx,'fusion ignition', cx, cy-R-14, {align:'center', font:'bold 11px Segoe UI', color:'#b91c1c'});
+  }
+  txt(ctx,'D-T fuel pellet', cx, cy+R0+26, {align:'center', font:'10.5px Segoe UI', color:'#374151'});
+}
+
+// 23) Laser-tissue interaction: photothermal / photoablative / photodisruptive
+function draw_u4_lasertissue(ctx, w, h, t){
+  const tissueY0=h/2-10, tissueY1=h-20, tissueX0=60, tissueX1=w-60;
+  roundedRect(ctx, tissueX0, tissueY0, tissueX1-tissueX0, tissueY1-tissueY0, 6, '#fecdd3', '#fb7185');
+  const cx=(tissueX0+tissueX1)/2;
+  drawArrow(ctx, cx, 30, cx, tissueY0+6, '#dc2626', 2.4);
+  const phase = t*3 % 1; const which = Math.floor(t*3)%3;
+  const labels=['Photothermal (coagulation)','Photoablative (vaporisation)','Photodisruptive (shockwave)'];
+  txt(ctx, labels[which], cx, 18, {align:'center', font:'bold 11.5px Segoe UI', color:'#374151'});
+  if(which===0){
+    const rr = lerp(4, 34, easeOut(phase));
+    ctx.save(); ctx.globalAlpha=0.55;
+    const grad=ctx.createRadialGradient(cx,tissueY0+10,1,cx,tissueY0+10,rr);
+    grad.addColorStop(0,'rgba(251,146,60,0.9)'); grad.addColorStop(1,'rgba(251,146,60,0)');
+    ctx.fillStyle=grad; ctx.beginPath(); ctx.arc(cx,tissueY0+10,rr,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+  }
+  if(which===1){
+    const depth = lerp(0,22, easeOut(phase));
+    ctx.save(); ctx.fillStyle='#fff7ed';
+    ctx.beginPath(); ctx.moveTo(cx-14,tissueY0); ctx.lineTo(cx+14,tissueY0);
+    ctx.lineTo(cx+9,tissueY0+depth); ctx.lineTo(cx-9,tissueY0+depth); ctx.closePath(); ctx.fill();
+    ctx.restore();
+    if(phase>0.5){
+      for(let i=0;i<5;i++){ drawDot(ctx, cx+lerp(-14,14,i/4), tissueY0-6-phase*22, 2, '#f59e0b'); }
+    }
+  }
+  if(which===2){
+    const rr = lerp(2,40, phase);
+    ctx.save(); ctx.globalAlpha = 1-phase;
+    drawRing(ctx, cx, tissueY0+10, rr, '#7c3aed', 2.2);
+    ctx.restore();
+  }
+}
+
+
+/* ===================== UNIT 5 : LASERS IN INDUSTRY ===================== */
+
+// 24) Laser drilling: pulsed beam deepens a hole with each pulse
+function draw_u5_drilling(ctx, w, h, t){
+  const blockX0=w/2-70, blockX1=w/2+70, blockY0=h/2+10, blockY1=h-24;
+  roundedRect(ctx, blockX0, blockY0, blockX1-blockX0, blockY1-blockY0, 4, '#e2e8f0', '#94a3b8');
+  const cx=w/2;
+  const period=0.2;
+  const pulseIdx = Math.floor(t/period);
+  const maxDepth = blockY1-blockY0-10;
+  const depth = Math.min(maxDepth, pulseIdx*(maxDepth/4));
+  const localPhase = (t%period)/period;
+  const firing = localPhase < 0.35;
+  if(firing){
+    const beamEnd = blockY0+depth+ (localPhase/0.35)*8;
+    drawArrow(ctx, cx, 26, cx, beamEnd, '#dc2626', 2.6);
+    for(let i=0;i<4;i++){
+      drawDot(ctx, cx+lerp(-10,10,i/3), blockY0+depth-4, 2, '#f59e0b');
+    }
+  }
+  ctx.save();
+  setFill(ctx,'#f8fafc');
+  ctx.fillRect(cx-7, blockY0, 14, Math.min(depth+ (firing?(localPhase/0.35)*8:0), maxDepth));
+  ctx.restore();
+  txt(ctx,'Pulse '+(pulseIdx+1), cx, 16, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
+  txt(ctx,'workpiece', blockX0, blockY1+16, {font:'10px Segoe UI', color:'#374151'});
+}
+
+// 25) Laser cutting with coaxial assist gas
+function draw_u5_cutting(ctx, w, h, t){
+  const sheetY0=h/2-6, sheetY1=h/2+40, x0=40, x1=w-40;
+  roundedRect(ctx, x0, sheetY0, x1-x0, sheetY1-sheetY0, 3, '#e2e8f0', '#94a3b8');
+  const cx = lerp(x0+14, x1-14, clamp01(t));
+  ctx.save();
+  setFill(ctx,'#ffffff');
+  ctx.fillRect(x0+10, sheetY0, Math.max(0,cx-(x0+10)), sheetY1-sheetY0);
+  ctx.restore();
+  drawArrow(ctx, cx, 24, cx, sheetY0+4, '#dc2626', 2.6);
+  roundedRect(ctx, cx-10, 10, 20, 16, 4, '#cbd5e1', '#64748b');
+  txt(ctx,'nozzle + gas', cx, 6, {align:'center', font:'9.5px Segoe UI', color:'#374151'});
+  for(let i=0;i<3;i++){
+    drawDot(ctx, cx+lerp(-5,5,i/2), sheetY1+6+ (t*40)%10, 2, '#f97316');
+  }
+  txt(ctx,'kerf', x0+20, sheetY1+20, {font:'10px Segoe UI', color:'#374151'});
+}
+
+// 26) Laser welding: keyhole formation and resolidification
+function draw_u5_welding(ctx, w, h, t){
+  const y0=h/2-14, y1=h/2+30, x0=40, x1=w-40;
+  roundedRect(ctx, x0, y0, (x1-x0)/2-2, y1-y0, 3, '#e2e8f0', '#94a3b8');
+  roundedRect(ctx, x0+(x1-x0)/2+2, y0, (x1-x0)/2-2, y1-y0, 3, '#e2e8f0', '#94a3b8');
+  const cx = lerp(x0+20, x1-20, clamp01(t));
+  drawArrow(ctx, cx, 20, cx, y0+4, '#dc2626', 2.6);
+  ctx.save(); setFill(ctx,'#1f2937');
+  ctx.beginPath(); ctx.ellipse(cx, y0+10, 5, 12, 0, 0, Math.PI*2); ctx.fill();
+  ctx.restore();
+  ctx.save();
+  const grad = ctx.createLinearGradient(0,y0,0,y1);
+  grad.addColorStop(0,'#fb923c'); grad.addColorStop(1,'#78350f');
+  ctx.fillStyle=grad;
+  ctx.beginPath(); ctx.ellipse(cx, (y0+y1)/2, 12, (y1-y0)/2, 0,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+  const solidW = Math.max(0, cx-(x0+20));
+  ctx.save(); setFill(ctx,'#9ca3af');
+  ctx.fillRect(x0+18, y0, solidW, y1-y0);
+  ctx.restore();
+  txt(ctx,'molten pool (keyhole)', cx, y1+16, {align:'center', font:'10px Segoe UI', color:'#374151'});
+  txt(ctx,'joined seam', x0+18, y0-8, {font:'9.5px Segoe UI', color:'#6b7280'});
+}
+
+// 27) Laser transformation hardening: heat then self-quench
+function draw_u5_hardening(ctx, w, h, t){
+  const y0=h/2-6, y1=h-30, x0=40, x1=w-40;
+  roundedRect(ctx, x0, y0, x1-x0, y1-y0, 3, '#e2e8f0', '#94a3b8');
+  const cx = lerp(x0+16, x1-16, clamp01(t));
+  drawArrow(ctx, cx, 24, cx, y0+2, '#dc2626', 2.4);
+  const trackW = Math.max(0, cx-(x0+16));
+  const N=Math.floor(trackW);
+  for(let i=0;i<N;i+=2){
+    const xx = x0+16+i;
+    const distBehind = cx-xx;
+    let color;
+    if(distBehind < 10) color = 'rgba(249,115,22,0.9)';
+    else if(distBehind < 40) color = 'rgba(120,53,15,0.85)';
+    else color = 'rgba(55,65,81,0.85)';
+    ctx.fillStyle = color;
+    ctx.fillRect(xx, y0+2, 2, y1-y0-4);
+  }
+  txt(ctx,'hardened (martensite)', x0+18, y1+16, {font:'10px Segoe UI', color:'#374151'});
+  txt(ctx,'hot zone \u2192 self-quench', cx+10, y0-10, {font:'10px Segoe UI', color:'#dc2626'});
+}
+
+// 28) LIDAR: pulse time-of-flight ranging
+function draw_u5_lidar(ctx, w, h, t){
+  const txX=50, txY=h-40, targetX=w-70, targetY=60;
+  roundedRect(ctx, txX-16, txY-14, 32, 28, 4, '#e2e8f0', '#64748b');
+  txt(ctx,'LIDAR', txX, txY+32, {align:'center', font:'10px Segoe UI', color:'#374151'});
+  ctx.save(); setFill(ctx,'#94a3b8');
+  ctx.beginPath(); ctx.ellipse(targetX, targetY, 26, 16, 0,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+  txt(ctx,'target / cloud', targetX, targetY-24, {align:'center', font:'10px Segoe UI', color:'#374151'});
+
+  const phase = t;
+  let px, py, going;
+  if(phase < 0.45){
+    const f = phase/0.45;
+    px = lerp(txX, targetX, f); py = lerp(txY, targetY, f); going=true;
+  } else if(phase < 0.9) {
+    const f = (phase-0.45)/0.45;
+    px = lerp(targetX, txX, f); py = lerp(targetY, txY, f); going=false;
+  } else { px=null; }
+  ctx.save(); setStroke(ctx,'#d1d5db',1); ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(txX,txY); ctx.lineTo(targetX,targetY); ctx.stroke();
+  ctx.restore();
+  if(px!==null) drawDot(ctx, px, py, 5, going? '#dc2626':'#f59e0b');
+
+  const elapsed = phase<0.9? phase/0.9 : 1;
+  txt(ctx,'\u0394t = '+ (elapsed*13.3).toFixed(1)+' \u00b5s', 20, 24, {font:'bold 11px Segoe UI', color:'#111827'});
+  if(phase>=0.9){
+    txt(ctx,'R = c\u0394t/2 \u2248 2.0 km', 20, 42, {font:'bold 11px Segoe UI', color:'#b91c1c'});
+  }
+}
+
+</script>
+<script>
+
+/* =========================================================================
+   ANIMATION REGISTRY — metadata for every animated card
+   ========================================================================= */
+ANIMS.push(
+  // ---------------- UNIT 1 ----------------
+  {id:'u1-1', unit:1, title:'Absorption, Spontaneous & Stimulated Emission', tag:'1.2',
+   caption:'The three fundamental light–matter interactions. Note how stimulated emission produces a second photon identical in phase, direction and frequency to the incident one.',
+   draw: draw_u1_transitions, duration:6000},
+  {id:'u1-2', unit:1, title:'Population Inversion Build-up During Pumping', tag:'1.4–1.12A',
+   caption:'As pumping proceeds, N\u2082(t) grows while N\u2081(t) stays low. Once the inversion crosses threshold, laser oscillation begins and the gain clamps.',
+   draw: draw_u1_population_inversion, duration:4200},
+  {id:'u1-3', unit:1, title:'Three-Level vs Four-Level Laser Schemes', tag:'1.6',
+   caption:'Compare the pump–decay–lase cycle in a three-level system (lower level = ground state) versus a four-level system (lower level lies above ground and empties quickly).',
+   draw: draw_u1_three_four_level, duration:5200},
+  {id:'u1-4', unit:1, title:'Photon Avalanche in the Optical Resonator', tag:'1.9 / 1.8',
+   caption:'Stimulated-emission photons multiply on each round trip between the resonator mirrors until the beam reaches its steady, saturated intensity.',
+   draw: draw_u1_avalanche, duration:5000},
+  {id:'u1-5', unit:1, title:'Longitudinal (Standing-Wave) Cavity Mode', tag:'1.9.2',
+   caption:'A resonant standing wave can exist only if the cavity length equals an integral number of half-wavelengths, L = q\u03bb/2.',
+   draw: draw_u1_standing_wave, duration:3000},
+  {id:'u1-6', unit:1, title:'CW versus Pulsed Laser Output', tag:'1.11',
+   caption:'CW output is a steady power level; pulsed output concentrates energy into short, high-peak-power bursts.',
+   draw: draw_u1_cw_pulsed, duration:4500},
+
+  // ---------------- UNIT 2 ----------------
+  {id:'u2-1', unit:2, title:'He-Ne Laser: Resonant Energy Transfer', tag:'2.1',
+   caption:'Electron-impact-excited He* transfers energy to Ne via near-resonant collisions; Ne then lases at 632.8 nm.',
+   draw: draw_u2_hene, duration:5500},
+  {id:'u2-2', unit:2, title:'CO\u2082 Laser: Vibrational Energy Transfer', tag:'2.3',
+   caption:'Vibrationally excited N\u2082 (v=1) transfers energy resonantly to the CO\u2082 asymmetric-stretch level, which lases at 10.6 \u00b5m.',
+   draw: draw_u2_co2, duration:5500},
+  {id:'u2-3', unit:2, title:'Ruby Laser: Flash-Lamp Pumping', tag:'2.6.1',
+   caption:'Cr\u00b3\u207a ions are excited by flash-lamp light, decay to the metastable level, and accumulate there before emitting 694.3 nm pulses — a three-level system.',
+   draw: draw_u2_ruby, duration:5000},
+  {id:'u2-4', unit:2, title:'Semiconductor Diode Laser: Carrier Recombination', tag:'2.7',
+   caption:'Electrons and holes injected across the p–n junction meet in the thin active region and recombine radiatively, emitting photons.',
+   draw: draw_u2_diode, duration:4000},
+  {id:'u2-5', unit:2, title:'Fibre Laser: Pump Absorption Along the Core', tag:'2.8',
+   caption:'Diode pump light is progressively absorbed by the rare-earth-doped core as it travels along the fibre, building up the laser output.',
+   draw: draw_u2_fibrelaser, duration:4500},
+  {id:'u2-6', unit:2, title:'Excimer Formation and Dissociation', tag:'2.4',
+   caption:'A noble-gas and halogen atom transiently bind in an excited dimer (ArF*); after UV emission, the unbound ground state immediately dissociates.',
+   draw: draw_u2_excimer, duration:5000},
+
+  // ---------------- UNIT 3 ----------------
+  {id:'u3-1', unit:3, title:'Hologram Recording: Interference Fringe Build-up', tag:'3.3',
+   caption:'The object beam and reference beam interfere at the plate; the resulting fringe pattern encodes both amplitude and phase of the object wave.',
+   draw: draw_u3_hologram_record, duration:4200},
+  {id:'u3-2', unit:3, title:'Hologram Reconstruction: Virtual Image Formation', tag:'3.4',
+   caption:'Illuminating the developed hologram with the reference beam regenerates the original object wavefront, forming a 3-D virtual image.',
+   draw: draw_u3_hologram_reconstruct, duration:4500},
+  {id:'u3-3', unit:3, title:'Total Internal Reflection Inside an Optical Fibre', tag:'3.10.1',
+   caption:'A guided ray zig-zags along the core, undergoing total internal reflection at the core–cladding boundary at every bounce.',
+   draw: draw_u3_TIR, duration:3200},
+  {id:'u3-4', unit:3, title:'Numerical Aperture & the Acceptance Cone', tag:'3.11',
+   caption:'Rays entering within the acceptance cone are guided by TIR; rays outside it strike the cladding boundary below the critical angle and are lost.',
+   draw: draw_u3_NA, duration:5000},
+  {id:'u3-5', unit:3, title:'Optical Fibre Communication Link', tag:'3.14',
+   caption:'An electrical signal is converted to light by a laser diode, guided through the fibre, and reconverted to an electrical signal by a photodetector.',
+   draw: draw_u3_fibrelink, duration:5000},
+  {id:'u3-6', unit:3, title:'Erbium-Doped Fibre Amplifier (EDFA)', tag:'3.15',
+   caption:'A weak 1550 nm signal is coherently amplified as it passes through the erbium-doped, diode-pumped gain region — entirely in the optical domain.',
+   draw: draw_u3_edfa, duration:3600},
+
+  // ---------------- UNIT 4 ----------------
+  {id:'u4-1', unit:4, title:'Doppler-Free Saturation Spectroscopy', tag:'4.2',
+   caption:'As the laser is scanned across the Doppler-broadened line, a narrow Lamb dip appears exactly at line centre, resolved via the pump–probe technique.',
+   draw: draw_u4_saturation, duration:3800},
+  {id:'u4-2', unit:4, title:'Raman Scattering: Rayleigh, Stokes & Anti-Stokes', tag:'4.6',
+   caption:'Cycles through the three scattering processes via a virtual intermediate state — elastic Rayleigh, and inelastic Stokes / anti-Stokes.',
+   draw: draw_u4_raman, duration:6000},
+  {id:'u4-3', unit:4, title:'Pump–Probe Time-Domain Spectroscopy', tag:'4.5',
+   caption:'A mechanical delay stage scans the probe-pulse arrival time relative to the pump, tracing out an ultrafast transient response curve.',
+   draw: draw_u4_pumpprobe, duration:4000},
+  {id:'u4-4', unit:4, title:'Laser (Inertial Confinement) Fusion', tag:'4.7',
+   caption:'Symmetric, high-power laser beams ablate the pellet surface, driving an inward implosion that compresses and heats the D–T fuel.',
+   draw: draw_u4_fusion, duration:4200},
+  {id:'u4-5', unit:4, title:'Laser–Tissue Interaction Mechanisms', tag:'4.8A',
+   caption:'Cycles through the three regimes of laser–tissue interaction: photothermal coagulation, photoablative vaporisation, and photodisruptive shockwaves.',
+   draw: draw_u4_lasertissue, duration:6000},
+
+  // ---------------- UNIT 5 ----------------
+  {id:'u5-1', unit:5, title:'Laser Drilling: Pulse-by-Pulse Material Removal', tag:'5.2',
+   caption:'Each laser pulse vaporises a little more material, progressively deepening the hole while ejecting debris.',
+   draw: draw_u5_drilling, duration:4000},
+  {id:'u5-2', unit:5, title:'Laser Cutting with Coaxial Assist Gas', tag:'5.3',
+   caption:'The focused beam and coaxial gas jet move together along the cut path, leaving a clean kerf behind them.',
+   draw: draw_u5_cutting, duration:3600},
+  {id:'u5-3', unit:5, title:'Laser Welding: Keyhole Formation', tag:'5.4',
+   caption:'A deep, narrow vapour keyhole leads the beam; molten metal flows around it and resolidifies behind, joining the two plates.',
+   draw: draw_u5_welding, duration:3600},
+  {id:'u5-4', unit:5, title:'Laser Transformation Hardening', tag:'5.7',
+   caption:'The heated surface layer self-quenches by conducting heat into the cold bulk material as the beam moves on, forming hardened martensite.',
+   draw: draw_u5_hardening, duration:3600},
+  {id:'u5-5', unit:5, title:'LIDAR: Time-of-Flight Ranging', tag:'5.9',
+   caption:'A pulse is transmitted, reflects off the target, and returns; the round-trip time \u0394t gives the range R = c\u0394t/2.',
+   draw: draw_u5_lidar, duration:4500}
+);
+
+/* =========================================================================
+   BUILD UI + ANIMATION ENGINE
+   ========================================================================= */
+const UNIT_NAMES = {
+  1:'Unit 1 — Properties of Lasers',
+  2:'Unit 2 — Types of Lasers',
+  3:'Unit 3 — Holography & Fibre Optics',
+  4:'Unit 4 — Lasers in Science',
+  5:'Unit 5 — Lasers in Industry'
+};
+const UNIT_DESC = {
+  1:'Core concepts underlying laser action: emission processes, population inversion, pumping schemes, resonators and the properties of laser light.',
+  2:'Construction and working of the major laser families — gas, solid-state, semiconductor and fibre lasers.',
+  3:'Recording and reconstructing wavefronts with holography, and guiding light by total internal reflection in optical fibres.',
+  4:'Spectroscopic and scientific applications enabled by the unique properties of laser light.',
+  5:'Industrial materials-processing applications exploiting concentrated, controllable laser energy.'
+};
+
+const engineHandles = {};
+
+function registerAnim(cfg){
+  const canvas = document.getElementById(cfg.id);
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  let startTime = null, raf = null, playing = true;
+  function frame(ts){
+    if(startTime===null) startTime = ts;
+    const t = ((ts - startTime) % cfg.duration) / cfg.duration;
+    ctx.clearRect(0,0,W,H);
+    try{ cfg.draw(ctx, W, H, t); }catch(e){ /* fail-safe: don't break other cards */ }
+    if(playing) raf = requestAnimationFrame(frame);
+  }
+  function play(){ if(!playing){ playing = true; startTime = null; raf = requestAnimationFrame(frame); } }
+  function pause(){ playing = false; if(raf) cancelAnimationFrame(raf); }
+  function replay(){ startTime = null; if(!playing) play(); }
+  raf = requestAnimationFrame(frame);
+  engineHandles[cfg.id] = {play, pause, replay, get playing(){return playing;}};
+}
+
+function buildUI(){
+  const tabsEl = document.getElementById('tabs');
+  const mainEl = document.getElementById('main');
+  const units = [1,2,3,4,5];
+
+  units.forEach((u,idx)=>{
+    const count = ANIMS.filter(a=>a.unit===u).length;
+    const btn = document.createElement('button');
+    btn.textContent = 'Unit ' + u;
+    const cnt = document.createElement('span'); cnt.className='count'; cnt.textContent = '('+count+')';
+    btn.appendChild(cnt);
+    btn.dataset.unit = u;
+    if(idx===0) btn.classList.add('active');
+    btn.addEventListener('click', ()=> showUnit(u));
+    tabsEl.appendChild(btn);
+
+    const sec = document.createElement('section');
+    sec.className = 'unit' + (idx===0? ' active':'');
+    sec.id = 'unit-'+u;
+    sec.innerHTML = `<h2 class="unit-title">${UNIT_NAMES[u]}</h2><p class="unit-desc">${UNIT_DESC[u]}</p><div class="grid" id="grid-${u}"></div>`;
+    mainEl.appendChild(sec);
+
+    const grid = sec.querySelector('.grid');
+    ANIMS.filter(a=>a.unit===u).forEach(a=>{
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <h3><span class="tag">\u00a7${a.tag}</span> ${a.title}</h3>
+        <canvas class="anim-canvas" id="${a.id}" width="480" height="280"></canvas>
+        <p class="caption">${a.caption}</p>
+        <div class="controls">
+          <button class="playpause" data-target="${a.id}">\u23f8 Pause</button>
+          <button class="replay" data-target="${a.id}">\u21bb Replay</button>
+        </div>`;
+      grid.appendChild(card);
+    });
+  });
+}
+
+function showUnit(u){
+  document.querySelectorAll('section.unit').forEach(s=> s.classList.toggle('active', s.id === 'unit-'+u));
+  document.querySelectorAll('nav.tabs button').forEach(b=> b.classList.toggle('active', Number(b.dataset.unit)===u));
+}
+
+function initEngineAndControls(){
+  ANIMS.forEach(registerAnim);
+
+  document.querySelectorAll('.controls .playpause').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const id = btn.dataset.target;
+      const h = engineHandles[id];
+      if(!h) return;
+      if(h.playing){ h.pause(); btn.textContent='\u25b6 Play'; btn.classList.add('is-paused'); }
+      else { h.play(); btn.textContent='\u23f8 Pause'; btn.classList.remove('is-paused'); }
+    });
+  });
+  document.querySelectorAll('.controls .replay').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const id = btn.dataset.target;
+      const h = engineHandles[id];
+      if(!h) return;
+      h.replay();
+      const pp = btn.parentElement.querySelector('.playpause');
+      pp.textContent='\u23f8 Pause'; pp.classList.remove('is-paused');
+    });
+  });
+
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        const h = engineHandles[e.target.id];
+        if(!h) return;
+        const btn = document.querySelector('.playpause[data-target="'+e.target.id+'"]');
+        if(e.isIntersecting){
+          if(btn && !btn.classList.contains('is-paused')) h.play();
+        } else {
+          h.pause();
+        }
+      });
+    }, {threshold:0.1});
+    document.querySelectorAll('.anim-canvas').forEach(c=> io.observe(c));
+  }
+}
+
+buildUI();
+initEngineAndControls();
+
+</script>
+
+</body>
+</html>

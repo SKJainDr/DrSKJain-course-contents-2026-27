@@ -56,6 +56,14 @@ a{color:var(--teal);}
 }
 .crumbs{font-size:.85rem;color:#c9c2a8;}
 .crumbs a{color:#f2d9a6;text-decoration:none;}
+.topbar .navlinks{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.companion-link{
+  display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:700;
+  color:var(--navy-deep);background:var(--gold);border:1px solid var(--gold);
+  padding:5px 13px;border-radius:16px;text-decoration:none;letter-spacing:.01em;
+  transition:transform .15s, box-shadow .15s;white-space:nowrap;
+}
+.companion-link:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(0,0,0,.25);}
 .hero{
   background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);
   color:#f6ecd9; padding:42px 0 34px;
@@ -213,14 +221,18 @@ footer a{color:#f2d9a6;}
 <div class="topbar">
   <div class="wrap">
     <a class="brand" href="../../index.html"><img src="../../assets/invertis-logo.png" alt="Invertis University logo" style="height:28px;width:auto;"> Faculty Course Portal &middot; 2026&ndash;27</a>
-    <div class="crumbs"><a href="../../index.html">Home</a> › <a href="../../courses/mpy301/index.html">MPY301</a> › Lecture Notes</div>
+    <div class="navlinks">
+      <div class="crumbs"><a href="../../index.html">Home</a> › <a href="../../courses/mpy301/index.html">MPY301</a> › Lecture Notes</div>
+      <a class="companion-link" href="MPY301_Laser_Physics_Animations.html">🎬 Animated Concept Companion</a>
+    </div>
   </div>
 </div>
 
 <div class="hero"><div class="wrap">
   <span class="tag">Lecture Notes</span>
   <h1><span class="code-badge">MPY301</span>Unit-wise Lecture Notes</h1>
-  <p class="sub">Detailed, exam-oriented notes covering every syllabus unit.</p>
+  <p class="sub">Detailed, exam-oriented notes covering every syllabus unit. Pair these notes with the
+  <a href="MPY301_Laser_Physics_Animations.html" style="color:#f2d9a6;font-weight:700;">Animated Concept Companion »</a> for interactive visualisations of the key concepts.</p>
 </div></div>
 
 <div class="dl-bar"><button onclick="dlPrintPage()">🖨️ Download / Print this page (PDF)</button></div><div class="dl-bar"><a href="downloads/MPY301_Laser_Physics_Lecture_Notes.docx" download style="text-decoration:none;"><button>📘 Download full detailed notes (DOCX)</button></a></div>
