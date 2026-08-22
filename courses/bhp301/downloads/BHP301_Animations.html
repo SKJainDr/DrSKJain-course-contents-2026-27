@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BHP301: Electromagnetism — Animated Concept Companion</title>
+<style>
+  :root{
+    --navy:#0e2a3d;
+    --navy-dark:#081a26;
+    --crimson:#c9a227;
+    --blue:#2563eb;
+    --green:#15803d;
+    --amber:#b45309;
+    --bg:#f4f6fa;
+    --card:#ffffff;
+    --ink:#1f2937;
+    --muted:#5b6472;
+    --border:#e2e6ee;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:'Segoe UI', Roboto, Arial, sans-serif;
+    background:var(--bg); color:var(--ink);
+  }
+  header.site{
+    background:linear-gradient(135deg,var(--navy-dark),var(--navy) 60%, #1f3a93);
+    color:#fff; padding:28px 28px 22px;
+  }
+  .crosslink-row{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    margin-bottom:16px;
+  }
+  .crosslink-row .crumb{font-size:12.5px; opacity:.8;}
+  .crosslink-row .crumb a{color:#f2d9a6; text-decoration:none;}
+  a.notes-link{
+    display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.35); color:#fff; text-decoration:none;
+    padding:8px 14px; border-radius:999px; font-size:13px; font-weight:600; transition:.15s;
+  }
+  a.notes-link:hover{background:rgba(255,255,255,.26);}
+  header.site h1{margin:0 0 6px; font-size:25px; letter-spacing:.3px;}
+  header.site p.sub{margin:0; opacity:.88; font-size:14px; max-width:900px; line-height:1.5;}
+  header.site p.note{
+    margin:14px 0 0; font-size:12.6px; background:rgba(255,255,255,.12);
+    display:inline-block; padding:8px 12px; border-radius:8px; line-height:1.5;
+  }
+  nav.tabs{
+    position:sticky; top:0; z-index:20; background:#fff;
+    display:flex; flex-wrap:wrap; gap:6px; padding:10px 20px;
+    border-bottom:1px solid var(--border); box-shadow:0 2px 6px rgba(20,30,60,.06);
+  }
+  nav.tabs button{
+    border:1px solid var(--border); background:#fafbfd; color:var(--navy);
+    padding:9px 16px; border-radius:999px; font-size:13.5px; font-weight:600;
+    cursor:pointer; transition:.15s ease;
+  }
+  nav.tabs button:hover{background:#eef2fb;}
+  nav.tabs button.active{background:var(--navy); color:#fff; border-color:var(--navy);}
+  nav.tabs .count{font-weight:400; opacity:.75; margin-left:4px; font-size:12px;}
+  main{max-width:1280px; margin:0 auto; padding:26px 22px 70px;}
+  section.unit{display:none;}
+  section.unit.active{display:block; animation:fadein .35s ease;}
+  @keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  h2.unit-title{
+    font-size:20px; color:var(--navy-dark); margin:4px 0 4px;
+    border-left:5px solid var(--crimson); padding-left:12px;
+  }
+  p.unit-desc{color:var(--muted); font-size:13.8px; margin:0 0 20px 17px; max-width:900px;}
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(400px,1fr)); gap:20px;}
+  .card{
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:16px 16px 14px; box-shadow:0 1px 3px rgba(20,30,60,.06);
+    display:flex; flex-direction:column;
+  }
+  .card h3{margin:0 0 10px; font-size:15px; color:var(--navy-dark); display:flex; align-items:flex-start; gap:8px;}
+  .card h3 .tag{
+    flex:0 0 auto; background:var(--navy); color:#fff; font-size:10.5px;
+    padding:2px 7px; border-radius:5px; font-weight:700; letter-spacing:.4px;
+  }
+  canvas.anim-canvas{
+    width:100%; height:auto; aspect-ratio:480/280; background:#fbfbfd;
+    border:1px solid var(--border); border-radius:8px; display:block;
+  }
+  p.caption{font-size:12.8px; color:var(--muted); line-height:1.5; margin:10px 0 12px;}
+  .controls{display:flex; gap:8px; margin-top:auto;}
+  .controls button{
+    flex:1; font-size:12px; font-weight:600; border-radius:7px; border:1px solid var(--border);
+    background:#f7f8fb; color:var(--navy); padding:7px 8px; cursor:pointer; transition:.15s;
+  }
+  .controls button:hover{background:#eef2fb;}
+  .controls button.playpause.is-paused{background:#fff4e9; border-color:#f1c78e; color:var(--amber);}
+  footer{text-align:center; color:var(--muted); font-size:12.3px; padding:26px 20px 40px;}
+  footer a{color:var(--navy);}
+  @media (max-width:520px){ header.site h1{font-size:20px;} .grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="crosslink-row">
+    <span class="crumb">BHP301 &nbsp;&raquo;&nbsp; Animated Concept Companion</span>
+    <a class="notes-link" href="BAS101_Lecture_Notes.docx">&#128196; Back to Lecture Notes</a>
+  </div>
+  <h1>BHP301 &mdash; Electromagnetism: Animated Concept Companion</h1>
+  <p class="sub">An interactive, animated companion to the BHP301 lecture notes. Each card below is a self-contained, looping animation illustrating one key concept from the corresponding unit &mdash; built to accompany (not replace) the full written notes, since Word documents cannot play animations.</p>
+  <p class="note">&#9654; Animations auto-play when scrolled into view and pause when off-screen to save battery. Use Pause / Replay on any card to control it individually.</p>
+</header>
+
+<nav class="tabs" id="tabs"></nav>
+
+<main id="main"></main>
+
+<footer>
+  Companion resource for <strong>BHP301: Electromagnetism</strong><br>
+  Pairs with the full lecture notes (<a href="BAS101_Lecture_Notes.docx">BAS101_Lecture_Notes.docx</a>).
+</footer>
+
+<script>
+/* =========================================================================
+   GENERIC DRAWING HELPERS
+   ========================================================================= */
+function clamp01(x){return Math.max(0, Math.min(1, x));}
+function lerp(a,b,t){return a + (b - a) * t;}
+function easeInOut(t){return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2;}
+function easeOut(t){return 1 - Math.pow(1 - t, 3);}
+function sawtooth(t, period){ return (t % period) / period; }
+function pulseWindow(t, start, end){
+  if(t < start || t > end) return 0;
+  return (t - start) / (end - start);
+}
+function setStroke(ctx, color, lw){ ctx.strokeStyle = color; ctx.lineWidth = lw || 2; }
+function setFill(ctx, color){ ctx.fillStyle = color; }
+function drawLevel(ctx, x1, x2, y, color, lw){
+  setStroke(ctx, color || '#1f2d3d', lw || 2.4);
+  ctx.beginPath(); ctx.moveTo(x1, y); ctx.lineTo(x2, y); ctx.stroke();
+}
+function drawDot(ctx, x, y, r, color){
+  setFill(ctx, color || '#b91c1c');
+  ctx.beginPath(); ctx.arc(x, y, r || 5, 0, Math.PI*2); ctx.fill();
+}
+function drawRing(ctx, x, y, r, color, lw){
+  setStroke(ctx, color || '#b91c1c', lw || 1.6);
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2); ctx.stroke();
+}
+function drawArrow(ctx, x1, y1, x2, y2, color, lw){
+  setStroke(ctx, color || '#2563eb', lw || 2);
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+  const ang = Math.atan2(y2 - y1, x2 - x1), ah = 7;
+  setFill(ctx, color || '#2563eb');
+  ctx.beginPath();
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - ah*Math.cos(ang - 0.4), y2 - ah*Math.sin(ang - 0.4));
+  ctx.lineTo(x2 - ah*Math.cos(ang + 0.4), y2 - ah*Math.sin(ang + 0.4));
+  ctx.closePath(); ctx.fill();
+}
+function drawDashedArrow(ctx, x1, y1, x2, y2, color, lw){
+  ctx.save(); ctx.setLineDash([4,4]); drawArrow(ctx, x1, y1, x2, y2, color, lw); ctx.restore();
+}
+function drawPhoton(ctx, x, y, angle, len, color){
+  len = len || 20;
+  ctx.save(); ctx.translate(x, y); ctx.rotate(angle);
+  setStroke(ctx, color || '#dc2626', 2);
+  ctx.beginPath();
+  for(let i=0;i<=len;i++){ const yy = Math.sin(i/2.4) * 3; if(i===0) ctx.moveTo(i, yy); else ctx.lineTo(i, yy); }
+  ctx.stroke();
+  setFill(ctx, color || '#dc2626');
+  ctx.beginPath();
+  ctx.moveTo(len+6, 0); ctx.lineTo(len-3, -4.2); ctx.lineTo(len-3, 4.2);
+  ctx.closePath(); ctx.fill();
+  ctx.restore();
+}
+function txt(ctx, s, x, y, opts){
+  opts = opts || {};
+  ctx.fillStyle = opts.color || '#1f2937';
+  ctx.font = opts.font || '12px Segoe UI, Arial';
+  ctx.textAlign = opts.align || 'left';
+  ctx.textBaseline = opts.baseline || 'alphabetic';
+  ctx.fillText(s, x, y);
+}
+function drawMirror(ctx, x, y1, y2, color, hatch){
+  setStroke(ctx, color || '#4b5563', 4);
+  ctx.beginPath(); ctx.moveTo(x, y1); ctx.lineTo(x, y2); ctx.stroke();
+  if(hatch !== false){
+    setStroke(ctx, color || '#4b5563', 1);
+    for(let yy = y1; yy <= y2; yy += 8){ ctx.beginPath(); ctx.moveTo(x, yy); ctx.lineTo(x-6, yy+7); ctx.stroke(); }
+  }
+}
+function roundedRect(ctx, x, y, w, h, r, fill, stroke){
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.arcTo(x+w, y, x+w, y+h, r);
+  ctx.arcTo(x+w, y+h, x, y+h, r);
+  ctx.arcTo(x, y+h, x, y, r);
+  ctx.arcTo(x, y, x+w, y, r);
+  ctx.closePath();
+  if(fill){ ctx.fillStyle = fill; ctx.fill(); }
+  if(stroke){ ctx.strokeStyle = stroke; ctx.lineWidth = 1.3; ctx.stroke(); }
+}
+</script>
+<script>
+const ANIMS = [];
+</script>
+<script>
+/* ===================== UNIT 1 : ELECTROSTATICS ===================== */
+
+// 1) Coulomb's Law & Principle of Superposition
+function draw_b1_coulomb(ctx, w, h, t){
+  const q1 = {x:120, y:170}, q2 = {x:260, y:90}, q3 = {x:260, y:230};
+  const testP = {x: 380, y:170};
+  [q1,q2,q3].forEach((q,i)=>{
+    drawDot(ctx, q.x, q.y, 12, i===0? '#dc2626':'#2563eb');
+    txt(ctx, i===0? '+Q\u2081':'+Q'+(i+1), q.x, q.y-18, {align:'center', font:'bold 11px Segoe UI'});
+  });
+  drawDot(ctx, testP.x, testP.y, 8, '#f59e0b');
+  txt(ctx,'test charge q', testP.x, testP.y+26, {align:'center', font:'10.5px Segoe UI'});
+
+  const pulse = (Math.sin(t*Math.PI*2)+1)/2;
+  [q2,q3].forEach(q=>{
+    const dx=testP.x-q.x, dy=testP.y-q.y, d=Math.hypot(dx,dy);
+    const ux=dx/d, uy=dy/d;
+    const len = 46+pulse*8;
+    drawArrow(ctx, q.x+ux*16, q.y+uy*16, q.x+ux*(16+len), q.y+uy*(16+len), '#60a5fa', 1.8);
+  });
+  const dx1=testP.x-q1.x, dy1=testP.y-q1.y, d1=Math.hypot(dx1,dy1);
+  drawArrow(ctx, q1.x+dx1/d1*16, q1.y+dy1/d1*16, q1.x+dx1/d1*(16+58+pulse*10), q1.y+dy1/d1*(16+58+pulse*10), '#f87171', 1.8);
+
+  // resultant (vector sum) at test point
+  let sx=0, sy=0;
+  [q1,q2,q3].forEach(q=>{
+    const dx=testP.x-q.x, dy=testP.y-q.y, d=Math.hypot(dx,dy);
+    const mag = 3200/(d*d);
+    sx += dx/d*mag; sy += dy/d*mag;
+  });
+  const norm = Math.hypot(sx,sy);
+  drawArrow(ctx, testP.x, testP.y, testP.x+sx/norm*(50+pulse*8), testP.y+sy/norm*(50+pulse*8), '#16a34a', 2.6);
+  txt(ctx,'F\u2081+F\u2082+F\u2083', testP.x-4, testP.y-40, {align:'right', font:'bold 10.5px Segoe UI', color:'#166534'});
+  txt(ctx,'F = kQ\u2081Q\u2082/r\u00b2, along the line joining charges', 14, h-14, {font:'10.5px Segoe UI', color:'#374151'});
+}
+
+// 2) Electric Field Lines (single charge & dipole)
+function draw_b1_fieldlines(ctx, w, h, t){
+  const cx1 = w*0.27, cy = h/2;
+  const cx2p = w*0.66, cx2n = w*0.82;
+  txt(ctx,'Single positive charge', cx1, 26, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
+  txt(ctx,'Electric dipole', (cx2p+cx2n)/2, 26, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
+  const nLines=10;
+  const grow = clamp01(t*1.4);
+  for(let i=0;i<nLines;i++){
+    const ang = i/nLines*Math.PI*2;
+    const len = 60*grow;
+    drawArrow(ctx, cx1+Math.cos(ang)*10, cy+Math.sin(ang)*10, cx1+Math.cos(ang)*(10+len), cy+Math.sin(ang)*(10+len), '#dc2626', 1.4);
+  }
+  drawDot(ctx, cx1, cy, 10, '#dc2626');
+
+  drawDot(ctx, cx2p, cy, 10, '#dc2626');
+  drawDot(ctx, cx2n, cy, 10, '#2563eb');
+  const N=7;
+  for(let i=0;i<N;i++){
+    const a0 = -1.2 + i*(2.4/(N-1));
+    const steps=40;
+    ctx.beginPath();
+    let sx=cx2p+Math.cos(a0)*9, sy=cy+Math.sin(a0)*9;
+    ctx.moveTo(sx,sy);
+    let dirx=Math.cos(a0), diry=Math.sin(a0);
+    for(let s=0;s<steps;s++){
+      const midx=(cx2p+cx2n)/2, midy=cy;
+      const pull = 0.10;
+      const toNegX = cx2n-sx, toNegY = cy-sy;
+      const dneg = Math.hypot(toNegX,toNegY)+1;
+      dirx += (toNegX/dneg)*pull; diry += (toNegY/dneg)*pull;
+      const dn=Math.hypot(dirx,diry); dirx/=dn; diry/=dn;
+      sx += dirx*5; sy += diry*5;
+      const distToNeg = Math.hypot(sx-cx2n, sy-cy);
+      if(distToNeg<12 || s > steps*grow) break;
+      ctx.lineTo(sx,sy);
+    }
+    setStroke(ctx,'#7c3aed',1.5); ctx.stroke();
+  }
+  txt(ctx,'Field lines start on +, end on \u2212', 14, h-14, {font:'10.5px Segoe UI', color:'#374151'});
+}
+
+// 3) Electric Field on the Axis of a Charged Ring
+function draw_b1_ring(ctx, w, h, t){
+  const cx=w*0.36, cy=h/2, R=60;
+  ctx.save();
+  ctx.translate(cx,cy); ctx.scale(1,0.42);
+  drawRing(ctx, 0,0,R,'#2563eb',3);
+  ctx.restore();
+  txt(ctx,'charged ring (Q)', cx, cy+R*0.42+22, {align:'center', font:'10.5px Segoe UI', color:'#374151'});
+  const axisX1 = cx+10, axisX2 = w-40;
+  drawLevel(ctx, axisX1, axisX2, cy, '#9ca3af', 1);
+  const nSeg=10;
+  for(let i=0;i<nSeg;i++){
+    const ang=i/nSeg*Math.PI*2;
+    const ex = cx+Math.cos(ang)*R, ey=cy+Math.sin(ang)*R*0.42;
+    drawDot(ctx, ex, ey, 3, '#2563eb');
+  }
+  const px = lerp(axisX1+20, axisX2-30, (Math.sin(t*Math.PI*2-Math.PI/2)+1)/2);
+  drawDot(ctx, px, cy, 6, '#f59e0b');
+  const nSeg2=8;
+  for(let i=0;i<nSeg2;i++){
+    const ang=i/nSeg2*Math.PI*2;
+    const ex = cx+Math.cos(ang)*R, ey=cy+Math.sin(ang)*R*0.42;
+    ctx.save(); ctx.globalAlpha=0.55;
+    drawArrow(ctx, ex, ey, px, cy, '#93c5fd', 1);
+    ctx.restore();
+  }
+  const dist = Math.abs(px-cx);
+  const Enet = dist/Math.pow(dist*dist+R*R,1.5)*5e5;
+  drawArrow(ctx, px, cy, px+Math.sign(px-cx)*Math.min(60,Enet), cy, '#16a34a', 2.4);
+  txt(ctx,'E (net, axial)', px+ (px>cx? 8:-70), cy-10, {font:'bold 10.5px Segoe UI', color:'#166534'});
+  txt(ctx,'On-axis components add; perpendicular parts cancel by symmetry', 14, h-14, {font:'10px Segoe UI', color:'#374151'});
+}
+
+// 4) Electric Flux Through a Tilted Surface
+function draw_b1_flux(ctx, w, h, t){
+  const cx=w/2, cy=h/2+10;
+  const angle = Math.sin(t*Math.PI*2)*0.9;
+  const halfW=70, halfH=48;
+  for(let i=0;i<8;i++){
+    const yy = cy - halfH - 20 + i*18;
+    drawArrow(ctx, 40, yy, w-40, yy, '#93c5fd', 1.4);
+  }
+  ctx.save();
+  ctx.translate(cx,cy); ctx.rotate(angle);
+  roundedRect(ctx, -halfW, -halfH, halfW*2, halfH*2, 4, 'rgba(249,197,64,0.25)', '#b45309');
+  drawArrow(ctx, 0,0, 0,-halfH-30, '#b91c1c', 2.2);
+  ctx.restore();
+  const nx = Math.sin(angle), ny=-Math.cos(angle);
+  txt(ctx,'n\u0302 (normal)', cx+nx*(halfH+40)+8, cy+ny*(halfH+40), {font:'bold 10.5px Segoe UI', color:'#b91c1c'});
+  const flux = Math.cos(angle);
+  txt(ctx,'\u03a6 = E\u00b7A\u00b7cos\u03b8  =  '+(flux*100).toFixed(0)+'% of max', cx, h-20, {align:'center', font:'bold 11.5px Segoe UI', color:'#374151'});
+  txt(ctx,'\u03b8 = '+Math.abs(angle*180/Math.PI).toFixed(0)+'\u00b0', cx, 26, {align:'center', font:'11px Segoe UI', color:'#6b7280'});
+}
+
+// 5) Gauss's Law: Spherical Symmetry
+function draw_b1_gauss(ctx, w, h, t){
+  const cx=w/2, cy=h/2;
+  drawDot(ctx, cx, cy, 9, '#dc2626');
+  txt(ctx,'+Q', cx, cy-16, {align:'center', font:'bold 11px Segoe UI'});
+  const R = lerp(20, 105, clamp01(t));
+  drawRing(ctx, cx, cy, R, '#16a34a', 2);
+  ctx.save(); ctx.setLineDash([4,3]);
+  drawRing(ctx, cx, cy, R, '#16a34a', 1);
+  ctx.restore();
+  const nArrows=12;
+  const Emag = clamp01(1/(R*R)*2000);
+  for(let i=0;i<nArrows;i++){
+    const ang = i/nArrows*Math.PI*2;
+    const ex = cx+Math.cos(ang)*R, ey=cy+Math.sin(ang)*R;
+    drawArrow(ctx, ex, ey, ex+Math.cos(ang)*(14+Emag*22), ey+Math.sin(ang)*(14+Emag*22), '#2563eb', 1.8);
+  }
+  txt(ctx,'Gaussian surface, radius r = '+R.toFixed(0)+' px', cx, cy+R+22, {align:'center', font:'10.5px Segoe UI', color:'#166534'});
+  txt(ctx,'\u222eE\u00b7dA = Q_enc/\u03b5\u2080  \u2192  E = kQ/r\u00b2 (constant on the sphere)', cx, h-16, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
+}
+
+
+/* ===================== UNIT 2 : ELECTRIC POTENTIAL ===================== */
+
+// 1) Work Done Moving a Charge — Path Independence
+function draw_b2_pathindep(ctx, w, h, t){
+  const q = {x:70, y:h/2};
+  drawDot(ctx, q.x, q.y, 10, '#dc2626');
+  txt(ctx,'+Q', q.x, q.y-18, {align:'center', font:'bold 11px'});
+  const A={x:180,y:h/2-70}, B={x:360,y:h/2+70};
+  drawDot(ctx,A.x,A.y,5,'#111827'); txt(ctx,'A',A.x-14,A.y,{font:'bold 11px'});
+  drawDot(ctx,B.x,B.y,5,'#111827'); txt(ctx,'B',B.x+14,B.y,{font:'bold 11px'});
+  const pathToggle = Math.floor(t*2)%2;
+  const travel = (t*2)%1;
+  ctx.save(); setStroke(ctx,'#9ca3af',1.3); ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,A.y); ctx.lineTo(B.x,B.y); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.quadraticCurveTo((A.x+B.x)/2, A.y-40, B.x,B.y); ctx.stroke();
+  ctx.restore();
+  let px,py;
+  if(pathToggle===0){
+    if(travel<0.5){ px=lerp(A.x,B.x,travel*2); py=A.y; } else { px=B.x; py=lerp(A.y,B.y,(travel-0.5)*2); }
+  } else {
+    const tt=travel;
+    px = (1-tt)*(1-tt)*A.x + 2*(1-tt)*tt*((A.x+B.x)/2) + tt*tt*B.x;
+    py = (1-tt)*(1-tt)*A.y + 2*(1-tt)*tt*(A.y-40) + tt*tt*B.y;
+  }
+  drawDot(ctx, px, py, 6, '#f59e0b');
+  txt(ctx,'W = q(V_A \u2212 V_B) — same for both paths', w/2, h-16, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
+  txt(ctx, pathToggle===0? 'Path 1: rectangular route':'Path 2: curved route', w/2, 26, {align:'center', font:'10.5px Segoe UI', color:'#6b7280'});
+}
+
+// 2) Equipotential Surfaces & Field Lines
+function draw_b2_equipotential(ctx, w, h, t){
+  const cx=w/2, cy=h/2;
+  drawDot(ctx, cx, cy, 9, '#dc2626');
+  const nCircles=4;
+  for(let i=1;i<=nCircles;i++){
+    const R=i*26;
+    ctx.save(); setStroke(ctx,'#16a34a',1.4); ctx.setLineDash([5,3]);
+    drawRing(ctx, cx, cy, R, '#16a34a', 1.4); ctx.restore();
+  }
+  const rot = t*Math.PI*2*0.15;
+  const nLines=8;
+  for(let i=0;i<nLines;i++){
+    const ang = i/nLines*Math.PI*2+rot;
+    drawArrow(ctx, cx+Math.cos(ang)*14, cy+Math.sin(ang)*14, cx+Math.cos(ang)*112, cy+Math.sin(ang)*112, '#2563eb', 1.5);
+  }
+  txt(ctx,'Field lines (blue) always \u22a5 equipotentials (green)', cx, h-16, {align:'center', font:'11px Segoe UI', color:'#374151'});
+}
+
+// 3) E = -grad(V): Potential Hill and Steepest-Descent Field
+function draw_b2_gradient(ctx, w, h, t){
+  const cx=w*0.42, cy=h/2;
+  const nRings=5;
+  for(let i=1;i<=nRings;i++){
+    const R=i*20;
+    ctx.save(); ctx.globalAlpha=0.5;
+    setStroke(ctx, `rgba(180,83,9,${1-i*0.15})`, 1.6);
+    drawRing(ctx, cx, cy, R, undefined, 1.6);
+    ctx.restore();
+  }
+  txt(ctx,'V contours (potential hill)', cx, cy-nRings*20-14, {align:'center', font:'10.5px Segoe UI', color:'#92400e'});
+  const gridN=5;
+  for(let gx=0; gx<gridN; gx++){
+    for(let gy=0; gy<gridN; gy++){
+      const px = 60+gx*70, py=40+gy*45;
+      const dx=px-cx, dy=py-cy, d=Math.hypot(dx,dy)+1;
+      const mag = Math.min(22, 900/d);
+      drawArrow(ctx, px, py, px-dx/d*mag, py-dy/d*mag, '#2563eb', 1.4);
+    }
+  }
+  txt(ctx,'E = \u2212\u2207V  (points toward decreasing potential)', w/2, h-14, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
+}
+
+// 4) Potential Due to a Charged Disc (built from rings)
+function draw_b2_disc(ctx, w, h, t){
+  const cx=w*0.3, cy=h/2;
+  const nRings=6;
+  const grow = clamp01(t*1.3);
+  const activeRings = Math.ceil(grow*nRings);
+  for(let i=0;i<activeRings;i++){
+    const R = 10+i*15;
+    ctx.save(); ctx.scale(1,1);
+    ctx.translate(cx,cy); ctx.scale(1,0.4);
+    drawRing(ctx, 0,0,R, i===activeRings-1? '#f59e0b':'#93c5fd', i===activeRings-1?2.4:1.2);
+    ctx.restore();
+  }
+  txt(ctx,'disc built from concentric rings', cx, cy+50, {align:'center', font:'10.5px Segoe UI', color:'#374151'});
+  const barX=w*0.68, barY0=h-40, barY1=40;
+  drawArrow(ctx, barX, barY0, barX, barY1, '#9ca3af', 1);
+  const barH = grow*(barY0-barY1-10);
+  roundedRect(ctx, barX-16, barY0-barH, 32, barH, 3, '#fbbf24');
+  txt(ctx,'V accumulated', barX, barY1-10, {align:'center', font:'10.5px Segoe UI', color:'#374151'});
+  txt(ctx,'V = \u03c3/(2\u03b5\u2080) [\u221a(R\u00b2+x\u00b2) \u2212 x]', w/2, h-14, {align:'center', font:'bold 10.5px Segoe UI', color:'#374151'});
+}
+
+// 5) Electric Dipole: Potential/Field Variation with Angle
+function draw_b2_dipole(ctx, w, h, t){
+  const cx=w/2, cy=h/2;
+  const rot = t*Math.PI*2;
+  const dpLen=34;
+  const px=cx+Math.cos(rot)*dpLen, py=cy+Math.sin(rot)*dpLen;
+  const nx=cx-Math.cos(rot)*dpLen, ny=cy-Math.sin(rot)*dpLen;
+  drawDot(ctx,px,py,8,'#dc2626'); drawDot(ctx,nx,ny,8,'#2563eb');
+  drawArrow(ctx, nx,ny, px,py, '#7c3aed', 1.6);
+  txt(ctx,'p (dipole moment)', cx, cy-60, {align:'center', font:'10.5px Segoe UI', color:'#7c3aed'});
+
+  const obsR=130, obsAng=-Math.PI/2;
+  const ox=cx+Math.cos(obsAng)*obsR, oy=cy+Math.sin(obsAng)*obsR;
+  drawDot(ctx, ox, oy, 5, '#111827');
+  txt(ctx,'observation pt.', ox, oy-14, {align:'center', font:'10px Segoe UI'});
+
+  const theta = obsAng-rot;
+  const Vrel = Math.cos(theta);
+  const barX=w-70, barY=h/2;
+  drawLevel(ctx, barX-4, barX-4, 40, undefined,0);
+  ctx.save(); setStroke(ctx,'#9ca3af',1); ctx.beginPath(); ctx.moveTo(barX,40); ctx.lineTo(barX,h-40); ctx.stroke(); ctx.restore();
+  const barH=(Vrel)*70;
+  ctx.fillStyle = Vrel>=0? '#dc2626':'#2563eb';
+  ctx.fillRect(barX-14, barY-Math.max(0,barH), 28, Math.abs(barH));
+  txt(ctx,'V \u221d cos\u03b8/r\u00b2', barX, 28, {align:'center', font:'10.5px Segoe UI', color:'#374151'});
+  txt(ctx,'dipole rotating \u2014 watch V change sign', cx, h-14, {align:'center', font:'11px Segoe UI', color:'#374151'});
+}
+
+
+/* ===================== UNIT 3 : MAGNETOSTATICS ===================== */
+
+// 1) Lorentz Force on a Moving Charge (circular motion)
+function draw_b3_lorentz(ctx, w, h, t){
+  const cx=w/2, cy=h/2, R=80;
+  for(let i=0;i<48;i++){
+    const gx = 40+(i%8)*((w-80)/7), gy=40+Math.floor(i/8)*((h-80)/5);
+    ctx.fillStyle='#9ca3af'; ctx.font='13px Segoe UI'; ctx.textAlign='center';
+    ctx.fillText('\u00d7', gx, gy);
+  }
+  const ang = t*Math.PI*2;
+  const px=cx+Math.cos(ang)*R, py=cy+Math.sin(ang)*R;
+  drawRing(ctx, cx, cy, R, '#111827', 1);
+  const vx=-Math.sin(ang), vy=Math.cos(ang);
+  drawArrow(ctx, px, py, px+vx*36, py+vy*36, '#16a34a', 2.2);
+  txt(ctx,'v', px+vx*44, py+vy*44, {font:'bold 12px Segoe UI', color:'#166534', align:'center'});
+  const fx=-Math.cos(ang), fy=-Math.sin(ang);
+  drawArrow(ctx, px, py, px+fx*30, py+fy*30, '#dc2626', 2.2);
+  txt(ctx,'F', px+fx*40, py+fy*40, {font:'bold 12px Segoe UI', color:'#b91c1c', align:'center'});
+  drawDot(ctx, px, py, 6, '#f59e0b');
+  txt(ctx,'B (into page, \u00d7)', 70, 24, {font:'11px Segoe UI', color:'#374151'});
+  txt(ctx,'F = qv\u00d7B  \u2192  circular path', cx, h-14, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
+}
+
+// 2) Biot–Savart Law: field circulating around a current element
+function draw_b3_biotsavart(ctx, w, h, t){
+  const x0=60, x1=w-60, y=h/2;
+  drawArrow(ctx, x0, y, x1, y, '#111827', 3);
+  txt(ctx,'I', (x0+x1)/2, y-46, {align:'center', font:'bold 13px Segoe UI'});
+  const segX = lerp(x0+20,x1-20, 0.5);
+  drawDot(ctx, segX, y, 4, '#dc2626');
+  txt(ctx,'dl', segX, y+18, {font:'10px Segoe UI'});
+  const nRings=3;
+  const grow = (t*1.4)%1;
+  for(let i=0;i<nRings;i++){
+    const R = 20+i*26;
+    const alpha = clamp01(grow*3-i);
+    if(alpha<=0) continue;
+    ctx.save(); ctx.globalAlpha=Math.min(1,alpha);
+    ctx.save(); ctx.translate(segX,y); ctx.scale(1,0.5);
+    drawRing(ctx, 0,0,R,'#2563eb',1.8);
+    ctx.restore();
+    ctx.restore();
+  }
+  const ang = t*Math.PI*2;
+  const R=46;
+  const bx = segX+Math.cos(ang)*R, by=y+Math.sin(ang)*R*0.5;
+  const tx=-Math.sin(ang), ty=Math.cos(ang)*0.5;
+  const tn=Math.hypot(tx,ty);
+  drawArrow(ctx, bx,by, bx+tx/tn*22, by+ty/tn*22, '#16a34a', 2);
+  txt(ctx,'dB (circles the current)', bx+30, by-10, {font:'10.5px Segoe UI', color:'#166534'});
+  txt(ctx,'dB = (\u00b5\u2080/4\u03c0) I dl\u00d7r\u0302 / r\u00b2', w/2, h-14, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
+}
+
+// 3) Ampere's Circuital Law
+function draw_b3_ampere(ctx, w, h, t){
+  const cx=w/2, cy=h/2;
+  drawArrow(ctx, cx, h-30, cx, 30, '#111827', 3);
+  txt(ctx,'I', cx+14, 40, {font:'bold 13px Segoe UI'});
+  const R=90;
+  ctx.save(); ctx.translate(cx,cy); ctx.scale(1,0.55);
+  drawRing(ctx, 0,0,R,'#7c3aed',2);
+  ctx.restore();
+  txt(ctx,'Amperian loop', cx, cy+R*0.55+22, {align:'center', font:'10.5px Segoe UI', color:'#5b21b6'});
+  const nMarks=10;
+  const highlight = Math.floor(t*nMarks)%nMarks;
+  for(let i=0;i<nMarks;i++){
+    const ang=i/nMarks*Math.PI*2;
+    const px=cx+Math.cos(ang)*R, py=cy+Math.sin(ang)*R*0.55;
+    const tx=-Math.sin(ang), ty=Math.cos(ang)*0.55;
+    const tn=Math.hypot(tx,ty);
+    drawArrow(ctx, px,py, px+tx/tn*16, py+ty/tn*16, i===highlight? '#dc2626':'#a78bfa', i===highlight?2.4:1.4);
+  }
+  txt(ctx,'\u222eB\u00b7dl = \u00b5\u2080 I_enc', cx, h-14, {align:'center', font:'bold 11.5px Segoe UI', color:'#374151'});
+}
+
+// 4) Force Between Two Parallel Currents
+function draw_b3_parallel_currents(ctx, w, h, t){
+  const attract = Math.floor(t*2)%2===0;
+  const x1base=w*0.32, x2base=w*0.68;
+  const sep = attract? lerp(1,0.7,pulseWindow(t%0.5*2,0,1)) : lerp(1,1.3,pulseWindow(t%0.5*2,0,1));
+  const mid=(x1base+x2base)/2;
+  const x1 = mid-(mid-x1base)*sep, x2=mid+(x2base-mid)*sep;
+  [ [x1,attract], [x2, true] ].forEach(([x,up],i)=>{
+    const dirUp = (i===0) ? true : attract;
+    drawArrow(ctx, x, h-30, x, 30, '#111827', 3);
+    txt(ctx, dirUp? 'I\u2081\u2191':'I\u2082\u2191', x, 24, {align:'center', font:'bold 11px Segoe UI'});
+  });
+  const fmag = 22;
+  if(attract){
+    drawArrow(ctx, x1+8, h/2, x1+8+fmag, h/2, '#16a34a', 2.2);
+    drawArrow(ctx, x2-8, h/2, x2-8-fmag, h/2, '#16a34a', 2.2);
+    txt(ctx,'Like currents \u2192 ATTRACT', w/2, h-14, {align:'center', font:'bold 11.5px Segoe UI', color:'#166534'});
+  } else {
+    drawArrow(ctx, x1-8, h/2, x1-8-fmag, h/2, '#dc2626', 2.2);
+    drawArrow(ctx, x2+8, h/2, x2+8+fmag, h/2, '#dc2626', 2.2);
+    txt(ctx,'Opposite currents \u2192 REPEL', w/2, h-14, {align:'center', font:'bold 11.5px Segoe UI', color:'#b91c1c'});
+  }
+}
+
+// 5) Torque on a Current Loop in a Magnetic Field
+function draw_b3_torque(ctx, w, h, t){
+  const cx=w/2, cy=h/2;
+  for(let i=0;i<6;i++){
+    drawArrow(ctx, 30, 40+i*36, w-30, 40+i*36, '#93c5fd', 1.4);
+  }
+  const angTarget = Math.PI/2;
+  const swing = (Math.sin(t*Math.PI*2-Math.PI/2)+1)/2;
+  const ang = lerp(-Math.PI/2*0.85, angTarget, swing);
+  const halfW=60;
+  ctx.save(); ctx.translate(cx,cy); ctx.rotate(0);
+  const x1=Math.cos(ang)*halfW, y1=Math.sin(ang)*halfW*0.35;
+  ctx.strokeStyle='#111827'; ctx.lineWidth=3;
+  ctx.beginPath();
+  ctx.moveTo(-x1,-40-y1); ctx.lineTo(x1,40-y1);
+  ctx.moveTo(x1,40-y1); ctx.lineTo(x1,-40+y1);
+  ctx.moveTo(x1,-40+y1); ctx.lineTo(-x1,-40-y1+ (0));
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(-x1,-40-y1); ctx.lineTo(-x1,40+y1); ctx.lineTo(x1,40-y1);
+  ctx.stroke();
+  const mx=Math.cos(ang)*50, my=Math.sin(ang)*50*0.35;
+  ctx.strokeStyle='#7c3aed'; ctx.lineWidth=2.4;
+  ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(mx,my); ctx.stroke();
+  setFill(ctx,'#7c3aed');
+  ctx.beginPath(); ctx.arc(mx,my,4,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+  txt(ctx,'m (magnetic moment)', cx+mx+10, cy+my, {font:'10.5px Segoe UI', color:'#5b21b6'});
+  txt(ctx,'B \u2192', w-60, 24, {font:'bold 12px Segoe UI', color:'#1e40af'});
+  txt(ctx,'\u03c4 = m\u00d7B  \u2014 loop rotates to align m with B', cx, h-14, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
+}
+
+
+/* ===================== UNIT 4 : MAGNETISM OF MATTER ===================== */
+
+// 1) Domain Theory of Ferromagnetism
+function draw_b4_domains(ctx, w, h, t){
+  const grow = clamp01(t*1.3);
+  const cols=6, rows=4;
+  const cw=(w-40)/cols, ch=(h-70)/rows;
+  txt(ctx, grow<0.5? 'No applied field: domains random':'Field applied: domains align', w/2, 24, {align:'center', font:'bold 11.5px Segoe UI', color:'#374151'});
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      const cx=20+c*cw+cw/2, cy=44+r*ch+ch/2;
+      const randAng = ((r*7+c*13)%12)/12*Math.PI*2;
+      const ang = lerp(randAng, 0, grow);
+      roundedRect(ctx, cx-cw/2+3, cy-ch/2+3, cw-6, ch-6, 3, '#f1f5f9', '#cbd5e1');
+      drawArrow(ctx, cx-Math.cos(ang)*14, cy-Math.sin(ang)*14, cx+Math.cos(ang)*14, cy+Math.sin(ang)*14, '#dc2626', 1.8);
+    }
+  }
+  if(grow>0.5){
+    drawArrow(ctx, w-40, h-16, w-40-40, h-16, '#2563eb', 2);
+    txt(ctx,'H', w-30, h-12, {font:'bold 11px Segoe UI', color:'#1e40af'});
+  }
+}
+
+// 2) B–H Hysteresis Loop
+function draw_b4_hysteresis(ctx, w, h, t){
+  const cx=w/2, cy=h/2, sx=110, sy=80;
+  drawArrow(ctx, cx-sx-20, cy, cx+sx+20, cy, '#9ca3af', 1);
+  drawArrow(ctx, cx, cy+sy+20, cx, cy-sy-20, '#9ca3af', 1);
+  txt(ctx,'H', cx+sx+26, cy+4, {font:'11px Segoe UI'});
+  txt(ctx,'B', cx-10, cy-sy-26, {font:'11px Segoe UI'});
+  function loopPoint(u){
+    const Bs=0.92, Hc=0.5;
+    const H = Math.cos(u)*1.15;
+    let B;
+    if(Math.sin(u)>=0) B = Bs*Math.tanh((H+Hc)*1.8);
+    else B = Bs*Math.tanh((H-Hc)*1.8);
+    return {x:cx+H*sx, y:cy-B*sy};
+  }
+  ctx.beginPath();
+  const N=200;
+  const prog = clamp01(t)*2*Math.PI;
+  for(let i=0;i<=N;i++){
+    const u = i/N*Math.PI*2;
+    if(u>prog) break;
+    const p=loopPoint(u);
+    if(i===0) ctx.moveTo(p.x,p.y); else ctx.lineTo(p.x,p.y);
+  }
+  setStroke(ctx,'#b91c1c',2.2); ctx.stroke();
+  const cur = loopPoint(prog);
+  drawDot(ctx, cur.x, cur.y, 5, '#111827');
+  txt(ctx,'retentivity B\u1d63', cx-6, cy-0.55*sy-6, {font:'9.5px Segoe UI', color:'#6b7280', align:'right'});
+  txt(ctx,'coercivity H\u1d04', cx-0.5*sx, cy+14, {font:'9.5px Segoe UI', color:'#6b7280', align:'center'});
+  txt(ctx,'Loop area \u221d energy lost per cycle (hysteresis loss)', cx, h-14, {align:'center', font:'bold 10.5px Segoe UI', color:'#374151'});
+}
+
+// 3) Dia- / Para- / Ferro-magnetic Response Compared
+function draw_b4_diaparaferro(ctx, w, h, t){
+  const labels=['Diamagnetic','Paramagnetic','Ferromagnetic'];
+  const colors=['#2563eb','#f59e0b','#dc2626'];
+  const colW=w/3;
+  const fieldOn = (t%1) > 0.15;
+  for(let c=0;c<3;c++){
+    const cx=colW*c+colW/2;
+    txt(ctx, labels[c], cx, 22, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
+    if(fieldOn){ drawArrow(ctx, cx-30, h-24, cx+30, h-24, '#9ca3af', 1.2); }
+    const n=6;
+    for(let i=0;i<n;i++){
+      const ang0 = (i*47)%360*Math.PI/180;
+      let ang;
+      if(!fieldOn) ang=ang0;
+      else if(c===0) ang = Math.PI - 0.15*Math.sin(t*10+i); // opposes field (weakly, points left-ish)
+      else if(c===1) ang = lerp(ang0, 0, 0.55); // weakly aligns
+      else ang = 0; // strongly aligns
+      const px = cx+ ((i%3)-1)*30, py=70+Math.floor(i/3)*110;
+      drawArrow(ctx, px-Math.cos(ang)*12, py-Math.sin(ang)*12, px+Math.cos(ang)*12, py+Math.sin(ang)*12, colors[c], 1.8);
+    }
+  }
+}
+
+// 4) Magnetic Circuit — Flux Analogy
+function draw_b4_magcircuit(ctx, w, h, t){
+  const x0=70,x1=w-70,y0=50,y1=h-50;
+  roundedRect(ctx, x0,y0,x1-x0,y1-y0,8,'#e2e8f0');
+  ctx.clearRect(x0+22,y0+22,(x1-x0)-44,(y1-y0)-44);
+  roundedRect(ctx, x0,y0,x1-x0,y1-y0,8,undefined,'#64748b');
+  ctx.strokeRect(x0+22,y0+22,(x1-x0)-44,(y1-y0)-44);
+  const gapX = (x0+x1)/2;
+  ctx.clearRect(gapX-6,y0-2,12,26);
+  txt(ctx,'air gap', gapX, y0-8, {align:'center', font:'10px Segoe UI', color:'#374151'});
+  const nCoil=6;
+  for(let i=0;i<nCoil;i++){
+    const yy = y0+30+i*20;
+    ctx.strokeStyle='#b45309'; ctx.lineWidth=2.4;
+    ctx.beginPath(); ctx.ellipse(x0, yy, 10, 7, 0,0,Math.PI*2); ctx.stroke();
+  }
+  txt(ctx,'N turns, current I', x0-14, y0+20, {align:'center', font:'9.5px Segoe UI', color:'#92400e'});
+  const flow = (t*2)%1;
+  const perim = 2*((x1-x0-44)+(y1-y0-44));
+  const px = flow*perim;
+  let fx,fy;
+  const iw=(x1-x0)-44, ih=(y1-y0)-44, ix=x0+22, iy=y0+22;
+  if(px<iw){fx=ix+px; fy=iy;} else if(px<iw+ih){fx=ix+iw; fy=iy+(px-iw);} else if(px<2*iw+ih){fx=ix+iw-(px-iw-ih); fy=iy+ih;} else {fx=ix; fy=iy+ih-(px-2*iw-ih);}
+  drawDot(ctx, fx, fy, 5, '#16a34a');
+  txt(ctx,'\u03a6 (flux) — analogous to current in a circuit; reluctance \u2194 resistance', w/2, h-14, {align:'center', font:'bold 10.5px Segoe UI', color:'#374151'});
+}
+
+// 5) Boundary Conditions on B and H at an Interface
+function draw_b4_boundary(ctx, w, h, t){
+  const y=h/2;
+  roundedRect(ctx, 0, 20, w, y-20, 0, '#fef3c7');
+  roundedRect(ctx, 0, y, w, h-y-20, 0, '#dbeafe');
+  drawLevel(ctx, 0, w, y, '#374151', 2);
+  txt(ctx,'medium 1 (\u00b5\u2081)', 20, 36, {font:'11px Segoe UI', color:'#92400e'});
+  txt(ctx,'medium 2 (\u00b5\u2082 > \u00b5\u2081)', 20, y+20, {font:'11px Segoe UI', color:'#1e40af'});
+  const cx=w/2;
+  const bend = 0.55+0.25*Math.sin(t*Math.PI*2);
+  const ang1 = 0.9;
+  drawArrow(ctx, cx-Math.sin(ang1)*70, y-Math.cos(ang1)*70, cx, y, '#111827', 2.2);
+  const ang2 = ang1*bend;
+  drawArrow(ctx, cx, y, cx+Math.sin(ang2)*70, y+Math.cos(ang2)*70, '#111827', 2.2);
+  txt(ctx,'B bends toward the normal entering the higher-\u00b5 medium', cx, h-14, {align:'center', font:'bold 10.5px Segoe UI', color:'#374151'});
+  ctx.save(); ctx.setLineDash([3,3]); setStroke(ctx,'#9ca3af',1);
+  ctx.beginPath(); ctx.moveTo(cx,y-90); ctx.lineTo(cx,y+90); ctx.stroke(); ctx.restore();
+}
+
+
+/* ===================== UNIT 5 : ELECTROMAGNETIC INDUCTION ===================== */
+
+// 1) Faraday's Law: Moving Magnet Through a Coil
+function draw_b5_faraday(ctx, w, h, t){
+  const coilX0=w*0.42, coilX1=w*0.62, y=h/2;
+  const nTurns=6;
+  for(let i=0;i<nTurns;i++){
+    const xx = lerp(coilX0,coilX1,i/(nTurns-1));
+    ctx.strokeStyle='#b45309'; ctx.lineWidth=2.4;
+    ctx.beginPath(); ctx.ellipse(xx, y, 9, 32, 0,0,Math.PI*2); ctx.stroke();
+  }
+  const magX = lerp(30, w-60, (Math.sin(t*Math.PI*2-Math.PI/2)+1)/2);
+  const moving = Math.cos(t*Math.PI*2);
+  roundedRect(ctx, magX-20, y-16, 18, 32, 3, '#dc2626');
+  roundedRect(ctx, magX-2, y-16, 18, 32, 3, '#2563eb');
+  txt(ctx,'N', magX-11, y+4, {align:'center', font:'bold 11px Segoe UI', color:'#fff'});
+  txt(ctx,'S', magX+7, y+4, {align:'center', font:'bold 11px Segoe UI', color:'#fff'});
+  const nearCoil = Math.abs(magX-(coilX0+coilX1)/2) < 60;
+  const galDefl = nearCoil? moving*30 : 0;
+  const gx=w-70, gy=60;
+  drawRing(ctx, gx, gy, 26, '#374151', 2);
+  ctx.save(); ctx.translate(gx,gy); ctx.rotate(galDefl*0.02);
+  drawArrow(ctx, 0,4, 0,-20, '#dc2626', 2);
+  ctx.restore();
+  txt(ctx,'G', gx, gy+42, {align:'center', font:'bold 11px Segoe UI'});
+  txt(ctx,'\u03b5 = \u2212N d\u03a6/dt', w/2, h-16, {align:'center', font:'bold 11.5px Segoe UI', color:'#374151'});
+}
+
+// 2) Lenz's Law: Induced Current Opposes the Change
+function draw_b5_lenz(ctx, w, h, t){
+  const coilCX=w/2, y=h/2;
+  drawRing(ctx, coilCX, y, 46, '#b45309', 3);
+  const approach = Math.sin(t*Math.PI*2) >=0;
+  const magX = approach ? lerp(40, coilCX-70, (t*2)%1) : lerp(coilCX-70, 40, (t*2)%1);
+  roundedRect(ctx, magX-18, y-16, 36, 32, 3, '#dc2626');
+  txt(ctx,'N', magX, y+4, {align:'center', font:'bold 11px Segoe UI', color:'#fff'});
+  drawArrow(ctx, magX+22, y, magX+ (approach?44:-4), y, '#374151', 1.6);
+  const curDir = approach? 1 : -1;
+  const nArrows=8;
+  for(let i=0;i<nArrows;i++){
+    const ang = i/nArrows*Math.PI*2 + t*curDir*4;
+    const px=coilCX+Math.cos(ang)*46, py=y+Math.sin(ang)*46;
+    const tx=-Math.sin(ang)*curDir, ty=Math.cos(ang)*curDir;
+    drawArrow(ctx, px-tx*8, py-ty*8, px+tx*8, py+ty*8, '#16a34a', 1.8);
+  }
+  txt(ctx, approach? 'Magnet approaching \u2192 induced current opposes (repels)':'Magnet receding \u2192 induced current opposes (attracts)',
+      w/2, h-16, {align:'center', font:'bold 10.5px Segoe UI', color:'#374151'});
+}
+
+// 3) Self-Induction: Back-EMF Opposes Current Change
+function draw_b5_selfinduction(ctx, w, h, t){
+  const plotX0=60, plotX1=w-30, plotY0=h-30, plotY1=40;
+  drawArrow(ctx, plotX0, plotY0, plotX0, plotY1, '#9ca3af', 1);
+  drawArrow(ctx, plotX0, plotY0, plotX1, plotY0, '#9ca3af', 1);
+  txt(ctx,'I(t)', plotX0-6, plotY1+2, {align:'right', font:'10.5px Segoe UI', color:'#2563eb'});
+  txt(ctx,'time', plotX1, plotY0+16, {align:'right', font:'10.5px Segoe UI', color:'#6b7280'});
+  const N=150; const sweep=clamp01(t);
+  ctx.beginPath();
+  for(let i=0;i<=N;i++){
+    const xt=i/N*sweep;
+    const val = 1-Math.exp(-xt*7);
+    const px=lerp(plotX0,plotX1,xt), py=lerp(plotY0,plotY1,val*0.8);
+    if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+  }
+  setStroke(ctx,'#2563eb',2.4); ctx.stroke();
+  ctx.beginPath();
+  for(let i=0;i<=N;i++){
+    const xt=i/N*sweep;
+    const val = 7*Math.exp(-xt*7);
+    const py=lerp(plotY0,plotY1,Math.min(1,val)*0.8*0.5);
+    const px=lerp(plotX0,plotX1,xt);
+    if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+  }
+  setStroke(ctx,'#dc2626',2); ctx.stroke();
+  txt(ctx,'back-EMF = \u2212L dI/dt (opposes the rise)', plotX1, plotY1+18, {align:'right', font:'10px Segoe UI', color:'#b91c1c'});
+  txt(ctx,'Switch closed at t=0: current ramps up against self-induced back-EMF', w/2, 22, {align:'center', font:'bold 10.5px Segoe UI', color:'#374151'});
+}
+
+// 4) Mutual Induction Between Two Coils
+function draw_b5_mutual(ctx, w, h, t){
+  const c1x=w*0.28, c2x=w*0.72, y=h/2;
+  for(let i=0;i<6;i++){
+    ctx.strokeStyle='#b45309'; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.ellipse(c1x+i*7, y, 8, 30, 0,0,Math.PI*2); ctx.stroke();
+  }
+  for(let i=0;i<6;i++){
+    ctx.strokeStyle='#1e40af'; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.ellipse(c2x+i*7, y, 8, 30, 0,0,Math.PI*2); ctx.stroke();
+  }
+  txt(ctx,'primary (I\u2081 changing)', c1x+14, y-46, {align:'center', font:'10.5px Segoe UI', color:'#92400e'});
+  txt(ctx,'secondary (induced \u03b5\u2082)', c2x+14, y-46, {align:'center', font:'10.5px Segoe UI', color:'#1e40af'});
+  const flux = (Math.sin(t*Math.PI*2)+1)/2;
+  const nLines=5;
+  for(let i=0;i<nLines;i++){
+    const yy = y-24+i*12;
+    ctx.save(); ctx.globalAlpha=0.35+0.5*flux;
+    drawArrow(ctx, c1x+40, yy, c2x-8, yy, '#16a34a', 1.4);
+    ctx.restore();
+  }
+  const bulbOn = Math.cos(t*Math.PI*2) !== 0 && Math.abs(Math.sin(t*Math.PI*4))>0.15;
+  drawRing(ctx, c2x+50, y, 12, bulbOn? '#f59e0b':'#9ca3af', 2.4);
+  txt(ctx,'M = mutual inductance;  \u03b5\u2082 = \u2212M dI\u2081/dt', w/2, h-14, {align:'center', font:'bold 10.5px Segoe UI', color:'#374151'});
+}
+
+// 5) AC Generator: Rotating Coil in a Magnetic Field
+function draw_b5_acgen(ctx, w, h, t){
+  const cx=w*0.28, cy=h/2;
+  for(let i=0;i<6;i++){ drawArrow(ctx, cx-90, 40+i*32, cx+90, 40+i*32, '#93c5fd', 1.2); }
+  const ang=t*Math.PI*2;
+  const hw=50, hh=26;
+  ctx.save(); ctx.translate(cx,cy);
+  const scaleX=Math.cos(ang);
+  ctx.strokeStyle='#111827'; ctx.lineWidth=3;
+  ctx.beginPath();
+  ctx.moveTo(-hw*scaleX,-hh); ctx.lineTo(hw*scaleX,-hh);
+  ctx.lineTo(hw*scaleX,hh); ctx.lineTo(-hw*scaleX,hh); ctx.closePath();
+  ctx.stroke();
+  ctx.restore();
+  txt(ctx,'coil rotating in B', cx, cy+hh+26, {align:'center', font:'10.5px Segoe UI', color:'#374151'});
+
+  const plotX0=w*0.52, plotX1=w-30, plotY0=h/2, plotAmp=70;
+  drawArrow(ctx, plotX0, plotY0, plotX1, plotY0, '#9ca3af', 1);
+  drawLevel(ctx, plotX0, plotX0, plotY0-plotAmp, undefined, 0);
+  const N=150; const sweep=clamp01(t);
+  ctx.beginPath();
+  for(let i=0;i<=N;i++){
+    const xt=i/N*sweep;
+    const val = Math.sin(xt*Math.PI*2*2);
+    const px=lerp(plotX0,plotX1,xt), py=plotY0-val*plotAmp*0.6;
+    if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+  }
+  setStroke(ctx,'#dc2626',2.2); ctx.stroke();
+  txt(ctx,'\u03b5(t) = \u03b5\u2080 sin(\u03c9t)', plotX1, plotY0-plotAmp-8, {align:'right', font:'bold 11px Segoe UI', color:'#b91c1c'});
+}
+
+
+
+/* =========================================================================
+   ANIMATION REGISTRY — BHP301: Electromagnetism
+   ========================================================================= */
+ANIMS.push(
+  // ---------------- UNIT 1 : ELECTROSTATICS ----------------
+  {id:'b1-1', unit:1, title:"Coulomb's Law & Principle of Superposition", tag:'1.0',
+   caption:'Forces from multiple point charges add vectorially at the location of a test charge, giving the net resultant force.',
+   draw: draw_b1_coulomb, duration:3200},
+  {id:'b1-2', unit:1, title:'Electric Field Lines: Monopole & Dipole', tag:'1.1',
+   caption:'Field lines radiate outward from a positive charge and curve from the positive to the negative charge of a dipole.',
+   draw: draw_b1_fieldlines, duration:3000},
+  {id:'b1-3', unit:1, title:'Electric Field on the Axis of a Charged Ring', tag:'1.2',
+   caption:'Perpendicular field components from each ring element cancel by symmetry, leaving a net field along the axis.',
+   draw: draw_b1_ring, duration:4000},
+  {id:'b1-4', unit:1, title:'Electric Flux Through a Tilted Surface', tag:'1.3',
+   caption:'Flux depends on the angle between the field and the surface normal: \u03a6 = E\u00b7A\u00b7cos\u03b8.',
+   draw: draw_b1_flux, duration:3000},
+  {id:'b1-5', unit:1, title:"Gauss's Law: Spherical Symmetry", tag:'1.4\u20131.6',
+   caption:'A Gaussian sphere around a point charge shows the field is uniform on the surface and falls off as 1/r\u00b2.',
+   draw: draw_b1_gauss, duration:3500},
+
+  // ---------------- UNIT 2 : ELECTRIC POTENTIAL ----------------
+  {id:'b2-1', unit:2, title:'Work Done Moving a Charge (Path Independence)', tag:'2.1\u20132.2',
+   caption:'The work done moving a charge between two points in an electrostatic field is the same regardless of the path taken.',
+   draw: draw_b2_pathindep, duration:4000},
+  {id:'b2-2', unit:2, title:'Equipotential Surfaces & Field Lines', tag:'2.8',
+   caption:'Equipotential surfaces (green, dashed) are always perpendicular to the electric field lines (blue).',
+   draw: draw_b2_equipotential, duration:5000},
+  {id:'b2-3', unit:2, title:'E = \u2212\u2207V: Field as Steepest Descent', tag:'2.4',
+   caption:'The electric field points in the direction of the steepest decrease of potential — down the "potential hill".',
+   draw: draw_b2_gradient, duration:3500},
+  {id:'b2-4', unit:2, title:'Potential Due to a Charged Disc', tag:'2.7',
+   caption:'The disc is built up from many thin concentric rings; integrating their individual contributions gives the total potential.',
+   draw: draw_b2_disc, duration:3600},
+  {id:'b2-5', unit:2, title:'Electric Dipole: Potential Variation with Angle', tag:'2.9',
+   caption:'As the dipole rotates, the potential at a fixed observation point varies as cos\u03b8, changing sign as the dipole passes through 90°.',
+   draw: draw_b2_dipole, duration:4000},
+
+  // ---------------- UNIT 3 : MAGNETOSTATICS ----------------
+  {id:'b3-1', unit:3, title:'Lorentz Force: Circular Motion in a Uniform B', tag:'3.1',
+   caption:'A charge moving perpendicular to a uniform magnetic field experiences a constant-magnitude force directed toward the centre, producing circular motion.',
+   draw: draw_b3_lorentz, duration:3000},
+  {id:'b3-2', unit:3, title:'Biot\u2013Savart Law', tag:'3.4',
+   caption:'Each current element dl produces a magnetic field dB that circles around the wire, perpendicular to both dl and the radius vector.',
+   draw: draw_b3_biotsavart, duration:3600},
+  {id:'b3-3', unit:3, title:"Ampere's Circuital Law", tag:'3.5',
+   caption:'The line integral of B around any closed Amperian loop equals \u00b5\u2080 times the current enclosed by the loop.',
+   draw: draw_b3_ampere, duration:3000},
+  {id:'b3-4', unit:3, title:'Force Between Two Parallel Currents', tag:'3.2',
+   caption:'Parallel currents in the same direction attract; currents in opposite directions repel.',
+   draw: draw_b3_parallel_currents, duration:3000},
+  {id:'b3-5', unit:3, title:'Torque on a Current Loop in a Magnetic Field', tag:'3.6',
+   caption:'A current loop experiences a torque \u03c4 = m\u00d7B that rotates it until its magnetic moment aligns with the external field.',
+   draw: draw_b3_torque, duration:4000},
+
+  // ---------------- UNIT 4 : MAGNETISM OF MATTER ----------------
+  {id:'b4-1', unit:4, title:'Domain Theory of Ferromagnetism', tag:'4.9',
+   caption:'Randomly oriented magnetic domains progressively align with an applied field, producing strong net magnetisation.',
+   draw: draw_b4_domains, duration:3200},
+  {id:'b4-2', unit:4, title:'B\u2013H Hysteresis Loop', tag:'4.8',
+   caption:'As H is cycled, B traces out a loop rather than retracing its path — the enclosed area represents energy dissipated per cycle.',
+   draw: draw_b4_hysteresis, duration:5000},
+  {id:'b4-3', unit:4, title:'Diamagnetic vs Paramagnetic vs Ferromagnetic Response', tag:'Classification',
+   caption:'Compare how atomic dipoles in the three material classes respond when an external field is switched on.',
+   draw: draw_b4_diaparaferro, duration:3600},
+  {id:'b4-4', unit:4, title:'Magnetic Circuit: the Flux Analogy', tag:'4.7',
+   caption:'Magnetic flux \u03a6 flowing around a core with an air gap is analogous to current flowing in an electrical circuit, with reluctance playing the role of resistance.',
+   draw: draw_b4_magcircuit, duration:3400},
+  {id:'b4-5', unit:4, title:'Boundary Conditions on B and H', tag:'4.8A',
+   caption:'At an interface between two media of different permeability, B bends toward the normal on entering the higher-\u00b5 medium.',
+   draw: draw_b4_boundary, duration:3000},
+
+  // ---------------- UNIT 5 : ELECTROMAGNETIC INDUCTION ----------------
+  {id:'b5-1', unit:5, title:"Faraday's Law: Moving Magnet Through a Coil", tag:'5.1',
+   caption:'Moving a magnet through a coil changes the flux linkage, inducing an EMF that deflects a galvanometer.',
+   draw: draw_b5_faraday, duration:4000},
+  {id:'b5-2', unit:5, title:"Lenz's Law: the Induced Current Opposes the Change", tag:'5.2',
+   caption:'The induced current always flows in the direction that opposes the change in flux producing it — repelling an approaching magnet, attracting a receding one.',
+   draw: draw_b5_lenz, duration:3000},
+  {id:'b5-3', unit:5, title:'Self-Induction: Back-EMF Opposes Current Change', tag:'5.3',
+   caption:'When a switch is closed, the current cannot rise instantaneously — the self-induced back-EMF opposes the change and the current ramps up exponentially.',
+   draw: draw_b5_selfinduction, duration:4000},
+  {id:'b5-4', unit:5, title:'Mutual Induction Between Two Coils', tag:'5.3',
+   caption:'A changing current in the primary coil induces an EMF in the nearby secondary coil via their mutual inductance M.',
+   draw: draw_b5_mutual, duration:3200},
+  {id:'b5-5', unit:5, title:'AC Generator: Rotating Coil in a Magnetic Field', tag:'5.5',
+   caption:'A coil rotating at constant angular velocity in a uniform field generates a sinusoidal EMF — the working principle of the AC generator.',
+   draw: draw_b5_acgen, duration:3600}
+);
+
+const UNIT_NAMES = {
+  1:'Unit 1 — Electrostatics',
+  2:'Unit 2 — Electric Potential',
+  3:'Unit 3 — Magnetostatics',
+  4:'Unit 4 — Magnetism of Matter',
+  5:'Unit 5 — Electromagnetic Induction'
+};
+const UNIT_DESC = {
+  1:'Coulomb\u2019s law, electric field and flux, and Gauss\u2019s law with its applications to symmetric charge distributions.',
+  2:'Electric potential, its relation to the field, and the potential due to continuous and discrete charge distributions.',
+  3:'The magnetic field, Lorentz force, Biot\u2013Savart and Ampere\u2019s laws, and forces/torques on currents.',
+  4:'How materials respond to magnetic fields: magnetisation, permeability, hysteresis and domain theory.',
+  5:'Faraday\u2019s and Lenz\u2019s laws, self- and mutual induction, and the AC generator.'
+};
+function UNIT_TAB_LABEL(u){ return 'Unit ' + u; }
+
+</script>
+<script>
+
+/* =========================================================================
+   BUILD UI + ANIMATION ENGINE
+   ========================================================================= */
+const engineHandles = {};
+
+function registerAnim(cfg){
+  const canvas = document.getElementById(cfg.id);
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  let startTime = null, raf = null, playing = true;
+  function frame(ts){
+    if(startTime===null) startTime = ts;
+    const t = ((ts - startTime) % cfg.duration) / cfg.duration;
+    ctx.clearRect(0,0,W,H);
+    try{ cfg.draw(ctx, W, H, t); }catch(e){ /* fail-safe */ }
+    if(playing) raf = requestAnimationFrame(frame);
+  }
+  function play(){ if(!playing){ playing = true; startTime = null; raf = requestAnimationFrame(frame); } }
+  function pause(){ playing = false; if(raf) cancelAnimationFrame(raf); }
+  function replay(){ startTime = null; if(!playing) play(); }
+  raf = requestAnimationFrame(frame);
+  engineHandles[cfg.id] = {play, pause, replay, get playing(){return playing;}};
+}
+
+function buildUI(){
+  const tabsEl = document.getElementById('tabs');
+  const mainEl = document.getElementById('main');
+  const units = Object.keys(UNIT_NAMES).map(Number).sort((a,b)=>a-b);
+
+  units.forEach((u,idx)=>{
+    const count = ANIMS.filter(a=>a.unit===u).length;
+    const btn = document.createElement('button');
+    btn.textContent = UNIT_TAB_LABEL(u);
+    const cnt = document.createElement('span'); cnt.className='count'; cnt.textContent = '('+count+')';
+    btn.appendChild(cnt);
+    btn.dataset.unit = u;
+    if(idx===0) btn.classList.add('active');
+    btn.addEventListener('click', ()=> showUnit(u));
+    tabsEl.appendChild(btn);
+
+    const sec = document.createElement('section');
+    sec.className = 'unit' + (idx===0? ' active':'');
+    sec.id = 'unit-'+u;
+    sec.innerHTML = `<h2 class="unit-title">${UNIT_NAMES[u]}</h2><p class="unit-desc">${UNIT_DESC[u]}</p><div class="grid" id="grid-${u}"></div>`;
+    mainEl.appendChild(sec);
+
+    const grid = sec.querySelector('.grid');
+    ANIMS.filter(a=>a.unit===u).forEach(a=>{
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <h3><span class="tag">\u00a7${a.tag}</span> ${a.title}</h3>
+        <canvas class="anim-canvas" id="${a.id}" width="480" height="280"></canvas>
+        <p class="caption">${a.caption}</p>
+        <div class="controls">
+          <button class="playpause" data-target="${a.id}">\u23f8 Pause</button>
+          <button class="replay" data-target="${a.id}">\u21bb Replay</button>
+        </div>`;
+      grid.appendChild(card);
+    });
+  });
+}
+
+function showUnit(u){
+  document.querySelectorAll('section.unit').forEach(s=> s.classList.toggle('active', s.id === 'unit-'+u));
+  document.querySelectorAll('nav.tabs button').forEach(b=> b.classList.toggle('active', Number(b.dataset.unit)===u));
+}
+
+function initEngineAndControls(){
+  ANIMS.forEach(registerAnim);
+
+  document.querySelectorAll('.controls .playpause').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const id = btn.dataset.target;
+      const h = engineHandles[id];
+      if(!h) return;
+      if(h.playing){ h.pause(); btn.textContent='\u25b6 Play'; btn.classList.add('is-paused'); }
+      else { h.play(); btn.textContent='\u23f8 Pause'; btn.classList.remove('is-paused'); }
+    });
+  });
+  document.querySelectorAll('.controls .replay').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const id = btn.dataset.target;
+      const h = engineHandles[id];
+      if(!h) return;
+      h.replay();
+      const pp = btn.parentElement.querySelector('.playpause');
+      pp.textContent='\u23f8 Pause'; pp.classList.remove('is-paused');
+    });
+  });
+
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        const h = engineHandles[e.target.id];
+        if(!h) return;
+        const btn = document.querySelector('.playpause[data-target="'+e.target.id+'"]');
+        if(e.isIntersecting){ if(btn && !btn.classList.contains('is-paused')) h.play(); }
+        else { h.pause(); }
+      });
+    }, {threshold:0.1});
+    document.querySelectorAll('.anim-canvas').forEach(c=> io.observe(c));
+  }
+}
+
+buildUI();
+initEngineAndControls();
+
+</script>
+
+</body>
+</html>
