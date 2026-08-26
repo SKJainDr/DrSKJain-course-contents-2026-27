@@ -914,7 +914,10 @@ function draw_b5_faraday(ctx, w, h, t){
     ctx.beginPath(); ctx.ellipse(xx, y, 9, 32, 0,0,Math.PI*2); ctx.stroke();
   }
   const magX = lerp(30, w-60, (Math.sin(t*Math.PI*2-Math.PI/2)+1)/2);
-  const moving = Math.cos(t*Math.PI*2);
+  // magX = lerp of (1-cos(2\u03c0t))/2, so its true rate of change is \u221d sin(2\u03c0t) —
+  // this now correctly tracks the magnet's actual direction of travel (not 90\u00b0 out of phase),
+  // so it is reliably positive for the whole forward pass and negative for the whole backward pass.
+  const moving = Math.sin(t*Math.PI*2);
   roundedRect(ctx, magX-20, y-16, 18, 32, 3, '#dc2626');
   roundedRect(ctx, magX-2, y-16, 18, 32, 3, '#2563eb');
   txt(ctx,'N', magX-11, y+4, {align:'center', font:'bold 11px Segoe UI', color:'#fff'});
