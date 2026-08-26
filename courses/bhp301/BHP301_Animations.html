@@ -274,36 +274,49 @@ const ANIMS = [];
 
 // 1) Coulomb's Law & Principle of Superposition
 function draw_b1_coulomb(ctx, w, h, t){
-  const q1 = {x:120, y:170}, q2 = {x:260, y:90}, q3 = {x:260, y:230};
+  const charges = [
+    {p:{x:120,y:170}, sign:+1, id:'Q\u2081', color:'#dc2626'},
+    {p:{x:260,y:90},  sign:-1, id:'Q\u2082', color:'#2563eb'},
+    {p:{x:260,y:230}, sign:-1, id:'Q\u2083', color:'#2563eb'}
+  ];
   const testP = {x: 380, y:170};
-  [q1,q2,q3].forEach((q,i)=>{
-    drawDot(ctx, q.x, q.y, 12, i===0? '#dc2626':'#2563eb');
-    txt(ctx, i===0? '+Q\u2081':'+Q'+(i+1), q.x, q.y-18, {align:'center', font:'bold 11px Segoe UI'});
+  charges.forEach(c=>{
+    drawDot(ctx, c.p.x, c.p.y, 12, c.color);
+    txt(ctx, (c.sign>0?'+':'\u2212')+c.id, c.p.x, c.p.y-18, {align:'center', font:'bold 11px Segoe UI'});
   });
   drawDot(ctx, testP.x, testP.y, 8, '#f59e0b');
-  txt(ctx,'test charge q', testP.x, testP.y+26, {align:'center', font:'10.5px Segoe UI'});
+  txt(ctx,'test charge +q', testP.x, testP.y+26, {align:'center', font:'10.5px Segoe UI'});
 
   const pulse = (Math.sin(t*Math.PI*2)+1)/2;
-  [q2,q3].forEach(q=>{
-    const dx=testP.x-q.x, dy=testP.y-q.y, d=Math.hypot(dx,dy);
-    const ux=dx/d, uy=dy/d;
-    const len = 46+pulse*8;
-    drawArrow(ctx, q.x+ux*16, q.y+uy*16, q.x+ux*(16+len), q.y+uy*(16+len), '#60a5fa', 1.8);
-  });
-  const dx1=testP.x-q1.x, dy1=testP.y-q1.y, d1=Math.hypot(dx1,dy1);
-  drawArrow(ctx, q1.x+dx1/d1*16, q1.y+dy1/d1*16, q1.x+dx1/d1*(16+58+pulse*10), q1.y+dy1/d1*(16+58+pulse*10), '#f87171', 1.8);
-
-  // resultant (vector sum) at test point
+  const K = 3200;
   let sx=0, sy=0;
-  [q1,q2,q3].forEach(q=>{
-    const dx=testP.x-q.x, dy=testP.y-q.y, d=Math.hypot(dx,dy);
-    const mag = 3200/(d*d);
-    sx += dx/d*mag; sy += dy/d*mag;
+  const forces = charges.map(c=>{
+    const dx=testP.x-c.p.x, dy=testP.y-c.p.y, d=Math.hypot(dx,dy);
+    const ux=dx/d, uy=dy/d;
+    // force on the POSITIVE test charge: repelled (away from +) or attracted (toward -)
+    const fx = c.sign>0 ? ux : -ux;
+    const fy = c.sign>0 ? uy : -uy;
+    const mag = K/(d*d);
+    sx += fx*mag; sy += fy*mag;
+    return {fx,fy,mag,color:c.color};
   });
-  const norm = Math.hypot(sx,sy);
-  drawArrow(ctx, testP.x, testP.y, testP.x+sx/norm*(50+pulse*8), testP.y+sy/norm*(50+pulse*8), '#16a34a', 2.6);
-  txt(ctx,'F\u2081+F\u2082+F\u2083', testP.x-4, testP.y-40, {align:'right', font:'bold 10.5px Segoe UI', color:'#166534'});
-  txt(ctx,'F = kQ\u2081Q\u2082/r\u00b2, along the line joining charges', 14, h-14, {font:'10.5px Segoe UI', color:'#374151'});
+
+  // individual force arrows AT the test charge, labelled by source charge number
+  forces.forEach((f,i)=>{
+    const len = 30 + f.mag*130 + pulse*4;
+    const ex = testP.x+f.fx*len, ey = testP.y+f.fy*len;
+    drawArrow(ctx, testP.x, testP.y, ex, ey, f.color, 1.8);
+    const lx = testP.x+f.fx*(len+15), ly = testP.y+f.fy*(len+15);
+    txt(ctx, 'F'+(i+1), lx, ly, {align:'center', font:'bold 10.5px Segoe UI', color:f.color});
+  });
+
+  // net (resultant) force — golden arrow
+  const norm = Math.hypot(sx,sy) || 1;
+  const lenNet = 34 + norm*200 + pulse*6;
+  const gx = testP.x+sx/norm*lenNet, gy = testP.y+sy/norm*lenNet;
+  drawArrow(ctx, testP.x, testP.y, gx, gy, '#c9a227', 3);
+  txt(ctx,'F\u2099\u2091\u209c = F\u2081+F\u2082+F\u2083', gx, gy-10, {align:'center', font:'bold 10.5px Segoe UI', color:'#92400e'});
+  txt(ctx,'F = kQ\u2081Q\u2082/r\u00b2, along the line joining charges — like charges repel, unlike attract', 14, h-14, {font:'10px Segoe UI', color:'#374151'});
 }
 
 // 2) Electric Field Lines (single charge & dipole)
@@ -323,61 +336,90 @@ function draw_b1_fieldlines(ctx, w, h, t){
 
   drawDot(ctx, cx2p, cy, 10, '#dc2626');
   drawDot(ctx, cx2n, cy, 10, '#2563eb');
-  const N=7;
+
+  // Physically-traced dipole field lines: start on + in ALL directions, each line
+  // is followed along the true (unit +1 / unit -1) field direction, so lines never
+  // cross; each either terminates on − or leaves the visible region ("to infinity").
+  const N=16;
+  const captureR=13;
+  const boundL=8, boundR=w-8, boundT=h*0.14, boundB=h-8;
+  const growLines = clamp01((t-0.05)*1.15);
   for(let i=0;i<N;i++){
-    const a0 = -1.2 + i*(2.4/(N-1));
-    const steps=40;
-    ctx.beginPath();
-    let sx=cx2p+Math.cos(a0)*9, sy=cy+Math.sin(a0)*9;
-    ctx.moveTo(sx,sy);
-    let dirx=Math.cos(a0), diry=Math.sin(a0);
-    for(let s=0;s<steps;s++){
-      const midx=(cx2p+cx2n)/2, midy=cy;
-      const pull = 0.10;
-      const toNegX = cx2n-sx, toNegY = cy-sy;
-      const dneg = Math.hypot(toNegX,toNegY)+1;
-      dirx += (toNegX/dneg)*pull; diry += (toNegY/dneg)*pull;
-      const dn=Math.hypot(dirx,diry); dirx/=dn; diry/=dn;
-      sx += dirx*5; sy += diry*5;
-      const distToNeg = Math.hypot(sx-cx2n, sy-cy);
-      if(distToNeg<12 || s > steps*grow) break;
-      ctx.lineTo(sx,sy);
+    const a0 = i/N*Math.PI*2;
+    let sx=cx2p+Math.cos(a0)*10, sy=cy+Math.sin(a0)*10;
+    const pts=[{x:sx,y:sy}];
+    for(let s=0;s<260;s++){
+      const rpx=sx-cx2p, rpy=sy-cy, rp=Math.hypot(rpx,rpy)+1e-6;
+      const rnx=sx-cx2n, rny=sy-cy, rn=Math.hypot(rnx,rny)+1e-6;
+      const ex = rpx/(rp*rp*rp) - rnx/(rn*rn*rn);
+      const ey = rpy/(rp*rp*rp) - rny/(rn*rn*rn);
+      const en = Math.hypot(ex,ey)||1;
+      sx += ex/en*4.2; sy += ey/en*4.2;
+      pts.push({x:sx,y:sy});
+      if(Math.hypot(sx-cx2n, sy-cy) < captureR) break;
+      if(sx<boundL||sx>boundR||sy<boundT||sy>boundB) break;
     }
-    setStroke(ctx,'#7c3aed',1.5); ctx.stroke();
+    const showCount = Math.max(2, Math.floor(pts.length*growLines));
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, pts[0].y);
+    for(let k=1;k<showCount;k++) ctx.lineTo(pts[k].x, pts[k].y);
+    setStroke(ctx,'#7c3aed',1.4); ctx.stroke();
+    if(showCount>=2){
+      const p2=pts[Math.min(showCount-1,pts.length-1)];
+      const p1=pts[Math.max(0,Math.min(showCount-1,pts.length-1)-1)];
+      const ang=Math.atan2(p2.y-p1.y, p2.x-p1.x);
+      setFill(ctx,'#7c3aed');
+      ctx.beginPath();
+      ctx.moveTo(p2.x,p2.y);
+      ctx.lineTo(p2.x-6*Math.cos(ang-0.4), p2.y-6*Math.sin(ang-0.4));
+      ctx.lineTo(p2.x-6*Math.cos(ang+0.4), p2.y-6*Math.sin(ang+0.4));
+      ctx.closePath(); ctx.fill();
+    }
   }
-  txt(ctx,'Field lines start on +, end on \u2212', 14, h-14, {font:'10.5px Segoe UI', color:'#374151'});
+  txt(ctx,'Field lines start on +, never cross, and end on \u2212 or escape to infinity', 14, h-14, {font:'10.5px Segoe UI', color:'#374151'});
 }
 
 // 3) Electric Field on the Axis of a Charged Ring
 function draw_b1_ring(ctx, w, h, t){
-  const cx=w*0.36, cy=h/2, R=60;
+  const cx=w/2, cyRing=h/2, R=60;
   ctx.save();
-  ctx.translate(cx,cy); ctx.scale(1,0.42);
+  ctx.translate(cx,cyRing); ctx.scale(1,0.42);
   drawRing(ctx, 0,0,R,'#2563eb',3);
   ctx.restore();
-  txt(ctx,'charged ring (Q)', cx, cy+R*0.42+22, {align:'center', font:'10.5px Segoe UI', color:'#374151'});
-  const axisX1 = cx+10, axisX2 = w-40;
-  drawLevel(ctx, axisX1, axisX2, cy, '#9ca3af', 1);
+  txt(ctx,'charged ring (Q)', cx+R+18, cyRing, {align:'left', font:'10.5px Segoe UI', color:'#374151'});
+
+  // ring is drawn elongated horizontally, so its axis (perpendicular to the ring) is VERTICAL
+  const axisY1 = 22, axisY2 = h-18;
+  setStroke(ctx, '#9ca3af', 1);
+  ctx.beginPath(); ctx.moveTo(cx, axisY1); ctx.lineTo(cx, axisY2); ctx.stroke();
+
   const nSeg=10;
+  const ringPts=[];
   for(let i=0;i<nSeg;i++){
     const ang=i/nSeg*Math.PI*2;
-    const ex = cx+Math.cos(ang)*R, ey=cy+Math.sin(ang)*R*0.42;
+    const ex = cx+Math.cos(ang)*R, ey=cyRing+Math.sin(ang)*R*0.42;
+    ringPts.push({ex,ey});
     drawDot(ctx, ex, ey, 3, '#2563eb');
   }
-  const px = lerp(axisX1+20, axisX2-30, (Math.sin(t*Math.PI*2-Math.PI/2)+1)/2);
-  drawDot(ctx, px, cy, 6, '#f59e0b');
-  const nSeg2=8;
-  for(let i=0;i<nSeg2;i++){
-    const ang=i/nSeg2*Math.PI*2;
-    const ex = cx+Math.cos(ang)*R, ey=cy+Math.sin(ang)*R*0.42;
+
+  // observation point travels along the (vertical) axis, through the ring's centre, both ways
+  const zmax = Math.min(cyRing-axisY1, axisY2-cyRing) - 8;
+  const z = Math.sin(t*Math.PI*2) * zmax;
+  const py = cyRing + z;
+  drawDot(ctx, cx, py, 6, '#f59e0b');
+
+  ringPts.forEach(p=>{
     ctx.save(); ctx.globalAlpha=0.55;
-    drawArrow(ctx, ex, ey, px, cy, '#93c5fd', 1);
+    drawArrow(ctx, p.ex, p.ey, cx, py, '#93c5fd', 1);
     ctx.restore();
-  }
-  const dist = Math.abs(px-cx);
-  const Enet = dist/Math.pow(dist*dist+R*R,1.5)*5e5;
-  drawArrow(ctx, px, cy, px+Math.sign(px-cx)*Math.min(60,Enet), cy, '#16a34a', 2.4);
-  txt(ctx,'E (net, axial)', px+ (px>cx? 8:-70), cy-10, {font:'bold 10.5px Segoe UI', color:'#166534'});
+  });
+
+  const dist = z;
+  const Enet = Math.abs(dist)/Math.pow(dist*dist+R*R,1.5)*5e5;
+  const dir = dist===0 ? 0 : Math.sign(dist);
+  const tipY = py + dir*Math.min(60,Enet);
+  drawArrow(ctx, cx, py, cx, tipY, '#16a34a', 2.4);
+  txt(ctx,'E (net, axial)', cx+10, py - (dir>=0? 12 : -6), {font:'bold 10.5px Segoe UI', color:'#166534'});
   txt(ctx,'On-axis components add; perpendicular parts cancel by symmetry', 14, h-14, {font:'10px Segoe UI', color:'#374151'});
 }
 
@@ -571,34 +613,59 @@ function draw_b3_lorentz(ctx, w, h, t){
   txt(ctx,'F = qv\u00d7B  \u2192  circular path', cx, h-14, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
 }
 
-// 2) Biot–Savart Law: field circulating around a current element
+// 2) Biot–Savart Law: current loop, element dl, and the vectors to an axial point P
 function draw_b3_biotsavart(ctx, w, h, t){
-  const x0=60, x1=w-60, y=h/2;
-  drawArrow(ctx, x0, y, x1, y, '#111827', 3);
-  txt(ctx,'I', (x0+x1)/2, y-46, {align:'center', font:'bold 13px Segoe UI'});
-  const segX = lerp(x0+20,x1-20, 0.5);
-  drawDot(ctx, segX, y, 4, '#dc2626');
-  txt(ctx,'dl', segX, y+18, {font:'10px Segoe UI'});
-  const nRings=3;
-  const grow = (t*1.4)%1;
-  for(let i=0;i<nRings;i++){
-    const R = 20+i*26;
-    const alpha = clamp01(grow*3-i);
-    if(alpha<=0) continue;
-    ctx.save(); ctx.globalAlpha=Math.min(1,alpha);
-    ctx.save(); ctx.translate(segX,y); ctx.scale(1,0.5);
-    drawRing(ctx, 0,0,R,'#2563eb',1.8);
-    ctx.restore();
-    ctx.restore();
+  const cx=w/2, cyLoop=h*0.66, R=68, flat=0.42;
+
+  // vertical axis of the loop
+  setStroke(ctx, '#9ca3af', 1);
+  ctx.beginPath(); ctx.moveTo(cx, 16); ctx.lineTo(cx, h-14); ctx.stroke();
+
+  // the current loop (foreshortened circle, lying in a horizontal plane)
+  ctx.save(); ctx.translate(cx,cyLoop); ctx.scale(1,flat);
+  drawRing(ctx, 0,0,R,'#2563eb',2.6);
+  ctx.restore();
+  drawDot(ctx, cx, cyLoop, 3, '#111827');
+
+  // current-direction tangent marks around the loop
+  const nMarks=8;
+  for(let i=0;i<nMarks;i++){
+    const a=i/nMarks*Math.PI*2;
+    const px=cx+Math.cos(a)*R, py=cyLoop+Math.sin(a)*R*flat;
+    const tx=-Math.sin(a), ty=Math.cos(a)*flat;
+    const tn=Math.hypot(tx,ty);
+    drawArrow(ctx, px,py, px+tx/tn*13, py+ty/tn*13, '#93c5fd', 1.3);
   }
+  txt(ctx,'I', cx-R-16, cyLoop, {align:'center', font:'bold 12px Segoe UI', color:'#1e3a8a'});
+
+  // rotating current element dl (its position sweeps the loop so contributions from
+  // every element can be visualised)
   const ang = t*Math.PI*2;
-  const R=46;
-  const bx = segX+Math.cos(ang)*R, by=y+Math.sin(ang)*R*0.5;
-  const tx=-Math.sin(ang), ty=Math.cos(ang)*0.5;
-  const tn=Math.hypot(tx,ty);
-  drawArrow(ctx, bx,by, bx+tx/tn*22, by+ty/tn*22, '#16a34a', 2);
-  txt(ctx,'dB (circles the current)', bx+30, by-10, {font:'10.5px Segoe UI', color:'#166534'});
-  txt(ctx,'dB = (\u00b5\u2080/4\u03c0) I dl\u00d7r\u0302 / r\u00b2', w/2, h-14, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
+  const ex = cx+Math.cos(ang)*R, ey = cyLoop+Math.sin(ang)*R*flat;
+  const etx=-Math.sin(ang), ety=Math.cos(ang)*flat;
+  const etn=Math.hypot(etx,ety);
+  drawDot(ctx, ex, ey, 4, '#dc2626');
+  drawArrow(ctx, ex, ey, ex+etx/etn*24, ey+ety/etn*24, '#dc2626', 2.2);
+  txt(ctx,'dl', ex+etx/etn*32, ey+ety/etn*32, {font:'bold 11px Segoe UI', color:'#b91c1c'});
+
+  // observation point P, on the axis
+  const yP = cyLoop-112;
+  drawDot(ctx, cx, yP, 5, '#f59e0b');
+  txt(ctx,'P', cx+12, yP-2, {font:'bold 12px Segoe UI', color:'#92400e'});
+
+  // vector: centre -> element (r)
+  drawArrow(ctx, cx, cyLoop, ex, ey, '#16a34a', 1.8);
+  txt(ctx,'r', (cx+ex)/2-14, (cyLoop+ey)/2+10, {font:'bold 11px Segoe UI', color:'#166534'});
+
+  // vector: centre -> P (R), along the axis
+  drawArrow(ctx, cx, cyLoop, cx, yP, '#7c3aed', 1.8);
+  txt(ctx,'R', cx+8, (cyLoop+yP)/2, {font:'bold 11px Segoe UI', color:'#5b21b6'});
+
+  // separation vector: element -> P
+  drawArrow(ctx, ex, ey, cx, yP, '#b45309', 2);
+  txt(ctx,'s (element \u2192 P)', (ex+cx)/2+10, (ey+yP)/2-8, {font:'10.5px Segoe UI', color:'#92400e'});
+
+  txt(ctx,'dB = (\u00b5\u2080/4\u03c0)\u2009I\u2009dl\u00d7\u015d / s\u00b2, summed over the whole loop', cx, h-14, {align:'center', font:'bold 10.6px Segoe UI', color:'#374151'});
 }
 
 // 3) Ampere's Circuital Law
@@ -653,30 +720,53 @@ function draw_b3_torque(ctx, w, h, t){
   for(let i=0;i<6;i++){
     drawArrow(ctx, 30, 40+i*36, w-30, 40+i*36, '#93c5fd', 1.4);
   }
-  const angTarget = Math.PI/2;
-  const swing = (Math.sin(t*Math.PI*2-Math.PI/2)+1)/2;
-  const ang = lerp(-Math.PI/2*0.85, angTarget, swing);
+  const ang = t*Math.PI*2; // continuous full rotation about the vertical hinge axis
   const halfW=60;
-  ctx.save(); ctx.translate(cx,cy); ctx.rotate(0);
+  ctx.save(); ctx.translate(cx,cy);
   const x1=Math.cos(ang)*halfW, y1=Math.sin(ang)*halfW*0.35;
+  // corners of the (pseudo-3D) rectangular loop
+  const TL={x:-x1,y:-40-y1}, TR={x:x1,y:-40+y1}, BR={x:x1,y:40-y1}, BL={x:-x1,y:40+y1};
   ctx.strokeStyle='#111827'; ctx.lineWidth=3;
   ctx.beginPath();
-  ctx.moveTo(-x1,-40-y1); ctx.lineTo(x1,40-y1);
-  ctx.moveTo(x1,40-y1); ctx.lineTo(x1,-40+y1);
-  ctx.moveTo(x1,-40+y1); ctx.lineTo(-x1,-40-y1+ (0));
+  ctx.moveTo(TL.x,TL.y); ctx.lineTo(BR.x,BR.y);
+  ctx.moveTo(BR.x,BR.y); ctx.lineTo(TR.x,TR.y);
+  ctx.moveTo(TR.x,TR.y); ctx.lineTo(TL.x,TL.y);
   ctx.stroke();
   ctx.beginPath();
-  ctx.moveTo(-x1,-40-y1); ctx.lineTo(-x1,40+y1); ctx.lineTo(x1,40-y1);
+  ctx.moveTo(TL.x,TL.y); ctx.lineTo(BL.x,BL.y); ctx.lineTo(BR.x,BR.y);
   ctx.stroke();
+  // current direction, marked at the midpoint of each real edge, traversed the same way each frame
+  const edges=[[TL,BL],[BL,BR],[BR,TR],[TR,TL]];
+  setFill(ctx,'#dc2626');
+  edges.forEach(([a,b])=>{
+    const mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
+    const eang=Math.atan2(b.y-a.y, b.x-a.x);
+    ctx.beginPath();
+    ctx.moveTo(mx+9*Math.cos(eang), my+9*Math.sin(eang));
+    ctx.lineTo(mx-6*Math.cos(eang-0.5), my-6*Math.sin(eang-0.5));
+    ctx.lineTo(mx-6*Math.cos(eang+0.5), my-6*Math.sin(eang+0.5));
+    ctx.closePath(); ctx.fill();
+  });
+  // magnetic moment — fixed relative to the loop (same rotation angle as the loop itself)
   const mx=Math.cos(ang)*50, my=Math.sin(ang)*50*0.35;
   ctx.strokeStyle='#7c3aed'; ctx.lineWidth=2.4;
   ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(mx,my); ctx.stroke();
   setFill(ctx,'#7c3aed');
   ctx.beginPath(); ctx.arc(mx,my,4,0,Math.PI*2); ctx.fill();
   ctx.restore();
+  txt(ctx,'I', cx-halfW-16, cy, {align:'center', font:'bold 12px Segoe UI', color:'#b91c1c'});
   txt(ctx,'m (magnetic moment)', cx+mx+10, cy+my, {font:'10.5px Segoe UI', color:'#5b21b6'});
   txt(ctx,'B \u2192', w-60, 24, {font:'bold 12px Segoe UI', color:'#1e40af'});
-  txt(ctx,'\u03c4 = m\u00d7B  \u2014 loop rotates to align m with B', cx, h-14, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
+
+  // torque = m×B, along the (vertical) rotation axis; magnitude \u221d sin\u03b8, direction flips through alignment
+  const torqueSign = Math.sin(ang)===0 ? 0 : Math.sign(Math.sin(ang));
+  const torqueMag = Math.abs(Math.sin(ang));
+  const tAxisX = cx+halfW+55;
+  const tLen = 14 + torqueMag*46;
+  drawArrow(ctx, tAxisX, cy, tAxisX, cy - torqueSign*tLen, '#c9a227', 3.2);
+  txt(ctx,'\u03c4 (torque)', tAxisX+8, cy - torqueSign*tLen - torqueSign*6, {font:'bold 10.5px Segoe UI', color:'#92400e'});
+
+  txt(ctx,'\u03c4 = m\u00d7B  \u2014 loop rotates continuously; \u03c4 vanishes each time m aligns with B', cx, h-14, {align:'center', font:'bold 10.5px Segoe UI', color:'#374151'});
 }
 
 
@@ -698,7 +788,7 @@ function draw_b4_domains(ctx, w, h, t){
     }
   }
   if(grow>0.5){
-    drawArrow(ctx, w-40, h-16, w-40-40, h-16, '#2563eb', 2);
+    drawArrow(ctx, w-80, h-16, w-40, h-16, '#2563eb', 2);
     txt(ctx,'H', w-30, h-12, {font:'bold 11px Segoe UI', color:'#1e40af'});
   }
 }
@@ -735,6 +825,11 @@ function draw_b4_hysteresis(ctx, w, h, t){
   txt(ctx,'Loop area \u221d energy lost per cycle (hysteresis loss)', cx, h-14, {align:'center', font:'bold 10.5px Segoe UI', color:'#374151'});
 }
 
+function lerpAngle(a0, a1, t){
+  const d = ((a1-a0+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI) - Math.PI;
+  return a0 + d*t;
+}
+
 // 3) Dia- / Para- / Ferro-magnetic Response Compared
 function draw_b4_diaparaferro(ctx, w, h, t){
   const labels=['Diamagnetic','Paramagnetic','Ferromagnetic'];
@@ -751,7 +846,7 @@ function draw_b4_diaparaferro(ctx, w, h, t){
       let ang;
       if(!fieldOn) ang=ang0;
       else if(c===0) ang = Math.PI - 0.15*Math.sin(t*10+i); // opposes field (weakly, points left-ish)
-      else if(c===1) ang = lerp(ang0, 0, 0.55); // weakly aligns
+      else if(c===1) ang = lerpAngle(ang0, 0, 0.55); // weakly aligns, via the shorter rotation
       else ang = 0; // strongly aligns
       const px = cx+ ((i%3)-1)*30, py=70+Math.floor(i/3)*110;
       drawArrow(ctx, px-Math.cos(ang)*12, py-Math.sin(ang)*12, px+Math.cos(ang)*12, py+Math.sin(ang)*12, colors[c], 1.8);
@@ -770,10 +865,11 @@ function draw_b4_magcircuit(ctx, w, h, t){
   ctx.clearRect(gapX-6,y0-2,12,26);
   txt(ctx,'air gap', gapX, y0-8, {align:'center', font:'10px Segoe UI', color:'#374151'});
   const nCoil=6;
+  const legMidX = x0+11; // middle of the 22px-thick left leg of the core
   for(let i=0;i<nCoil;i++){
     const yy = y0+30+i*20;
     ctx.strokeStyle='#b45309'; ctx.lineWidth=2.4;
-    ctx.beginPath(); ctx.ellipse(x0, yy, 10, 7, 0,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(legMidX, yy, 10, 7, 0,0,Math.PI*2); ctx.stroke();
   }
   txt(ctx,'N turns, current I', x0-14, y0+20, {align:'center', font:'9.5px Segoe UI', color:'#92400e'});
   const flow = (t*2)%1;
@@ -824,10 +920,10 @@ function draw_b5_faraday(ctx, w, h, t){
   txt(ctx,'N', magX-11, y+4, {align:'center', font:'bold 11px Segoe UI', color:'#fff'});
   txt(ctx,'S', magX+7, y+4, {align:'center', font:'bold 11px Segoe UI', color:'#fff'});
   const nearCoil = Math.abs(magX-(coilX0+coilX1)/2) < 60;
-  const galDefl = nearCoil? moving*30 : 0;
+  const galDefl = nearCoil? moving : 0;
   const gx=w-70, gy=60;
   drawRing(ctx, gx, gy, 26, '#374151', 2);
-  ctx.save(); ctx.translate(gx,gy); ctx.rotate(galDefl*0.02);
+  ctx.save(); ctx.translate(gx,gy); ctx.rotate(galDefl*0.9);
   drawArrow(ctx, 0,4, 0,-20, '#dc2626', 2);
   ctx.restore();
   txt(ctx,'G', gx, gy+42, {align:'center', font:'bold 11px Segoe UI'});
@@ -863,10 +959,15 @@ function draw_b5_selfinduction(ctx, w, h, t){
   txt(ctx,'I(t)', plotX0-6, plotY1+2, {align:'right', font:'10.5px Segoe UI', color:'#2563eb'});
   txt(ctx,'time', plotX1, plotY0+16, {align:'right', font:'10.5px Segoe UI', color:'#6b7280'});
   const N=150; const sweep=clamp01(t);
+  // The red back-EMF curve is clamped flat (=1) until xt = uc = ln(7)/7; integrating that
+  // clamped curve gives a straight (linear) rise for I(t) over the same initial region.
+  const uc = Math.log(7)/7;
+  const Imax = uc + 1/7; // I(t) as xt -> infinity, used to renormalise to the 0..1 display range
   ctx.beginPath();
   for(let i=0;i<=N;i++){
     const xt=i/N*sweep;
-    const val = 1-Math.exp(-xt*7);
+    const raw = xt<uc ? xt : (uc + 1/7 - Math.exp(-7*xt));
+    const val = raw/Imax;
     const px=lerp(plotX0,plotX1,xt), py=lerp(plotY0,plotY1,val*0.8);
     if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
   }
