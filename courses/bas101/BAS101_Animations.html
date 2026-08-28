@@ -254,6 +254,14 @@ function drawMirror(ctx, x, y1, y2, color, hatch){
     for(let yy = y1; yy <= y2; yy += 8){ ctx.beginPath(); ctx.moveTo(x, yy); ctx.lineTo(x-6, yy+7); ctx.stroke(); }
   }
 }
+function drawMirrorH(ctx, x1, x2, y, color, hatch){
+  setStroke(ctx, color || '#4b5563', 4);
+  ctx.beginPath(); ctx.moveTo(x1, y); ctx.lineTo(x2, y); ctx.stroke();
+  if(hatch !== false){
+    setStroke(ctx, color || '#4b5563', 1);
+    for(let xx = x1; xx <= x2; xx += 8){ ctx.beginPath(); ctx.moveTo(xx, y); ctx.lineTo(xx-6, y-7); ctx.stroke(); }
+  }
+}
 function roundedRect(ctx, x, y, w, h, r, fill, stroke){
   ctx.beginPath();
   ctx.moveTo(x+r, y);
@@ -273,81 +281,325 @@ const ANIMS = [];
 /* ===================== MODULE I : RELATIVISTIC MECHANICS & INTERFERENCE ===================== */
 
 // 1) Michelson-Morley Experiment
-function draw_a1_michelson(ctx, w, h, t){
-  const cx=w*0.32, cy=h/2+10;
-  drawArrow(ctx, 40, cy, cx-14, cy, '#dc2626', 2);
-  txt(ctx,'source', 40, cy+18, {font:'10px Segoe UI', color:'#374151'});
-  roundedRect(ctx, cx-12, cy-12, 24, 24, 2, '#e5e7eb', '#6b7280');
-  txt(ctx,'beam splitter', cx, cy+30, {align:'center', font:'9.5px Segoe UI'});
-  const mirrorA={x:cx, y:cy-110}, mirrorB={x:cx+130, y:cy};
-  drawMirror(ctx, mirrorA.x-16, mirrorA.y-3, mirrorA.y+3, '#6b7280');
-  ctx.save(); ctx.translate(mirrorA.x,mirrorA.y); ctx.rotate(Math.PI/2); ctx.translate(-mirrorA.x,-mirrorA.y);
-  drawMirror(ctx, mirrorA.x, mirrorA.y-16, mirrorA.y+16, '#6b7280'); ctx.restore();
-  drawMirror(ctx, mirrorB.x-3, mirrorB.y-16, mirrorB.y+16, '#6b7280');
-  const beat = (Math.sin(t*Math.PI*2)+1)/2;
-  drawArrow(ctx, cx, cy-10, cx, mirrorA.y+10, '#f59e0b', 1.6);
-  drawArrow(ctx, cx+10, cy, mirrorB.x-10, cy, '#f59e0b', 1.6);
-  ctx.save(); ctx.globalAlpha=0.7+0.3*beat;
-  drawArrow(ctx, cx, mirrorA.y+10, cx, cy-10, '#fbbf24', 1.2);
-  drawArrow(ctx, mirrorB.x-10, cy, cx+10, cy, '#fbbf24', 1.2);
+const MM_STATE = { rotating: false, etherMoving: false };
+
+function mmBeamPos(phase, x0,y0,x1,y1, nCycles){
+  const cyc=(phase*nCycles)%1;
+  const p = cyc<0.5? cyc*2 : (1-cyc)*2; // triangle wave 0->1->0
+  return {x:lerp(x0,x1,p), y:lerp(y0,y1,p)};
+}
+
+function drawMMTelescope(ctx, cx, topY, bottomY){
+  const tw=7;
+  roundedRect(ctx, cx-tw, topY, tw*2, bottomY-topY, 3, '#374151', '#111827');
+  ctx.save(); setFill(ctx,'#93c5fd');
+  ctx.beginPath(); ctx.ellipse(cx, topY, tw, 3, 0, 0, Math.PI*2); ctx.fill();
   ctx.restore();
-  const screenX=cx-10, screenY=cy+70;
-  roundedRect(ctx, screenX-24, screenY-8, 48, 16, 3, '#111827');
-  txt(ctx,'detector: NO fringe shift observed', cx, screenY+28, {align:'center', font:'bold 10.5px Segoe UI', color:'#166534'});
-  txt(ctx,'\u2014 the null result that motivated special relativity', cx, screenY+44, {align:'center', font:'10px Segoe UI', color:'#374151'});
+  roundedRect(ctx, cx-4, bottomY-2, 8, 9, 2, '#111827');
+  ctx.save(); ctx.strokeStyle='#6b7280'; ctx.lineWidth=1.6;
+  ctx.beginPath();
+  ctx.moveTo(cx, bottomY+7); ctx.lineTo(cx-13, bottomY+21);
+  ctx.moveTo(cx, bottomY+7); ctx.lineTo(cx+13, bottomY+21);
+  ctx.moveTo(cx, bottomY+7); ctx.lineTo(cx, bottomY+23);
+  ctx.stroke(); ctx.restore();
+}
+
+function drawMMMiniApparatus(ctx, cx, cy, dotPhase){
+  roundedRect(ctx, cx-9, cy-9, 18, 18, 2, '#e5e7eb', '#6b7280');
+  ctx.save(); ctx.strokeStyle='#111827'; ctx.lineWidth=1.4;
+  ctx.beginPath(); ctx.moveTo(cx-6,cy+6); ctx.lineTo(cx+6,cy-6); ctx.stroke();
+  ctx.strokeStyle='#6b7280'; ctx.lineWidth=1.2;
+  ctx.beginPath(); ctx.moveTo(cx-3,cy-9); ctx.lineTo(cx+3,cy-9); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx+9,cy-3); ctx.lineTo(cx+9,cy+3); ctx.stroke();
+  ctx.restore();
+  roundedRect(ctx, cx-2, cy+9, 4, 7, 1, '#111827');
+  if(dotPhase!=null){
+    const p=dotPhase;
+    const dx=lerp(cx-6,cx+6,p), dy=lerp(cy+6,cy-6,p);
+    drawDot(ctx, dx, dy, 1.6, '#fde68a');
+  }
+}
+
+function drawMMFieldOfView(ctx, cx, cy, r, shift, label, sublabel, subColor){
+  ctx.save();
+  ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.clip();
+  ctx.fillStyle='#0b1120'; ctx.fillRect(cx-r,cy-r,r*2,r*2);
+  for(let i=-6;i<=6;i++){
+    const fx=cx+i*(r/6)+shift;
+    ctx.strokeStyle = i%2===0? '#fde68a':'#334155'; ctx.lineWidth=5;
+    ctx.beginPath(); ctx.moveTo(fx,cy-r); ctx.lineTo(fx,cy+r); ctx.stroke();
+  }
+  ctx.restore();
+  ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.strokeStyle='#374151'; ctx.lineWidth=2; ctx.stroke();
+  txt(ctx,label, cx, cy-r-8, {align:'center', font:'bold 8.8px Segoe UI', color:'#374151'});
+  txt(ctx,sublabel, cx, cy+r+13, {align:'center', font:'bold 8.2px Segoe UI', color:subColor});
+}
+
+function draw_a1_michelson(ctx, w, h, t){
+  const cx=144, cy=88, armLen=52;
+  const rotAngle = MM_STATE.rotating ? t*Math.PI*2 : 0;
+
+  ctx.save();
+  ctx.translate(cx,cy); ctx.rotate(rotAngle); ctx.translate(-cx,-cy);
+
+  // monochromatic light source
+  roundedRect(ctx, cx-110, cy-9, 22, 18, 2, '#7c2d12');
+  drawArrow(ctx, cx-84, cy, cx-16, cy, '#dc2626', 2);
+  txt(ctx,'monochromatic source', cx-98, cy-16, {align:'center', font:'8px Segoe UI', color:'#374151'});
+
+  // P: partially-silvered plate (45 degrees)
+  ctx.save(); ctx.translate(cx,cy); ctx.rotate(-Math.PI/4);
+  ctx.strokeStyle='#374151'; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(-15,0); ctx.lineTo(15,0); ctx.stroke();
+  ctx.strokeStyle='#111827'; ctx.lineWidth=5;
+  ctx.beginPath(); ctx.moveTo(-15,-1.7); ctx.lineTo(15,-1.7); ctx.stroke();
+  ctx.restore();
+  txt(ctx,'P: partially-silvered plate', cx, cy-20, {align:'center', font:'7.8px Segoe UI', color:'#374151'});
+  txt(ctx,'(silvered on back (right) face)', cx, cy-11, {align:'center', font:'7.4px Segoe UI', color:'#6b7280'});
+
+  // C: path-compensating plate, parallel to P, between P and M2
+  const compX=cx+armLen*0.4, compY=cy;
+  ctx.save(); ctx.translate(compX,compY); ctx.rotate(-Math.PI/4);
+  ctx.strokeStyle='#9ca3af'; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(-13,0); ctx.lineTo(13,0); ctx.stroke();
+  ctx.restore();
+  txt(ctx,'C: compensating plate', compX+4, cy-34, {align:'center', font:'7.6px Segoe UI', color:'#374151'});
+
+  // M1 and M2 -- EQUAL distance armLen from P
+  const m1={x:cx,y:cy-armLen}, m2={x:cx+armLen,y:cy};
+  drawMirrorH(ctx, m1.x-16, m1.x+16, m1.y, '#6b7280');
+  drawMirror(ctx, m2.x, m2.y-16, m2.y+16, '#6b7280');
+  txt(ctx,'M\u2081', m1.x, m1.y-10, {align:'center', font:'8.5px Segoe UI', color:'#374151'});
+  txt(ctx,'M\u2082', m2.x+8, m2.y-16, {font:'8.5px Segoe UI', color:'#374151'});
+
+  // beam paths (thin, static) with a bright moving dot animating the light itself
+  setStroke(ctx,'#d1d5db',1);
+  ctx.beginPath(); ctx.moveTo(cx,cy-6); ctx.lineTo(m1.x,m1.y+3); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx+6,cy); ctx.lineTo(m2.x-3,m2.y); ctx.stroke();
+  const vDot = mmBeamPos(t, cx,cy-6, m1.x,m1.y+3, 4);
+  const hDot = mmBeamPos(t, cx+6,cy, m2.x-3,m2.y, 4);
+  drawDot(ctx, vDot.x, vDot.y, 3.2, '#fde68a');
+  drawDot(ctx, hDot.x, hDot.y, 3.2, '#fde68a');
+
+  // telescope, tube pointing vertically up toward P
+  drawMMTelescope(ctx, cx, cy+14, cy+48);
+
+  ctx.restore(); // end rotating apparatus group
+
+  // two fields of view: what ether theory predicts vs. what is actually observed
+  const shiftPredicted = MM_STATE.rotating ? Math.sin(2*rotAngle)*6 : 0;
+  drawMMFieldOfView(ctx, 140, 246, 26, shiftPredicted, 'Expected field of view',
+    MM_STATE.rotating? 'ether theory predicts a shift on rotation':'no shift while stationary',
+    MM_STATE.rotating? '#b45309':'#166534');
+  drawMMFieldOfView(ctx, 340, 246, 26, 0, 'Actual field of view',
+    'no shift -- ever (the historical null result)', '#166534');
+
+  // motion of Earth through the ether: a second (smaller) image of the whole
+  // apparatus sweeps left to right, then snaps back and restarts
+  const stripY=190;
+  txt(ctx,'Motion of Earth through the ether:', 12, stripY-24, {font:'bold 8.6px Segoe UI', color:'#374151'});
+  ctx.save(); ctx.globalAlpha=0.4;
+  drawMMMiniApparatus(ctx, 44, stripY, null);
+  ctx.restore();
+  txt(ctx,'initial position', 44, stripY+24, {align:'center', font:'7.4px Segoe UI', color:'#9ca3af'});
+  if(MM_STATE.etherMoving){
+    const driftX = lerp(44, w-44, t); // left to right only, snaps back at loop restart
+    drawArrow(ctx, 44, stripY-20, 84, stripY-20, '#111827', 1.8);
+    txt(ctx,'v', 64, stripY-26, {align:'center', font:'bold 8.5px Segoe UI', color:'#111827'});
+    drawMMMiniApparatus(ctx, driftX, stripY, (t*6)%1);
+  } else {
+    txt(ctx,'(click "Motion of Earth through the ether" to animate)', w/2+40, stripY+2, {align:'center', font:'7.6px Segoe UI', color:'#9ca3af'});
+  }
+}
+
+function starField(ctx,w,h,n){
+  ctx.save();
+  for(let i=0;i<n;i++){
+    const rx = Math.abs(Math.sin(i*12.9898)*43758.5453)%1;
+    const ry = Math.abs(Math.sin(i*78.233+7)*24634.634)%1;
+    const x = rx*w, y=ry*h;
+    const r = 0.6 + Math.abs(Math.sin(i*3.1))*1.1;
+    ctx.globalAlpha = 0.35+Math.abs(Math.sin(i*5.7))*0.55;
+    drawDot(ctx,x,y,r,'#e5e7eb');
+  }
+  ctx.restore();
+}
+
+// a simplified, generic sci-fi cruiser: saucer + hull + two nacelles on pylons.
+// Drawn nose-to-the-right (direction of travel); contractX squashes it along
+// that direction only, exactly as special relativity contracts a moving body.
+function drawSpaceship(ctx, cx, cy, scale, contractX){
+  ctx.save();
+  ctx.translate(cx,cy);
+  ctx.scale(scale*contractX, scale);
+  ctx.lineWidth=1.6;
+  // pylons
+  ctx.strokeStyle='#64748b';
+  ctx.beginPath();
+  ctx.moveTo(-46,-2); ctx.lineTo(-72,-27);
+  ctx.moveTo(-46,10); ctx.lineTo(-72,31);
+  ctx.stroke();
+  // nacelles
+  ctx.fillStyle='#e2e8f0'; ctx.strokeStyle='#475569';
+  ctx.beginPath(); ctx.ellipse(-80,-30,44,6,0,0,Math.PI*2); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.ellipse(-80,30,44,6,0,0,Math.PI*2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle='#dc2626';
+  ctx.beginPath(); ctx.ellipse(-121,-30,5,4,0,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(-121,30,5,4,0,0,Math.PI*2); ctx.fill();
+  // engineering hull
+  ctx.fillStyle='#cbd5e1'; ctx.strokeStyle='#475569';
+  ctx.beginPath(); ctx.ellipse(-28,5,42,10,0,0,Math.PI*2); ctx.fill(); ctx.stroke();
+  // neck
+  ctx.fillStyle='#94a3b8';
+  ctx.beginPath(); ctx.moveTo(0,-3); ctx.lineTo(12,-17); ctx.lineTo(27,-17); ctx.lineTo(17,-1); ctx.closePath(); ctx.fill();
+  // saucer
+  ctx.fillStyle='#f1f5f9'; ctx.strokeStyle='#475569';
+  ctx.beginPath(); ctx.ellipse(32,-14,34,16,0,0,Math.PI*2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle='#38bdf8'; ctx.globalAlpha=0.65;
+  ctx.beginPath(); ctx.ellipse(32,-14,10,5,0,0,Math.PI*2); ctx.fill();
+  ctx.globalAlpha=1;
+  ctx.restore();
 }
 
 // 2) Length Contraction
 function draw_a1_lengthcontraction(ctx, w, h, t){
-  const v_c = (Math.sin(t*Math.PI*2)+1)/2*0.98;
-  const gamma = 1/Math.sqrt(1-v_c*v_c);
-  const L0=180;
-  const L = L0/gamma;
-  const cx=w/2, cy=h/2;
-  roundedRect(ctx, cx-L0/2, cy-50, L0, 24, 3, undefined, '#9ca3af');
-  txt(ctx,'rest length L\u2080 (lab frame)', cx, cy-58, {align:'center', font:'10px Segoe UI', color:'#6b7280'});
-  roundedRect(ctx, cx-L/2, cy+10, L, 30, 4, '#60a5fa', '#1e40af');
-  txt(ctx,'moving rod, v = '+(v_c*100).toFixed(0)+'%c', cx, cy+58, {align:'center', font:'bold 11px Segoe UI', color:'#1e40af'});
-  drawArrow(ctx, cx+L/2+10, cy+25, cx+L/2+40, cy+25, '#111827', 1.6);
-  txt(ctx,'L = L\u2080/\u03b3', cx, 30, {align:'center', font:'bold 12px Segoe UI', color:'#374151'});
-  txt(ctx,'\u03b3 = '+gamma.toFixed(2), cx, h-16, {align:'center', font:'11px Segoe UI', color:'#374151'});
+  ctx.fillStyle='#05070f'; ctx.fillRect(0,0,w,h);
+  starField(ctx,w,h,70);
+
+  const v_c = (Math.sin(t*Math.PI*2)+1)/2*0.999; // full 0..100% of c
+  const gamma = 1/Math.sqrt(Math.max(1e-6,1-v_c*v_c));
+  const contractX = 1/gamma;
+
+  // reference (rest-frame) ship — small, faded, static, for comparison
+  const refCx=w/2, refCy=36;
+  ctx.save(); ctx.globalAlpha=0.6;
+  drawSpaceship(ctx, refCx, refCy, 0.4, 1);
+  ctx.restore();
+  txt(ctx,'rest frame \u2014 proper length L\u2080', refCx, refCy+28, {align:'center', font:'9.5px Segoe UI', color:'#cbd5e1'});
+
+  // moving ship — contracted along its direction of travel, drifting across the scene
+  const cy = h*0.64;
+  const cx = lerp(90, w-70, t);
+  const scale=0.62;
+
+  const trailLen = 18 + v_c*140; // mist trail grows with speed
+  const nPuffs=16;
+  for(let i=0;i<nPuffs;i++){
+    const f=i/nPuffs;
+    const px = cx - 75*scale*contractX - f*trailLen + Math.sin(t*40+i)*2;
+    const py = cy + Math.sin(i*1.7+t*12)*4;
+    ctx.globalAlpha=(1-f)*0.55;
+    drawDot(ctx, px, py, 2.5+(1-f)*3, '#e5e7eb');
+  }
+  ctx.globalAlpha=1;
+
+  drawSpaceship(ctx, cx, cy, scale, contractX);
+
+  drawArrow(ctx, cx+50*scale*contractX+10, cy-4, cx+50*scale*contractX+42, cy-4, '#93c5fd', 1.8);
+  txt(ctx,'v = '+(v_c*100).toFixed(0)+'% c', cx, cy+42, {align:'center', font:'bold 11px Segoe UI', color:'#fde68a'});
+  txt(ctx,'L = L\u2080/\u03b3  (\u03b3 = '+gamma.toFixed(2)+')', w/2, 20, {align:'center', font:'bold 12px Segoe UI', color:'#e5e7eb'});
+  txt(ctx,'the ship contracts along its direction of motion as v \u2192 c', w/2, h-12, {align:'center', font:'10px Segoe UI', color:'#9ca3af'});
 }
 
 // 3) Time Dilation — Light Clock
+// 3) Time Dilation — rest vs moving frame, side by side
 function draw_a1_timedilation(ctx, w, h, t){
-  const half=w/2;
-  const v_c=0.7;
-  txt(ctx,'Rest frame (clock at rest)', half*0.5, 22, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
-  txt(ctx,'Moving frame (observed from lab)', half*1.5, 22, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
-  const y0=h-50, y1=60;
-  const cx1=half*0.5;
-  roundedRect(ctx, cx1-40, y0, 80, 6, 2, '#6b7280');
-  roundedRect(ctx, cx1-40, y1-6, 80, 6, 2, '#6b7280');
-  const bounce1 = Math.abs(((t*2)%1)*2-1);
-  const ly1 = lerp(y0, y1, bounce1);
-  drawDot(ctx, cx1, ly1, 5, '#dc2626');
-  ctx.save(); setStroke(ctx,'#f59e0b',1.4); ctx.setLineDash([2,2]);
-  ctx.beginPath(); ctx.moveTo(cx1,y0); ctx.lineTo(cx1,y1); ctx.stroke(); ctx.restore();
+  const V_C=0.6, GAMMA=1/Math.sqrt(1-V_C*V_C); // = 1.25
+  const contractX=1/GAMMA;                     // = 0.8 (same factor drives both effects)
+  const localT = t/GAMMA;                      // the moving frame's own (slowed) proper-time phase
 
-  const cx2=half*1.5;
-  roundedRect(ctx, cx2-70, y0, 140, 6, 2, '#6b7280');
-  roundedRect(ctx, cx2-70, y1-6, 140, 6, 2, '#6b7280');
-  const drift = (t-0.25)*160;
-  const bx0 = cx2-70+ (drift%140+140)%140*0 ; // not used
-  const period=1, bp=(t*2)%1;
-  const xoff = lerp(-60,60, t);
-  const bounce2 = Math.abs((bp*2)-1);
-  const ly2 = lerp(y0,y1,bounce2);
-  const lx2 = cx2 - 60 + t*120;
-  drawDot(ctx, ((lx2-cx2+70)%140+140)%140+cx2-70, ly2, 5, '#dc2626');
-  ctx.save(); setStroke(ctx,'#f59e0b',1.4); ctx.setLineDash([2,2]);
-  ctx.beginPath();
-  for(let seg=0; seg<3; seg++){
-    ctx.moveTo(cx2-70+seg*46, y0); ctx.lineTo(cx2-70+23+seg*46, y1); ctx.lineTo(cx2-70+46+seg*46,y0);
+  function bounceZigzag(phase, gammaVal, range, x0, yTop, yBottom, nBounces, decay){
+    const idx=Math.min(nBounces-1, Math.floor(phase*nBounces));
+    const sub=phase*nBounces-idx;
+    const amp=(yBottom-yTop)*Math.pow(decay,idx);
+    const y=yBottom-Math.sin(sub*Math.PI)*amp;
+    const x=x0+phase*gammaVal*range;
+    const guide=[];
+    for(let k=0;k<nBounces;k++){
+      const tB=(k/nBounces)*gammaVal, tA=((k+0.5)/nBounces)*gammaVal;
+      const ampK=(yBottom-yTop)*Math.pow(decay,k);
+      guide.push({x:x0+tB*range,y:yBottom});
+      guide.push({x:x0+tA*range,y:yBottom-ampK});
+    }
+    return {x,y,guide};
   }
-  ctx.stroke(); ctx.restore();
-  txt(ctx,'longer diagonal path \u2192 clock ticks slower', cx2, h-18, {align:'center', font:'bold 10.5px Segoe UI', color:'#374151'});
-  txt(ctx,'\u0394t = \u03b3\u0394t\u2080', cx1, h-18, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
+  function drawGuide(pts,color){
+    ctx.save(); setStroke(ctx,color,1); ctx.setLineDash([3,3]); ctx.globalAlpha=0.6;
+    ctx.beginPath(); ctx.moveTo(pts[0].x,pts[0].y);
+    for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y);
+    ctx.stroke(); ctx.restore();
+  }
+  function horizBeamX(phase, xLeft, xRight, asymmetric, nCycles){
+    const cyc=(phase*nCycles)%1;
+    let frac=0.5;
+    if(asymmetric){ const A=1/(1-V_C), B=1/(1+V_C); frac=A/(A+B); }
+    if(cyc<frac) return lerp(xLeft,xRight,cyc/frac);
+    return lerp(xRight,xLeft,(cyc-frac)/(1-frac));
+  }
+  function drawClockFace(cx,cy,rx,ry,phase){
+    ctx.save(); ctx.strokeStyle='#374151'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.ellipse(cx,cy,rx,ry,0,0,Math.PI*2); ctx.stroke();
+    for(let i=0;i<12;i++){
+      const a=i/12*Math.PI*2;
+      const x1=cx+Math.cos(a)*rx*0.82, y1=cy+Math.sin(a)*ry*0.82;
+      const x2=cx+Math.cos(a)*rx*0.96, y2=cy+Math.sin(a)*ry*0.96;
+      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+    }
+    const ha=phase*Math.PI*2-Math.PI/2;
+    ctx.strokeStyle='#dc2626'; ctx.lineWidth=2.4;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(ha)*rx*0.7, cy+Math.sin(ha)*ry*0.7); ctx.stroke();
+    ctx.restore();
+    roundedRect(ctx, cx-18, cy+ry+6, 36, 14, 3, '#111827');
+    txt(ctx, phase.toFixed(2), cx, cy+ry+16, {align:'center', font:'bold 10px Consolas, monospace', color:'#22c55e'});
+  }
+
+  // ---------- REST FRAME ----------
+  txt(ctx,'REST FRAME \u2014 you are here', 12, 16, {font:'bold 11px Segoe UI', color:'#166534'});
+  const bandCenterX=240;
+  const restClockCx=90, restBallCx=240, restLCCx=390;
+  const restCy=78, restR=26, lcHalf=36;
+  drawClockFace(restClockCx, restCy, restR, restR, t);
+
+  const ballR = bounceZigzag(t, 1, 0, restBallCx, 50, 118, 5, 0.9);
+  drawGuide(ballR.guide, '#9ca3af');
+  drawDot(ctx, ballR.x, ballR.y, 6, '#dc2626');
+  txt(ctx,'bouncing ball', restBallCx, 132, {align:'center', font:'8.5px Segoe UI', color:'#374151'});
+
+  roundedRect(ctx, restLCCx-lcHalf, restCy-lcHalf, lcHalf*2, lcHalf*2, 4, undefined, '#6b7280');
+  const vB = bounceZigzag(t, 1, 0, restLCCx, restCy-30, restCy+30, 6, 1);
+  drawDot(ctx, vB.x, vB.y, 4, '#2563eb');
+  const hx = horizBeamX(t, restLCCx-lcHalf+4, restLCCx+lcHalf-4, false, 3);
+  drawDot(ctx, hx, restCy, 4, '#16a34a');
+  txt(ctx,'light clock', restLCCx, restCy+lcHalf+14, {align:'center', font:'8.5px Segoe UI', color:'#374151'});
+
+  // ---------- MOVING FRAME ----------
+  const yOff=128;
+  txt(ctx,'MOVING FRAME', 12, 16+yOff, {font:'bold 11px Segoe UI', color:'#1e40af'});
+  drawArrow(ctx, 128, 12+yOff, 188, 12+yOff, '#1e40af', 2);
+  txt(ctx,'v = 0.6 c', 158, 6+yOff, {align:'center', font:'bold 9.5px Segoe UI', color:'#1e40af'});
+
+  const movClockCx=bandCenterX+(restClockCx-bandCenterX)*contractX;
+  const movBallCx =bandCenterX+(restBallCx -bandCenterX)*contractX;
+  const movLCCx   =bandCenterX+(restLCCx   -bandCenterX)*contractX;
+  const movCy=restCy+yOff;
+  const movRx=restR*contractX, movRy=restR;
+  drawClockFace(movClockCx, movCy, movRx, movRy, localT);
+
+  const ballM = bounceZigzag(localT, GAMMA, 34, movBallCx, 50+yOff, 118+yOff, 5, 0.9);
+  drawGuide(ballM.guide, '#93c5fd');
+  drawDot(ctx, ballM.x, ballM.y, 6, '#dc2626');
+  txt(ctx,'bouncing ball (slower, slanted)', movBallCx, 132+yOff, {align:'center', font:'8.2px Segoe UI', color:'#374151'});
+
+  const movHalfX=lcHalf*contractX, movHalfY=lcHalf;
+  roundedRect(ctx, movLCCx-movHalfX, movCy-movHalfY, movHalfX*2, movHalfY*2, 4, undefined, '#1e40af');
+  const vBm = bounceZigzag(localT, GAMMA, 20, movLCCx, movCy-30, movCy+30, 6, 1);
+  drawDot(ctx, vBm.x, vBm.y, 4, '#2563eb');
+  const hxm = horizBeamX(localT, movLCCx-movHalfX+3, movLCCx+movHalfX-3, true, 3);
+  drawDot(ctx, hxm, movCy, 4, '#16a34a');
+  txt(ctx,'light clock (contracted)', movLCCx, movCy+movHalfY+14, {align:'center', font:'8.2px Segoe UI', color:'#374151'});
+  txt(ctx,'beam chases the receding right mirror, then meets the approaching left mirror', movLCCx, movCy+movHalfY+26, {align:'center', font:'7.6px Segoe UI', color:'#6b7280'});
+
+  txt(ctx,'Moving frame runs slower AND is contracted horizontally by the same \u03b3='+GAMMA.toFixed(2)+' \u2014 so its own light speed still measures as c.', w/2, h-8, {align:'center', font:'8.6px Segoe UI', color:'#374151'});
 }
 
 // 4) Relativistic Mass Increase with Velocity
@@ -406,23 +658,37 @@ function draw_a1_massenergy(ctx, w, h, t){
 
 // 6) Interference in Thin Films
 function draw_a1_thinfilm(ctx, w, h, t){
-  const filmX0=w*0.3, filmX1=w*0.7, filmY0=90, thickBase=40;
-  const thick = thickBase + Math.sin(t*Math.PI*2)*14;
+  const filmX0=w*0.3, filmX1=w*0.7, filmY0=90;
+  const maxThick=27; // halved from the previous ~54 px maximum
+  const thick = clamp01(t)*maxThick; // sweeps from nearly negligible to the maximum
   roundedRect(ctx, filmX0, filmY0, filmX1-filmX0, thick, 0, 'rgba(125,211,252,0.35)', '#0284c7');
   txt(ctx,'thin film (soap film)', (filmX0+filmX1)/2, filmY0-14, {align:'center', font:'11px Segoe UI', color:'#374151'});
-  const ix=(filmX0+filmX1)/2;
-  drawArrow(ctx, ix-50, filmY0-40, ix, filmY0, '#f59e0b', 2);
-  const r1y=filmY0-10;
-  drawArrow(ctx, ix, filmY0, ix+50, r1y-40, '#16a34a', 1.8);
-  drawArrow(ctx, ix, filmY0, ix, filmY0+thick, '#f59e0b', 1.6);
-  drawArrow(ctx, ix, filmY0+thick, ix+50, filmY0+thick-40, '#7c3aed', 1.8);
-  txt(ctx,'ray 1 (top surface)', ix+54, r1y-42, {font:'9.5px Segoe UI', color:'#166534'});
-  txt(ctx,'ray 2 (bottom surface)', ix+54, filmY0+thick-42, {font:'9.5px Segoe UI', color:'#5b21b6'});
+
+  const ixA=(filmX0+filmX1)/2, ixB=ixA-22; // two edges of the same incident beam
+  // ray hitting A: partially reflects off the TOP surface (ray 1)
+  drawArrow(ctx, ixA-50, filmY0-40, ixA, filmY0, '#f59e0b', 2);
+  drawArrow(ctx, ixA, filmY0, ixA+50, filmY0-40, '#16a34a', 1.8);
+  txt(ctx,'incident ray (1)', ixA-70, filmY0-46, {font:'9px Segoe UI', color:'#92400e'});
+  txt(ctx,'ray 1 (top surface)', ixA+54, filmY0-46, {font:'9.5px Segoe UI', color:'#166534'});
+
+  // ray hitting the OTHER edge B: refracts into the film, reflects off the bottom
+  // surface, and re-emerges alongside ray 1 as ray 2
+  const bx=ixB+16; // point where it reaches the bottom surface
+  const cx2=ixB+32; // point where it exits back through the top surface
+  drawArrow(ctx, ixB-50, filmY0-40, ixB, filmY0, '#f59e0b', 2);
+  txt(ctx,'incident ray (2)', ixB-70, filmY0-2, {font:'9px Segoe UI', color:'#92400e'});
+  drawArrow(ctx, ixB, filmY0, bx, filmY0+thick, '#f59e0b', 1.4);
+  drawArrow(ctx, bx, filmY0+thick, cx2, filmY0, '#f59e0b', 1.4);
+  drawArrow(ctx, cx2, filmY0, cx2+50, filmY0-40, '#7c3aed', 1.8);
+  txt(ctx,'ray 2 (bottom surface)', cx2+54, filmY0-40, {font:'9.5px Segoe UI', color:'#5b21b6'});
+
   const pathDiff = thick*2;
-  const constructive = Math.round(pathDiff/20)%2===0;
+  const halfLambda = 7.5; // tuned so the sweep shows 3\u20134 full fringe cycles
+  const cycle = Math.floor(pathDiff/halfLambda);
+  const constructive = cycle%2===0;
   txt(ctx, constructive? 'constructive \u2014 bright fringe':'destructive \u2014 dark fringe', w/2, h-40,
       {align:'center', font:'bold 11.5px Segoe UI', color: constructive? '#166534':'#374151'});
-  txt(ctx,'path difference depends on thickness t and angle', w/2, h-18, {align:'center', font:'10px Segoe UI', color:'#6b7280'});
+  txt(ctx,'thickness t = '+thick.toFixed(1)+' px (path difference depends on t and angle)', w/2, h-18, {align:'center', font:'10px Segoe UI', color:'#6b7280'});
 }
 
 
@@ -430,11 +696,11 @@ function draw_a1_thinfilm(ctx, w, h, t){
 
 // 1) Fraunhofer Diffraction at a Single Slit
 function draw_a2_singleslit(ctx, w, h, t){
-  const slitX=90, slitY0=h/2-30, slitY1=h/2+30;
+  const slitX=90, gap=10, slitY0=h/2-gap/2, slitY1=h/2+gap/2;
   roundedRect(ctx, slitX-6, 20, 12, slitY0-20, 0, '#374151');
   roundedRect(ctx, slitX-6, slitY1, 12, h-30-slitY1, 0, '#374151');
   txt(ctx,'slit', slitX, 14, {align:'center', font:'10px Segoe UI', color:'#374151'});
-  const nSources=7;
+  const nSources=2;
   for(let i=0;i<nSources;i++){
     const sy = lerp(slitY0,slitY1,i/(nSources-1));
     drawDot(ctx, slitX, sy, 2.6, '#f59e0b');
@@ -619,60 +885,111 @@ function draw_a3_laseraction(ctx, w, h, t){
 
 // 2) Ruby Laser: Three-Level Pumping Cycle
 function draw_a3_ruby(ctx, w, h, t){
-  const cx0=90, cx1=w-90;
-  const levels=[{y:h-30,label:'E0'},{y:h-100,label:'E1 (meta)'},{y:40,label:'E2 (pump)'}];
-  levels.forEach(L=>{ drawLevel(ctx,cx0,cx1,L.y,'#1f2d3d',2); txt(ctx,L.label,cx1+6,L.y+4,{font:'9.5px Segoe UI'}); });
-  const cx=(cx0+cx1)/2-20;
-  let ey=levels[0].y;
-  if(t<0.22) ey=lerp(levels[0].y,levels[2].y,easeOut(clamp01(t/0.22)));
-  else if(t<0.34) ey=lerp(levels[2].y,levels[1].y,easeOut(clamp01((t-0.22)/0.12)));
-  else if(t<0.75) ey=levels[1].y;
-  else if(t<0.9) ey=lerp(levels[1].y,levels[0].y,easeOut(clamp01((t-0.75)/0.15)));
-  else ey=levels[0].y;
-  if(pulseWindow(t,0.02,0.22)>0) drawArrow(ctx,cx-16,levels[0].y,cx-16,levels[2].y,'#2563eb',2);
-  if(pulseWindow(t,0.22,0.34)>0) drawDashedArrow(ctx,cx+4,levels[2].y,cx+4,levels[1].y,'#9ca3af',1.6);
-  if(t>=0.75&&t<0.9) drawArrow(ctx,cx+18,levels[1].y,cx+18,levels[0].y,'#b91c1c',2.2);
-  drawDot(ctx, cx, ey, 6, '#f59e0b');
-  if(t>=0.75&&t<0.95){ drawPhoton(ctx,cx+30,(levels[0].y+levels[1].y)/2,0,15,'#b91c1c'); if(t>0.8) txt(ctx,'694.3 nm',cx+34,(levels[0].y+levels[1].y)/2-10,{font:'bold 10px Segoe UI',color:'#b91c1c'}); }
-  txt(ctx,'Three-level pumping cycle (Cr\u00b3\u207a in ruby)', cx0, 20, {font:'bold 11px Segoe UI', color:'#374151'});
+  const hash01=(i,seed)=>Math.abs(Math.sin(i*12.9898+seed*78.233)*43758.5453)%1;
+  const cx0=136, cx1=w-40;
+  const levels=[{y:h-30,label:'E0 (ground)'},{y:h-98,label:'E1 (meta-stable)'},{y:40,label:'E2 (pump band)'}];
+  levels.forEach(L=>{ drawLevel(ctx,cx0,cx1,L.y,'#1f2d3d',2); txt(ctx,L.label,cx1+6,L.y+4,{font:'9px Segoe UI'}); });
+
+  // helical Xenon flash lamp, to the left of the ruby rod
+  const lampX=42;
+  ctx.save(); setStroke(ctx,'#7c3aed',2.2);
+  ctx.beginPath();
+  for(let yy=levels[2].y; yy<=levels[0].y; yy+=11){ ctx.moveTo(lampX-9,yy); ctx.quadraticCurveTo(lampX+9,yy+5.5,lampX-9,yy+11); }
+  ctx.stroke(); ctx.restore();
+  txt(ctx,'helical Xenon', lampX, levels[2].y-16, {align:'center', font:'8.5px Segoe UI', color:'#5b21b6'});
+  txt(ctx,'arc discharge lamp', lampX, levels[2].y-6, {align:'center', font:'8.5px Segoe UI', color:'#5b21b6'});
+
+  const N=14;
+  const cascadeStart=0.74, cascadeEnd=0.90;
+  const spacing=(cx1-cx0-40)/(N-1);
+  let nAtE0=0, nAtE1=0, nAtE2=0;
+  for(let i=0;i<N;i++){
+    const h1=hash01(i,1), h2=hash01(i,2);
+    const pumpT=0.04+h1*0.30;          // each electron pumped E0\u2192E2 at its own staggered instant
+    const toE1T=pumpT+0.03+h2*0.28;    // then decays E2\u2192E1 "randomly" a little later
+    const dropT=cascadeStart+h1*0.05;  // during the cascade, drops are tightly clustered (near-synchronous)
+    let level;
+    if(t<pumpT) level=0;
+    else if(t<toE1T) level=2;
+    else if(t<cascadeStart) level=1;
+    else if(t<cascadeEnd) level = t<dropT? 1 : 0;
+    else level=0;
+    const ex = cx0+20+i*spacing, ey=levels[level].y;
+    drawDot(ctx, ex, ey, 5, level===2? '#2563eb' : level===1? '#f59e0b' : '#94a3b8');
+    if(level===0) nAtE0++; else if(level===1) nAtE1++; else nAtE2++;
+  }
+
+  if(t<0.4){
+    const flick=(Math.sin(t*80)+1)/2;
+    if(flick>0.3) drawPhoton(ctx, lampX+16, lerp(levels[2].y+10,levels[0].y-10,hash01(Math.floor(t*40),7)), 0, 15, '#16a34a');
+  }
+  if(t>0.05 && t<0.68){ drawDashedArrow(ctx, cx1-14, levels[2].y, cx1-14, levels[1].y, '#9ca3af', 1.6); }
+
+  if(t>=cascadeStart && t<cascadeEnd+0.06){
+    const p=clamp01((t-cascadeStart)/(cascadeEnd-cascadeStart));
+    for(let row=-1; row<=1; row++){
+      const yy=(levels[0].y+levels[1].y)/2 + row*7;
+      const xx = lerp(cx1-10, w+20, clamp01(p*1.3-row*0.05));
+      if(xx<w+15) drawPhoton(ctx, xx, yy, 0, 15, '#dc2626');
+    }
+    if(p>0.15) txt(ctx,'694.3 nm', cx1+10, (levels[0].y+levels[1].y)/2-14, {font:'bold 10px Segoe UI', color:'#b91c1c'});
+  }
+
+  txt(ctx,'Three-level pumping ('+N+' Cr\u00b3\u207a ions): '+nAtE0+' at E0, '+nAtE1+' at E1, '+nAtE2+' at E2', cx0, 18, {font:'bold 9.3px Segoe UI', color:'#374151'});
 }
 
 // 3) He-Ne Laser: Energy Transfer Mechanism
 function draw_a3_hene(ctx, w, h, t){
   const heX=110, neX=w-110;
-  const gy=h-30, exHeY=70, ex1NeY=95, ex2NeY=150;
-  txt(ctx,'He', heX, 24, {align:'center', font:'bold 12px Segoe UI', color:'#374151'});
-  txt(ctx,'Ne', neX, 24, {align:'center', font:'bold 12px Segoe UI', color:'#374151'});
+  const gy=h-30;
+  const heExY = 50;   // He 2\u00b9S,2\u00b3S \u2248 20.61 eV
+  const neL1Y = 44;   // Ne 5s,4s  \u2248 20.66 eV \u2014 slightly ABOVE He's level
+  const neL2Y = 70;   // Ne 3p,4p  \u2248 18.70 eV \u2014 lower laser level (632.8 nm)
+  const neL3Y = 96;   // Ne 3s     \u2248 16.60 eV \u2014 the added 4th level, between ground and the lower laser level
+  txt(ctx,'He', heX, 20, {align:'center', font:'bold 12px Segoe UI', color:'#374151'});
+  txt(ctx,'Ne', neX, 20, {align:'center', font:'bold 12px Segoe UI', color:'#374151'});
   drawLevel(ctx, heX-55, heX+55, gy, '#1f2d3d');
-  drawLevel(ctx, heX-55, heX+55, exHeY, '#1f2d3d');
+  drawLevel(ctx, heX-55, heX+55, heExY, '#1f2d3d');
   drawLevel(ctx, neX-55, neX+55, gy, '#1f2d3d');
-  drawLevel(ctx, neX-55, neX+55, ex1NeY, '#1f2d3d');
-  drawLevel(ctx, neX-55, neX+55, ex2NeY, '#1f2d3d');
-  txt(ctx,'2\u00b9S,2\u00b3S', heX+58, exHeY+4, {font:'9px Segoe UI', color:'#6b7280'});
-  txt(ctx,'5S,4S', neX+40, ex1NeY+4, {font:'9px Segoe UI', color:'#6b7280'});
-  txt(ctx,'3P,4P', neX+40, ex2NeY+4, {font:'9px Segoe UI', color:'#6b7280'});
+  drawLevel(ctx, neX-55, neX+55, neL1Y, '#1f2d3d');
+  drawLevel(ctx, neX-55, neX+55, neL2Y, '#1f2d3d');
+  drawLevel(ctx, neX-55, neX+55, neL3Y, '#1f2d3d');
+  txt(ctx,'2\u00b9S,2\u00b3S (20.61 eV)', heX+58, heExY+4, {font:'8.5px Segoe UI', color:'#6b7280'});
+  txt(ctx,'5S,4S (20.66 eV)', neX+58, neL1Y+4, {font:'8.5px Segoe UI', color:'#6b7280'});
+  txt(ctx,'3P,4P (18.70 eV)', neX+58, neL2Y+4, {font:'8.5px Segoe UI', color:'#6b7280'});
+  txt(ctx,'3S (16.60 eV)', neX+58, neL3Y+4, {font:'8.5px Segoe UI', color:'#6b7280'});
+
   let heY=gy;
-  if(t<0.22) heY=lerp(gy,exHeY,easeOut(clamp01(t/0.22))); else heY=exHeY;
-  if(pulseWindow(t,0.02,0.22)>0) drawArrow(ctx,heX-70,gy,heX-70,exHeY,'#2563eb',2);
+  if(t<0.22) heY=lerp(gy,heExY,easeOut(clamp01(t/0.22))); else heY=heExY;
+  if(pulseWindow(t,0.02,0.22)>0) drawArrow(ctx,heX-70,gy,heX-70,heExY,'#2563eb',2);
   drawDot(ctx, heX, heY, 6, '#f59e0b');
+
   const transferP=pulseWindow(t,0.28,0.46);
   if(transferP>0){
     const px=lerp(heX+8,neX-14,transferP);
     ctx.save(); ctx.setLineDash([3,3]); setStroke(ctx,'#16a34a',2);
-    ctx.beginPath(); ctx.moveTo(heX+8,exHeY); ctx.lineTo(px,lerp(exHeY,ex1NeY,transferP)); ctx.stroke(); ctx.restore();
+    ctx.beginPath(); ctx.moveTo(heX+8,heExY); ctx.lineTo(px,lerp(heExY,neL1Y,transferP)); ctx.stroke(); ctx.restore();
   }
+
   let neY=gy;
-  if(t>=0.46) neY=ex1NeY;
-  const decay1=pulseWindow(t,0.62,0.75);
-  if(decay1>0) neY=lerp(ex1NeY,ex2NeY,easeOut(decay1));
-  if(t>=0.75) neY=ex2NeY;
-  const decay2=pulseWindow(t,0.82,0.94);
-  if(decay2>0) neY=lerp(ex2NeY,gy,easeOut(decay2));
-  if(t>=0.94) neY=gy;
+  if(t>=0.46) neY=neL1Y;
+  const laserDecay=pulseWindow(t,0.62,0.75);
+  if(laserDecay>0) neY=lerp(neL1Y,neL2Y,easeOut(laserDecay));
+  if(t>=0.75) neY=neL2Y;
+  const decay2=pulseWindow(t,0.78,0.88);
+  if(decay2>0) neY=lerp(neL2Y,neL3Y,easeOut(decay2));
+  if(t>=0.88) neY=neL3Y;
+  const decay3=pulseWindow(t,0.90,0.97);
+  if(decay3>0) neY=lerp(neL3Y,gy,easeOut(decay3));
+  if(t>=0.97) neY=gy;
   if(t<0.46) neY=gy;
   drawDot(ctx, neX, neY, 6, '#f59e0b');
-  if(t>=0.62 && t<0.8) drawPhoton(ctx, neX+22, lerp(ex1NeY,ex2NeY,0.5), 0, 16, '#dc2626');
-  if(t>=0.7 && t<0.8) txt(ctx,'632.8 nm', neX+30, lerp(ex1NeY,ex2NeY,0.5)-8, {font:'bold 10px Segoe UI', color:'#dc2626'});
+
+  if(t>=0.62 && t<0.8) drawPhoton(ctx, neX+22, lerp(neL1Y,neL2Y,0.5), 0, 16, '#dc2626');
+  if(t>=0.7 && t<0.8) txt(ctx,'632.8 nm', neX+30, lerp(neL1Y,neL2Y,0.5)-8, {font:'bold 10px Segoe UI', color:'#dc2626'});
+  if(t>=0.78 && t<0.9) drawDashedArrow(ctx, neX-70, neL2Y, neX-70, neL3Y, '#9ca3af', 1.6);
+  if(t>=0.90 && t<0.98) drawDashedArrow(ctx, neX-70, neL3Y, neX-70, gy, '#9ca3af', 1.6);
+  txt(ctx,'4-level Ne: the added 3S level (between ground and the lower laser level) empties by wall collisions', w/2, h-8, {align:'center', font:'8.7px Segoe UI', color:'#6b7280'});
 }
 
 // 4) Holography: Recording & Reconstruction
@@ -777,14 +1094,14 @@ function draw_a3_dispersion(ctx, w, h, t){
 ANIMS.push(
   // ---------------- MODULE I ----------------
   {id:'a1-1', unit:1, title:'The Michelson\u2013Morley Experiment', tag:'1.3',
-   caption:'The interferometer detects no fringe shift as it is rotated, showing no evidence of motion through a luminiferous ether — the key null result motivating special relativity.',
+   caption:'A monochromatic beam is split by a partially-silvered plate (P), with a compensating plate (C) equalising the glass path. Two buttons below let you play either motion: "Rotate the apparatus" (needed for the ether-theory-predicted shift) or "Motion of Earth through the ether" (a second image of the whole apparatus sweeps across, then restarts). The "Expected" field of view can shift on rotation, but the "Actual" one never does \u2014 the historical null result.',
    draw: draw_a1_michelson, duration:4000},
   {id:'a1-2', unit:1, title:'Length Contraction', tag:'1.6',
-   caption:'A rod moving at relativistic speed appears contracted along its direction of motion as measured in the lab frame: L = L\u2080/\u03b3.',
+   caption:'A spaceship travelling at relativistic speed (swept over the full 0\u2013100% of c) appears contracted along its direction of motion as measured in the rest frame: L = L\u2080/\u03b3. Its mist trail lengthens with speed.',
    draw: draw_a1_lengthcontraction, duration:4200},
   {id:'a1-3', unit:1, title:'Time Dilation — the Light Clock', tag:'1.7',
-   caption:'A light pulse bouncing between mirrors takes a longer diagonal path when observed from a frame in which the clock is moving, so the moving clock appears to tick slower.',
-   draw: draw_a1_timedilation, duration:3200},
+   caption:'You are in the rest frame (top); the frame below moves at v = 0.6c. The same clock, bouncing ball and light-clock beams run in both — but in the moving frame everything ticks slower and is contracted horizontally by the same \u03b3, so its own light speed still comes out as c.',
+   draw: draw_a1_timedilation, duration:6000},
   {id:'a1-4', unit:1, title:'Relativistic Mass Increase with Velocity', tag:'1.9',
    caption:'As velocity approaches c, the relativistic mass m = m\u2080/\u221a(1\u2212v\u00b2/c\u00b2) diverges, requiring ever more energy to accelerate the object further.',
    draw: draw_a1_massincrease, duration:4000},
@@ -911,6 +1228,36 @@ function buildUI(){
           <button class="replay" data-target="${a.id}">\u21bb Replay</button>
         </div>`;
       grid.appendChild(card);
+      if(a.id==='a1-1'){
+        const mkBtn=()=>{
+          const b=document.createElement('button');
+          b.style.cssText='margin-top:8px;width:100%;font-size:12px;font-weight:600;border-radius:7px;border:1px solid var(--border);background:var(--bg);color:var(--navy);padding:7px 8px;cursor:pointer;';
+          return b;
+        };
+        const rotBtn=mkBtn();
+        const etherBtn=mkBtn();
+        const ROT_ON='\u23f8\ufe0f Stop rotating', ROT_OFF='\ud83d\udd01 Rotate the apparatus (needed for a fringe shift)';
+        const ETH_ON='\u23f8\ufe0f Stop Earth\u2019s motion through the ether', ETH_OFF='\ud83c\udf0d Motion of Earth through the ether';
+        function syncMMButtons(){
+          rotBtn.textContent = MM_STATE.rotating? ROT_ON : ROT_OFF;
+          etherBtn.textContent = MM_STATE.etherMoving? ETH_ON : ETH_OFF;
+        }
+        syncMMButtons();
+        rotBtn.addEventListener('click', ()=>{
+          MM_STATE.rotating = !MM_STATE.rotating;
+          if(MM_STATE.rotating) MM_STATE.etherMoving=false;
+          syncMMButtons();
+          const eh=engineHandles['a1-1']; if(eh) eh.replay();
+        });
+        etherBtn.addEventListener('click', ()=>{
+          MM_STATE.etherMoving = !MM_STATE.etherMoving;
+          if(MM_STATE.etherMoving) MM_STATE.rotating=false;
+          syncMMButtons();
+          const eh=engineHandles['a1-1']; if(eh) eh.replay();
+        });
+        card.appendChild(rotBtn);
+        card.appendChild(etherBtn);
+      }
     });
   });
 }
