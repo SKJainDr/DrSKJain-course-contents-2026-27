@@ -329,6 +329,10 @@ function drawMMFieldOfView(ctx, cx, cy, r, shift, label, sublabel, subColor){
     ctx.strokeStyle = i%2===0? '#fde68a':'#334155'; ctx.lineWidth=5;
     ctx.beginPath(); ctx.moveTo(fx,cy-r); ctx.lineTo(fx,cy+r); ctx.stroke();
   }
+  // crosswires, for a natural eyepiece-reticle appearance
+  ctx.strokeStyle='rgba(255,255,255,0.55)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(cx-r,cy); ctx.lineTo(cx+r,cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx,cy-r); ctx.lineTo(cx,cy+r); ctx.stroke();
   ctx.restore();
   ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.strokeStyle='#374151'; ctx.lineWidth=2; ctx.stroke();
   txt(ctx,label, cx, cy-r-8, {align:'center', font:'bold 8.8px Segoe UI', color:'#374151'});
@@ -336,79 +340,99 @@ function drawMMFieldOfView(ctx, cx, cy, r, shift, label, sublabel, subColor){
 }
 
 function draw_a1_michelson(ctx, w, h, t){
-  const cx=144, cy=88, armLen=52;
+  const cy=100, armLen=85;
+  const cx0=190, cxEnd=w-150; // ether-motion travel range for the WHOLE apparatus
   const rotAngle = MM_STATE.rotating ? t*Math.PI*2 : 0;
+  const cxNow = MM_STATE.etherMoving ? lerp(cx0, cxEnd, t) : cx0;
+  function cxAtTime(tt){ return MM_STATE.etherMoving ? lerp(cx0, cxEnd, clamp01(tt)) : cx0; }
 
-  ctx.save();
-  ctx.translate(cx,cy); ctx.rotate(rotAngle); ctx.translate(-cx,-cy);
+  function drawApparatusAt(cx, alpha, withBeamDots){
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.translate(cx,cy); ctx.rotate(rotAngle); ctx.translate(-cx,-cy);
 
-  // monochromatic light source
-  roundedRect(ctx, cx-110, cy-9, 22, 18, 2, '#7c2d12');
-  drawArrow(ctx, cx-84, cy, cx-16, cy, '#dc2626', 2);
-  txt(ctx,'monochromatic source', cx-98, cy-16, {align:'center', font:'8px Segoe UI', color:'#374151'});
+    // monochromatic light source
+    roundedRect(ctx, cx-140, cy-9, 22, 18, 2, '#7c2d12');
+    drawArrow(ctx, cx-114, cy, cx-16, cy, '#dc2626', 2);
+    txt(ctx,'monochromatic source', cx-127, cy-16, {align:'center', font:'8.4px Segoe UI', color:'#374151'});
 
-  // P: partially-silvered plate (45 degrees)
-  ctx.save(); ctx.translate(cx,cy); ctx.rotate(-Math.PI/4);
-  ctx.strokeStyle='#374151'; ctx.lineWidth=3;
-  ctx.beginPath(); ctx.moveTo(-15,0); ctx.lineTo(15,0); ctx.stroke();
-  ctx.strokeStyle='#111827'; ctx.lineWidth=5;
-  ctx.beginPath(); ctx.moveTo(-15,-1.7); ctx.lineTo(15,-1.7); ctx.stroke();
-  ctx.restore();
-  txt(ctx,'P: partially-silvered plate', cx, cy-20, {align:'center', font:'7.8px Segoe UI', color:'#374151'});
-  txt(ctx,'(silvered on back (right) face)', cx, cy-11, {align:'center', font:'7.4px Segoe UI', color:'#6b7280'});
+    // P: partially-silvered plate (45 degrees) -- label kept clear of both beam paths
+    ctx.save(); ctx.translate(cx,cy); ctx.rotate(-Math.PI/4);
+    ctx.strokeStyle='#374151'; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.moveTo(-18,0); ctx.lineTo(18,0); ctx.stroke();
+    ctx.strokeStyle='#111827'; ctx.lineWidth=5;
+    ctx.beginPath(); ctx.moveTo(-18,-2); ctx.lineTo(18,-2); ctx.stroke();
+    ctx.restore();
+    txt(ctx,'P: partially-silvered plate', cx-12, cy-38, {align:'right', font:'8px Segoe UI', color:'#374151'});
+    txt(ctx,'(silvered on back (right) face)', cx-12, cy-28, {align:'right', font:'7.6px Segoe UI', color:'#6b7280'});
 
-  // C: path-compensating plate, parallel to P, between P and M2
-  const compX=cx+armLen*0.4, compY=cy;
-  ctx.save(); ctx.translate(compX,compY); ctx.rotate(-Math.PI/4);
-  ctx.strokeStyle='#9ca3af'; ctx.lineWidth=3;
-  ctx.beginPath(); ctx.moveTo(-13,0); ctx.lineTo(13,0); ctx.stroke();
-  ctx.restore();
-  txt(ctx,'C: compensating plate', compX+4, cy-34, {align:'center', font:'7.6px Segoe UI', color:'#374151'});
+    // C: path-compensating plate, parallel to P, between P and M2
+    const compX=cx+armLen*0.4, compY=cy;
+    ctx.save(); ctx.translate(compX,compY); ctx.rotate(-Math.PI/4);
+    ctx.strokeStyle='#9ca3af'; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.moveTo(-15,0); ctx.lineTo(15,0); ctx.stroke();
+    ctx.restore();
+    txt(ctx,'C: compensating plate', compX, cy-38, {align:'center', font:'7.8px Segoe UI', color:'#374151'});
 
-  // M1 and M2 -- EQUAL distance armLen from P
-  const m1={x:cx,y:cy-armLen}, m2={x:cx+armLen,y:cy};
-  drawMirrorH(ctx, m1.x-16, m1.x+16, m1.y, '#6b7280');
-  drawMirror(ctx, m2.x, m2.y-16, m2.y+16, '#6b7280');
-  txt(ctx,'M\u2081', m1.x, m1.y-10, {align:'center', font:'8.5px Segoe UI', color:'#374151'});
-  txt(ctx,'M\u2082', m2.x+8, m2.y-16, {font:'8.5px Segoe UI', color:'#374151'});
+    // M1 and M2 -- EQUAL distance armLen from P; labels kept off to the side
+    const m1={x:cx,y:cy-armLen}, m2={x:cx+armLen,y:cy};
+    drawMirrorH(ctx, m1.x-18, m1.x+18, m1.y, '#6b7280');
+    drawMirror(ctx, m2.x, m2.y-18, m2.y+18, '#6b7280');
+    txt(ctx,'M\u2081', m1.x-26, m1.y+3, {align:'right', font:'9px Segoe UI', color:'#374151'});
+    txt(ctx,'M\u2082', m2.x+10, m2.y-18, {font:'9px Segoe UI', color:'#374151'});
 
-  // beam paths (thin, static) with a bright moving dot animating the light itself
-  setStroke(ctx,'#d1d5db',1);
-  ctx.beginPath(); ctx.moveTo(cx,cy-6); ctx.lineTo(m1.x,m1.y+3); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(cx+6,cy); ctx.lineTo(m2.x-3,m2.y); ctx.stroke();
-  const vDot = mmBeamPos(t, cx,cy-6, m1.x,m1.y+3, 4);
-  const hDot = mmBeamPos(t, cx+6,cy, m2.x-3,m2.y, 4);
-  drawDot(ctx, vDot.x, vDot.y, 3.2, '#fde68a');
-  drawDot(ctx, hDot.x, hDot.y, 3.2, '#fde68a');
+    // beam paths: thin static guide lines, with a bright RED moving dot (no blinking)
+    setStroke(ctx,'#d1d5db',1);
+    ctx.beginPath(); ctx.moveTo(cx,cy-8); ctx.lineTo(m1.x,m1.y+4); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx+8,cy); ctx.lineTo(m2.x-4,m2.y); ctx.stroke();
 
-  // telescope, tube pointing vertically up toward P
-  drawMMTelescope(ctx, cx, cy+14, cy+48);
+    if(withBeamDots){
+      const BEAM_COLOR='#dc2626';
+      for(let k=3;k>=0;k--){
+        const tt = Math.max(0, t - k*0.02);
+        const cxE = cxAtTime(tt);
+        const vp = mmBeamPos(tt, cxE,cy-8, cxE,cy-armLen+4, 4);
+        const hp = mmBeamPos(tt, cxE+8,cy, cxE+armLen-4,cy, 4);
+        ctx.save(); ctx.globalAlpha = alpha*(k===0? 1 : 0.30*(4-k)/4);
+        drawDot(ctx, vp.x, vp.y, k===0?4.2:2.6, BEAM_COLOR);
+        drawDot(ctx, hp.x, hp.y, k===0?4.2:2.6, BEAM_COLOR);
+        ctx.restore();
+      }
+    }
 
-  ctx.restore(); // end rotating apparatus group
+    // telescope, tube pointing vertically up toward P
+    drawMMTelescope(ctx, cx, cy+16, cy+56);
+
+    ctx.restore();
+  }
+
+  if(MM_STATE.etherMoving){
+    drawApparatusAt(cx0, 0.30, false); // faded reference image left behind
+  }
+  drawApparatusAt(cxNow, 1, true);
 
   // two fields of view: what ether theory predicts vs. what is actually observed
   const shiftPredicted = MM_STATE.rotating ? Math.sin(2*rotAngle)*6 : 0;
-  drawMMFieldOfView(ctx, 140, 246, 26, shiftPredicted, 'Expected field of view',
+  drawMMFieldOfView(ctx, 120, 252, 22, shiftPredicted, 'Expected field of view',
     MM_STATE.rotating? 'ether theory predicts a shift on rotation':'no shift while stationary',
     MM_STATE.rotating? '#b45309':'#166534');
-  drawMMFieldOfView(ctx, 340, 246, 26, 0, 'Actual field of view',
+  drawMMFieldOfView(ctx, 360, 252, 22, 0, 'Actual field of view',
     'no shift -- ever (the historical null result)', '#166534');
 
-  // motion of Earth through the ether: a second (smaller) image of the whole
-  // apparatus sweeps left to right, then snaps back and restarts
-  const stripY=190;
-  txt(ctx,'Motion of Earth through the ether:', 12, stripY-24, {font:'bold 8.6px Segoe UI', color:'#374151'});
-  ctx.save(); ctx.globalAlpha=0.4;
-  drawMMMiniApparatus(ctx, 44, stripY, null);
+  // motion of Earth through the ether: a small legend box moves in sync with the main apparatus
+  const stripY=210;
+  txt(ctx,'Motion of Earth through the ether:', 12, stripY-14, {font:'bold 8.4px Segoe UI', color:'#374151'});
+  ctx.save(); ctx.globalAlpha=0.35;
+  drawMMMiniApparatus(ctx, 230, stripY, null);
   ctx.restore();
-  txt(ctx,'initial position', 44, stripY+24, {align:'center', font:'7.4px Segoe UI', color:'#9ca3af'});
   if(MM_STATE.etherMoving){
-    const driftX = lerp(44, w-44, t); // left to right only, snaps back at loop restart
-    drawArrow(ctx, 44, stripY-20, 84, stripY-20, '#111827', 1.8);
-    txt(ctx,'v', 64, stripY-26, {align:'center', font:'bold 8.5px Segoe UI', color:'#111827'});
-    drawMMMiniApparatus(ctx, driftX, stripY, (t*6)%1);
+    const driftFrac = t;
+    const miniX = lerp(230, 430, driftFrac);
+    drawArrow(ctx, 230, stripY-18, 262, stripY-18, '#111827', 1.6);
+    txt(ctx,'v', 246, stripY-23, {align:'center', font:'bold 8px Segoe UI', color:'#111827'});
+    drawMMMiniApparatus(ctx, miniX, stripY, (t*6)%1);
   } else {
-    txt(ctx,'(click "Motion of Earth through the ether" to animate)', w/2+40, stripY+2, {align:'center', font:'7.6px Segoe UI', color:'#9ca3af'});
+    txt(ctx,'(idle -- click "Motion of Earth through the ether" below)', 340, stripY, {align:'center', font:'7.4px Segoe UI', color:'#9ca3af'});
   }
 }
 
@@ -428,7 +452,7 @@ function starField(ctx,w,h,n){
 // a simplified, generic sci-fi cruiser: saucer + hull + two nacelles on pylons.
 // Drawn nose-to-the-right (direction of travel); contractX squashes it along
 // that direction only, exactly as special relativity contracts a moving body.
-function drawSpaceship(ctx, cx, cy, scale, contractX){
+function drawSpaceship(ctx, cx, cy, scale, contractX, mistLength){
   ctx.save();
   ctx.translate(cx,cy);
   ctx.scale(scale*contractX, scale);
@@ -459,6 +483,23 @@ function drawSpaceship(ctx, cx, cy, scale, contractX){
   ctx.beginPath(); ctx.ellipse(32,-14,10,5,0,0,Math.PI*2); ctx.fill();
   ctx.globalAlpha=1;
   ctx.restore();
+
+  // mist: thin straight streaks from the outer (trailing) edge of each nacelle,
+  // drawn in screen space so their length reflects speed directly (not contracted)
+  if(mistLength>0){
+    const localX=-124, localY=30;
+    [-1,1].forEach(sign=>{
+      const bx = cx + localX*scale*contractX;
+      const by = cy + sign*localY*scale;
+      ctx.save();
+      const grad = ctx.createLinearGradient(bx,by, bx-mistLength,by);
+      grad.addColorStop(0,'rgba(226,232,240,0.85)');
+      grad.addColorStop(1,'rgba(226,232,240,0)');
+      ctx.strokeStyle=grad; ctx.lineWidth=2.2; ctx.lineCap='round';
+      ctx.beginPath(); ctx.moveTo(bx,by); ctx.lineTo(bx-mistLength,by); ctx.stroke();
+      ctx.restore();
+    });
+  }
 }
 
 // 2) Length Contraction
@@ -466,39 +507,27 @@ function draw_a1_lengthcontraction(ctx, w, h, t){
   ctx.fillStyle='#05070f'; ctx.fillRect(0,0,w,h);
   starField(ctx,w,h,70);
 
-  const v_c = (Math.sin(t*Math.PI*2)+1)/2*0.999; // full 0..100% of c
+  const v_c = t*0.999; // speed increases continuously, left to right, then snaps back
   const gamma = 1/Math.sqrt(Math.max(1e-6,1-v_c*v_c));
-  const contractX = 1/gamma;
+  const contractX = 1/gamma; // same in the vertical direction -- only x is squashed
 
-  // reference (rest-frame) ship — small, faded, static, for comparison
-  const refCx=w/2, refCy=36;
-  ctx.save(); ctx.globalAlpha=0.6;
-  drawSpaceship(ctx, refCx, refCy, 0.4, 1);
-  ctx.restore();
-  txt(ctx,'rest frame \u2014 proper length L\u2080', refCx, refCy+28, {align:'center', font:'9.5px Segoe UI', color:'#cbd5e1'});
-
-  // moving ship — contracted along its direction of travel, drifting across the scene
-  const cy = h*0.64;
-  const cx = lerp(90, w-70, t);
+  // moving ship -- upper part of the screen, per convention (moving frame = upper)
+  const cy = h*0.36;
+  const cx = lerp(70, w-70, t);
   const scale=0.62;
-
-  const trailLen = 18 + v_c*140; // mist trail grows with speed
-  const nPuffs=16;
-  for(let i=0;i<nPuffs;i++){
-    const f=i/nPuffs;
-    const px = cx - 75*scale*contractX - f*trailLen + Math.sin(t*40+i)*2;
-    const py = cy + Math.sin(i*1.7+t*12)*4;
-    ctx.globalAlpha=(1-f)*0.55;
-    drawDot(ctx, px, py, 2.5+(1-f)*3, '#e5e7eb');
-  }
-  ctx.globalAlpha=1;
-
-  drawSpaceship(ctx, cx, cy, scale, contractX);
-
+  const mistLength = 16 + v_c*150; // grows with speed
+  drawSpaceship(ctx, cx, cy, scale, contractX, mistLength);
   drawArrow(ctx, cx+50*scale*contractX+10, cy-4, cx+50*scale*contractX+42, cy-4, '#93c5fd', 1.8);
   txt(ctx,'v = '+(v_c*100).toFixed(0)+'% c', cx, cy+42, {align:'center', font:'bold 11px Segoe UI', color:'#fde68a'});
   txt(ctx,'L = L\u2080/\u03b3  (\u03b3 = '+gamma.toFixed(2)+')', w/2, 20, {align:'center', font:'bold 12px Segoe UI', color:'#e5e7eb'});
-  txt(ctx,'the ship contracts along its direction of motion as v \u2192 c', w/2, h-12, {align:'center', font:'10px Segoe UI', color:'#9ca3af'});
+
+  // reference (rest-frame) ship -- lower part of the screen, closer to the viewer
+  const refCx=w/2, refCy=h-40;
+  ctx.save(); ctx.globalAlpha=0.6;
+  drawSpaceship(ctx, refCx, refCy, 0.4, 1, 0);
+  ctx.restore();
+  txt(ctx,'rest frame \u2014 proper length L\u2080', refCx, refCy+28, {align:'center', font:'9.5px Segoe UI', color:'#cbd5e1'});
+  txt(ctx,'the ship contracts along its direction of motion as v \u2192 c; height is unchanged', w/2, h-8, {align:'center', font:'9.5px Segoe UI', color:'#9ca3af'});
 }
 
 // 3) Time Dilation — Light Clock
@@ -553,17 +582,49 @@ function draw_a1_timedilation(ctx, w, h, t){
     txt(ctx, phase.toFixed(2), cx, cy+ry+16, {align:'center', font:'bold 10px Consolas, monospace', color:'#22c55e'});
   }
 
-  // ---------- REST FRAME ----------
-  txt(ctx,'REST FRAME \u2014 you are here', 12, 16, {font:'bold 11px Segoe UI', color:'#166534'});
-  const bandCenterX=240;
+  // ---------- MOVING FRAME (upper part of the screen) ----------
+  const movCy=70, lcHalf=36;
+  const movClockCx=120, movBallCx=240, movLCCx=360;
+  const movRx=26*contractX, movRy=26;
+  const movHalfX=lcHalf*contractX, movHalfY=lcHalf;
+  const driftRange=64;
+  const frameDriftX = lerp(0, driftRange, t); // whole frame translates left to right, then snaps back
+
+  function drawMovingContent(offsetX, alpha, phase){
+    ctx.save(); ctx.globalAlpha=alpha; ctx.translate(offsetX,0);
+    drawClockFace(movClockCx, movCy, movRx, movRy, phase);
+    const ballM = bounceZigzag(phase, GAMMA, 14, movBallCx, movCy-20, movCy+48, 5, 0.9);
+    if(alpha>0.9) drawGuide(ballM.guide, '#93c5fd');
+    drawDot(ctx, ballM.x, ballM.y, 6, '#dc2626');
+    roundedRect(ctx, movLCCx-movHalfX, movCy-movHalfY, movHalfX*2, movHalfY*2, 4, undefined, '#1e40af');
+    const vBm = bounceZigzag(phase, GAMMA, 9, movLCCx, movCy-30, movCy+30, 6, 1);
+    drawDot(ctx, vBm.x, vBm.y, 4, '#2563eb');
+    const hxm = horizBeamX(phase, movLCCx-movHalfX+3, movLCCx+movHalfX-3, true, 3);
+    drawDot(ctx, hxm, movCy, 4, '#16a34a');
+    ctx.restore();
+  }
+
+  txt(ctx,'MOVING FRAME', 12, 16, {font:'bold 11px Segoe UI', color:'#1e40af'});
+  drawArrow(ctx, 128, 12, 188, 12, '#1e40af', 2);
+  txt(ctx,'v = 0.6 c', 158, 6, {align:'center', font:'bold 9.5px Segoe UI', color:'#1e40af'});
+
+  drawMovingContent(0, 0.28, 0); // faint reference image left behind at the start
+  drawMovingContent(frameDriftX, 1, localT);
+  txt(ctx,'bouncing ball (slanted path)', movBallCx+frameDriftX, movCy+62, {align:'center', font:'8.2px Segoe UI', color:'#374151'});
+  txt(ctx,'light clock (contracted)', movLCCx+frameDriftX, movCy+movHalfY+14, {align:'center', font:'8.2px Segoe UI', color:'#374151'});
+  txt(ctx,'beam takes longer moving right (through the ether) than moving left', movLCCx+frameDriftX, movCy+movHalfY+26, {align:'center', font:'7.4px Segoe UI', color:'#6b7280'});
+
+  // ---------- REST FRAME (lower part of the screen, closer to the viewer) ----------
+  const yOff=144;
+  txt(ctx,'REST FRAME \u2014 you are here', 12, 16+yOff, {font:'bold 11px Segoe UI', color:'#166534'});
   const restClockCx=90, restBallCx=240, restLCCx=390;
-  const restCy=78, restR=26, lcHalf=36;
+  const restCy=70+yOff, restR=26;
   drawClockFace(restClockCx, restCy, restR, restR, t);
 
-  const ballR = bounceZigzag(t, 1, 0, restBallCx, 50, 118, 5, 0.9);
+  const ballR = bounceZigzag(t, 1, 0, restBallCx, restCy-20, restCy+48, 5, 0.9);
   drawGuide(ballR.guide, '#9ca3af');
   drawDot(ctx, ballR.x, ballR.y, 6, '#dc2626');
-  txt(ctx,'bouncing ball', restBallCx, 132, {align:'center', font:'8.5px Segoe UI', color:'#374151'});
+  txt(ctx,'bouncing ball', restBallCx, restCy+62, {align:'center', font:'8.5px Segoe UI', color:'#374151'});
 
   roundedRect(ctx, restLCCx-lcHalf, restCy-lcHalf, lcHalf*2, lcHalf*2, 4, undefined, '#6b7280');
   const vB = bounceZigzag(t, 1, 0, restLCCx, restCy-30, restCy+30, 6, 1);
@@ -571,33 +632,6 @@ function draw_a1_timedilation(ctx, w, h, t){
   const hx = horizBeamX(t, restLCCx-lcHalf+4, restLCCx+lcHalf-4, false, 3);
   drawDot(ctx, hx, restCy, 4, '#16a34a');
   txt(ctx,'light clock', restLCCx, restCy+lcHalf+14, {align:'center', font:'8.5px Segoe UI', color:'#374151'});
-
-  // ---------- MOVING FRAME ----------
-  const yOff=128;
-  txt(ctx,'MOVING FRAME', 12, 16+yOff, {font:'bold 11px Segoe UI', color:'#1e40af'});
-  drawArrow(ctx, 128, 12+yOff, 188, 12+yOff, '#1e40af', 2);
-  txt(ctx,'v = 0.6 c', 158, 6+yOff, {align:'center', font:'bold 9.5px Segoe UI', color:'#1e40af'});
-
-  const movClockCx=bandCenterX+(restClockCx-bandCenterX)*contractX;
-  const movBallCx =bandCenterX+(restBallCx -bandCenterX)*contractX;
-  const movLCCx   =bandCenterX+(restLCCx   -bandCenterX)*contractX;
-  const movCy=restCy+yOff;
-  const movRx=restR*contractX, movRy=restR;
-  drawClockFace(movClockCx, movCy, movRx, movRy, localT);
-
-  const ballM = bounceZigzag(localT, GAMMA, 34, movBallCx, 50+yOff, 118+yOff, 5, 0.9);
-  drawGuide(ballM.guide, '#93c5fd');
-  drawDot(ctx, ballM.x, ballM.y, 6, '#dc2626');
-  txt(ctx,'bouncing ball (slower, slanted)', movBallCx, 132+yOff, {align:'center', font:'8.2px Segoe UI', color:'#374151'});
-
-  const movHalfX=lcHalf*contractX, movHalfY=lcHalf;
-  roundedRect(ctx, movLCCx-movHalfX, movCy-movHalfY, movHalfX*2, movHalfY*2, 4, undefined, '#1e40af');
-  const vBm = bounceZigzag(localT, GAMMA, 20, movLCCx, movCy-30, movCy+30, 6, 1);
-  drawDot(ctx, vBm.x, vBm.y, 4, '#2563eb');
-  const hxm = horizBeamX(localT, movLCCx-movHalfX+3, movLCCx+movHalfX-3, true, 3);
-  drawDot(ctx, hxm, movCy, 4, '#16a34a');
-  txt(ctx,'light clock (contracted)', movLCCx, movCy+movHalfY+14, {align:'center', font:'8.2px Segoe UI', color:'#374151'});
-  txt(ctx,'beam chases the receding right mirror, then meets the approaching left mirror', movLCCx, movCy+movHalfY+26, {align:'center', font:'7.6px Segoe UI', color:'#6b7280'});
 
   txt(ctx,'Moving frame runs slower AND is contracted horizontally by the same \u03b3='+GAMMA.toFixed(2)+' \u2014 so its own light speed still measures as c.', w/2, h-8, {align:'center', font:'8.6px Segoe UI', color:'#374151'});
 }
@@ -686,6 +720,27 @@ function draw_a1_thinfilm(ctx, w, h, t){
   const halfLambda = 7.5; // tuned so the sweep shows 3\u20134 full fringe cycles
   const cycle = Math.floor(pathDiff/halfLambda);
   const constructive = cycle%2===0;
+
+  // field of view, where the two reflected rays converge -- brightness tracks
+  // the smooth (cos^2-like) interference intensity in sync with the caption below
+  function lerpHexColor(c1,c2,f){
+    const p1=parseInt(c1.slice(1),16), p2=parseInt(c2.slice(1),16);
+    const r1=(p1>>16)&255,g1=(p1>>8)&255,b1=p1&255;
+    const r2=(p2>>16)&255,g2=(p2>>8)&255,b2=p2&255;
+    const r=Math.round(r1+(r2-r1)*f),g=Math.round(g1+(g2-g1)*f),b=Math.round(b1+(b2-b1)*f);
+    return 'rgb('+r+','+g+','+b+')';
+  }
+  const phase = (pathDiff/halfLambda)*Math.PI;
+  const intensity = (Math.cos(phase)+1)/2; // smooth 0..1, 1=bright (constructive)
+  const fovX=w-46, fovY=34, fovR=22;
+  ctx.save();
+  ctx.beginPath(); ctx.arc(fovX,fovY,fovR,0,Math.PI*2);
+  ctx.fillStyle = lerpHexColor('#1f2937','#fde68a', intensity);
+  ctx.fill();
+  ctx.strokeStyle='#374151'; ctx.lineWidth=2; ctx.stroke();
+  ctx.restore();
+  txt(ctx,'field of view', fovX, fovY-fovR-8, {align:'center', font:'8.5px Segoe UI', color:'#374151'});
+
   txt(ctx, constructive? 'constructive \u2014 bright fringe':'destructive \u2014 dark fringe', w/2, h-40,
       {align:'center', font:'bold 11.5px Segoe UI', color: constructive? '#166534':'#374151'});
   txt(ctx,'thickness t = '+thick.toFixed(1)+' px (path difference depends on t and angle)', w/2, h-18, {align:'center', font:'10px Segoe UI', color:'#6b7280'});
@@ -707,19 +762,29 @@ function draw_a2_singleslit(ctx, w, h, t){
   }
   const screenX=w-90;
   drawLevel(ctx, screenX, screenX, 20, '#111827', 3);
+  const yc=h/2;
   const N=120, sweep=clamp01(t);
   ctx.beginPath();
   for(let i=0;i<=N;i++){
     const yy = lerp(20, h-30, i/N);
     if(i/N>sweep) break;
-    const yc=(h)/2;
     const beta = (yy-yc)/40;
     const sinc = beta===0? 1 : Math.pow(Math.sin(beta*2.4)/(beta*2.4),2);
     const px = screenX + sinc*72;
     if(i===0) ctx.moveTo(screenX,yy); else ctx.lineTo(px,yy);
   }
   setStroke(ctx,'#b91c1c',2); ctx.stroke();
-  txt(ctx,'central max.', screenX-4, h/2-52, {align:'right', font:'9.5px Segoe UI', color:'#374151'});
+
+  // angle to the first minimum: two thin guide lines from the slit centre
+  const firstMinBeta = Math.PI/2.4;
+  const yMin1 = yc - firstMinBeta*40;
+  ctx.save(); setStroke(ctx,'#6b7280',1); ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(slitX,yc); ctx.lineTo(screenX,yc); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(slitX,yc); ctx.lineTo(screenX,yMin1); ctx.stroke();
+  ctx.restore();
+  txt(ctx,'\u03b8', slitX+16, yc-8, {font:'italic 9.5px Segoe UI', color:'#6b7280'});
+
+  txt(ctx,'central max.', screenX-6, yc+16, {align:'right', font:'9.5px Segoe UI', color:'#374151'});
   txt(ctx,"I = I\u2080[sin\u03b2/\u03b2]\u00b2", w/2, h-14, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
 }
 
@@ -796,7 +861,8 @@ function draw_a2_doublerefraction(ctx, w, h, t){
 
 // 5) Nicol Prism: Polarization by Selective TIR
 function draw_a2_nicolprism(ctx, w, h, t){
-  const x0=60,x1=w-60,y0=h/2-50,y1=h/2+50;
+  const hgt=76, wid=hgt*3;
+  const x0=(w-wid)/2, x1=x0+wid, y0=h/2-hgt/2, y1=h/2+hgt/2;
   ctx.save();
   ctx.beginPath();
   ctx.moveTo(x0,y0); ctx.lineTo((x0+x1)/2+20,y0-10); ctx.lineTo(x1,y1); ctx.lineTo((x0+x1)/2-20,y1+10); ctx.closePath();
@@ -806,16 +872,44 @@ function draw_a2_nicolprism(ctx, w, h, t){
   ctx.restore();
   txt(ctx,'Canada balsam cement', (x0+x1)/2, y0-24, {align:'center', font:'9.5px Segoe UI', color:'#5b21b6'});
 
+  function placeMarkers(px0,py0,px1,py1, frac, type, color){
+    const n=5;
+    for(let i=1;i<=n;i++){
+      const f=i/(n+1);
+      if(f>frac) break;
+      const mx=lerp(px0,px1,f), my=lerp(py0,py1,f);
+      if(type==='dot'){ drawDot(ctx,mx,my,2.2,color); }
+      else if(type==='arrow'){
+        ctx.save(); ctx.strokeStyle=color; ctx.lineWidth=1.6;
+        ctx.beginPath(); ctx.moveTo(mx,my-5); ctx.lineTo(mx,my+5); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(mx,my-5); ctx.lineTo(mx-2,my-2); ctx.moveTo(mx,my-5); ctx.lineTo(mx+2,my-2); ctx.stroke();
+        ctx.restore();
+      } else if(type==='mixed'){
+        if(i%2===0) drawDot(ctx,mx,my,2,color);
+        else { ctx.save(); ctx.strokeStyle=color; ctx.lineWidth=1.4;
+          ctx.beginPath(); ctx.moveTo(mx,my-4); ctx.lineTo(mx,my+4); ctx.stroke(); ctx.restore(); }
+      }
+    }
+  }
+
   const travel = clamp01(t);
   const midX=(x0+x1)/2, midY=h/2;
   const inX=x0-20, inY=h/2;
-  drawArrow(ctx, inX, inY, lerp(inX,midX,Math.min(1,travel*2)), inY, '#374151', 2);
+  const incFrac=Math.min(1,travel*2);
+  drawArrow(ctx, inX, inY, lerp(inX,midX,incFrac), inY, '#374151', 2);
+  placeMarkers(inX, inY, midX, inY, incFrac, 'mixed', '#4b5563');
+  if(incFrac>0.5) txt(ctx,'unpolarized light (all vibration directions)', inX+10, inY-14, {font:'8px Segoe UI', color:'#374151'});
+
   if(travel>0.5){
     const t2 = clamp01((travel-0.5)*2);
-    drawArrow(ctx, midX, midY, midX-30-20*t2, midY-40-30*t2, '#dc2626', 1.8);
-    if(t2>0.3) txt(ctx,'O-ray: TIR at interface, absorbed', midX-40, midY-60, {font:'9px Segoe UI', color:'#b91c1c', align:'center'});
-    drawArrow(ctx, midX, midY, lerp(midX,x1+15,t2), midY, '#2563eb', 2.2);
-    if(t2>0.6) txt(ctx,'E-ray transmitted (polarized output)', x1-10, midY-16, {align:'right', font:'9.5px Segoe UI', color:'#1e40af'});
+    const oEndX=midX-30-20*t2, oEndY=midY-40-30*t2;
+    drawArrow(ctx, midX, midY, oEndX, oEndY, '#dc2626', 1.8);
+    placeMarkers(midX, midY, oEndX, oEndY, t2, 'dot', '#dc2626');
+    if(t2>0.3) txt(ctx,'O-ray: TIR at interface (\u2022 = vibration \u22a5 principal section)', midX-40, midY-64, {font:'8.2px Segoe UI', color:'#b91c1c', align:'center'});
+    const eEndX=lerp(midX,x1+15,t2);
+    drawArrow(ctx, midX, midY, eEndX, midY, '#2563eb', 2.2);
+    placeMarkers(midX, midY, eEndX, midY, t2, 'arrow', '#1e40af');
+    if(t2>0.6) txt(ctx,'E-ray: emerges (\u2195 = vibration \u2225 principal section)', x1-10, midY-16, {align:'right', font:'8.2px Segoe UI', color:'#1e40af'});
   }
 }
 
@@ -825,33 +919,35 @@ function draw_a2_qwp(ctx, w, h, t){
   roundedRect(ctx, plateX-14, 40, 28, h-80, 3, 'rgba(253,224,71,0.35)', '#b45309');
   txt(ctx,'\u03bb/4 plate', plateX, 32, {align:'center', font:'11px Segoe UI', color:'#92400e'});
   const cy=h/2;
-  for(let i=0;i<5;i++){
-    const yy=cy;
-    const amp=34;
-    ctx.save(); ctx.translate(60+i*0, yy);
-    drawArrow(ctx, 0,-amp,0,amp,'#374151',0);
-    ctx.restore();
-  }
   drawArrow(ctx, 70, cy-40, 70, cy+40, '#374151', 2.2);
   txt(ctx,'linear pol.', 70, cy-52, {align:'center', font:'10px Segoe UI', color:'#374151'});
   const phase = t*Math.PI*2;
-  const N=40;
-  ctx.beginPath();
-  for(let i=0;i<=N;i++){
-    const ang = i/N*Math.PI*4;
-    const rr = 30;
-    const x = plateX+60 + i*1.4;
-    const y = cy + Math.sin(ang)*rr*0.001; // unused path; draw actual rotating vector instead
-  }
-  // rotating E-vector after plate (circular polarization)
-  const ex = plateX+90, ey=cy;
-  const ang = phase;
-  drawArrow(ctx, ex, ey, ex+Math.cos(ang)*36, ey+Math.sin(ang)*36*0.6, '#dc2626', 2.2);
-  drawRing(ctx, ex, ey, 36, 'rgba(220,38,38,0.25)', 1);
-  ctx.save(); ctx.translate(ex,ey); ctx.scale(1,0.6);
-  drawRing(ctx, 0,0,36,'rgba(220,38,38,0.35)',1);
+
+  // Panel 1 -- O-ray component: same position/shape as the original rotating
+  // arrow (a "horizontal circle", i.e. a circle squashed by the viewing angle)
+  const ex1=plateX+66, ey1=cy;
+  ctx.save(); ctx.translate(ex1,ey1); ctx.scale(1,0.55);
+  drawRing(ctx, 0,0,30,'rgba(220,38,38,0.3)',1.2);
   ctx.restore();
-  txt(ctx,'circular polarization output', ex, ey+56, {align:'center', font:'10.5px Segoe UI', color:'#b91c1c'});
+  drawArrow(ctx, ex1, ey1, ex1+Math.cos(phase)*30, ey1+Math.sin(phase)*30*0.55, 'rgba(220,38,38,0.65)', 2);
+  txt(ctx,'O-component', ex1, ey1+26, {align:'center', font:'8.5px Segoe UI', color:'#b91c1c'});
+
+  // Panel 2 -- E-ray component: a true (undistorted) circle facing the user,
+  // 90\u00b0 ahead in phase (the quarter-wave retardation)
+  const ex2=ex1, ey2=cy-72;
+  drawRing(ctx, ex2, ey2, 26, 'rgba(37,99,235,0.3)', 1.2);
+  const angE=phase+Math.PI/2;
+  drawArrow(ctx, ex2, ey2, ex2+Math.cos(angE)*26, ey2+Math.sin(angE)*26, 'rgba(37,99,235,0.65)', 2);
+  txt(ctx,'E-component', ex2, ey2-32, {align:'center', font:'8.5px Segoe UI', color:'#1e40af'});
+
+  // Panel 3 -- resultant: a true circle perpendicular to the other two (the
+  // transverse plane, facing along the beam), tracing genuine circular polarization
+  const ex3=ex1+100, ey3=cy;
+  drawRing(ctx, ex3, ey3, 30, 'rgba(124,58,237,0.25)', 1.2);
+  drawArrow(ctx, ex3, ey3, ex3+Math.cos(phase)*30, ey3+Math.sin(phase)*30, '#7c3aed', 2.6);
+  txt(ctx,'Resultant', ex3, ey3-38, {align:'center', font:'bold 9px Segoe UI', color:'#5b21b6'});
+  txt(ctx,'(circular pol., \u22a5 to both)', ex3, ey3+40, {align:'center', font:'8px Segoe UI', color:'#5b21b6'});
+
   txt(ctx,'Introduces a \u03c0/2 phase difference between E\u2225 and E\u22a5', w/2, h-14, {align:'center', font:'10.5px Segoe UI', color:'#374151'});
 }
 
@@ -1100,7 +1196,7 @@ ANIMS.push(
    caption:'A spaceship travelling at relativistic speed (swept over the full 0\u2013100% of c) appears contracted along its direction of motion as measured in the rest frame: L = L\u2080/\u03b3. Its mist trail lengthens with speed.',
    draw: draw_a1_lengthcontraction, duration:4200},
   {id:'a1-3', unit:1, title:'Time Dilation — the Light Clock', tag:'1.7',
-   caption:'You are in the rest frame (top); the frame below moves at v = 0.6c. The same clock, bouncing ball and light-clock beams run in both — but in the moving frame everything ticks slower and is contracted horizontally by the same \u03b3, so its own light speed still comes out as c.',
+   caption:'You are in the rest frame (bottom); the frame above moves at v = 0.6c and visibly travels left to right. The same clock, bouncing ball and light-clock beams run in both — but in the moving frame everything ticks slower and is contracted horizontally by the same \u03b3, so its own light speed still comes out as c.',
    draw: draw_a1_timedilation, duration:6000},
   {id:'a1-4', unit:1, title:'Relativistic Mass Increase with Velocity', tag:'1.9',
    caption:'As velocity approaches c, the relativistic mass m = m\u2080/\u221a(1\u2212v\u00b2/c\u00b2) diverges, requiring ever more energy to accelerate the object further.',
@@ -1257,6 +1353,8 @@ function buildUI(){
         });
         card.appendChild(rotBtn);
         card.appendChild(etherBtn);
+        const captionEl = card.querySelector('.caption');
+        if(captionEl) card.appendChild(captionEl); // move descriptive text below the buttons
       }
     });
   });

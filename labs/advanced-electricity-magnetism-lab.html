@@ -375,10 +375,10 @@ var EM_PANELS = [
   {
     id:"faraday-induction", kind:"experiment", category:"Electrodynamics", title:"Faraday's Law of Electromagnetic Induction",
     aim:"To verify Faraday's law of electromagnetic induction by studying the EMF induced in a coil due to a changing magnetic flux, and to confirm Lenz's law for the direction of the induced current.", formula:"ε = −N dΦ_B/dt",
-    controls:[{key:"N",label:"N",name:"Number of turns",unit:"",min:10,max:500,default:100,step:10},{key:"speed",label:"v",name:"Magnet approach speed",unit:"cm/s",min:1,max:50,default:10,step:1},{key:"Bmax",label:"B_max",name:"Peak field of the magnet",unit:"mT",min:5,max:100,default:30,step:5},{key:"area",label:"A",name:"Coil cross-sectional area",unit:"cm²",min:5,max:50,default:20,step:5}],
+    controls:[{key:"N",label:"N",name:"Number of turns",unit:"",min:10,max:500,default:100,step:10},{key:"speed",label:"v",name:"Magnet approach speed",unit:"cm/s",min:1,max:50,default:10,step:1},{key:"Bmax",label:"B_max",name:"Peak field of the magnet",unit:"mT",min:5,max:100,default:30,step:5},{key:"area",label:"A",name:"Coil cross-sectional area",unit:"cm²",min:5,max:50,default:20,step:5},{key:"coreMu",label:"μᵣ",name:"Core relative permeability (χ = μᵣ−1, so 0↔χ=−1 and 1.7↔χ=0.7)",unit:"",min:0,max:1.7,default:1,step:0.1}],
     resultSymbol:"ε", resultUnitHint:"",
     sweepKey:"N",
-    compute: function(ctl){ var N={v:ctl.N}; var Bmax={v:ctl.Bmax}; var speed={v:ctl.speed}; var eps=N.v*Bmax.v*speed.v/1000; var rel=N.lc/N.v+Bmax.lc/Bmax.v+speed.lc/speed.v; return {Y:eps,Yunit:'mV (model units)',dY:eps*rel,pct:rel*100}; }
+    compute: function(ctl){ var N={v:ctl.N}; var Bmax={v:ctl.Bmax}; var speed={v:ctl.speed}; var coreMu={v:ctl.coreMu}; var eps=N.v*Bmax.v*speed.v/1000*coreMu.v; var rel=N.lc/N.v+Bmax.lc/Bmax.v+speed.lc/speed.v; return {Y:eps,Yunit:'mV (model units)',dY:eps*rel,pct:rel*100}; }
   },
   {
     id:"motional-emf-lenz", kind:"experiment", category:"Electrodynamics", title:"Motional EMF & Lenz's Law on a Sliding Rod",
@@ -643,7 +643,33 @@ function caption(ctx,s,w,h){
   ctx.fillStyle = "#9fb0c4";
   ctx.font = "12px 'Source Sans 3', sans-serif";
   ctx.textAlign = "center";
-  ctx.fillText(s, w/2, h-10);
+  var maxW = w - 40;
+  if(ctx.measureText(s).width <= maxW){
+    ctx.fillText(s, w/2, h-10);
+    return;
+  }
+  /* balanced 2-line wrap: choose the split point (a space) whose two resulting
+     lines are as close to equal width as possible, rather than greedily filling
+     line 1 to the max — this avoids orphaning a short trailing word/symbol. */
+  var words = s.split(" ");
+  var bestSplit = 1, bestDiff = Infinity;
+  for(var k=1;k<words.length;k++){
+    var l1 = words.slice(0,k).join(" "), l2 = words.slice(k).join(" ");
+    var w1 = ctx.measureText(l1).width, w2 = ctx.measureText(l2).width;
+    if(w1>maxW || w2>maxW) continue;
+    var diff = Math.abs(w1-w2);
+    if(diff < bestDiff){ bestDiff = diff; bestSplit = k; }
+  }
+  var line1 = words.slice(0,bestSplit).join(" "), line2 = words.slice(bestSplit).join(" ");
+  if(ctx.measureText(line1).width > maxW || ctx.measureText(line2).width > maxW){
+    line1=""; line2="";
+    for(var i=0;i<words.length;i++){
+      var test = (line1? line1+" ":"") + words[i];
+      if(ctx.measureText(test).width <= maxW || !line1){ line1=test; } else { line2 = words.slice(i).join(" "); break; }
+    }
+  }
+  ctx.fillText(line1, w/2, h-24);
+  ctx.fillText(line2, w/2, h-8);
 }
 function label(ctx,s,x,y,color,size,align){
   ctx.fillStyle = color || "#dde6ec";
@@ -907,7 +933,7 @@ DRAW["biot-savart-wire"] = function(ctx,w,h,ctl,cfg,t){
     label(ctx, (into?"⊗":"⊙"), cx-40+i*40, cy+apx, "#3aa0d8", 18, "center");
   }
   arrow(ctx,cx,cy-apx,cx+ (into?0:0), cy-apx, "transparent",0.1);
-  label(ctx,"B ≈ "+B.toFixed(2)+"×10⁻⁵ T at P (out of / into page shown by ⊙ / ⊗)", cx, h-14, "#9fb0c4",11,"center");
+  label(ctx,"B ≈ "+B.toFixed(2)+"×10⁻⁵ T at P (out of / into page shown by ⊙ / ⊗)", cx, h-46, "#9fb0c4",11,"center");
   caption(ctx, I>=0 ? "Current flows left→right (gold dots); field circles per the right-hand rule" : "Current reversed (right→left); field circulation reverses", w,h);
 };
 
@@ -965,7 +991,7 @@ DRAW["ampere-law-solenoid-toroid"] = function(ctx,w,h,ctl,cfg,t){
     }
     var probeX = ctl.probePos===0 ? w/2 : x2+30;
     circ(ctx,probeX,cy,5,"#f2d9a6","#081a26",1);
-    label(ctx,"probe: "+(ctl.probePos===0?"centre":"outside")+"  |  n="+ctl.n.toFixed(0)+" turns/cm, I="+ctl.I.toFixed(1)+"A", w/2, h-16, "#9fb0c4",11,"center");
+    label(ctx,"probe: "+(ctl.probePos===0?"centre":"outside")+"  |  n="+ctl.n.toFixed(0)+" turns/cm, I="+ctl.I.toFixed(1)+"A", w/2, h-46, "#9fb0c4",11,"center");
     caption(ctx,"Field is strong & uniform inside, ~zero outside — exactly what Ampère's law predicts", w,h);
   } else {
     title(ctx,"Toroid: current confines the field entirely inside the doughnut",w);
@@ -1075,7 +1101,7 @@ DRAW["motional-emf-lenz"] = function(ctx,w,h,ctl,cfg,t){
   var Fmag = clamp(B*1e-3*I*ctl.L*1e-2*4000,4,40);
   arrow(ctx,rodX,cy,rodX-Fmag,cy,"#2e8b6a",2.4);
   label(ctx,"F_retard", rodX-Fmag-8, cy-14, "#2e8b6a",10);
-  label(ctx,"ε="+eps.toFixed(2)+"mV   I="+I.toFixed(2)+"A", w/2, h-14, "#9fb0c4",11,"center");
+  label(ctx,"ε="+eps.toFixed(2)+"mV   I="+I.toFixed(2)+"A", w/2, h-46, "#9fb0c4",11,"center");
   caption(ctx,"⊗ field into the page; rod sliding right induces current whose force opposes the motion (Lenz's law)", w,h);
 };
 
@@ -1121,7 +1147,7 @@ DRAW["rc-rl-transients"] = function(ctx,w,h,ctl,cfg,t){
     label(ctx,"current & field build up ∝ (1−e^(−t/τ))",cx2,cy-96,"#9fb0c4",10,"center");
   }
   flowDots(ctx,bx,cy-70,rx-30,cy-70,1,t,"#e8c766",5);
-  label(ctx,"τ="+ (isRC? (tau*1000).toFixed(2)+"ms" : (tau*1000).toFixed(2)+"ms"), w/2, h-14, "#f2d9a6",12,"center");
+  label(ctx,"τ="+ (isRC? (tau*1000).toFixed(2)+"ms" : (tau*1000).toFixed(2)+"ms"), w/2, h-46, "#f2d9a6",12,"center");
   caption(ctx,"Clock loops every 6τ so you can watch the exponential charge/discharge repeat", w,h);
 };
 
@@ -1194,7 +1220,7 @@ DRAW["maxwell-plane-waves"] = function(ctx,w,h,ctl,cfg,t){
   label(ctx,"c", x2+18, cy+4, "#f2d9a6",12);
   label(ctx,"E (red, vertical)",x1+10,cy-90,"#e8534a",12);
   label(ctx,"B (blue, out-of-plane, shown tilted)",x1+10,cy+70,"#3aa0d8",12);
-  label(ctx,"f="+freq.toFixed(0)+"MHz  E₀="+E0.toFixed(0)+"V/m  Δφ="+ (ctl.phaseOffset||0).toFixed(0)+"°", w/2, h-14, "#9fb0c4",11,"center");
+  label(ctx,"f="+freq.toFixed(0)+"MHz  E₀="+E0.toFixed(0)+"V/m  Δφ="+ (ctl.phaseOffset||0).toFixed(0)+"°", w/2, h-46, "#9fb0c4",11,"center");
   caption(ctx, Math.abs(ctl.phaseOffset||0)<1 ? "Physically E and B stay in phase — set Δφ=0 for the real Maxwell solution" : "Δφ≠0 is an artificial offset for teaching — real EM waves keep E,B in phase", w,h);
 };
 
@@ -1233,9 +1259,9 @@ DRAW["wave-propagation-media-skindepth"] = function(ctx,w,h,ctl,cfg,t){
   }
   ctx.stroke();
   if(isConductor){
-    label(ctx,"skin depth δ ≈ "+(delta*6).toFixed(1)+"μm (display-scaled)", w/2, h-14, "#f2d9a6",12,"center");
+    label(ctx,"skin depth δ ≈ "+(delta*6).toFixed(1)+"μm (display-scaled)", w/2, h-46, "#f2d9a6",12,"center");
   } else {
-    label(ctx,"v_medium = c/√εr → wavelength shortens, frequency unchanged", w/2, h-14, "#9fb0c4",11,"center");
+    label(ctx,"v_medium = c/√εr → wavelength shortens, frequency unchanged", w/2, h-46, "#9fb0c4",11,"center");
   }
   caption(ctx, isConductor? "Amplitude decays exponentially inside the conductor — energy is dissipated as eddy currents" : "Wave slows and compresses (shorter λ) inside the denser dielectric", w,h);
 };
@@ -1265,9 +1291,9 @@ DRAW["reflection-refraction-brewster"] = function(ctx,w,h,ctl,cfg,t){
   if(ctl.polarization===1){
     var refl = Math.pow((n1*Math.cos(tht)-n2*Math.cos(thi))/(n1*Math.cos(tht)+n2*Math.cos(thi)),2);
     if(atBrewster) refl = 0;
-    label(ctx,"p-pol reflectance ≈ "+(refl*100).toFixed(1)+"%"+(atBrewster?"  (Brewster — vanishes!)":""), cx, h-14, atBrewster?"#2e8b6a":"#9fb0c4",12,"center");
+    label(ctx,"p-pol reflectance ≈ "+(refl*100).toFixed(1)+"%"+(atBrewster?"  (Brewster — vanishes!)":""), cx, h-46, atBrewster?"#2e8b6a":"#9fb0c4",12,"center");
   } else {
-    label(ctx,"s-polarization — reflection never fully vanishes", cx, h-14, "#9fb0c4",12,"center");
+    label(ctx,"s-polarization — reflection never fully vanishes", cx, h-46, "#9fb0c4",12,"center");
   }
   label(ctx,"Brewster angle θ_B = "+(thB*180/Math.PI).toFixed(1)+"°", cx, cy-100, "#f2d9a6",12,"center");
   caption(ctx,"Incident ray (gold) splits into reflected (red) and refracted (blue) rays at the interface", w,h);
@@ -1462,7 +1488,7 @@ DRAW["wsAntenna"] = function(ctx,w,h,ctl,cfg,t){
   ctx.closePath(); ctx.stroke();
   ctx.fillStyle="rgba(200,147,42,.12)"; ctx.fill();
   label(ctx,"radiation pattern (top view)", pcx, pcy+pr+22, "#9fb0c4",11,"center");
-  label(ctx,"len="+ctl.element_length.toFixed(2)+"λ  d="+ctl.element_spacing.toFixed(2)+"λ  Δφ="+(ctl.phase_shift||0).toFixed(0)+"°", w/2, h-14, "#f2d9a6",11,"center");
+  label(ctx,"len="+ctl.element_length.toFixed(2)+"λ  d="+ctl.element_spacing.toFixed(2)+"λ  Δφ="+(ctl.phase_shift||0).toFixed(0)+"°", w/2, h-46, "#f2d9a6",11,"center");
   caption(ctx,"λ/2 elements at λ/2 spacing with zero phase gives the classic broadside/end-fire lobe pattern", w,h);
 };
 
