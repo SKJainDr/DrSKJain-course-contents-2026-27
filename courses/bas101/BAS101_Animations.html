@@ -522,11 +522,11 @@ function draw_a1_lengthcontraction(ctx, w, h, t){
   txt(ctx,'L = L\u2080/\u03b3  (\u03b3 = '+gamma.toFixed(2)+')', w/2, 20, {align:'center', font:'bold 12px Segoe UI', color:'#e5e7eb'});
 
   // reference (rest-frame) ship -- lower part of the screen, closer to the viewer
-  const refCx=w/2, refCy=h-40;
+  const refCx=w/2, refCy=h-58;
   ctx.save(); ctx.globalAlpha=0.6;
-  drawSpaceship(ctx, refCx, refCy, 0.4, 1, 0);
+  drawSpaceship(ctx, refCx, refCy, 0.62, 1, 0);
   ctx.restore();
-  txt(ctx,'rest frame \u2014 proper length L\u2080', refCx, refCy+28, {align:'center', font:'9.5px Segoe UI', color:'#cbd5e1'});
+  txt(ctx,'rest frame \u2014 proper length L\u2080', refCx, refCy+30, {align:'center', font:'9.5px Segoe UI', color:'#cbd5e1'});
   txt(ctx,'the ship contracts along its direction of motion as v \u2192 c; height is unchanged', w/2, h-8, {align:'center', font:'9.5px Segoe UI', color:'#9ca3af'});
 }
 
@@ -597,9 +597,9 @@ function draw_a1_timedilation(ctx, w, h, t){
     if(alpha>0.9) drawGuide(ballM.guide, '#93c5fd');
     drawDot(ctx, ballM.x, ballM.y, 6, '#dc2626');
     roundedRect(ctx, movLCCx-movHalfX, movCy-movHalfY, movHalfX*2, movHalfY*2, 4, undefined, '#1e40af');
-    const vBm = bounceZigzag(phase, GAMMA, 9, movLCCx, movCy-30, movCy+30, 6, 1);
+    const vBm = bounceZigzag(phase, GAMMA, 9, movLCCx, movCy-30, movCy+30, 4, 1);
     drawDot(ctx, vBm.x, vBm.y, 4, '#2563eb');
-    const hxm = horizBeamX(phase, movLCCx-movHalfX+3, movLCCx+movHalfX-3, true, 3);
+    const hxm = horizBeamX(phase, movLCCx-movHalfX+3, movLCCx+movHalfX-3, false, 4);
     drawDot(ctx, hxm, movCy, 4, '#16a34a');
     ctx.restore();
   }
@@ -612,7 +612,7 @@ function draw_a1_timedilation(ctx, w, h, t){
   drawMovingContent(frameDriftX, 1, localT);
   txt(ctx,'bouncing ball (slanted path)', movBallCx+frameDriftX, movCy+62, {align:'center', font:'8.2px Segoe UI', color:'#374151'});
   txt(ctx,'light clock (contracted)', movLCCx+frameDriftX, movCy+movHalfY+14, {align:'center', font:'8.2px Segoe UI', color:'#374151'});
-  txt(ctx,'beam takes longer moving right (through the ether) than moving left', movLCCx+frameDriftX, movCy+movHalfY+26, {align:'center', font:'7.4px Segoe UI', color:'#6b7280'});
+  txt(ctx,'both beams move at constant speed and stay in step with each other', movLCCx+frameDriftX, movCy+movHalfY+26, {align:'center', font:'7.4px Segoe UI', color:'#6b7280'});
 
   // ---------- REST FRAME (lower part of the screen, closer to the viewer) ----------
   const yOff=144;
@@ -627,11 +627,11 @@ function draw_a1_timedilation(ctx, w, h, t){
   txt(ctx,'bouncing ball', restBallCx, restCy+62, {align:'center', font:'8.5px Segoe UI', color:'#374151'});
 
   roundedRect(ctx, restLCCx-lcHalf, restCy-lcHalf, lcHalf*2, lcHalf*2, 4, undefined, '#6b7280');
-  const vB = bounceZigzag(t, 1, 0, restLCCx, restCy-30, restCy+30, 6, 1);
+  const vB = bounceZigzag(t, 1, 0, restLCCx, restCy-30, restCy+30, 4, 1);
   drawDot(ctx, vB.x, vB.y, 4, '#2563eb');
-  const hx = horizBeamX(t, restLCCx-lcHalf+4, restLCCx+lcHalf-4, false, 3);
+  const hx = horizBeamX(t, restLCCx-lcHalf+4, restLCCx+lcHalf-4, false, 4);
   drawDot(ctx, hx, restCy, 4, '#16a34a');
-  txt(ctx,'light clock', restLCCx, restCy+lcHalf+14, {align:'center', font:'8.5px Segoe UI', color:'#374151'});
+  txt(ctx,'light clock \u2014 both beams complete one round trip in the same time', restLCCx, restCy+lcHalf+14, {align:'center', font:'8px Segoe UI', color:'#374151'});
 
   txt(ctx,'Moving frame runs slower AND is contracted horizontally by the same \u03b3='+GAMMA.toFixed(2)+' \u2014 so its own light speed still measures as c.', w/2, h-8, {align:'center', font:'8.6px Segoe UI', color:'#374151'});
 }
@@ -718,11 +718,10 @@ function draw_a1_thinfilm(ctx, w, h, t){
 
   const pathDiff = thick*2;
   const halfLambda = 7.5; // tuned so the sweep shows 3\u20134 full fringe cycles
-  const cycle = Math.floor(pathDiff/halfLambda);
-  const constructive = cycle%2===0;
 
   // field of view, where the two reflected rays converge -- brightness tracks
-  // the smooth (cos^2-like) interference intensity in sync with the caption below
+  // the smooth (cos^2-like) interference intensity, and the SAME intensity
+  // value drives the text classification below, so they can never disagree
   function lerpHexColor(c1,c2,f){
     const p1=parseInt(c1.slice(1),16), p2=parseInt(c2.slice(1),16);
     const r1=(p1>>16)&255,g1=(p1>>8)&255,b1=p1&255;
@@ -741,8 +740,11 @@ function draw_a1_thinfilm(ctx, w, h, t){
   ctx.restore();
   txt(ctx,'field of view', fovX, fovY-fovR-8, {align:'center', font:'8.5px Segoe UI', color:'#374151'});
 
-  txt(ctx, constructive? 'constructive \u2014 bright fringe':'destructive \u2014 dark fringe', w/2, h-40,
-      {align:'center', font:'bold 11.5px Segoe UI', color: constructive? '#166534':'#374151'});
+  let condLabel, condColor;
+  if(intensity>0.65){ condLabel='constructive \u2014 bright fringe'; condColor='#166534'; }
+  else if(intensity<0.35){ condLabel='destructive \u2014 dark fringe'; condColor='#374151'; }
+  else { condLabel='mixed \u2014 transitional'; condColor='#b45309'; }
+  txt(ctx, condLabel, w/2, h-40, {align:'center', font:'bold 11.5px Segoe UI', color: condColor});
   txt(ctx,'thickness t = '+thick.toFixed(1)+' px (path difference depends on t and angle)', w/2, h-18, {align:'center', font:'10px Segoe UI', color:'#6b7280'});
 }
 
@@ -775,14 +777,21 @@ function draw_a2_singleslit(ctx, w, h, t){
   }
   setStroke(ctx,'#b91c1c',2); ctx.stroke();
 
-  // angle to the first minimum: two thin guide lines from the slit centre
+  // angle to the first minimum: two thin guide lines from the slit centre,
+  // with a small arc between them and the theta symbol
   const firstMinBeta = Math.PI/2.4;
   const yMin1 = yc - firstMinBeta*40;
   ctx.save(); setStroke(ctx,'#6b7280',1); ctx.setLineDash([3,3]);
   ctx.beginPath(); ctx.moveTo(slitX,yc); ctx.lineTo(screenX,yc); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(slitX,yc); ctx.lineTo(screenX,yMin1); ctx.stroke();
   ctx.restore();
-  txt(ctx,'\u03b8', slitX+16, yc-8, {font:'italic 9.5px Segoe UI', color:'#6b7280'});
+  const arcR=20;
+  const angTo = Math.atan2(yMin1-yc, screenX-slitX);
+  ctx.save(); setStroke(ctx,'#6b7280',1.4);
+  ctx.beginPath(); ctx.arc(slitX, yc, arcR, 0, angTo, angTo<0); ctx.stroke();
+  ctx.restore();
+  const midAngle=angTo/2;
+  txt(ctx,'\u03b8', slitX+Math.cos(midAngle)*(arcR+10), yc+Math.sin(midAngle)*(arcR+10), {align:'center', font:'italic 10px Segoe UI', color:'#6b7280'});
 
   txt(ctx,'central max.', screenX-6, yc+16, {align:'right', font:'9.5px Segoe UI', color:'#374151'});
   txt(ctx,"I = I\u2080[sin\u03b2/\u03b2]\u00b2", w/2, h-14, {align:'center', font:'bold 11px Segoe UI', color:'#374151'});
@@ -861,16 +870,17 @@ function draw_a2_doublerefraction(ctx, w, h, t){
 
 // 5) Nicol Prism: Polarization by Selective TIR
 function draw_a2_nicolprism(ctx, w, h, t){
-  const hgt=76, wid=hgt*3;
+  const hgt=76, wid=hgt*3, skew=26; // principal section: long horizontal faces, oblique short faces
   const x0=(w-wid)/2, x1=x0+wid, y0=h/2-hgt/2, y1=h/2+hgt/2;
+  const TL={x:x0+skew,y:y0}, TR={x:x1+skew,y:y0}, BR={x:x1-skew,y:y1}, BL={x:x0-skew,y:y1};
   ctx.save();
   ctx.beginPath();
-  ctx.moveTo(x0,y0); ctx.lineTo((x0+x1)/2+20,y0-10); ctx.lineTo(x1,y1); ctx.lineTo((x0+x1)/2-20,y1+10); ctx.closePath();
+  ctx.moveTo(TL.x,TL.y); ctx.lineTo(TR.x,TR.y); ctx.lineTo(BR.x,BR.y); ctx.lineTo(BL.x,BL.y); ctx.closePath();
   ctx.fillStyle='rgba(191,219,254,0.35)'; ctx.fill();
   ctx.strokeStyle='#1e3a8a'; ctx.lineWidth=1.6; ctx.stroke();
-  ctx.beginPath(); ctx.moveTo((x0+x1)/2+20,y0-10); ctx.lineTo((x0+x1)/2-20,y1+10); ctx.strokeStyle='#7c3aed'; ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(TR.x,TR.y); ctx.lineTo(BL.x,BL.y); ctx.strokeStyle='#7c3aed'; ctx.stroke();
   ctx.restore();
-  txt(ctx,'Canada balsam cement', (x0+x1)/2, y0-24, {align:'center', font:'9.5px Segoe UI', color:'#5b21b6'});
+  txt(ctx,'Canada balsam cement', (x0+x1)/2, y0-14, {align:'center', font:'9.5px Segoe UI', color:'#5b21b6'});
 
   function placeMarkers(px0,py0,px1,py1, frac, type, color){
     const n=5;
@@ -894,21 +904,21 @@ function draw_a2_nicolprism(ctx, w, h, t){
 
   const travel = clamp01(t);
   const midX=(x0+x1)/2, midY=h/2;
-  const inX=x0-20, inY=h/2;
+  const inX=x0-20, inY=h/2; // the left face's midpoint sits at (x0, midY) since the skew cancels there
   const incFrac=Math.min(1,travel*2);
-  drawArrow(ctx, inX, inY, lerp(inX,midX,incFrac), inY, '#374151', 2);
-  placeMarkers(inX, inY, midX, inY, incFrac, 'mixed', '#4b5563');
+  drawArrow(ctx, inX, inY, lerp(inX,x0,incFrac), inY, '#374151', 2);
+  placeMarkers(inX, inY, x0, inY, incFrac, 'mixed', '#4b5563');
   if(incFrac>0.5) txt(ctx,'unpolarized light (all vibration directions)', inX+10, inY-14, {font:'8px Segoe UI', color:'#374151'});
 
   if(travel>0.5){
     const t2 = clamp01((travel-0.5)*2);
     const oEndX=midX-30-20*t2, oEndY=midY-40-30*t2;
-    drawArrow(ctx, midX, midY, oEndX, oEndY, '#dc2626', 1.8);
-    placeMarkers(midX, midY, oEndX, oEndY, t2, 'dot', '#dc2626');
+    drawArrow(ctx, x0, midY, oEndX, oEndY, '#dc2626', 1.8);
+    placeMarkers(x0, midY, oEndX, oEndY, t2, 'dot', '#dc2626');
     if(t2>0.3) txt(ctx,'O-ray: TIR at interface (\u2022 = vibration \u22a5 principal section)', midX-40, midY-64, {font:'8.2px Segoe UI', color:'#b91c1c', align:'center'});
-    const eEndX=lerp(midX,x1+15,t2);
-    drawArrow(ctx, midX, midY, eEndX, midY, '#2563eb', 2.2);
-    placeMarkers(midX, midY, eEndX, midY, t2, 'arrow', '#1e40af');
+    const eEndX=lerp(x0,x1+15,t2);
+    drawArrow(ctx, x0, midY, eEndX, midY, '#2563eb', 2.2);
+    placeMarkers(x0, midY, eEndX, midY, t2, 'arrow', '#1e40af');
     if(t2>0.6) txt(ctx,'E-ray: emerges (\u2195 = vibration \u2225 principal section)', x1-10, midY-16, {align:'right', font:'8.2px Segoe UI', color:'#1e40af'});
   }
 }
@@ -919,8 +929,16 @@ function draw_a2_qwp(ctx, w, h, t){
   roundedRect(ctx, plateX-14, 40, 28, h-80, 3, 'rgba(253,224,71,0.35)', '#b45309');
   txt(ctx,'\u03bb/4 plate', plateX, 32, {align:'center', font:'11px Segoe UI', color:'#92400e'});
   const cy=h/2;
-  drawArrow(ctx, 70, cy-40, 70, cy+40, '#374151', 2.2);
-  txt(ctx,'linear pol.', 70, cy-52, {align:'center', font:'10px Segoe UI', color:'#374151'});
+
+  // incident linearly-polarized light, at 45\u00b0 to the plate's axes -- shown as a
+  // vertical ellipse (a circle viewed edge-on) with a fixed 45\u00b0 vibration line
+  const inX=70;
+  ctx.save(); ctx.strokeStyle='rgba(55,65,81,0.35)'; ctx.lineWidth=1.2;
+  ctx.beginPath(); ctx.ellipse(inX,cy,14,26,0,0,Math.PI*2); ctx.stroke();
+  ctx.restore();
+  const a45=Math.PI/4;
+  drawArrow(ctx, inX-Math.sin(a45)*26, cy+Math.cos(a45)*26, inX+Math.sin(a45)*26, cy-Math.cos(a45)*26, '#374151', 2.2);
+  txt(ctx,'linear pol. (45\u00b0)', inX, cy-52, {align:'center', font:'10px Segoe UI', color:'#374151'});
   const phase = t*Math.PI*2;
 
   // Panel 1 -- O-ray component: same position/shape as the original rotating
@@ -940,13 +958,16 @@ function draw_a2_qwp(ctx, w, h, t){
   drawArrow(ctx, ex2, ey2, ex2+Math.cos(angE)*26, ey2+Math.sin(angE)*26, 'rgba(37,99,235,0.65)', 2);
   txt(ctx,'E-component', ex2, ey2-32, {align:'center', font:'8.5px Segoe UI', color:'#1e40af'});
 
-  // Panel 3 -- resultant: a true circle perpendicular to the other two (the
-  // transverse plane, facing along the beam), tracing genuine circular polarization
+  // Panel 3 -- resultant: its circle lies in the plane PERPENDICULAR to the beam,
+  // so viewed from our vantage (looking along the apparatus) it appears as a
+  // vertically-elongated ellipse, edge-on to the beam direction
   const ex3=ex1+100, ey3=cy;
-  drawRing(ctx, ex3, ey3, 30, 'rgba(124,58,237,0.25)', 1.2);
-  drawArrow(ctx, ex3, ey3, ex3+Math.cos(phase)*30, ey3+Math.sin(phase)*30, '#7c3aed', 2.6);
+  ctx.save(); ctx.translate(ex3,ey3); ctx.scale(0.55,1);
+  drawRing(ctx, 0,0,30,'rgba(124,58,237,0.25)',1.2);
+  ctx.restore();
+  drawArrow(ctx, ex3, ey3, ex3+Math.cos(phase)*30*0.55, ey3+Math.sin(phase)*30, '#7c3aed', 2.6);
   txt(ctx,'Resultant', ex3, ey3-38, {align:'center', font:'bold 9px Segoe UI', color:'#5b21b6'});
-  txt(ctx,'(circular pol., \u22a5 to both)', ex3, ey3+40, {align:'center', font:'8px Segoe UI', color:'#5b21b6'});
+  txt(ctx,'(circular pol., \u22a5 to beam)', ex3, ey3+40, {align:'center', font:'8px Segoe UI', color:'#5b21b6'});
 
   txt(ctx,'Introduces a \u03c0/2 phase difference between E\u2225 and E\u22a5', w/2, h-14, {align:'center', font:'10.5px Segoe UI', color:'#374151'});
 }
@@ -960,22 +981,43 @@ function draw_a3_laseraction(ctx, w, h, t){
   drawMirror(ctx, xL, yT, yB, '#6b7280');
   drawMirror(ctx, xR, yT, yB, '#93c5fd');
   roundedRect(ctx, xL+4, yT, xR-xL-8, yB-yT, 4, 'rgba(255,229,143,0.18)');
-  const nPasses=5, passLen=1/nPasses;
-  const passIdx=Math.min(nPasses-1, Math.floor(t/passLen));
-  const localT=(t-passIdx*passLen)/passLen;
+  const nPasses=4, buildEnd=0.72; // reserve the tail of the cycle for the output beam
+  const passLen=buildEnd/nPasses;
   const seeds=[0.2,0.5,0.8,0.35,0.65,0.15,0.9,0.45];
-  for(let p=0;p<=passIdx;p++){
-    for(let k=0;k<=p;k++){
-      const seed=seeds[(p*3+k)%seeds.length];
-      const yy=lerp(yT+14,yB-14,seed);
-      const goingRight=(p+k)%2===0;
-      let xx;
-      if(p<passIdx) xx = goingRight? xR-16: xL+16;
-      else xx = goingRight? lerp(xL+16,xR-16,localT): lerp(xR-16,xL+16,localT);
-      drawDot(ctx, xx, yy, 4.2, '#dc2626');
+
+  if(t<buildEnd){
+    const passIdx=Math.min(nPasses-1, Math.floor(t/passLen));
+    const localT=(t-passIdx*passLen)/passLen;
+    for(let p=0;p<=passIdx;p++){
+      for(let k=0;k<=p;k++){
+        const seed=seeds[(p*3+k)%seeds.length];
+        const yy=lerp(yT+14, yB-14, seed);
+        const goingRight=(p+k)%2===0;
+        let xx;
+        if(p<passIdx) xx = goingRight? xR-16: xL+16;
+        else xx = goingRight? lerp(xL+16,xR-16,localT): lerp(xR-16,xL+16,localT);
+        drawDot(ctx, xx, yy, 4.2, '#dc2626');
+      }
     }
+    txt(ctx,'Stimulated emission cascade \u2014 Pass '+(passIdx+1)+'/'+nPasses, xL, 20, {font:'bold 11px Segoe UI', color:'#374151'});
+  } else {
+    // steady-state cavity population (frozen, not vanishing at either mirror)
+    // plus a coherent, parallel beam escaping through the RIGHT (output) mirror only
+    for(let k=0;k<nPasses;k++){
+      const seed=seeds[(( nPasses-1)*3+k)%seeds.length];
+      const yy=lerp(yT+14, yB-14, seed);
+      const xx=(k%2===0)? xR-16 : xL+16;
+      drawDot(ctx, xx, yy, 4.2, 'rgba(220,38,38,0.55)');
+    }
+    const outT = clamp01((t-buildEnd)/(1-buildEnd));
+    const nBeam=4;
+    for(let i=0;i<nBeam;i++){
+      const yy = lerp(yT+16, yB-16, i/(nBeam-1));
+      const xx = lerp(xR-2, w+24, outT);
+      if(xx<=w+18) drawDot(ctx, xx, yy, 4.2, '#dc2626');
+    }
+    txt(ctx,'Coherent output beam exits through the partially-reflective mirror', xL, 20, {font:'bold 10.5px Segoe UI', color:'#374151'});
   }
-  txt(ctx,'Stimulated emission cascade \u2014 Pass '+(passIdx+1)+'/'+nPasses, xL, 20, {font:'bold 11px Segoe UI', color:'#374151'});
   txt(ctx,'gain medium + population inversion + resonator = LASER', w/2, h-6, {align:'center', font:'10px Segoe UI', color:'#6b7280'});
 }
 
@@ -996,43 +1038,70 @@ function draw_a3_ruby(ctx, w, h, t){
   txt(ctx,'arc discharge lamp', lampX, levels[2].y-6, {align:'center', font:'8.5px Segoe UI', color:'#5b21b6'});
 
   const N=14;
-  const cascadeStart=0.74, cascadeEnd=0.90;
   const spacing=(cx1-cx0-40)/(N-1);
+  const ex = i => cx0+20+i*spacing;
+
+  // 1) pumping: one green photon at a time travels along E0, hits the next
+  //    still-ground-state electron, and disappears as that electron jumps to E2
+  const pumpPhaseEnd=0.40, pumpStep=pumpPhaseEnd/N;
+  const pumpT = i => (i+1)*pumpStep;
+  // 2) each pumped electron then decays (non-radiatively, staggered) to E1
+  const toE1T = i => pumpT(i)+0.02+hash01(i,3)*0.15;
+  // 3) coherent cascade: the LEFTMOST electron at E1 drops first; the red photon
+  //    it emits reaches its immediate neighbour almost at once, triggering the
+  //    next drop, and so on -- a true domino-style stimulated-emission cascade
+  const cascadeStart=0.66, cascadeEnd=0.94;
+  const cascadeStep=(cascadeEnd-cascadeStart)/(N-1);
+  const dropT = i => cascadeStart+i*cascadeStep;
+
   let nAtE0=0, nAtE1=0, nAtE2=0;
   for(let i=0;i<N;i++){
-    const h1=hash01(i,1), h2=hash01(i,2);
-    const pumpT=0.04+h1*0.30;          // each electron pumped E0\u2192E2 at its own staggered instant
-    const toE1T=pumpT+0.03+h2*0.28;    // then decays E2\u2192E1 "randomly" a little later
-    const dropT=cascadeStart+h1*0.05;  // during the cascade, drops are tightly clustered (near-synchronous)
     let level;
-    if(t<pumpT) level=0;
-    else if(t<toE1T) level=2;
-    else if(t<cascadeStart) level=1;
-    else if(t<cascadeEnd) level = t<dropT? 1 : 0;
+    if(t<pumpT(i)) level=0;
+    else if(t<toE1T(i)) level=2;
+    else if(t<dropT(i)) level=1;
     else level=0;
-    const ex = cx0+20+i*spacing, ey=levels[level].y;
-    drawDot(ctx, ex, ey, 5, level===2? '#2563eb' : level===1? '#f59e0b' : '#94a3b8');
+    const ey=levels[level].y;
+    drawDot(ctx, ex(i), ey, 5, level===2? '#2563eb' : level===1? '#f59e0b' : '#94a3b8');
     if(level===0) nAtE0++; else if(level===1) nAtE1++; else nAtE2++;
   }
 
-  if(t<0.4){
-    const flick=(Math.sin(t*80)+1)/2;
-    if(flick>0.3) drawPhoton(ctx, lampX+16, lerp(levels[2].y+10,levels[0].y-10,hash01(Math.floor(t*40),7)), 0, 15, '#16a34a');
+  // the travelling green pump photon, sequentially targeting each electron along E0
+  if(t<pumpPhaseEnd){
+    const curIdx=Math.min(N-1, Math.floor(t/pumpStep));
+    const progress=clamp01((t-curIdx*pumpStep)/pumpStep);
+    const gx = lerp(lampX+14, ex(curIdx), progress);
+    drawPhoton(ctx, gx, levels[0].y, 0, 14, '#16a34a');
   }
-  if(t>0.05 && t<0.68){ drawDashedArrow(ctx, cx1-14, levels[2].y, cx1-14, levels[1].y, '#9ca3af', 1.6); }
+  if(t>0.05 && t<0.62){ drawDashedArrow(ctx, cx1-14, levels[2].y, cx1-14, levels[1].y, '#9ca3af', 1.6); }
 
-  if(t>=cascadeStart && t<cascadeEnd+0.06){
-    const p=clamp01((t-cascadeStart)/(cascadeEnd-cascadeStart));
+  // the domino cascade: a short red photon hop from each just-dropped electron
+  // to its immediate neighbour, triggering the next drop in sequence
+  if(t>=cascadeStart && t<cascadeEnd){
+    for(let i=0;i<N-1;i++){
+      const segStart=dropT(i), segEnd=dropT(i+1);
+      if(t>=segStart && t<segEnd){
+        const p=(t-segStart)/(segEnd-segStart);
+        drawPhoton(ctx, lerp(ex(i),ex(i+1),p), levels[0].y, 0, 12, '#dc2626');
+        break;
+      }
+    }
+  }
+
+  // once the cascade reaches the last electron, the now-coherent beam exits the crystal
+  if(t>=cascadeEnd-cascadeStep){
+    const p=clamp01((t-(cascadeEnd-cascadeStep))/(1-(cascadeEnd-cascadeStep)));
     for(let row=-1; row<=1; row++){
-      const yy=(levels[0].y+levels[1].y)/2 + row*7;
-      const xx = lerp(cx1-10, w+20, clamp01(p*1.3-row*0.05));
+      const yy=levels[0].y + row*7;
+      const xx = lerp(ex(N-1), w+20, clamp01(p*1.3-row*0.05));
       if(xx<w+15) drawPhoton(ctx, xx, yy, 0, 15, '#dc2626');
     }
-    if(p>0.15) txt(ctx,'694.3 nm', cx1+10, (levels[0].y+levels[1].y)/2-14, {font:'bold 10px Segoe UI', color:'#b91c1c'});
+    if(p>0.15) txt(ctx,'694.3 nm', cx1+10, levels[0].y-14, {font:'bold 10px Segoe UI', color:'#b91c1c'});
   }
 
   txt(ctx,'Three-level pumping ('+N+' Cr\u00b3\u207a ions): '+nAtE0+' at E0, '+nAtE1+' at E1, '+nAtE2+' at E2', cx0, 18, {font:'bold 9.3px Segoe UI', color:'#374151'});
 }
+
 
 // 3) He-Ne Laser: Energy Transfer Mechanism
 function draw_a3_hene(ctx, w, h, t){
@@ -1098,7 +1167,7 @@ function draw_a3_holography(ctx, w, h, t){
   drawDot(ctx, 50, h/2, 7, '#ef4444');
   if(recording){
     for(let i=0;i<5;i++){
-      const yy=lerp(plateY0+8,plateY0+50,i/4);
+      const yy=lerp(plateY0+8,plateY1-8,i/4);
       drawArrow(ctx, 66, h/2, plateX-4, yy, '#f59e0b', 1.3);
     }
     const objX=76, objY=h-56;
@@ -1106,7 +1175,7 @@ function draw_a3_holography(ctx, w, h, t){
     ctx.beginPath(); ctx.moveTo(objX,objY-12); ctx.lineTo(objX+10,objY+8); ctx.lineTo(objX-10,objY+8); ctx.closePath(); ctx.fill();
     ctx.restore();
     for(let i=0;i<5;i++){
-      const yy=lerp(plateY0+60,plateY1-10,i/4);
+      const yy=lerp(plateY0+8,plateY1-8,i/4);
       drawArrow(ctx, objX+8, objY-2, plateX-4, yy, '#16a34a', 1.1);
     }
     const nFringes=22, exposure=clamp01(localT);
@@ -1136,25 +1205,56 @@ function draw_a3_holography(ctx, w, h, t){
 }
 
 // 5) Optical Fiber: Total Internal Reflection Propagation
+// 5) Optical Fiber: Step-Index vs. Graded-Index Propagation
 function draw_a3_fiberTIR(ctx, w, h, t){
-  const xL=20, xR=w-20, yc=h/2, halfCore=22, halfClad=40;
-  roundedRect(ctx, xL, yc-halfClad, xR-xL, halfClad*2, 6, '#dbeafe');
-  roundedRect(ctx, xL, yc-halfCore, xR-xL, halfCore*2, 4, '#fef3c7');
-  txt(ctx,'cladding (n\u2082)', xL+6, yc-halfClad-8, {font:'10px Segoe UI', color:'#374151'});
-  txt(ctx,'core (n\u2081 > n\u2082)', xL+6, yc-halfCore-6, {font:'10px Segoe UI', color:'#b45309'});
-  const period=90, travel=t*(xR-xL-40);
-  ctx.beginPath(); let started=false;
-  for(let x=0;x<=travel;x+=2){
-    const seg=Math.floor(x/period), local=(x%period)/period;
-    const yy=(seg%2===0)? lerp(yc-halfCore+4,yc+halfCore-4,local) : lerp(yc+halfCore-4,yc-halfCore+4,local);
+  const xL=20, xR=w-20;
+
+  // ---------- Step-Index Fibre (top) ----------
+  const yc1=76, halfCore1=18, halfClad1=32;
+  roundedRect(ctx, xL, yc1-halfClad1, xR-xL, halfClad1*2, 6, '#dbeafe');
+  roundedRect(ctx, xL, yc1-halfCore1, xR-xL, halfCore1*2, 4, '#fef3c7');
+  txt(ctx,'Step-Index Fibre', xL, yc1-halfClad1-18, {font:'bold 11px Segoe UI', color:'#374151'});
+  txt(ctx,'cladding (n\u2082)', xL+6, yc1-halfClad1-4, {font:'8.5px Segoe UI', color:'#374151'});
+  txt(ctx,'core (n\u2081 > n\u2082)', xL+6, yc1-halfCore1-4, {font:'8.5px Segoe UI', color:'#b45309'});
+  const period1=80, travel1=t*(xR-xL-40);
+  ctx.beginPath(); let started1=false;
+  for(let x=0;x<=travel1;x+=2){
+    const seg=Math.floor(x/period1), local=(x%period1)/period1;
+    const yy=(seg%2===0)? lerp(yc1-halfCore1+4,yc1+halfCore1-4,local) : lerp(yc1+halfCore1-4,yc1-halfCore1+4,local);
     const xx=xL+20+x;
-    if(!started){ ctx.moveTo(xx,yy); started=true; } else ctx.lineTo(xx,yy);
+    if(!started1){ ctx.moveTo(xx,yy); started1=true; } else ctx.lineTo(xx,yy);
   }
   setStroke(ctx,'#dc2626',2.2); ctx.stroke();
-  const segEnd=Math.floor(travel/period), localEnd=(travel%period)/period;
-  const yEnd=(segEnd%2===0)? lerp(yc-halfCore+4,yc+halfCore-4,localEnd) : lerp(yc+halfCore-4,yc-halfCore+4,localEnd);
-  drawDot(ctx, xL+20+travel, yEnd, 4.5, '#dc2626');
-  txt(ctx,'Guided by total internal reflection at every bounce (angle > \u03b8\u1d04)', xL+10, yc+halfClad+18, {font:'10px Segoe UI', color:'#6b7280'});
+  const segEnd1=Math.floor(travel1/period1), localEnd1=(travel1%period1)/period1;
+  const yEnd1=(segEnd1%2===0)? lerp(yc1-halfCore1+4,yc1+halfCore1-4,localEnd1) : lerp(yc1+halfCore1-4,yc1-halfCore1+4,localEnd1);
+  drawDot(ctx, xL+20+travel1, yEnd1, 4, '#dc2626');
+  txt(ctx,'sharp, straight-line bounces at the core\u2013cladding boundary (TIR)', xL+6, yc1+halfClad1+16, {font:'8.5px Segoe UI', color:'#6b7280'});
+
+  // ---------- Graded-Index Fibre (bottom) ----------
+  const yc2=204, halfCore2=18, halfClad2=32;
+  roundedRect(ctx, xL, yc2-halfClad2, xR-xL, halfClad2*2, 6, '#dbeafe');
+  // shade the core to hint at the continuously-varying refractive index (highest at the axis)
+  const nBands=6;
+  for(let b=0;b<nBands;b++){
+    const f=1-Math.abs((b/(nBands-1))*2-1); // 0 at edges, 1 at centre
+    ctx.fillStyle='rgba(245,158,11,'+(0.15+0.35*f)+')';
+    const by0=yc2-halfCore2+b*(halfCore2*2/nBands), by1=yc2-halfCore2+(b+1)*(halfCore2*2/nBands);
+    ctx.fillRect(xL, by0, xR-xL, by1-by0);
+  }
+  txt(ctx,'Graded-Index Fibre', xL, yc2-halfClad2-18, {font:'bold 11px Segoe UI', color:'#374151'});
+  txt(ctx,'cladding (n\u2082)', xL+6, yc2-halfClad2-4, {font:'8.5px Segoe UI', color:'#374151'});
+  txt(ctx,'n varies smoothly, highest on axis', xL+6, yc2-halfCore2-4, {font:'8.5px Segoe UI', color:'#b45309'});
+  const wavelength=70, travel2=t*(xR-xL-40);
+  ctx.beginPath(); let started2=false;
+  for(let x=0;x<=travel2;x+=2){
+    const yy = yc2 + Math.sin(x/wavelength*Math.PI*2)*(halfCore2*0.72);
+    const xx=xL+20+x;
+    if(!started2){ ctx.moveTo(xx,yy); started2=true; } else ctx.lineTo(xx,yy);
+  }
+  setStroke(ctx,'#dc2626',2.2); ctx.stroke();
+  const yEnd2 = yc2 + Math.sin(travel2/wavelength*Math.PI*2)*(halfCore2*0.72);
+  drawDot(ctx, xL+20+travel2, yEnd2, 4, '#dc2626');
+  txt(ctx,'the ray bends continuously back toward the axis \u2014 an elongated sine-wave path', xL+6, yc2+halfClad2+16, {font:'8.5px Segoe UI', color:'#6b7280'});
 }
 
 // 6) Attenuation & Dispersion: Pulse Broadening Along a Fiber
@@ -1241,8 +1341,8 @@ ANIMS.push(
   {id:'a3-4', unit:3, title:'Holography: Recording and Reconstruction', tag:'3.5',
    caption:'A hologram records the interference of object and reference beams; illuminating it later with the reference beam reconstructs the full 3-D wavefront.',
    draw: draw_a3_holography, duration:6000},
-  {id:'a3-5', unit:3, title:'Optical Fiber: Total Internal Reflection Propagation', tag:'3.9',
-   caption:'Light is guided along the fibre core by repeated total internal reflection at the core\u2013cladding boundary.',
+  {id:'a3-5', unit:3, title:'Optical Fiber: Step-Index vs. Graded-Index', tag:'3.9',
+   caption:'In a step-index fibre (top), light is guided by repeated total internal reflection, bouncing in sharp straight lines off the core\u2013cladding boundary. In a graded-index fibre (bottom), the refractive index varies smoothly across the core, so the ray bends continuously back toward the axis, tracing an elongated sine-wave path.',
    draw: draw_a3_fiberTIR, duration:3200},
   {id:'a3-6', unit:3, title:'Attenuation & Dispersion: Pulse Broadening', tag:'3.11',
    caption:'As a pulse travels down the fibre, dispersion spreads it out in time and attenuation reduces its amplitude — both limiting the achievable bit rate.',
