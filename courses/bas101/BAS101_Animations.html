@@ -912,9 +912,22 @@ function draw_a2_nicolprism(ctx, w, h, t){
 
   if(travel>0.5){
     const t2 = clamp01((travel-0.5)*2);
-    const oEndX=midX-30-20*t2, oEndY=midY-40-30*t2;
-    drawArrow(ctx, x0, midY, oEndX, oEndY, '#dc2626', 1.8);
-    placeMarkers(x0, midY, oEndX, oEndY, t2, 'dot', '#dc2626');
+    // O-ray leg 1: travels from the entry point to where it actually meets the
+    // Canada balsam interface (found by intersecting with the BL-TR diagonal)
+    const targetX = x0 + wid*0.32;
+    const fBalsam = (targetX-BL.x)/(TR.x-BL.x);
+    const oMidX = targetX, oMidY = BL.y + fBalsam*(TR.y-BL.y);
+    const leg1 = clamp01(t2*2), leg2 = clamp01((t2-0.5)*2);
+    const o1x = lerp(x0,oMidX,leg1), o1y = lerp(midY,oMidY,leg1);
+    drawArrow(ctx, x0, midY, o1x, o1y, '#dc2626', 1.8);
+    placeMarkers(x0, midY, o1x, o1y, leg1, 'dot', '#dc2626');
+    if(leg2>0){
+      // O-ray leg 2: total internal reflection off the interface, absorbed at the top
+      const oEndX=oMidX-14, oEndY=y0+6;
+      const o2x=lerp(oMidX,oEndX,leg2), o2y=lerp(oMidY,oEndY,leg2);
+      drawArrow(ctx, oMidX, oMidY, o2x, o2y, '#dc2626', 1.8);
+      placeMarkers(oMidX, oMidY, o2x, o2y, leg2, 'dot', '#dc2626');
+    }
     if(t2>0.3) txt(ctx,'O-ray: TIR at interface (\u2022 = vibration \u22a5 principal section)', midX-40, midY-64, {font:'8.2px Segoe UI', color:'#b91c1c', align:'center'});
     const eEndX=lerp(x0,x1+15,t2);
     drawArrow(ctx, x0, midY, eEndX, midY, '#2563eb', 2.2);
@@ -1082,7 +1095,7 @@ function draw_a3_ruby(ctx, w, h, t){
       const segStart=dropT(i), segEnd=dropT(i+1);
       if(t>=segStart && t<segEnd){
         const p=(t-segStart)/(segEnd-segStart);
-        drawPhoton(ctx, lerp(ex(i),ex(i+1),p), levels[0].y, 0, 12, '#dc2626');
+        drawPhoton(ctx, lerp(ex(i),ex(i+1),p), levels[1].y, 0, 12, '#dc2626');
         break;
       }
     }
@@ -1092,11 +1105,11 @@ function draw_a3_ruby(ctx, w, h, t){
   if(t>=cascadeEnd-cascadeStep){
     const p=clamp01((t-(cascadeEnd-cascadeStep))/(1-(cascadeEnd-cascadeStep)));
     for(let row=-1; row<=1; row++){
-      const yy=levels[0].y + row*7;
+      const yy=levels[1].y + row*7;
       const xx = lerp(ex(N-1), w+20, clamp01(p*1.3-row*0.05));
       if(xx<w+15) drawPhoton(ctx, xx, yy, 0, 15, '#dc2626');
     }
-    if(p>0.15) txt(ctx,'694.3 nm', cx1+10, levels[0].y-14, {font:'bold 10px Segoe UI', color:'#b91c1c'});
+    if(p>0.15) txt(ctx,'694.3 nm', cx1+10, levels[1].y-14, {font:'bold 10px Segoe UI', color:'#b91c1c'});
   }
 
   txt(ctx,'Three-level pumping ('+N+' Cr\u00b3\u207a ions): '+nAtE0+' at E0, '+nAtE1+' at E1, '+nAtE2+' at E2', cx0, 18, {font:'bold 9.3px Segoe UI', color:'#374151'});
@@ -1159,8 +1172,9 @@ function draw_a3_hene(ctx, w, h, t){
 
 // 4) Holography: Recording & Reconstruction
 function draw_a3_holography(ctx, w, h, t){
-  const recording = t < 0.5;
-  const localT = recording? t/0.5 : (t-0.5)/0.5;
+  const RECORD_FRAC=0.35;
+  const recording = t < RECORD_FRAC;
+  const localT = recording? t/RECORD_FRAC : (t-RECORD_FRAC)/(1-RECORD_FRAC);
   txt(ctx, recording? 'RECORDING':'RECONSTRUCTION', w/2, 20, {align:'center', font:'bold 12px Segoe UI', color:'#374151'});
   const plateX=w/2+30, plateY0=40, plateY1=h-30;
   roundedRect(ctx, plateX, plateY0, 14, plateY1-plateY0, 2, '#e5e7eb', '#9ca3af');
@@ -1189,22 +1203,27 @@ function draw_a3_holography(ctx, w, h, t){
     }
     const nFringes=22;
     for(let i=0;i<nFringes;i++){ if(i%2===0){ ctx.fillStyle='rgba(30,41,59,0.65)'; ctx.fillRect(plateX,plateY0+i*(plateY1-plateY0)/nFringes,14,(plateY1-plateY0)/nFringes);} }
-    const imgT=clamp01(localT);
+    // reconstructed rays travel first; the image only appears once they arrive,
+    // then it stays visible for several seconds so it can be read
+    const raysEnd=0.25;
+    const rayProgress=clamp01(localT/raysEnd);
     const imgX=w-60, imgY=h/2;
     for(let i=0;i<5;i++){
       const yy=lerp(plateY0+8,plateY1-8,i/4);
       ctx.save(); ctx.globalAlpha=0.5;
-      drawDashedArrow(ctx, plateX+14, yy, lerp(plateX+14,imgX,imgT), lerp(yy,imgY,imgT*0.5), '#16a34a', 1.2);
+      drawDashedArrow(ctx, plateX+14, yy, lerp(plateX+14,imgX,rayProgress), lerp(yy,imgY,rayProgress*0.5), '#16a34a', 1.2);
       ctx.restore();
     }
-    ctx.save(); ctx.globalAlpha=easeOut(imgT); setFill(ctx,'#16a34a');
-    ctx.beginPath(); ctx.moveTo(imgX,imgY-14); ctx.lineTo(imgX+12,imgY+10); ctx.lineTo(imgX-12,imgY+10); ctx.closePath(); ctx.fill();
-    ctx.restore();
-    if(imgT>0.7) txt(ctx,'virtual 3-D image', imgX, imgY+28, {align:'center', font:'10px Segoe UI', color:'#166534'});
+    const imgAlpha = localT<raysEnd ? 0 : easeOut(clamp01((localT-raysEnd)/0.1));
+    if(imgAlpha>0){
+      ctx.save(); ctx.globalAlpha=imgAlpha; setFill(ctx,'#16a34a');
+      ctx.beginPath(); ctx.moveTo(imgX,imgY-14); ctx.lineTo(imgX+12,imgY+10); ctx.lineTo(imgX-12,imgY+10); ctx.closePath(); ctx.fill();
+      ctx.restore();
+      txt(ctx,'virtual 3-D image', imgX, imgY+28, {align:'center', font:'10px Segoe UI', color:'#166534'});
+    }
   }
 }
 
-// 5) Optical Fiber: Total Internal Reflection Propagation
 // 5) Optical Fiber: Step-Index vs. Graded-Index Propagation
 function draw_a3_fiberTIR(ctx, w, h, t){
   const xL=20, xR=w-20;
@@ -1340,7 +1359,7 @@ ANIMS.push(
    draw: draw_a3_hene, duration:5500},
   {id:'a3-4', unit:3, title:'Holography: Recording and Reconstruction', tag:'3.5',
    caption:'A hologram records the interference of object and reference beams; illuminating it later with the reference beam reconstructs the full 3-D wavefront.',
-   draw: draw_a3_holography, duration:6000},
+   draw: draw_a3_holography, duration:8000},
   {id:'a3-5', unit:3, title:'Optical Fiber: Step-Index vs. Graded-Index', tag:'3.9',
    caption:'In a step-index fibre (top), light is guided by repeated total internal reflection, bouncing in sharp straight lines off the core\u2013cladding boundary. In a graded-index fibre (bottom), the refractive index varies smoothly across the core, so the ray bends continuously back toward the axis, tracing an elongated sine-wave path.',
    draw: draw_a3_fiberTIR, duration:3200},
