@@ -257,7 +257,7 @@ footer.pagefoot a{color:#f2d9a6;}
 </script>
 
 <div class="topbar">
-  <div class="brand"><span class="mark">⚡</span> Advanced Electricity &amp; Magnetism Learning Lab</div>
+  <div class="brand"><img src="../assets/brand-orb.jpg" alt="Invertis University mark" style="height:30px;width:30px;border-radius:50%;object-fit:cover;flex:none;" onerror="this.style.display='none'"><img src="../assets/invertis-logo.png" alt="Invertis University logo" style="height:30px;width:auto;" onerror="this.style.display='none'"><span class="mark">⚡</span> Advanced Electricity &amp; Magnetism Learning Lab</div>
   <div class="sub"><a href="../index.html" style="color:#f2d9a6;">&larr; Faculty Course Portal</a> &middot; <a href="../docs-em/index.html" style="color:#f2d9a6;">User Guide</a></div>
 </div>
 
@@ -274,9 +274,22 @@ footer.pagefoot a{color:#f2d9a6;}
 </div>
 
 <footer class="pagefoot">
-  Advanced Electricity &amp; Magnetism Learning Lab &middot; Prepared &amp; maintained by <b>Dr. S. K. Jain</b>,
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+    <img src="../assets/brand-orb.jpg" alt="Invertis University mark" style="height:24px;width:24px;border-radius:50%;object-fit:cover;flex:none;" onerror="this.style.display='none'">
+    <img src="../assets/invertis-logo.png" alt="Invertis University logo" style="height:24px;width:auto;" onerror="this.style.display='none'">
+    <strong style="color:#f2d9a6;">Invertis University, Bareilly</strong>
+  </div>
+  Advanced Electricity &amp; Magnetism Learning Lab &middot; Prepared as companion interactive material for
+  Electricity &amp; Magnetism (BHP301) &middot; All simulations are simplified educational models, not
+  metrology-grade instruments. Full theory, procedure and viva-voce documentation:
+  <a href="../docs-em/index.html">User Guide &amp; Lab Manual</a>.
+  <hr style="border:none;border-top:1px solid rgba(255,255,255,.12);margin:14px 0;">
+  Prepared &amp; maintained by <b>Dr. S. K. Jain</b>,
   Associate Professor in Physics, Department of Applied Sciences and Humanities, Invertis University, Bareilly, India &middot;
-  <a href="mailto:sanjeev.j@invertis.org">sanjeev.j@invertis.org</a> &middot; &copy; 2026
+  <a href="mailto:sanjeev.j@invertis.org">sanjeev.j@invertis.org</a> &middot; &copy; 2026 Author. Site maintained by Dr. S. K. Jain.
+  <div style="margin-top:12px;text-align:center;">
+    <img src="https://visitor-badge.laobi.icu/badge?page_id=drskjain-em-lab" alt="Visitor count for this page" style="height:20px;vertical-align:middle;border-radius:4px;opacity:.9;">
+  </div>
 </footer>
 
 <div id="certOverlay">
@@ -1045,7 +1058,17 @@ DRAW["force-parallel-conductors"] = function(ctx,w,h,ctl,cfg,t){
 DRAW["faraday-induction"] = function(ctx,w,h,ctl,cfg,t){
   bg(ctx,w,h); title(ctx,"Bar magnet approaching a coil — induced current on the galvanometer",w);
   var cy=h*0.52;
-  var coilX = w*0.62, coilR=70;
+  var coilX = w*0.62;
+  var coilR = clamp(70*Math.sqrt(ctl.area/20), 35, 110);
+  var mu = ctl.coreMu;
+  var coreSpanX0 = coilX-20-16, coreSpanX1 = coilX+20+16;
+  var coreH = coilR*0.62;
+  var coreColor;
+  if(mu<1){ var f0=mu; coreColor = "rgba("+Math.round(58+ (1-f0)*0)+","+Math.round(120-(1-f0)*40)+","+Math.round(180+(1-f0)*20)+","+(0.10+0.22*(1-f0))+")"; }
+  else { var f1=clamp((mu-1)/0.7,0,1); coreColor = "rgba("+Math.round(150+f1*100)+","+Math.round(140+f1*40)+","+Math.round(70-f1*40)+","+(0.14+0.28*f1)+")"; }
+  ctx.fillStyle = coreColor;
+  ctx.fillRect(coreSpanX0, cy-coreH/2, coreSpanX1-coreSpanX0, coreH);
+  ctx.strokeStyle = "rgba(200,200,210,.35)"; ctx.lineWidth=1; ctx.strokeRect(coreSpanX0, cy-coreH/2, coreSpanX1-coreSpanX0, coreH);
   for(var i=-2;i<=2;i++){
     ctx.strokeStyle="#c9a227"; ctx.lineWidth=3;
     ctx.beginPath(); ctx.ellipse(coilX+i*10,cy,16,coilR,0,0,Math.PI*2); ctx.stroke();
@@ -1061,17 +1084,34 @@ DRAW["faraday-induction"] = function(ctx,w,h,ctl,cfg,t){
   var dist = coilX-40-magnetX;
   var approaching = (phase<100);
   var fluxRate = clamp(ctl.Bmax/Math.max(5,dist)*speed,0,60);
-  var emf = ctl.N*ctl.Bmax*speed/1000;
-  var galX = w*0.85, galY=cy;
-  circ(ctx,galX,galY,42,"#0e2a3d","#f2d9a6",2);
-  var needleAng = clamp((approaching?1:-1)*fluxRate*0.03,-1.1,1.1);
+  var emf = ctl.N*ctl.Bmax*speed/1000*mu;
+  var galX = w*0.85, galY=cy, galR=42;
+  circ(ctx,galX,galY,galR,"#0e2a3d","#f2d9a6",2);
+  var needleMax = 175*Math.PI/180;
+  var needleAng = clamp((approaching?1:-1)*fluxRate*0.03*mu, -needleMax, needleMax);
   arrow(ctx,galX,galY,galX+Math.sin(needleAng)*32, galY-Math.cos(needleAng)*32, "#e8534a",2.6);
   label(ctx,"G",galX,galY+58,"#9fb0c4",12,"center");
-  line(ctx,coilX+30,cy,galX-42,cy-30,"#c9c2a8",2);
-  line(ctx,coilX+30,cy+10,galX-42,cy+30,"#c9c2a8",2);
-  if(approaching){ flowDots(ctx,coilX+30,cy,galX-42,cy-30,1,t,"#3aa0d8",5); }
-  else { flowDots(ctx,coilX+30,cy+10,galX-42,cy+30,1,t,"#3aa0d8",5); }
-  label(ctx,"N="+ctl.N.toFixed(0)+"  v="+ctl.speed.toFixed(0)+"cm/s  ε≈"+emf.toFixed(2)+"mV", w/2, h-14, "#9fb0c4",11,"center");
+
+  var coilEdgeX = coilX+36;
+  var topStubY = cy - coilR*0.55, botStubY = cy + coilR*0.55;
+  var topWireY = cy - 34, botWireY = cy + 34;
+  var termX = galX - galR + 4;
+  var termTopY = galY - 16, termBotY = galY + 16;
+  var wireColor = "#c9c2a8";
+  ctx.strokeStyle=wireColor; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(coilEdgeX,topStubY); ctx.lineTo(coilEdgeX,topWireY); ctx.lineTo(termX,topWireY); ctx.lineTo(termX,termTopY); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(coilEdgeX,botStubY); ctx.lineTo(coilEdgeX,botWireY); ctx.lineTo(termX,botWireY); ctx.lineTo(termX,termBotY); ctx.stroke();
+  circ(ctx,termX,termTopY,3,"#f2d9a6",null); circ(ctx,termX,termBotY,3,"#f2d9a6",null);
+
+  var dir = approaching?1:-1;
+  flowDots(ctx,coilEdgeX,topStubY,coilEdgeX,topWireY, dir,t,"#3aa0d8",2);
+  flowDots(ctx,coilEdgeX,topWireY,termX,topWireY, dir,t,"#3aa0d8",5);
+  flowDots(ctx,termX,topWireY,termX,termTopY, dir,t,"#3aa0d8",2);
+  flowDots(ctx,coilEdgeX,botStubY,coilEdgeX,botWireY, -dir,t,"#3aa0d8",2);
+  flowDots(ctx,coilEdgeX,botWireY,termX,botWireY, -dir,t,"#3aa0d8",5);
+  flowDots(ctx,termX,botWireY,termX,termBotY, -dir,t,"#3aa0d8",2);
+
+  label(ctx,"N="+ctl.N.toFixed(0)+"  v="+ctl.speed.toFixed(0)+"cm/s  A="+ctl.area.toFixed(0)+"cm²  μᵣ="+mu.toFixed(1)+" (χ="+(mu-1).toFixed(1)+")  ε≈"+emf.toFixed(2)+"mV", w/2, h-46, "#9fb0c4",11,"center");
   caption(ctx, approaching?"Magnet approaching → flux increasing → induced current opposes it (Lenz's law)":"Magnet receding → flux decreasing → induced current reverses", w,h);
 };
 

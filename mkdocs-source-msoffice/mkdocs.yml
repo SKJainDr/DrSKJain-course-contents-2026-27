@@ -20,7 +20,7 @@ validation:
 theme:
   name: material
   custom_dir: overrides
-  logo: assets/icon.svg
+  logo: assets/brand-orb.jpg
   favicon: assets/favicon.png
   palette:
     - media: "(prefers-color-scheme: light)"

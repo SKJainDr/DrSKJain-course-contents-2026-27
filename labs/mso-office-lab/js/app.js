@@ -126,8 +126,17 @@ function renderHome() {
     </div>
 
     <div class="site-footer">
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px;">
+        <img src="assets/brand-orb.jpg" alt="Invertis University mark" style="height:22px;width:22px;border-radius:50%;object-fit:cover;">
+        <img src="assets/university-logo.png" alt="Invertis University logo" style="height:22px;width:auto;" onerror="this.style.display='none'">
+      </div>
       Advanced MS Office Lab &middot; Invertis University Bareilly &middot; Built for VOI001 — Introduction of MS-Office<br/>
-      Complete every subsection of a section at 100% to unlock its printable certificate, countersigned by Dr. S. K. Jain, Lab Professor.
+      Complete every subsection of a section at 100% to unlock its printable certificate, countersigned by Dr. S. K. Jain, Lab Professor.<br/>
+      Prepared &amp; maintained by <strong>Dr. S. K. Jain</strong>, Associate Professor in Physics, Department of Applied Sciences and Humanities, Invertis University, Bareilly, India &middot;
+      <a href="mailto:sanjeev.j@invertis.org">sanjeev.j@invertis.org</a> &middot; &copy; 2026 Author. Site maintained by Dr. S. K. Jain.
+      <div style="margin-top:10px;">
+        <img src="https://visitor-badge.laobi.icu/badge?page_id=drskjain-mso-office-lab" alt="Visitor count for this page" style="height:20px;vertical-align:middle;border-radius:4px;opacity:.9;">
+      </div>
     </div>
   `;
 
