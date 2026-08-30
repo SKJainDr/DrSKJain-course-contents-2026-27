@@ -1117,6 +1117,499 @@ DRAW["faraday-induction"] = function(ctx,w,h,ctl,cfg,t){
   caption(ctx, approaching?"Magnet approaching → flux increasing → induced current opposes it (Lenz's law)":"Magnet receding → flux decreasing → induced current reverses", w,h);
 };
 
+/* ---------------- Method of Images: charge near grounded plane ---------------- */
+DRAW["image-charge-grounded-plane"] = function(ctx,w,h,ctl,cfg){
+  bg(ctx,w,h); title(ctx,"Point charge above an infinite grounded conducting plane",w);
+  var planeY = h*0.62;
+  var cx = w*0.5;
+  var dPx = clamp(ctl.d*9, 30, 170);
+  var qY = planeY - dPx;
+  var qr = clamp(8+ctl.q*0.3, 9, 22);
+  // grounded plane
+  line(ctx,20,planeY,w-20,planeY,"#c9c2a8",2.4);
+  ctx.save(); ctx.strokeStyle="#8a94a6"; ctx.lineWidth=1.2;
+  for(var gx=20; gx<w-20; gx+=14){ ctx.beginPath(); ctx.moveTo(gx,planeY); ctx.lineTo(gx-8,planeY+12); ctx.stroke(); }
+  ctx.restore();
+  label(ctx,"grounded conducting plane (V=0)", w/2, planeY+30, "#9fb0c4", 11, "center");
+  // real charge
+  chargeGlyph(ctx,cx,qY,qr,Math.abs(ctl.q));
+  label(ctx,"+q", cx, qY-qr-8, "#f2d9a6", 12, "center");
+  // image charge (mirrored, faded/dashed to show it's fictitious)
+  var imgY = planeY + dPx;
+  ctx.save(); ctx.globalAlpha=0.42;
+  chargeGlyph(ctx,cx,imgY,qr,-Math.abs(ctl.q));
+  ctx.restore();
+  dashedCircle(ctx,cx,imgY,qr+5,"rgba(232,83,74,.5)",1.2);
+  label(ctx,"−q (image, fictitious)", cx, imgY+qr+16, "#9fb0c4", 10.5, "center");
+  line(ctx,cx,qY,cx,imgY,"rgba(255,255,255,.14)",1,[3,4]);
+  label(ctx,"d="+ctl.d.toFixed(1)+"cm", cx+14, (qY+planeY)/2, "#9fb0c4", 10.5,"left");
+  // field lines curving from +q down onto the plane (perpendicular at plane)
+  ctx.strokeStyle="#3aa0d8"; ctx.lineWidth=1.2;
+  for(var i=-4;i<=4;i++){
+    if(i===0){ line(ctx,cx,qY,cx,planeY,"#3aa0d8",1.2); continue; }
+    var spread = i*14;
+    ctx.beginPath();
+    for(var s=0;s<=30;s++){
+      var f=s/30;
+      var xx = lerp(cx, cx+spread*1.6, Math.sin(f*Math.PI/2));
+      var yy = lerp(qY, planeY, f);
+      if(s===0) ctx.moveTo(xx,yy); else ctx.lineTo(xx,yy);
+    }
+    ctx.stroke();
+  }
+  // attractive force arrow on +q, pointing down toward the plane
+  arrow(ctx,cx,qY+qr+4,cx,qY+qr+4+34,"#e8534a",2.6);
+  var F = 8.988*ctl.q*ctl.q/((2*ctl.d)*(2*ctl.d));
+  label(ctx,"F≈"+F.toFixed(2)+"×10⁻⁹ N, attractive (as if pulled by −q at depth d)", w/2, h-46, "#9fb0c4",11,"center");
+  caption(ctx,"Image charge −q at depth d makes the plane an equipotential V=0 — field lines above the plane meet it at right angles", w,h);
+};
+
+/* ---------------- Multipole expansion: linear quadrupole ---------------- */
+DRAW["multipole-expansion-quadrupole"] = function(ctx,w,h,ctl,cfg){
+  bg(ctx,w,h); title(ctx,"Linear electric quadrupole: +q, −2q, +q on axis",w);
+  var cy=h*0.55;
+  var aPx = clamp(ctl.a*22, 20, 140);
+  var cx = w*0.34;
+  var x1=cx-aPx, x2=cx, x3=cx+aPx;
+  var qr = clamp(7+ctl.q*0.35, 8, 20);
+  chargeGlyph(ctx,x1,cy,qr,Math.abs(ctl.q));
+  chargeGlyph(ctx,x2,cy,qr*1.25,-2*Math.abs(ctl.q));
+  chargeGlyph(ctx,x3,cy,qr,Math.abs(ctl.q));
+  label(ctx,"+q",x1,cy-qr-8,"#f2d9a6",11,"center");
+  label(ctx,"−2q",x2,cy-qr*1.25-8,"#f2d9a6",11,"center");
+  label(ctx,"+q",x3,cy-qr-8,"#f2d9a6",11,"center");
+  line(ctx,x1,cy+qr+10,x2,cy+qr+10,"rgba(255,255,255,.25)",1,[3,3]);
+  line(ctx,x2,cy+qr+10,x3,cy+qr+10,"rgba(255,255,255,.25)",1,[3,3]);
+  label(ctx,"a",(x1+x2)/2,cy+qr+22,"#9fb0c4",10.5,"center");
+  label(ctx,"a",(x2+x3)/2,cy+qr+22,"#9fb0c4",10.5,"center");
+  // far field point on axis
+  var rPx = clamp(ctl.r*3.2, 60, w*0.55);
+  var probeX = clamp(x3+rPx, x3+40, w-40);
+  circ(ctx,probeX,cy,4.5,"#e8534a","#081a26",1);
+  line(ctx,x3,cy,probeX,cy,"rgba(255,255,255,.18)",1,[2,4]);
+  label(ctx,"P (r="+ctl.r.toFixed(0)+"cm on axis)",probeX,cy-16,"#f2d9a6",11,"center");
+  var Vq = 3*8.988*ctl.q*ctl.a*ctl.a/(ctl.r*ctl.r*ctl.r);
+  label(ctx,"V_quad(r) ∝ 1/r³  ⇒  V≈"+Vq.toFixed(4)+"×10⁻⁹ V at P", w/2, h-46, "#9fb0c4",11,"center");
+  caption(ctx,"Net charge and net dipole moment are both zero — the quadrupole is the leading term, falling off as 1/r³", w,h);
+};
+
+
+/* ---------------- Magnetic vector potential of a current loop (dipole limit) ---------------- */
+DRAW["magnetic-vector-potential-dipole"] = function(ctx,w,h,ctl,cfg,t){
+  bg(ctx,w,h); title(ctx,"Small current loop — vector potential A at a distant field point",w);
+  var cx=w*0.32, cy=h*0.55;
+  var loopR = clamp(ctl.a*8, 14, 60);
+  ctx.strokeStyle="#c9a227"; ctx.lineWidth=3.4;
+  ctx.beginPath(); ctx.ellipse(cx,cy,loopR,loopR*0.34,0,0,Math.PI*2); ctx.stroke();
+  flowDots(ctx,cx-loopR,cy,cx+loopR,cy,1,t,"#f2d9a6",6);
+  label(ctx,"I="+ctl.I.toFixed(1)+"A loop, a="+ctl.a.toFixed(1)+"cm", cx, cy+loopR*0.34+22, "#9fb0c4",11,"center");
+  // axis
+  line(ctx,cx,cy-90,cx,cy+90,"rgba(255,255,255,.14)",1,[2,4]);
+  arrow(ctx,cx,cy,cx,cy-90,"rgba(255,255,255,.3)",1.4);
+  label(ctx,"axis",cx+10,cy-88,"#7f8ca0",10);
+  // field point P at (r, theta)
+  var rPx = clamp(ctl.r*3.6, 60, w*0.5);
+  var th = ctl.theta*Math.PI/180;
+  var px = cx + rPx*Math.sin(th), py = cy - rPx*Math.cos(th);
+  line(ctx,cx,cy,px,py,"rgba(255,255,255,.18)",1,[2,4]);
+  dashedCircle(ctx,cx,cy,rPx,"rgba(255,255,255,.10)",1);
+  circ(ctx,px,py,5,"#e8534a","#081a26",1);
+  label(ctx,"P (r="+ctl.r.toFixed(0)+"cm, θ="+ctl.theta.toFixed(0)+"°)", px+10, py-6, "#f2d9a6",11,"left");
+  label(ctx,"θ", cx+16, cy-16, "#9fb0c4", 11);
+  // A_phi is azimuthal (out of / into the plane of this page at P) — show with the standard dot/cross convention
+  var outOfPage = Math.sin(th) >= 0;
+  ctx.save();
+  ctx.strokeStyle="#3aa0d8"; ctx.lineWidth=1.6;
+  ctx.beginPath(); ctx.arc(px,py,11,0,Math.PI*2); ctx.stroke();
+  if(outOfPage){
+    circ(ctx,px,py,2.6,"#3aa0d8",null);
+  } else {
+    ctx.beginPath(); ctx.moveTo(px-7,py-7); ctx.lineTo(px+7,py+7); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(px-7,py+7); ctx.lineTo(px+7,py-7); ctx.stroke();
+  }
+  ctx.restore();
+  label(ctx,"A_φ "+(outOfPage?"(out of page)":"(into page)"), px+14, py+16, "#3aa0d8", 10.5,"left");
+  var mu0=1.2566; var A=mu0*ctl.I*ctl.a*ctl.a*Math.sin(th)/(4*ctl.r*ctl.r);
+  label(ctx,"A_φ = μ₀Ia²sinθ/4r² ≈ "+(A*1000).toFixed(3)+"×10⁻⁶ T·cm", w/2, h-46, "#9fb0c4",11,"center");
+  caption(ctx,"A circles the loop axis (azimuthal, ⊙/⊗ shown at P) — its curl gives the familiar dipole B field", w,h);
+};
+
+/* ---------------- Crossed E & B fields: velocity selector + cyclotron motion ---------------- */
+DRAW["cyclotron-velocity-selector"] = function(ctx,w,h,ctl,cfg,t){
+  bg(ctx,w,h); title(ctx,"Velocity selector (crossed E, B) feeding a pure-B cyclotron region",w);
+  var cy=h*0.55;
+  var selX0=40, selX1=w*0.42, cycX1=w-40;
+  // selector region shading + E field arrows (vertical) + B dots (out of page)
+  ctx.fillStyle="rgba(58,160,216,.06)"; ctx.fillRect(selX0,cy-90,selX1-selX0,180);
+  ctx.fillStyle="rgba(232,83,74,.05)"; ctx.fillRect(selX1,cy-90,cycX1-selX1,180);
+  line(ctx,selX1,cy-95,selX1,cy+95,"rgba(255,255,255,.25)",1.4,[4,3]);
+  for(var ex=selX0+18; ex<selX1; ex+=34){ arrow(ctx,ex,cy+70,ex,cy-70,"#e8534a",1.8); }
+  label(ctx,"E", selX0+18, cy-78, "#e8534a",11);
+  function dots(x0,x1,y0,y1,spacing,r,color){
+    for(var xx=x0+spacing/2; xx<x1; xx+=spacing){
+      for(var yy=y0+spacing/2; yy<y1; yy+=spacing){ circ(ctx,xx,yy,r,color,null); }
+    }
+  }
+  dots(selX0,selX1,cy-90,cy+90,26,2,"rgba(58,160,216,.55)");
+  dots(selX1,cycX1,cy-90,cy+90,26,2,"rgba(58,160,216,.55)");
+  label(ctx,"B (out of page)", selX0+18, cy+86, "#3aa0d8",10.5);
+  label(ctx,"velocity selector", (selX0+selX1)/2, cy-104, "#9fb0c4",11,"center");
+  label(ctx,"pure B field", (selX1+cycX1)/2, cy-104, "#9fb0c4",11,"center");
+  // particle path: straight through selector (undeflected, v=E/B), circular once past selX1
+  var v = (ctl.E*1000)/(ctl.B/1000);
+  var rc_m = (ctl.m_over_q*1e-8)*v/(ctl.B/1000);
+  var rcPx = clamp(rc_m*1200, 20, (cycX1-selX1)*0.9);
+  var enterY = cy;
+  line(ctx,selX0,enterY,selX1,enterY,"#f2d9a6",2.2);
+  arrow(ctx,selX1-14,enterY,selX1,enterY,"#f2d9a6",2.2);
+  var orbCx = selX1, orbCy = enterY-rcPx;
+  ctx.strokeStyle="#f2d9a6"; ctx.lineWidth=2.2;
+  ctx.beginPath(); ctx.arc(orbCx,orbCy,rcPx,Math.PI*0.5, Math.PI*0.5 + Math.PI*1.7); ctx.stroke();
+  var pang = (Math.PI*0.5 + (t*1.4)%(Math.PI*1.7));
+  var pX = orbCx+rcPx*Math.cos(pang), pY=orbCy+rcPx*Math.sin(pang);
+  circ(ctx,pX,pY,4.5,"#e8534a","#081a26",1);
+  label(ctx,"r_c="+rc_m.toFixed(3)+"m", orbCx+8, orbCy-rcPx-8, "#9fb0c4",10.5,"left");
+  label(ctx,"v=E/B="+(v/1000).toFixed(1)+"km/s (undeflected ⇒ selected speed)", w/2, h-46, "#9fb0c4",11,"center");
+  caption(ctx,"Only particles with v=E/B pass straight through; in the B-only region they curve on a circle of radius r_c=mv/qB", w,h);
+};
+
+
+/* ---------------- Hall effect: carrier density & sign ---------------- */
+DRAW["hall-effect-carrier-density"] = function(ctx,w,h,ctl,cfg,t){
+  bg(ctx,w,h); title(ctx,"Hall effect: current-carrying slab in a transverse magnetic field",w);
+  var cx=w*0.5, cy=h*0.52;
+  var slabW=220, slabH=90;
+  var x0=cx-slabW/2, x1=cx+slabW/2, y0=cy-slabH/2, y1=cy+slabH/2;
+  ctx.fillStyle="rgba(58,160,216,.10)"; ctx.fillRect(x0,y0,slabW,slabH);
+  ctx.strokeStyle="#c9c2a8"; ctx.lineWidth=2; ctx.strokeRect(x0,y0,slabW,slabH);
+  // B field into the page across the slab
+  for(var bx=x0+16; bx<x1; bx+=26){
+    for(var by=y0+16; by<y1; by+=26){
+      ctx.strokeStyle="rgba(58,160,216,.6)"; ctx.lineWidth=1.4;
+      ctx.beginPath(); ctx.moveTo(bx-5,by-5); ctx.lineTo(bx+5,by+5); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(bx-5,by+5); ctx.lineTo(bx+5,by-5); ctx.stroke();
+    }
+  }
+  label(ctx,"B (into page)", x0, y0-14, "#3aa0d8",11,"left");
+  // conventional current I, left to right, with drifting carrier dots
+  arrow(ctx,x0-30,cy,x0-6,cy,"#f2d9a6",2.2);
+  label(ctx,"I", x0-30, cy-10, "#f2d9a6",12,"left");
+  for(var i=0;i<7;i++){
+    var f = ((i/7) + t*0.25) % 1;
+    var px = lerp(x0+6,x1-6,f);
+    circ(ctx,px,cy,3,"#e8534a",null);
+  }
+  // Lorentz force deflects carriers toward the top edge -> + charge accumulates top, - bottom
+  arrow(ctx,cx,cy,cx,y0+18,"#e8534a",1.8);
+  label(ctx,"F = qv×B", cx+10, cy-14, "#9fb0c4",10.5,"left");
+  for(var i2=0;i2<6;i2++){ label(ctx,"+", x0+18+i2*32, y0+14, "#e8534a",13,"center"); }
+  for(var i3=0;i3<6;i3++){ label(ctx,"−", x0+18+i3*32, y1-8, "#3aa0d8",13,"center"); }
+  // Hall voltage measured across top-bottom
+  line(ctx,x1+24,y0,x1+24,y1,"#c9c2a8",1.6);
+  line(ctx,x1+18,y0,x1+30,y0,"#c9c2a8",1.6);
+  line(ctx,x1+18,y1,x1+30,y1,"#c9c2a8",1.6);
+  circ(ctx,x1+50,cy,14,"#0e2a3d","#f2d9a6",1.6);
+  label(ctx,"V", x1+50, cy+4, "#f2d9a6",12,"center");
+  line(ctx,x1+24,y0,x1+36,cy-14,"#c9c2a8",1.2); line(ctx,x1+24,y1,x1+36,cy+14,"#c9c2a8",1.2);
+  var e=1.602e-19; var VH = (ctl.I/1000)*(ctl.B/1000)/((ctl.n*1e20)*e*(ctl.t/1000));
+  label(ctx,"n="+ctl.n.toFixed(1)+"×10²⁰m⁻³  t="+ctl.t.toFixed(2)+"mm  V_H≈"+(VH*1000).toFixed(2)+"mV", w/2, h-46, "#9fb0c4",11,"center");
+  caption(ctx,"Deflected carriers pile up on one face until the transverse electric field balances the magnetic force — that equilibrium voltage is V_H", w,h);
+};
+
+/* ---------------- Meissner effect: flux expulsion ---------------- */
+DRAW["meissner-effect-flux-expulsion"] = function(ctx,w,h,ctl,cfg){
+  bg(ctx,w,h); title(ctx,"Meissner effect: exponential field decay inside a superconductor",w);
+  var cy=h*0.5;
+  var surfX = w*0.34;
+  ctx.fillStyle="rgba(58,160,216,.06)"; ctx.fillRect(surfX,60,w-surfX-40,h-140);
+  line(ctx,surfX,60,surfX,h-80,"#c9c2a8",2.4);
+  label(ctx,"superconductor (T<T_c)",(surfX+w-40)/2,50,"#9fb0c4",11,"center");
+  label(ctx,"surface",surfX,h-64,"#9fb0c4",10.5,"center");
+  // incoming field lines outside, decaying arrows inside
+  for(var i=-3;i<=3;i++){
+    var yy=cy+i*24;
+    arrow(ctx,surfX-60,yy,surfX-6,yy,"#3aa0d8",1.8);
+  }
+  var maxDepthPx = w-surfX-70;
+  var nArrows=9;
+  for(var k=0;k<nArrows;k++){
+    var xf = k/(nArrows-1);
+    var depthNm = xf*400;
+    var Bfrac = Math.exp(-depthNm/ctl.lambda);
+    if(Bfrac<0.04) continue;
+    var xx = surfX + xf*maxDepthPx;
+    var len = 26*Bfrac;
+    var yy2 = cy;
+    ctx.save(); ctx.globalAlpha = clamp(0.25+Bfrac*0.9,0.1,1);
+    arrow(ctx,xx,yy2,xx+len,yy2,"#3aa0d8",1.6);
+    ctx.restore();
+  }
+  // decay curve B(x) plotted beneath
+  var plotY0=h-96, plotH=54, plotX0=surfX, plotX1=w-40;
+  line(ctx,plotX0,plotY0,plotX1,plotY0,"rgba(255,255,255,.2)",1);
+  ctx.strokeStyle="#e8534a"; ctx.lineWidth=2; ctx.beginPath();
+  for(var s=0;s<=60;s++){
+    var xf2=s/60, depth=xf2*400;
+    var Bf=Math.exp(-depth/ctl.lambda);
+    var px=plotX0+xf2*(plotX1-plotX0), py=plotY0-Bf*plotH;
+    if(s===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+  }
+  ctx.stroke();
+  var xMarkPx = plotX0 + clamp(ctl.x/400,0,1)*(plotX1-plotX0);
+  var BatX = ctl.B0*Math.exp(-ctl.x/ctl.lambda);
+  var yMark = plotY0 - (BatX/ctl.B0)*plotH;
+  circ(ctx,xMarkPx,yMark,4,"#f2d9a6","#081a26",1);
+  line(ctx,xMarkPx,plotY0,xMarkPx,yMark,"rgba(255,255,255,.18)",1,[2,3]);
+  label(ctx,"x="+ctl.x.toFixed(0)+"nm, B≈"+BatX.toFixed(3)+"mT (B₀="+ctl.B0.toFixed(0)+"mT)", w/2, h-46, "#9fb0c4",11,"center");
+  label(ctx,"λ="+ctl.lambda.toFixed(0)+"nm", plotX0+18, plotY0-plotH-6, "#9fb0c4",10.5,"left");
+  caption(ctx,"Screening (eddy) currents in a thin surface layer expel B, decaying as exp(−x/λ) — B is essentially zero deep inside", w,h);
+};
+
+/* ---------------- Eddy-current damping (Lenz's law braking) ---------------- */
+DRAW["eddy-current-damping"] = function(ctx,w,h,ctl,cfg,t){
+  bg(ctx,w,h); title(ctx,"Conducting plate braked by eddy currents in a magnet gap",w);
+  var cy=h*0.52;
+  var gapX0=w*0.38, gapX1=w*0.62;
+  // magnet poles (N top, S bottom) with field into the plate region
+  ctx.fillStyle="#8a3a2a"; ctx.fillRect(gapX0-10,cy-110,gapX1-gapX0+20,26);
+  ctx.fillStyle="#274a7a"; ctx.fillRect(gapX0-10,cy+84,gapX1-gapX0+20,26);
+  label(ctx,"N",(gapX0+gapX1)/2,cy-93,"#fff",12,"center");
+  label(ctx,"S",(gapX0+gapX1)/2,cy+101,"#fff",12,"center");
+  for(var fx=gapX0+8; fx<gapX1; fx+=22){ arrow(ctx,fx,cy-84,fx,cy+84,"#3aa0d8",1.4); }
+  // moving conducting plate sweeping left to right through the gap
+  var plateW=54, plateH=170;
+  var speedPxPerT = 46;
+  var phase=(t*ctl.v*8)%(w+plateW*2) - plateW;
+  var plateX = clamp(phase, -plateW, w) ;
+  var px0 = (w*0.15 + (t*ctl.v*10)) % (w+plateW) - plateW;
+  ctx.fillStyle="rgba(180,190,200,.28)"; ctx.strokeStyle="#c9c2a8"; ctx.lineWidth=1.6;
+  ctx.fillRect(px0,cy-plateH/2,plateW,plateH); ctx.strokeRect(px0,cy-plateH/2,plateW,plateH);
+  arrow(ctx,px0-18,cy,px0-4,cy,"#f2d9a6",2);
+  label(ctx,"v",px0-18,cy-10,"#f2d9a6",12,"left");
+  // eddy current loops on whichever edge is currently crossing the field boundary
+  function eddyLoop(x,y,r,cw){
+    ctx.strokeStyle="#e8534a"; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.ellipse(x,y,r,r*0.7,0,0,Math.PI*2); ctx.stroke();
+    var ang = (t*3*(cw?1:-1))%(Math.PI*2);
+    var hx=x+r*Math.cos(ang), hy=y+r*0.7*Math.sin(ang);
+    arrow(ctx,hx-6*Math.sin(ang)*(cw?1:-1),hy+6*Math.cos(ang)*(cw?1:-1),hx,hy,"#e8534a",1.6);
+  }
+  var leadEdge = px0+plateW, trailEdge = px0;
+  var inGap = (leadEdge>gapX0 && trailEdge<gapX1);
+  if(inGap){
+    if(leadEdge>gapX0 && leadEdge<gapX1){ eddyLoop(leadEdge-8,cy-40,20,true); eddyLoop(leadEdge-8,cy+40,20,false); }
+    if(trailEdge>gapX0 && trailEdge<gapX1){ eddyLoop(trailEdge+8,cy-40,20,false); eddyLoop(trailEdge+8,cy+40,20,true); }
+    // retarding force opposing motion
+    arrow(ctx,px0+plateW/2,cy,px0+plateW/2-30,cy,"#e8534a",2.4);
+    label(ctx,"F_retard (opposes v)", px0+plateW/2-30, cy-40, "#9fb0c4",10.5,"center");
+  }
+  var F = (ctl.sigma*1e6)*(ctl.t/1000)*Math.pow(ctl.B/1000,2)*ctl.v*0.02*0.02;
+  label(ctx,"B="+ctl.B.toFixed(0)+"mT  v="+ctl.v.toFixed(1)+"m/s  σ="+ctl.sigma.toFixed(0)+"×10⁶S/m  F_eddy≈"+(F*1000).toFixed(2)+"mN", w/2, h-46, "#9fb0c4",11,"center");
+  caption(ctx,"As the plate enters/leaves the field, changing flux drives swirling eddy currents whose own field opposes the motion (Lenz's law)", w,h);
+};
+
+
+/* ---------------- RLC filter frequency response ---------------- */
+DRAW["rlc-filter-response"] = function(ctx,w,h,ctl,cfg){
+  bg(ctx,w,h); title(ctx,"Series RLC band-pass filter — |H(f)| response",w);
+  // tiny schematic across the top
+  var schY=52, x0=60,x1=w-60;
+  line(ctx,x0,schY,x0+40,schY,"#c9c2a8",1.6);
+  ctx.strokeStyle="#c9a227"; ctx.lineWidth=1.8;
+  ctx.beginPath();
+  var rx=x0+40, rw=44;
+  for(var i=0;i<7;i++){ var xx=rx+i*(rw/6); var yy=schY+((i%2===0)?-8:8); if(i===0) ctx.moveTo(xx,schY); ctx.lineTo(xx,i===0||i===6?schY:yy); }
+  ctx.stroke();
+  label(ctx,"R",rx+rw/2,schY-16,"#f2d9a6",11,"center");
+  var lx=rx+rw+10;
+  ctx.strokeStyle="#3aa0d8";
+  ctx.beginPath();
+  for(var k=0;k<5;k++){ ctx.arc(lx+10+k*10,schY,5,Math.PI,0,true); }
+  ctx.stroke();
+  label(ctx,"L",lx+25,schY-16,"#3aa0d8",11,"center");
+  var cx0=lx+58;
+  line(ctx,cx0,schY-10,cx0,schY+10,"#e8534a",2); line(ctx,cx0+8,schY-10,cx0+8,schY+10,"#e8534a",2);
+  label(ctx,"C",cx0+4,schY-16,"#e8534a",11,"center");
+  line(ctx,cx0+8,schY,x1,schY,"#c9c2a8",1.6);
+  label(ctx,"in",x0-4,schY+4,"#9fb0c4",10,"right");
+  label(ctx,"out",x1+4,schY+4,"#9fb0c4",10,"left");
+  // frequency response curve, log-x axis
+  var f0 = 1/(2*Math.PI*Math.sqrt((ctl.L/1000)*(ctl.C*1e-6)));
+  var plotX0=60, plotX1=w-60, plotY0=h-40, plotY1=100;
+  line(ctx,plotX0,plotY0,plotX1,plotY0,"rgba(255,255,255,.25)",1);
+  line(ctx,plotX0,plotY0,plotX0,plotY1,"rgba(255,255,255,.25)",1);
+  var fMin=10, fMax=20000;
+  function fx(freq){ return plotX0 + (Math.log10(freq)-Math.log10(fMin))/(Math.log10(fMax)-Math.log10(fMin))*(plotX1-plotX0); }
+  function Hval(freq){ var om=2*Math.PI*freq; var X=om*(ctl.L/1000)-1/(om*(ctl.C*1e-6)); return ctl.R/Math.sqrt(ctl.R*ctl.R+X*X); }
+  ctx.strokeStyle="#3aa0d8"; ctx.lineWidth=2; ctx.beginPath();
+  for(var s=0;s<=120;s++){
+    var lf = Math.log10(fMin)+ (s/120)*(Math.log10(fMax)-Math.log10(fMin));
+    var freq=Math.pow(10,lf);
+    var H=Hval(freq);
+    var px=fx(freq), py=plotY0-H*(plotY0-plotY1);
+    if(s===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+  }
+  ctx.stroke();
+  var xF0=fx(f0);
+  line(ctx,xF0,plotY0,xF0,plotY1,"rgba(242,217,166,.4)",1,[3,3]);
+  label(ctx,"f₀≈"+f0.toFixed(0)+"Hz",xF0,plotY1-8,"#f2d9a6",10.5,"center");
+  var xf=fx(ctl.f), yf=plotY0-Hval(ctl.f)*(plotY0-plotY1);
+  circ(ctx,xf,yf,4.5,"#e8534a","#081a26",1);
+  label(ctx,"f="+ctl.f.toFixed(0)+"Hz, |H|="+Hval(ctl.f).toFixed(3), w/2, h-46, "#9fb0c4",11,"center");
+  caption(ctx,"Series RLC passes frequencies near resonance f₀=1/2π√LC and attenuates those far from it", w,h);
+};
+
+/* ---------------- Poynting vector in a coaxial cable ---------------- */
+DRAW["poynting-vector-coaxial-cable"] = function(ctx,w,h,ctl,cfg){
+  bg(ctx,w,h); title(ctx,"Coaxial cable cross-section — E, H and Poynting flux S = E×H",w);
+  var cx=w*0.42, cy=h*0.54;
+  var scale = clamp(110/ctl.b, 6, 24);
+  var aPx = clamp(ctl.a*scale, 8, 40);
+  var bPx = clamp(ctl.b*scale, aPx+24, 150);
+  ctx.fillStyle="#3a4a5a"; circ(ctx,cx,cy,aPx,"#8a94a6",null);
+  ctx.strokeStyle="#c9c2a8"; ctx.lineWidth=2.4; ctx.beginPath(); ctx.arc(cx,cy,bPx,0,Math.PI*2); ctx.stroke();
+  ctx.fillStyle="rgba(58,160,216,.06)"; ctx.beginPath(); ctx.arc(cx,cy,bPx,0,Math.PI*2); ctx.arc(cx,cy,aPx,0,Math.PI*2,true); ctx.fill();
+  label(ctx,"inner (+), a="+ctl.a.toFixed(1)+"mm", cx, cy+4, "#0e2a3d",9.5,"center");
+  label(ctx,"shield, b="+ctl.b.toFixed(1)+"mm", cx+bPx+8, cy-bPx+4, "#9fb0c4",10.5,"left");
+  // E field radial arrows in the dielectric
+  for(var a0=0;a0<Math.PI*2;a0+=Math.PI/4){
+    var ex1=cx+aPx*1.15*Math.cos(a0), ey1=cy+aPx*1.15*Math.sin(a0);
+    var ex2=cx+bPx*0.92*Math.cos(a0), ey2=cy+bPx*0.92*Math.sin(a0);
+    arrow(ctx,ex1,ey1,ex2,ey2,"#e8534a",1.6);
+  }
+  // H field circumferential (tangential) hint circle
+  dashedCircle(ctx,cx,cy,(aPx+bPx)/2,"rgba(58,160,216,.5)",1.4);
+  label(ctx,"H (circumferential)", cx-(aPx+bPx)/2-4, cy-(aPx+bPx)/2-6, "#3aa0d8",10,"left");
+  // field point at r, S out of the page (dot)
+  var rPx = clamp(ctl.r*scale, aPx+4, bPx-4);
+  var fpx=cx+rPx*Math.cos(-0.7), fpy=cy+rPx*Math.sin(-0.7);
+  ctx.strokeStyle="#f2d9a6"; ctx.lineWidth=1.6; ctx.beginPath(); ctx.arc(fpx,fpy,9,0,Math.PI*2); ctx.stroke();
+  circ(ctx,fpx,fpy,2.4,"#f2d9a6",null);
+  label(ctx,"S (out of page) at r="+ctl.r.toFixed(1)+"mm", fpx+14, fpy-8, "#f2d9a6",10.5,"left");
+  var rm=Math.max(ctl.r,ctl.a+0.01)/1000;
+  var S=(ctl.V*ctl.I)/(2*Math.PI*rm*rm*Math.log(ctl.b/ctl.a));
+  label(ctx,"V="+ctl.V.toFixed(0)+"V  I="+ctl.I.toFixed(1)+"A  S(r)≈"+(S/1000).toFixed(2)+"kW/m²", w/2, h-46, "#9fb0c4",11,"center");
+  caption(ctx,"E is radial, H circles the inner conductor — their cross product S points straight down the cable, carrying the power VI", w,h);
+};
+
+
+/* ---------------- Rectangular waveguide TE10 cutoff ---------------- */
+DRAW["waveguide-cutoff-frequency"] = function(ctx,w,h,ctl,cfg,t){
+  bg(ctx,w,h); title(ctx,"Rectangular waveguide — TE₁₀ mode field pattern across the broad wall",w);
+  var c=2.998e8;
+  var aM = ctl.a/100;
+  var fc = c/(2*aM)/1e9;
+  var propagates = ctl.f > fc;
+  var gx0=w*0.28, gx1=w*0.72, gy0=90, gy1=h-90;
+  ctx.strokeStyle="#c9c2a8"; ctx.lineWidth=3;
+  ctx.strokeRect(gx0,gy0,gx1-gx0,gy1-gy0);
+  label(ctx,"a="+ctl.a.toFixed(2)+"cm (broad wall)", (gx0+gx1)/2, gy1+22, "#9fb0c4",11,"center");
+  // TE10 E-field: half-sine across the broad wall (horizontal), arrows vertical, amplitude ~ sin(pi x/a)
+  var n=11;
+  var animAmp = propagates ? 1 : Math.exp(-2.2);
+  for(var i=1;i<n;i++){
+    var xf=i/n;
+    var ex=gx0+xf*(gx1-gx0);
+    var amp=Math.sin(Math.PI*xf);
+    var phaseMod = propagates ? Math.sin(t*3) : 1;
+    var arrLen = amp*46*(propagates?Math.abs(phaseMod):Math.exp(-((gy1-gy0)*0*0)))*(propagates?1:0.35);
+    var midY=(gy0+gy1)/2;
+    if(propagates){
+      var dirUp = phaseMod>=0;
+      arrow(ctx,ex,midY,ex, midY-arrLen, "#e8534a",1.8);
+    } else {
+      // evanescent: field decays away from the input end (left) instead of forming a travelling pattern
+      var decay = Math.exp(-3*xf);
+      arrow(ctx,ex,midY,ex, midY-amp*46*decay, "rgba(232,83,74,.5)",1.6);
+    }
+  }
+  label(ctx,"E_y(x) ∝ sin(πx/a)", gx0, gy0-10, "#e8534a",10.5,"left");
+  var barY=gy0-40;
+  ctx.fillStyle = propagates ? "#1F6E43" : "#8a3a2a";
+  ctx.fillRect(gx0,barY-10,(gx1-gx0),18);
+  label(ctx, propagates ? "f > f_c  — PROPAGATES" : "f < f_c — EVANESCENT (attenuates)", (gx0+gx1)/2, barY+3, "#fff",11,"center");
+  label(ctx,"f="+ctl.f.toFixed(2)+"GHz   f_c="+fc.toFixed(2)+"GHz", w/2, h-46, "#9fb0c4",11,"center");
+  caption(ctx,"Below cutoff the TE₁₀ mode cannot propagate — the field dies off exponentially instead of travelling down the guide", w,h);
+};
+
+/* ---------------- Transmission line: Z0, reflection, VSWR ---------------- */
+DRAW["transmission-line-impedance-vswr"] = function(ctx,w,h,ctl,cfg){
+  bg(ctx,w,h); title(ctx,"Transmission line terminated in a mismatched load — standing wave envelope",w);
+  var lineY=h*0.42, x0=60, x1=w-140;
+  line(ctx,x0,lineY,x1,lineY,"#c9c2a8",2.2); line(ctx,x0,lineY+10,x1,lineY+10,"#c9c2a8",2.2);
+  label(ctx,"source, Z₀="+ctl.Z0.toFixed(0)+"Ω", x0, lineY-14, "#9fb0c4",11,"left");
+  // load box at the end
+  var loadX=x1+16;
+  ctx.strokeStyle="#c9a227"; ctx.lineWidth=2;
+  ctx.beginPath();
+  for(var i=0;i<8;i++){ var yy=lineY+ (i%2===0?-6:6); var xx=loadX+i*(60/7); if(i===0) ctx.moveTo(loadX,lineY+5); ctx.lineTo(xx,yy+5); }
+  ctx.stroke();
+  label(ctx,"Z_L="+ctl.ZL.toFixed(0)+"Ω", loadX+18, lineY+30, "#f2d9a6",11,"center");
+  line(ctx,loadX+60,lineY,loadX+60,lineY+10,"#c9c2a8",2);
+  // standing-wave envelope
+  var gamma=(ctl.ZL-ctl.Z0)/(ctl.ZL+ctl.Z0);
+  var vswr=(1+Math.abs(gamma))/(1-Math.abs(gamma)+1e-9);
+  var envY0=h*0.72, envAmp=44;
+  var beta = 2*Math.PI/70;
+  ctx.strokeStyle="#3aa0d8"; ctx.lineWidth=1.8; ctx.beginPath();
+  for(var s=0;s<=x1-x0;s++){
+    var xx2=x0+s;
+    var distFromLoad = (x1-xx2);
+    var envelope = Math.sqrt(1+Math.abs(gamma)*Math.abs(gamma)+2*Math.abs(gamma)*Math.cos(2*beta*distFromLoad));
+    var py=envY0-envelope*envAmp*0.45;
+    if(s===0) ctx.moveTo(xx2,py); else ctx.lineTo(xx2,py);
+  }
+  ctx.stroke();
+  ctx.strokeStyle="rgba(58,160,216,.4)"; ctx.beginPath();
+  for(var s2=0;s2<=x1-x0;s2++){
+    var xx3=x0+s2;
+    var distFromLoad2=(x1-xx3);
+    var envelope2 = Math.sqrt(1+Math.abs(gamma)*Math.abs(gamma)+2*Math.abs(gamma)*Math.cos(2*beta*distFromLoad2));
+    var py2=envY0+envelope2*envAmp*0.45;
+    if(s2===0) ctx.moveTo(xx3,py2); else ctx.lineTo(xx3,py2);
+  }
+  ctx.stroke();
+  line(ctx,x0,envY0,x1,envY0,"rgba(255,255,255,.15)",1);
+  label(ctx,"|V(x)| standing-wave envelope", x0, envY0-envAmp-14, "#9fb0c4",11,"left");
+  label(ctx,"Γ="+gamma.toFixed(3)+"   VSWR="+vswr.toFixed(2)+(Math.abs(gamma)<0.02?"  (matched, ≈1)":""), w/2, h-46, "#9fb0c4",11,"center");
+  caption(ctx,"A mismatched load reflects part of the wave; interference between forward and reflected waves sets the standing-wave ratio", w,h);
+};
+
+/* ---------------- Faraday cage shielding effectiveness ---------------- */
+DRAW["faraday-cage-shielding-effectiveness"] = function(ctx,w,h,ctl,cfg){
+  bg(ctx,w,h); title(ctx,"Faraday cage: skin-depth attenuation through the conducting wall",w);
+  var cy=h*0.5;
+  var wallX0=w*0.42, wallW=clamp(ctl.t*30,10,90), wallX1=wallX0+wallW;
+  ctx.fillStyle="rgba(180,190,200,.22)"; ctx.fillRect(wallX0,60,wallW,h-140);
+  ctx.strokeStyle="#c9c2a8"; ctx.lineWidth=1.6; ctx.strokeRect(wallX0,60,wallW,h-140);
+  label(ctx,"wall t="+ctl.t.toFixed(2)+"mm",(wallX0+wallX1)/2,50,"#9fb0c4",11,"center");
+  label(ctx,"outside (incident field)", (60+wallX0)/2, h-64,"#9fb0c4",10.5,"center");
+  label(ctx,"cage interior (shielded)", (wallX1+w-40)/2, h-64,"#9fb0c4",10.5,"center");
+  var mu0=1.2566e-6; var wAng=2*Math.PI*(ctl.f*1e6); var delta=Math.sqrt(2/(wAng*mu0*(ctl.sigma*1e6)));
+  var deltaMm = delta*1000;
+  // incoming full-strength field outside
+  for(var i=-3;i<=3;i++){ arrow(ctx,60,cy+i*20,wallX0-6,cy+i*20,"#3aa0d8",1.8); }
+  // decaying field inside the wall thickness
+  var nA=8;
+  for(var k=0;k<nA;k++){
+    var xf=k/(nA-1);
+    var depthMm = xf*ctl.t;
+    var frac=Math.exp(-depthMm/Math.max(deltaMm,1e-6));
+    if(frac<0.03) continue;
+    var xx=wallX0+xf*wallW;
+    ctx.save(); ctx.globalAlpha=clamp(0.2+frac*0.9,0.08,1);
+    arrow(ctx,xx,cy,xx+14*frac,cy,"#3aa0d8",1.4);
+    ctx.restore();
+  }
+  // residual (essentially none) field beyond the wall
+  var SEdb = 8.69*(ctl.t/1000)/delta;
+  var residual = Math.pow(10,-SEdb/20);
+  if(residual>0.03){ arrow(ctx,wallX1+6,cy,wallX1+6+18*residual,cy,"rgba(58,160,216,.5)",1.4); }
+  label(ctx,"f="+ctl.f.toFixed(1)+"MHz  σ="+ctl.sigma.toFixed(0)+"×10⁶S/m  δ="+deltaMm.toFixed(4)+"mm  SE≈"+SEdb.toFixed(1)+"dB", w/2, h-46, "#9fb0c4",11,"center");
+  caption(ctx,"Induced surface currents cancel the field within about one skin depth δ — thicker walls (t≫δ) give near-total shielding", w,h);
+};
+
+
 /* ---------------- 11. Motional EMF ---------------- */
 DRAW["motional-emf-lenz"] = function(ctx,w,h,ctl,cfg,t){
   bg(ctx,w,h); title(ctx,"Conducting rod sliding on rails in a magnetic field",w);
