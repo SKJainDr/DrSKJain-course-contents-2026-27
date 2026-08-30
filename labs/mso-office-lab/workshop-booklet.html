@@ -63,7 +63,12 @@
     var next = cur === "dark" ? "light" : "dark";
     document.documentElement.setAttribute("data-theme", next);
     try { localStorage.setItem("mso_theme", JSON.stringify(next)); } catch (e) {}
+    document.getElementById("theme-toggle").innerHTML = next === "dark" ? "&#9728;&#65039;" : "&#127769;";
   });
+  (function () {
+    var t = document.documentElement.getAttribute("data-theme");
+    document.getElementById("theme-toggle").innerHTML = t === "dark" ? "&#9728;&#65039;" : "&#127769;";
+  })();
 </script>
 
 </body>

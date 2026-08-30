@@ -33,14 +33,20 @@ def on_page_markdown(markdown, page, config, files):
     the raw markdown of every page before it is rendered to HTML."""
     segments = [s for s in page.file.url.split("/") if s and s != "."]
     up = len(segments) + 1
-    prefix = "../" * up
+    prefix = "../" * up  # repo-root-relative (courses/, labs/ live at the repo root)
+    # Site-relative prefix for this docs site's own assets/ folder (one level
+    # shallower than the repo-root prefix above, since assets/ lives inside
+    # this docs site's own build output, not at the repo root). Using the
+    # repo-root `prefix` here was the bug: every experiment page's booklet
+    # link pointed one directory too high and 404'd.
+    asset_prefix = "../" * len(segments)
 
     is_experiment = page.file.src_uri.startswith("experiments/")
     booklet_link = ""
     if is_experiment:
         booklet_link = (
             ' &middot; [📝 Open Lab Record & Viva-Voce Booklet (PDF)]'
-            f'({prefix}assets/lab-record-booklet-em.pdf){{target=_blank}} '
+            f'({asset_prefix}assets/lab-record-booklet-em.pdf){{target=_blank}} '
             '<small>(print just this experiment\'s pages when you sit down '
             'at the simulator)</small>'
         )

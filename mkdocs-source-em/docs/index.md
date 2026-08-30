@@ -6,7 +6,7 @@ media, and the electric & magnetic properties of materials, at the undergraduate
 
 !!! tip "Try it live"
     Every experiment and workshop below has a matching interactive panel in the simulator:
-    **[🔬 Launch the Simulator](../../labs/advanced-electricity-magnetism-lab.html){target=_blank}**
+    **[🔬 Launch the Simulator](../labs/advanced-electricity-magnetism-lab.html){target=_blank}**
 
 This guide provides, for each of the **18 experiments**: the theoretical background, governing formula, apparatus
 schematic, a step-by-step procedure, a blank observation table and graph grid for your own readings, a maximum
