@@ -22,6 +22,13 @@
   --accent:#4fae7a; --accent-dark:#8fd6ab; --gold:#e3c08a; --gold-dark:#f0d3ae;
   --card:#142a1c; --muted:#9fb0a4; --shadow: 0 2px 10px rgba(0,0,0,0.4);
 }
+/* --accent and --gold-dark both turn much lighter in dark theme (see above),
+   so buttons/active-links that use them as a background need dark text in
+   dark theme, not the hardcoded white that works in light theme. */
+[data-theme="dark"] .sidebar a.active{color:var(--bg);}
+[data-theme="dark"] .anim-startstop{color:var(--bg);}
+[data-theme="dark"] .anim-startstop.is-running:hover{color:var(--bg);}
+[data-theme="dark"] .cert-unlock button:hover{color:var(--bg);}
 *{box-sizing:border-box;}
 body{margin:0;font-family:Inter,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);}
 .topbar{background:var(--navy-deep);color:#F8F1E6;padding:14px 22px;display:flex;flex-direction:column;gap:4px;border-bottom:4px solid var(--gold);}
