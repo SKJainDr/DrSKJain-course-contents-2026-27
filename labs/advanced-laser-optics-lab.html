@@ -3217,8 +3217,8 @@ function updateWorkshop(id){
     if(Math.abs(val-p.optimal)/p.tolerance > 0.15){ dir = val < p.optimal ? 'increase' : 'decrease'; }
     details.push({label:p.label, score:s, dir});
   });
-  const overall = total/cfg.params.length;
-  document.getElementById('pct_'+id).textContent = overall.toFixed(0)+'%';
+  const overall = Math.round(total/cfg.params.length);
+  document.getElementById('pct_'+id).textContent = overall+'%';
   drawGauge('gauge_'+id, overall);
 
   const verdictEl = document.getElementById('verdict_'+id);
