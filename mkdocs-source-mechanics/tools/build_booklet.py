@@ -40,6 +40,12 @@ pdfmetrics.registerFontFamily("DejaVuSans", normal="DejaVuSans", bold="DejaVuSan
 # everywhere in this document instead of Helvetica.
 DOCS_EXPERIMENTS = HERE / "docs" / "experiments"
 LOGO = str(HERE / "docs" / "assets" / "invertis-logo-trimmed.png")
+try:
+    from PIL import Image as _PILImage
+    with _PILImage.open(LOGO) as _logo_im:
+        LOGO_ASPECT = _logo_im.size[0] / _logo_im.size[1]
+except Exception:
+    LOGO_ASPECT = 2536 / 1163  # fallback: matches the light-background logo's own size
 OUT = str(HERE / "docs" / "assets" / "lab-record-booklet.pdf")
 
 ORDER = ["bifilar-suspension.md","torsional-pendulum.md","flywheel.md","compound-pendulum.md",
@@ -220,7 +226,7 @@ def footer(canvas, doc):
     # University logo, top centre of every page.
     try:
         logo_h = 9 * mm
-        logo_w = logo_h * (2560 / 1185)  # matches the actual logo image's aspect ratio
+        logo_w = logo_h * LOGO_ASPECT
         canvas.drawImage(LOGO, (PAGE_W - logo_w) / 2, PAGE_H - logo_h - 6 * mm,
                           width=logo_w, height=logo_h, mask="auto", preserveAspectRatio=True)
     except Exception:
