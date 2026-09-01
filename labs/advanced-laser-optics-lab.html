@@ -199,6 +199,10 @@ footer.pagefoot a{color:#f2d9a6;}
 .certificate .close-cert{
   position:absolute;top:10px;right:14px;background:none;border:none;font-size:1.3rem;cursor:pointer;color:#5a6570;
 }
+.certificate .cert-top{display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:10px;}
+.certificate .cert-top img.cert-rect-logo{height:42px;width:auto;object-fit:contain;}
+.certificate .cert-orb{width:40px;height:40px;border-radius:50%;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.2);flex:none;}
+.certificate .cert-orb img{width:100%;height:100%;object-fit:cover;display:block;}
 .certificate .seal{font-size:2.4rem;}
 .certificate h1{font-size:1.9rem;margin:6px 0 2px;letter-spacing:.02em;}
 .certificate .sub{font-family:'Source Sans 3',sans-serif;color:#5a6570;font-size:.85rem;text-transform:uppercase;letter-spacing:.1em;}
@@ -1310,6 +1314,10 @@ footer.pagefoot a{color:#f2d9a6;}
 <div id="certOverlay">
   <div class="certificate" id="certificateBody">
     <button class="close-cert" onclick="closeCertificate()">✕</button>
+    <div class="cert-top">
+      <img class="cert-rect-logo" src="../assets/invertis-logo-light.png" alt="Invertis University logo">
+      <div class="cert-orb"><img src="../assets/brand-orb.jpg" alt="Invertis University mark"></div>
+    </div>
     <div class="seal">🏆</div>
     <h1>Certificate of Achievement</h1>
     <div class="sub">Advanced Laser &amp; Optics Learning Lab &middot; Industrial Applications Workshop Series</div>
